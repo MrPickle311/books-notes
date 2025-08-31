@@ -172,3 +172,4 @@ Getting granularity right is about analyzing the trade-offs between these opposi
 > **6. Treat Shared Domain Code as a Red Flag.** Shared libraries containing common *domain* logic (not utilities) create a distributed monolith. If multiple services rely heavily on the same shared domain code, it's a strong sign they should be integrated into a single service.
 
 > **7. Formalize Granularity Decisions with ADRs.** Service granularity decisions have long-lasting consequences. Document the options considered, the final decision, and most importantly, the trade-offs that were accepted (e.g., "We accepted lower agility to guarantee transactional integrity").
+
