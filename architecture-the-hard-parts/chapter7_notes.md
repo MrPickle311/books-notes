@@ -173,3 +173,5 @@ Getting granularity right is about analyzing the trade-offs between these opposi
 
 > **7. Formalize Granularity Decisions with ADRs.** Service granularity decisions have long-lasting consequences. Document the options considered, the final decision, and most importantly, the trade-offs that were accepted (e.g., "We accepted lower agility to guarantee transactional integrity").
 
+
+
