@@ -200,3 +200,4 @@ Architects in the early SOA era mistakenly tried to reuse everything, including 
 We benefit from reusing things that are stable (operating systems, frameworks, static utilities). Coupling to things that change frequently creates brittleness. The goal is to identify stable components for reuse and find other patterns for volatile ones.
 
 
+
