@@ -132,20 +132,69 @@ For example, we could conceive of intrinsics that perform basic arithmetic ident
 
 ---
 
-### Safepoints 
+### Safepoints Revisited
 
-As well as GC STW events, the following activities require all threads to be at a safepoint:
-* Deoptimizing a method
-* Creating a heap dump
-* Revoking a biased lock
-* Redefining a class (e.g., for instrumentation)
+As we've seen, many critical VM operations require all application threads to be paused at a consistent state, known as a **safepoint**.
 
-
+*   **Operations Requiring a Safepoint:**
+    *   Garbage Collection (STW phases)
+    *   Deoptimizing a method
+    *   Creating a heap dump
+    *   Revoking a biased lock
+    *   Redefining a class (e.g., for instrumentation)
+*   **Safepoint Checks in Compiled Code:** The JIT compiler is responsible for emitting safepoint polling checks in the generated native code. In HotSpot, these are typically placed at:
+    *   Loop back branches
+    *   Method return points
+*   **Time to SafePoint (TTSP):** A thread can only be stopped once it reaches a safepoint. TTSP is the time it takes for *all* application threads to reach a safepoint after the VM requests one. A long TTSP can be a hidden source of application pauses.
+    *   **Cause:** A long TTSP can be caused by a thread executing a long, computationally intensive loop that has no method calls and has been optimized by the JIT to remove internal safepoint polls. While one thread is busy, all other threads that have already reached their safepoints must wait for it.
+*   **Monitoring Safepoints:**
+    *   `-XX:+PrintGCApplicationStoppedTime`: Shows the total time the application was stopped.
+    *   `-XX:+PrintSafepointStatistics`: Provides detailed information on each safepoint, including the time taken for threads to reach it.
 
 ---
 ### Core Library Methods and JIT Limits
 
 *   **Inlining Limits:** Some core JDK methods are too large to be inlined by default. For example, `String.toUpperCase()` is over 400 bytes of bytecode (the limit for hot methods is 325) because it must handle complex locale-specific casing rules. If your domain is simple (e.g., ASCII), you can write a smaller, domain-specific version that the JIT *can* inline, resulting in a significant performance boost.
+
+```java
+package optjava.jmh;
+
+import org.openjdk.jmh.annotations.*;
+import java.util.concurrent.TimeUnit;
+
+@State(Scope.Thread)
+@BenchmarkMode(Mode.Throughput)
+@OutputTimeUnit(TimeUnit.SECONDS)
+public class DomainSpecificUpperCase {
+
+    private static final String SOURCE =
+          "The quick brown fox jumps over the lazy dog";
+
+    public String toUpperCaseASCII(String source) {
+        int len = source.length();
+        char[] result = new char[len];
+        for (int i = 0; i < len; i++) {
+            char c = source.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                c -= 32;
+            }
+            result[i] = c;
+        }
+        return new String(result);
+    }
+
+    @Benchmark
+    public String testStringToUpperCase() {
+        return SOURCE.toUpperCase();
+    }
+
+    @Benchmark
+    public String testCustomToUpperCase() {
+        return toUpperCaseASCII(SOURCE);
+    }
+}
+```
+
 *   **Compilation Limits (`HugeMethodLimit`):** HotSpot will not attempt to JIT-compile any method larger than **8,000 bytes** of bytecode. This is rarely an issue for human-written code but can be hit by auto-generated code (e.g., from parsers or complex queries). Methods that exceed this limit will run in the interpreter forever.
 
 ---
