@@ -6,6 +6,8 @@ The chapter warns against "profiling blindness"—using tools without understand
 
 A wide range of tools is surveyed, from basic developer tools like **VisualVM** to powerful commercial suites like **JProfiler** and **YourKit**, and operational tools like **New Relic** and **Red Hat Thermostat**. It highlights modern, low-overhead profilers like **Honest Profiler**, **perf**, and **Async Profiler** that avoid safepointing bias. Finally, it covers techniques for tracking memory allocation, including bytecode instrumentation and TLAB-driven sampling, and discusses the role of heap dump analysis.
 
+Honest profiler github: https://github.com/jvm-profiling-tools/honest-profiler
+
 ---
 
 ### Introduction to Profiling
@@ -16,6 +18,8 @@ Profiling aims to identify specific code that can be optimized. However, it shou
 2.  **Cognitive Bias:** Be aware of confirmation bias. Don't just look for what you expect to see.
 
 > "A good programmer…will be wise to look carefully at the critical code; but only after that code has been identified." — Donald Knuth
+
+A great Netflix article about profiling: https://netflixtechblog.com/java-in-flames-e763b3d32166
 
 ---
 
@@ -80,6 +84,10 @@ These tools use non-standard APIs or OS features to sample threads *without* req
 
 *   **Async Profiler:** Similar to Honest Profiler but also leverages `perf` events. Works only on Linux/HotSpot but is extremely powerful.
 
+Async profiler repo: https://github.com/async-profiler/async-profiler
+
+Perf tool: https://perfwiki.github.io/main/
+
 ---
 
 ### Allocation Profiling
@@ -92,6 +100,8 @@ Memory profiling focuses on object allocation rates and locations.
 
 #### Bytecode Instrumentation Approach
 One way to track allocations is to rewrite bytecode to insert tracking calls before every allocation opcode (`NEW`, `NEWARRAY`, `ANEWARRAY`).
+
+Library for bytecode instrumentation: https://asm.ow2.io/index.html
 
 *Code Example: Allocation Instrumentation with ASM*
 This `MethodVisitor` intercepts allocation instructions and injects a call to a recording method.

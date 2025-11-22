@@ -65,6 +65,8 @@ JMM nice article: https://shipilev.net/blog/2016/close-encounters-of-jmm-kind/
 
 Java 5 introduced `java.util.concurrent` (JUC), moving away from intrinsic locks (`synchronized`) toward more flexible, high-performance library classes.
 
+There is also another library JCTools that has great concurrency tools : https://github.com/JCTools/JCTools
+
 ![Figure 12-4: Example concurrent application structure](figure-12-4.png)
 
 #### CAS (Compare and Swap)

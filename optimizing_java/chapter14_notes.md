@@ -26,6 +26,8 @@ The chapter compares `Logback`, `Log4j 2`, and `java.util.logging` (JUL) across 
     *   **Format Matters:** The logging pattern used affects performance.
     *   **Warning:** Microbenchmarks only measure straight-line execution speed. They do *not* measure the impact on the rest of the application (e.g., GC pressure, CPU cache pollution).
 
+Benchmarks repo: https://github.com/stephenc/java-logging-benchmarks
+
 #### Designing a Lower-Impact Logger (Garbage-Free Logging)
 Performance is not just about speed; it's about consistency. Standard loggers allocate temporary objects (Strings, events) for every log message, causing frequent GC pauses.
 
@@ -74,6 +76,8 @@ A library of building blocks for building low-latency services, offering alterna
 #### 2. Simple Binary Encoding (SBE)
 A high-performance binary codec for financial messages (FIX), designed to replace XML/JSON/Protobufs in latency-critical paths.
 
+Github: https://github.com/aeron-io/simple-binary-encoding
+
 *   **Design Principles:**
     *   **Copy-Free:** Encodes/decodes directly to/from the underlying buffer. No intermediate objects.
     *   **Allocation-Free:** Uses the flyweight pattern. No `new` objects are created per message.
@@ -84,6 +88,10 @@ A high-performance binary codec for financial messages (FIX), designed to replac
 
 #### 3. Aeron (Messaging Transport)
 A reliable UDP/IPC message transport. It creates a replicated, persistent log of messages.
+
+https://aeron.io/aeron-open-source/
+
+Github: https://github.com/aeron-io/aeron/tree/master
 
 ![Figure 14-4: Architecture overview of Aeron’s major components](figure-14-4.png)
 
