@@ -145,3 +145,4 @@ In complex **choreographed** workflows, stamp coupling can be used to manage wor
 > **6. Leverage Stamp Coupling for Complex Choreography.** When you need the scalability of choreography for a complex workflow, consider using stamp coupling as a deliberate pattern to pass workflow state between services. This is a valid trade-off of data coupling for coordination.
 
 > **7. Don't Confuse Implementation with Contract Style.** gRPC, REST, and Messaging are implementations, not contract styles in themselves. You can implement a relatively loose contract with gRPC (by using flexible message types) or a very strict one with REST (by enforcing a rigid schema). Focus on the desired level of coupling first, then choose the tool.
+

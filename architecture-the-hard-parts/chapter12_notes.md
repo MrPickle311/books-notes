@@ -290,3 +290,4 @@ A simple command-line tool can then be built to query this metadata:
 > **8. Document Your Sagas Programmatically.** Use techniques like custom annotations or attributes to embed saga participation information directly in your service code. This creates a living document that helps developers understand the testing scope and impact of changes.
 
 
+
