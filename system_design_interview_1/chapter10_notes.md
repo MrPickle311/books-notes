@@ -139,3 +139,14 @@ user settings first before sending notifications.
 • Rate limiting: Users will appreciate a frequency capping on the number of notifications
 they receive.
 Congratulations on getting this far! Now give yourself a pat on the back. Good job!
+
+Reference materials
+[1] Twilio SMS: https://www.twilio.com/sms
+[2] Nexmo SMS: https://www.nexmo.com/products/sms
+[3] Sendgrid: https://sendgrid.com/
+[4] Mailchimp: https://mailchimp.com/
+[5] You Cannot Have Exactly-Once Delivery: https://bravenewgeek.com/you-cannot-have-
+exactly-once-delivery/
+[6] Security in Push Notifications: https://cloud.ibm.com/docs/services/mobilepush?
+topic=mobile-pushnotification-security-in-push-notifications
+[7] RadditMQ: https://bit.ly/2sotIa6

@@ -156,3 +156,24 @@ This leads to a more detailed high-level design:
 *   **End-to-End Encryption:** Requires client-side logic to encrypt/decrypt messages. Only the sender and receiver can read the content.
 *   **Error Handling:** If a chat server fails, Service Discovery will route its connected users to new servers upon reconnection. A message resend mechanism (retries with a queue) is needed to handle transient failures.
 *   **Caching:** Caching messages and user data on the client device is crucial to reduce network traffic and improve perceived performance.
+
+Reference materials
+[1] Erlang at Facebook: https://www.erlang-
+factory.com/upload/presentations/31/EugeneLetuchy-ErlangatFacebook.pdf
+[2] Messenger and WhatsApp process 60 billion messages a day:
+https://www.theverge.com/2016/4/12/11415198/facebook-messenger-whatsapp-number-
+messages-vs-sms-f8-2016
+[3] Long tail: https://en.wikipedia.org/wiki/Long_tail
+[4] The Underlying Technology of Messages: https://www.facebook.com/notes/facebook-
+engineering/the-underlying-technology-of-messages/454991608919/
+[5] How Discord Stores Billions of Messages: https://blog.discordapp.com/how-discord-
+stores-billions-of-messages-7fa6ec7ee4c7
+[6] Announcing Snowflake: https://blog.twitter.com/engineering/en_us/a/2010/announcing-
+snowflake.html
+[7] Apache ZooKeeper: https://zookeeper.apache.org/
+[8] From nothing: the evolution of WeChat background system (Article in Chinese):
+https://www.infoq.cn/article/the-road-of-the-growth-weixin-background
+[9] End-to-end encryption: https://faq.whatsapp.com/en/android/28030015/
+[10] Flannel: An Application-Level Edge Cache to Make Slack Scale:
+https://slack.engineering/flannel-an-application-level-edge-cache-to-make-slack-scale-
+b8a6400e2f6b

@@ -108,3 +108,12 @@ The Twitter Snowflake approach is chosen because it satisfies all the initial re
 *   **Clock Synchronization:** The design assumes all ID generator nodes are time-synchronized. If a machine's clock runs backward, it could generate duplicate IDs. **Network Time Protocol (NTP)** is essential to keep clocks in sync across the cluster.
 *   **Section Length Tuning:** The bit allocation can be tuned. For example, an application with lower concurrency but a longer expected lifespan could allocate more bits to the timestamp and fewer to the sequence number.
 *   **High Availability:** Since the ID generator is a mission-critical service, it must be highly available. The Snowflake design is inherently distributed, avoiding a single point of failure.
+
+Reference materials
+[1] Universally unique identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier
+[2] Ticket Servers: Distributed Unique Primary Keys on the Cheap:
+https://code.flickr.net/2010/02/08/ticket-servers-distributed-unique-primary-keys-on-the-
+cheap/
+[3] Announcing Snowflake: https://blog.twitter.com/engineering/en_us/a/2010/announcing-
+snowflake.html
+[4] Network time protocol: https://en.wikipedia.org/wiki/Network_Time_Protocol

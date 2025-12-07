@@ -124,3 +124,11 @@ A multi-layered cache is essential for a high-performance news feed system.
     *   Use multiple data centers for availability and lower latency.
     *   Use message queues to decouple services and handle asynchronous tasks.
     *   **Monitor everything:** Key metrics include Posts per Second (writes), Feed Loads per Second (reads), and end-to-end latency for both publishing and retrieval.
+
+Reference materials
+[1] How News Feed Works:
+https://www.facebook.com/help/327131014036297/
+[2] Friend of Friend recommendations Neo4j and SQL Sever:
+http://geekswithblogs.net/brendonpage/archive/2015/10/26/friend-of-friend-
+recommendations-with-neo4j.aspx
+

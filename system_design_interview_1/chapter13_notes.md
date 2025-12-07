@@ -178,3 +178,18 @@ If the Trie is too large for one server's memory, it must be sharded.
     *   A separate, smaller Trie for recent queries that is updated more frequently.
     *   A ranking model that gives more weight to recent queries.
     *   **Stream processing** technologies (like Kafka, Spark Streaming) to process a continuous flow of query data instead of batching it.
+
+Reference materials
+[1] The Life of a Typeahead Query: https://www.facebook.com/notes/facebook-
+engineering/the-life-of-a-typeahead-query/389105248919/
+[2] How We Built Prefixy: A Scalable Prefix Search Service for Powering Autocomplete:
+https://medium.com/@prefixyteam/how-we-built-prefixy-a-scalable-prefix-search-service-
+for-powering-autocomplete-c20f98e2eff1
+[3] Prefix Hash Tree An Indexing Data Structure over Distributed Hash Tables:
+https://people.eecs.berkeley.edu/~sylvia/papers/pht.pdf
+[4] MongoDB wikipedia: https://en.wikipedia.org/wiki/MongoDB
+[5] Unicode frequently asked questions: https://www.unicode.org/faq/basic_q.html
+[6] Apache hadoop: https://hadoop.apache.org/
+[7] Spark streaming: https://spark.apache.org/streaming/
+[8] Apache storm: https://storm.apache.org/
+[9] Apache kafka: https://kafka.apache.org/documentation/

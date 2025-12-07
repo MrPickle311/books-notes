@@ -144,3 +144,7 @@ Because reads are much more frequent than writes, a cache is essential for perfo
     *   **Database Tier:** Can be scaled using replication and sharding.
 *   **Analytics:** If analytics are important, use `302` redirects and build a data pipeline to process click data.
 *   **Availability, Consistency, Reliability:** These are crucial. The system should be designed with redundancy and fault tolerance in mind. (See Chapter 1).
+
+Reference materials
+[1] A RESTful Tutorial: https://www.restapitutorial.com/index.html
+[2] Bloom filter: https://en.wikipedia.org/wiki/Bloom_filter

@@ -200,3 +200,27 @@ A robust system must handle failures at every step.
 *   **Live Streaming:** Requires lower latency protocols and different error handling (retries that take too long are not acceptable).
 *   **Video Takedowns:** A system is needed to remove videos that violate copyright or community guidelines, both proactively (scanning during upload) and reactively (user flagging).
 *   **Scaling API and DB:** The stateless API tier can be scaled horizontally. The database can be scaled using standard replication and sharding techniques.
+
+Reference materials
+[1] YouTube by the numbers: https://www.omnicoreagency.com/youtube-statistics/
+[2] 2019 YouTube Demographics:
+https://blog.hubspot.com/marketing/youtube-demographics
+[3] Cloudfront Pricing: https://aws.amazon.com/cloudfront/pricing/
+[4] Netflix on AWS: https://aws.amazon.com/solutions/case-studies/netflix/
+[5] Akamai homepage: https://www.akamai.com/
+[6] Binary large object: https://en.wikipedia.org/wiki/Binary_large_object
+[7] Here’s What You Need to Know About Streaming Protocols:
+https://www.dacast.com/blog/streaming-protocols/
+[8] SVE: Distributed Video Processing at Facebook Scale:
+https://www.cs.princeton.edu/~wlloyd/papers/sve-sosp17.pdf
+[9] Weibo video processing architecture (in Chinese):
+https://www.upyun.com/opentalk/399.html
+[10] Delegate access with a shared access signature:
+https://docs.microsoft.com/en-us/rest/api/storageservices/delegate-access-with-shared-access-
+signature
+[11] YouTube scalability talk by early YouTube employee: https://www.youtube.com/watch?
+v=w5WVu624fY8
+[12] Understanding the characteristics of internet short video sharing: A youtube-based
+measurement study. https://arxiv.org/pdf/0707.3670.pdf
+[13] Content Popularity for Open Connect:
+https://netflixtechblog.com/content-popularity-for-open-connect-b86d56f613b

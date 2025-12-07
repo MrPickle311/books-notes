@@ -158,3 +158,18 @@ A summary of the fault-tolerance strategy for each component.
     *   **Pro:** Faster, as it's a single network hop.
     *   **Con:** Logic for chunking, compression, and encryption must be implemented and maintained on every client platform (iOS, Android, Web), which is complex and less secure.
 *   **Presence Service:** The logic for tracking online/offline status could be extracted from the notification service into its own dedicated "presence service" to be used by other parts of the system.
+
+Reference materials
+[1] Google Drive: https://www.google.com/drive/
+[2] Upload file data: https://developers.google.com/drive/api/v2/manage-uploads
+[3] Amazon S3: https://aws.amazon.com/s3
+[4] Differential Synchronization https://neil.fraser.name/writing/sync/
+[5] Differential Synchronization youtube talk https://www.youtube.com/watch?
+v=S2Hp_1jqpY8
+[6] How We’ve Scaled Dropbox: https://youtu.be/PE4gwstWhmc
+[7] Tridgell, A., & Mackerras, P. (1996). The rsync algorithm.
+[8] Librsync. (n.d.). Retrieved April 18, 2015, from https://github.com/librsync/librsync
+[9] ACID: https://en.wikipedia.org/wiki/ACID
+[10] Dropbox security white paper:
+https://www.dropbox.com/static/business/resources/Security_Whitepaper.pdf
+[11] Amazon S3 Glacier: https://aws.amazon.com/glacier/faqs/

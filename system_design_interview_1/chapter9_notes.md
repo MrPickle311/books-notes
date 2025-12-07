@@ -126,3 +126,31 @@ This is the most critical component, managing politeness, priority, and freshnes
 *   **Anti-Spam:** An anti-spam component is needed to detect and filter out low-quality or malicious pages.
 *   **Data Layer Scaling:** The content and URL storage systems will need database replication and sharding to scale.
 *   **Horizontal Scaling:** The downloader tier is stateless and can be scaled horizontally by adding more servers.
+
+Reference materials
+[1] US Library of Congress: https://www.loc.gov/websites/
+[2] EU Web Archive: http://data.europa.eu/webarchive
+[3] Digimarc: https://www.digimarc.com/products/digimarc-services/piracy-intelligence
+[4] Heydon A., Najork M. Mercator: A scalable, extensible web crawler World Wide Web, 2
+(4) (1999), pp. 219-229
+[5] By Christopher Olston, Marc Najork: Web Crawling.
+http://infolab.stanford.edu/~olston/publications/crawling_survey.pdf
+[6] 29% Of Sites Face Duplicate Content Issues: https://tinyurl.com/y6tmh55y
+[7] Rabin M.O., et al. Fingerprinting by random polynomials Center for Research in
+Computing Techn., Aiken Computation Laboratory, Univ. (1981)
+[8] B. H. Bloom, “Space/time trade-offs in hash coding with allowable errors,”
+Communications of the ACM, vol. 13, no. 7, pp. 422–426, 1970.
+[9] Donald J. Patterson, Web Crawling:
+https://www.ics.uci.edu/~lopes/teaching/cs221W12/slides/Lecture05.pdf
+[10] L. Page, S. Brin, R. Motwani, and T. Winograd, “The PageRank citation
+ranking: Bringing order to the web,” Technical Report, Stanford University,
+1998.
+[11] Burton Bloom. Space/time trade-offs in hash coding with allowable errors.
+Communications of the ACM, 13(7), pages 422--426, July 1970.
+[12] Google Dynamic Rendering:
+https://developers.google.com/search/docs/guides/dynamic-rendering
+[13] T. Urvoy, T. Lavergne, and P. Filoche, “Tracking web spam with hidden style
+similarity,” in Proceedings of the 2nd International Workshop on Adversarial Information
+Retrieval on the Web, 2006.
+[14] H.-T. Lee, D. Leonard, X. Wang, and D. Loguinov, “IRLbot: Scaling to 6 billion pages
+and beyond,” in Proceedings of the 17th International World Wide Web Conference, 2008
