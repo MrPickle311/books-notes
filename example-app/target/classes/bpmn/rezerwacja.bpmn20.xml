@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_MobileMi_Rezerwacja" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.3.1">
+  <bpmn:collaboration id="Collaboration_Rezerwacja">
+    <bpmn:participant id="Participant_Klient" name="Klient" processRef="Process_Klient" />
+    <bpmn:participant id="Participant_System" name="MobileMi - system aplikacji" processRef="Process_System" />
+    <bpmn:participant id="Participant_ObslugaFloty" name="Obsługa floty" processRef="Process_ObslugaFloty" />
+    
+    <!-- Message Flows między uczestnikami -->
+    <bpmn:messageFlow id="MessageFlow_WyszukiwaniePojazdow" sourceRef="Activity_WyszukajPojazd" targetRef="StartEvent_OdbieranieZapytania" />
+    <bpmn:messageFlow id="MessageFlow_ListaPojazdow" sourceRef="Activity_ZwrocListePojazdow" targetRef="Activity_WybierzPojazd" />
+    <bpmn:messageFlow id="MessageFlow_Rezerwacja" sourceRef="Activity_WybierzTermin" targetRef="Activity_OdbiorRezerwacji" />
+    <bpmn:messageFlow id="MessageFlow_PotwierdzRezerwacje" sourceRef="Activity_ZatwierdzRezerwacje" targetRef="Event_PotwierdzeniePlatnosci" />
+    <bpmn:messageFlow id="MessageFlow_ZarezerwowanyPojazd" sourceRef="Activity_PrzygotujPojazd" targetRef="Event_PowiadomienieGotowosci" />
+    <bpmn:messageFlow id="MessageFlow_OdblokowanieZadanie" sourceRef="Activity_WyslijZadanieOdblokowania" targetRef="StartEvent_OdbiorZadaniaOdblokowania" />
+    <bpmn:messageFlow id="MessageFlow_StatusOdblokowania" sourceRef="Activity_OdblokowaniePojazdu" targetRef="Event_PotwierdzOdblokowanie" />
+    <bpmn:messageFlow id="MessageFlow_PrzekazanieDokumentacji" sourceRef="Activity_WyslijDokumentacje" targetRef="Activity_OdbiorDokumentacji" />
+  </bpmn:collaboration>
+  
+  <!-- Proces Klienta -->
+  <bpmn:process id="Process_Klient" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Klient" name="Potrzeba wynajęcia pojazdu">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    
+    <bpmn:userTask id="Activity_WyszukajPojazd" name="Wyszukiwanie pojazdu w aplikacji">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:userTask id="Activity_WybierzPojazd" name="Wybór pojazdu z listy dostępnych">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:userTask id="Activity_WybierzTermin" name="Określenie terminu rezerwacji">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:intermediateCatchEvent id="Event_PotwierdzeniePlatnosci" name="Otrzymanie potwierdzenia rezerwacji">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1" />
+    </bpmn:intermediateCatchEvent>
+    
+    <bpmn:intermediateCatchEvent id="Event_PowiadomienieGotowosci" name="Otrzymanie powiadomienia o gotowości pojazdu">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_2" />
+    </bpmn:intermediateCatchEvent>
+    
+    <bpmn:userTask id="Activity_WyslijZadanieOdblokowania" name="Wysłanie żądania odblokowania pojazdu">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:intermediateCatchEvent id="Event_PotwierdzOdblokowanie" name="Otrzymanie potwierdzenia odblokowania">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_3" />
+    </bpmn:intermediateCatchEvent>
+    
+    <bpmn:manualTask id="Activity_SprawdzStanPojazdu" name="Sprawdzenie stanu pojazdu">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:manualTask>
+    
+    <bpmn:exclusiveGateway id="Gateway_StanPojazdu" name="Stan pojazdu OK?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    
+    <bpmn:userTask id="Activity_ZgloszenieProblemu" name="Zgłoszenie problemu z pojazdem">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:manualTask id="Activity_WykonajZdjecia" name="Wykonanie dokumentacji fotograficznej">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:manualTask>
+    
+    <bpmn:userTask id="Activity_WyslijDokumentacje" name="Wysłanie dokumentacji do systemu">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:endEvent id="EndEvent_Klient" name="Rozpoczęcie użytkowania pojazdu">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Sequence Flows w procesie klienta -->
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_Klient" targetRef="Activity_WyszukajPojazd" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Activity_WyszukajPojazd" targetRef="Activity_WybierzPojazd" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Activity_WybierzPojazd" targetRef="Activity_WybierzTermin" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Activity_WybierzTermin" targetRef="Event_PotwierdzeniePlatnosci" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Event_PotwierdzeniePlatnosci" targetRef="Event_PowiadomienieGotowosci" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Event_PowiadomienieGotowosci" targetRef="Activity_WyslijZadanieOdblokowania" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Activity_WyslijZadanieOdblokowania" targetRef="Event_PotwierdzOdblokowanie" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Event_PotwierdzOdblokowanie" targetRef="Activity_SprawdzStanPojazdu" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Activity_SprawdzStanPojazdu" targetRef="Gateway_StanPojazdu" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Gateway_StanPojazdu" targetRef="Activity_WykonajZdjecia" name="Tak" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Gateway_StanPojazdu" targetRef="Activity_ZgloszenieProblemu" name="Nie" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Activity_ZgloszenieProblemu" targetRef="Activity_WyslijDokumentacje" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Activity_WykonajZdjecia" targetRef="Activity_WyslijDokumentacje" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Activity_WyslijDokumentacje" targetRef="EndEvent_Klient" />
+  </bpmn:process>
+  
+  <!-- Proces Systemu Aplikacji -->
+  <bpmn:process id="Process_System" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_System">
+      <bpmn:lane id="Lane_SystemRezerwacji" name="System rezerwacji">
+        <bpmn:flowNodeRef>StartEvent_OdbieranieZapytania</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_SprawdzDostepnosc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_ZwrocListePojazdow</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_OdbiorRezerwacji</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_WeryfikacjaKlienta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_StatusWeryfikacji</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_ZatwierdzRezerwacje</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_OdrzucRezerwacje</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_PowiadomObslugeFloty</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_SystemRezerwacji</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_SystemDostepuPojazdu" name="System dostępu do pojazdu">
+        <bpmn:flowNodeRef>StartEvent_OdbiorZadaniaOdblokowania</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_WeryfikacjaRezerwacji</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_StatusRezerwacji</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_OdblokowaniePojazdu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_OdrzucOdblokowanie</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_OdbiorDokumentacji</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_ZapiszDokumentacje</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_SystemDostepuPojazdu</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    
+    <!-- Elementy w torze Systemu Rezerwacji -->
+    <bpmn:startEvent id="StartEvent_OdbieranieZapytania" name="Odebranie zapytania o dostępność">
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_4" />
+    </bpmn:startEvent>
+    
+    <bpmn:serviceTask id="Activity_SprawdzDostepnosc" name="Sprawdzenie dostępności pojazdów">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:serviceTask id="Activity_ZwrocListePojazdow" name="Zwrócenie listy dostępnych pojazdów">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:userTask id="Activity_OdbiorRezerwacji" name="Odbiór danych rezerwacji">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:serviceTask id="Activity_WeryfikacjaKlienta" name="Weryfikacja klienta i metody płatności">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:exclusiveGateway id="Gateway_StatusWeryfikacji" name="Weryfikacja OK?">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    
+    <bpmn:serviceTask id="Activity_ZatwierdzRezerwacje" name="Zatwierdzenie rezerwacji i pobranie opłaty">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:serviceTask id="Activity_OdrzucRezerwacje" name="Odrzucenie rezerwacji">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:serviceTask id="Activity_PowiadomObslugeFloty" name="Powiadomienie obsługi floty">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:endEvent id="EndEvent_SystemRezerwacji" name="Zakończenie procesu rezerwacji">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Elementy w torze Systemu Dostępu do Pojazdu -->
+    <bpmn:startEvent id="StartEvent_OdbiorZadaniaOdblokowania" name="Odebranie żądania odblokowania">
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_5" />
+    </bpmn:startEvent>
+    
+    <bpmn:serviceTask id="Activity_WeryfikacjaRezerwacji" name="Weryfikacja aktywnej rezerwacji">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:exclusiveGateway id="Gateway_StatusRezerwacji" name="Rezerwacja aktywna?">
+      <bpmn:incoming>Flow_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    
+    <bpmn:serviceTask id="Activity_OdblokowaniePojazdu" name="Zdalne odblokowanie pojazdu">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:serviceTask id="Activity_OdrzucOdblokowanie" name="Odrzucenie żądania odblokowania">
+      <bpmn:incoming>Flow_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_30</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:userTask id="Activity_OdbiorDokumentacji" name="Odebranie dokumentacji fotograficznej">
+      <bpmn:incoming>Flow_29</bpmn:incoming>
+      <bpmn:incoming>Flow_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:serviceTask id="Activity_ZapiszDokumentacje" name="Zapisanie dokumentacji w systemie">
+      <bpmn:incoming>Flow_31</bpmn:incoming>
+      <bpmn:outgoing>Flow_32</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:endEvent id="EndEvent_SystemDostepuPojazdu" name="Zakończenie procesu udostępnienia pojazdu">
+      <bpmn:incoming>Flow_32</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Sequence Flows w procesie systemu -->
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="StartEvent_OdbieranieZapytania" targetRef="Activity_SprawdzDostepnosc" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="Activity_SprawdzDostepnosc" targetRef="Activity_ZwrocListePojazdow" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Activity_ZwrocListePojazdow" targetRef="Activity_OdbiorRezerwacji" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Activity_OdbiorRezerwacji" targetRef="Activity_WeryfikacjaKlienta" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Activity_WeryfikacjaKlienta" targetRef="Gateway_StatusWeryfikacji" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Gateway_StatusWeryfikacji" targetRef="Activity_ZatwierdzRezerwacje" name="Tak" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Gateway_StatusWeryfikacji" targetRef="Activity_OdrzucRezerwacje" name="Nie" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Activity_ZatwierdzRezerwacje" targetRef="Activity_PowiadomObslugeFloty" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Activity_OdrzucRezerwacje" targetRef="EndEvent_SystemRezerwacji" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="Activity_PowiadomObslugeFloty" targetRef="EndEvent_SystemRezerwacji" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="StartEvent_OdbiorZadaniaOdblokowania" targetRef="Activity_WeryfikacjaRezerwacji" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="Activity_WeryfikacjaRezerwacji" targetRef="Gateway_StatusRezerwacji" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="Gateway_StatusRezerwacji" targetRef="Activity_OdblokowaniePojazdu" name="Tak" />
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="Gateway_StatusRezerwacji" targetRef="Activity_OdrzucOdblokowanie" name="Nie" />
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="Activity_OdblokowaniePojazdu" targetRef="Activity_OdbiorDokumentacji" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="Activity_OdrzucOdblokowanie" targetRef="Activity_OdbiorDokumentacji" />
+    <bpmn:sequenceFlow id="Flow_31" sourceRef="Activity_OdbiorDokumentacji" targetRef="Activity_ZapiszDokumentacje" />
+    <bpmn:sequenceFlow id="Flow_32" sourceRef="Activity_ZapiszDokumentacje" targetRef="EndEvent_SystemDostepuPojazdu" />
+  </bpmn:process>
+  
+  <!-- Proces Obsługi Floty -->
+  <bpmn:process id="Process_ObslugaFloty" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_ObslugaFloty" name="Otrzymanie informacji o rezerwacji">
+      <bpmn:outgoing>Flow_33</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_6" />
+    </bpmn:startEvent>
+    
+    <bpmn:userTask id="Activity_PlanowaniePrzygotowania" name="Planowanie przygotowania pojazdu">
+      <bpmn:incoming>Flow_33</bpmn:incoming>
+      <bpmn:outgoing>Flow_34</bpmn:outgoing>
+    </bpmn:userTask>
+    
+    <bpmn:manualTask id="Activity_SprawdzenieStanuTechnicznego" name="Sprawdzenie stanu technicznego">
+      <bpmn:incoming>Flow_34</bpmn:incoming>
+      <bpmn:outgoing>Flow_35</bpmn:outgoing>
+    </bpmn:manualTask>
+    
+    <bpmn:exclusiveGateway id="Gateway_StanTechniczny" name="Stan techniczny OK?">
+      <bpmn:incoming>Flow_35</bpmn:incoming>
+      <bpmn:outgoing>Flow_36</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    
+    <bpmn:manualTask id="Activity_NaprawaPojazdu" name="Naprawa pojazdu">
+      <bpmn:incoming>Flow_37</bpmn:incoming>
+      <bpmn:outgoing>Flow_38</bpmn:outgoing>
+    </bpmn:manualTask>
+    
+    <bpmn:manualTask id="Activity_CzyszczeniePojazdu" name="Czyszczenie pojazdu">
+      <bpmn:incoming>Flow_36</bpmn:incoming>
+      <bpmn:incoming>Flow_38</bpmn:incoming>
+      <bpmn:outgoing>Flow_39</bpmn:outgoing>
+    </bpmn:manualTask>
+    
+    <bpmn:manualTask id="Activity_UzupelnieniePaliwa" name="Uzupełnienie paliwa/naładowanie">
+      <bpmn:incoming>Flow_39</bpmn:incoming>
+      <bpmn:outgoing>Flow_40</bpmn:outgoing>
+    </bpmn:manualTask>
+    
+    <bpmn:serviceTask id="Activity_PrzygotujPojazd" name="Oznaczenie pojazdu jako gotowy i powiadomienie klienta">
+      <bpmn:incoming>Flow_40</bpmn:incoming>
+      <bpmn:outgoing>Flow_41</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <bpmn:endEvent id="EndEvent_ObslugaFloty" name="Zakończenie przygotowania pojazdu">
+      <bpmn:incoming>Flow_41</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Sequence Flows w procesie obsługi floty -->
+    <bpmn:sequenceFlow id="Flow_33" sourceRef="StartEvent_ObslugaFloty" targetRef="Activity_PlanowaniePrzygotowania" />
+    <bpmn:sequenceFlow id="Flow_34" sourceRef="Activity_PlanowaniePrzygotowania" targetRef="Activity_SprawdzenieStanuTechnicznego" />
+    <bpmn:sequenceFlow id="Flow_35" sourceRef="Activity_SprawdzenieStanuTechnicznego" targetRef="Gateway_StanTechniczny" />
+    <bpmn:sequenceFlow id="Flow_36" sourceRef="Gateway_StanTechniczny" targetRef="Activity_CzyszczeniePojazdu" name="Tak" />
+    <bpmn:sequenceFlow id="Flow_37" sourceRef="Gateway_StanTechniczny" targetRef="Activity_NaprawaPojazdu" name="Nie" />
+    <bpmn:sequenceFlow id="Flow_38" sourceRef="Activity_NaprawaPojazdu" targetRef="Activity_CzyszczeniePojazdu" />
+    <bpmn:sequenceFlow id="Flow_39" sourceRef="Activity_CzyszczeniePojazdu" targetRef="Activity_UzupelnieniePaliwa" />
+    <bpmn:sequenceFlow id="Flow_40" sourceRef="Activity_UzupelnieniePaliwa" targetRef="Activity_PrzygotujPojazd" />
+    <bpmn:sequenceFlow id="Flow_41" sourceRef="Activity_PrzygotujPojazd" targetRef="EndEvent_ObslugaFloty" />
+  </bpmn:process>
+</bpmn:definitions> 
