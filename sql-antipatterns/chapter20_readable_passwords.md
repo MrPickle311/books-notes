@@ -139,3 +139,27 @@ Basic SHA-256 is fast (too fast for GPUs to crack). Use slow algorithms designed
 *   **Argon2** (Winner of Password Hashing Competition).
 *   **Bcrypt** (Standard for years).
 *   **PBKDF2** (NIST recommended).
+
+### Mini-Antipattern: Storing Hashes in VARCHAR
+"I'll just use `VARCHAR(255)`."
+
+**1. Hashes are Fixed Length**
+*   SHA-256 is *always* 256 bits.
+*   Storing it in `VARCHAR` adds overhead. Use `CHAR` or `BINARY`.
+
+**2. Storage Optimization (Hex vs Binary)**
+A 256-bit hash (SHA-256) takes:
+*   **64 Bytes** as specific Hex String (`CHAR(64)`).
+*   **32 Bytes** as Raw Binary (`BINARY(32)`) -> **50% Savings**.
+*   **43 Bytes** as Base64 (`CHAR(43)`).
+
+| Algorithm | Bits | Hex String | Base64 | Binary |
+| :--- | :--- | :--- | :--- | :--- |
+| **MD5** | 128 | `CHAR(32)` | `CHAR(22)` | `BINARY(16)` |
+| **SHA-1** | 160 | `CHAR(40)` | `CHAR(27)` | `BINARY(20)` |
+| **SHA-256** | 256 | `CHAR(64)` | `CHAR(43)` | `BINARY(32)` |
+
+**3. The PHC String Format (Argon2 / Bcrypt)**
+Modern algos like Argon2 return a string containing the Algo ID, Settings, Salt, and Hash, all separated by `$`.
+*   Example: `$argon2i$v=19$m=4096,t=3,p=1$c2FsdDEyMzQ$61QNJTDZzd...`
+*   **Storage**: Since the salt and options impact length, `VARCHAR(100)` or `CHAR(84)` is appropriate here.
