@@ -200,3 +200,154 @@ Modern analytics has moved toward **cloud data warehouses** (like Amazon Redshif
     2. **Storage Format:** (e.g., Parquet, ORC) Determines how data bytes are physically structured in object storage.
     3. **Table Format:** (e.g., Apache Iceberg, Delta Lake) Sits on top of the immutable storage files to provide ACID transactions, schema evolution, inserts/deletes, and time travel. 
     4. **Data Catalog:** Acts as the central metadata repository mapping tables to files and providing governance.
+
+---
+
+### Column-Oriented Storage
+In analytics, **fact tables** are often very wide (e.g., over 100 columns), but a typical data warehouse query (like calculating the sum of quantities sold) accesses only a small handful of them at a time (e.g., 3-5 columns). `SELECT *` is rarely used.
+
+**The Problem with Row-Oriented Storage:**
+*   Most OLTP databases (and Document databases) are **row-oriented**: they store all values from one row contiguously on disk.
+*   To answer an analytical query referencing 3 columns, a row-oriented database still has to load all 100+ columns from disk into memory, parse them, and filter them. This is very slow and wastes disk bandwidth.
+
+**The Columnar Solution:**
+*   **Column-oriented (columnar) storage** stores all the values for *each column* together in separate files or blocks.
+*   A query only needs to load and read the specific columns it actually uses, saving a massive amount of disk I/O.
+*   To reconstruct a row, the database relies on the fact that every column stores the rows in the exact same order (e.g., the 23rd entry in the `date_key` column belongs to the same record as the 23rd entry in the `quantity` column).
+
+*   **Description:** This figure contrasts row-oriented vs. column-oriented storage physically. Instead of storing entire rows together, it shows separate blocks holding just the `date_key`, just the `product_sk`, etc.
+![Figure 4-7: Storing relational data by column, rather than by row.](figure-4-7.png)
+
+Columnar storage powers data warehouses (Snowflake, BigQuery), embedded DBs (DuckDB), and storage formats (Parquet, ORC, Apache Arrow). *(Note: Do not confuse this with "wide-column" databases like Cassandra or Bigtable, which are actually row-oriented under the hood).*
+
+#### Column Compression
+Another massive benefit of columnar storage is that it lends itself beautifully to compression. Because a single column contains values of the exact same data type (often highly repetitive), compression algorithms work extremely well.
+
+**Bitmap Encoding:**
+A common and highly effective technique in data warehouses is **bitmap encoding**.
+*   If a column has a small number of distinct values compared to the number of rows (e.g., 100,000 products vs. billions of sales), the database can create a separate bitmap for each distinct value.
+*   Each bitmap contains one bit per row: `1` if the row has that value, `0` if it does not.
+
+*   **Description:** This figure shows how bitmap encoding works on a repetitive column. It maps the distinct values to their own bit arrays, which can then be tightly run-length encoded.
+![Figure 4-8: Compressed, bitmap-indexed storage of a single column.](figure-4-8.png)
+
+**Run-length Encoding:**
+Because these bitmaps will contain mostly zeros, they are considered *sparse* and can be further compressed using **run-length encoding** (e.g., storing "15 zeros, then a 1, then 30 zeros"). Techniques like roaring bitmaps switch representations automatically to keep it as compact as possible.
+
+**Speeding up Queries with Bitmaps:**
+Bitmap indexes make evaluating `WHERE` clauses incredibly fast using vector/bitwise operations directly on the CPU:
+*   `WHERE product_sk IN (31, 68)` translates to a bitwise **OR** operation between the bitmaps for 31 and 68.
+*   `WHERE product_sk = 30 AND store_sk = 3` translates to a bitwise **AND** operation between the respective bitmaps for those two columns.
+
+#### Sort Order in Column Storage
+In a column store, it is crucial that the kth item in one column belongs to the same row as the kth item in another column. Therefore, **we cannot sort each column independently**. The data must be sorted an entire row at a time.
+
+*   **Primary Sort Key:** The database administrator can choose columns to sort by, optimizing for common queries. For example, sorting by `date_key` first makes queries targeting date ranges extremely fast (scanning only the relevant contiguous block).
+*   **Secondary Sort Key:** A second column (e.g., `product_sk`) can dictate the sort order of rows that share the same primary sort key. 
+
+**Sorting Boosts Compression:**
+Sorting brings an enormous secondary benefit: it dramatically improves compression. 
+*   If the table is sorted by `date_key`, there will be massive contiguous stretches of rows with the exact same date. 
+*   A simple run-length encoding can compress billions of rows down to a few kilobytes for that sorted column. The compression effect is strongest on the first sort key and diminishes for subsequent sort keys as values become more "jumbled up".
+
+#### Writing to Column-Oriented Storage
+Column-oriented storage, compression, and sorting are optimized for reads (analytics). 
+*   **The Write Problem:** Inserting a single record into the middle of a sorted, compressed columnar table is disastrous—you would have to rewrite every massive, compressed column file from the insertion point to the end.
+*   **The Solution (Bulk & LSM):** Writes in data warehouses are typically executed as bulk imports (ETL processes). 
+*   To handle this, analytics databases often borrow the **log-structured approach (LSM-trees)**:
+    1.  New writes go into an **in-memory, row-oriented store** where they are immediately sorted.
+    2.  When the in-memory store fills up, the data is dumped in bulk to disk as compressed columnar files (often to object storage).
+    3.  Queries must merge data from the on-disk columnar files and the in-memory recent writes, but the query engine handles this transparently for the user.
+
+---
+
+### Query Execution: Compilation and Vectorization
+Analyzing millions of rows means CPU time becomes a major bottleneck, not just reading from disk. 
+A naive query executor acts like an interpreter: it iterates over each row one by one, checking conditions iteratively. This is far too slow for analytics. Two alternative approaches make execution much faster:
+
+#### 1. Query Compilation (JIT)
+*   The query engine takes a SQL query and dynamically generates efficient machine code specifically for that exact query (often using LLVM).
+*   It operates like a Just-In-Time (JIT) compiler. The generated code has tight loops that directly evaluate conditions and copy values to an output buffer, avoiding the overhead of interpreting abstract operators row by row.
+
+#### 2. Vectorized Processing
+*   Instead of compiling the query, the query relies on an "interpreter" but makes it fast by processing a **batch of values (a vector) at a time** rather than one row at a time.
+*   For example, an equality operator takes an *entire column* and a target value (e.g. "bananas"), and returns an entire bitmap of matches.
+
+*   **Description:** This figure shows how a bitwise AND between two bitmaps maps perfectly to vectorized execution, enabling high-speed processing without branching.
+![Figure 4-9: A bitwise AND between two bitmaps lends itself to vectorization.](figure-4-9.png)
+
+*   **Advantages of both approaches:** Both optimize heavily for modern CPUs by utilizing SIMD (Single-Instruction-Multi-Data) instructions, operating directly on compressed data, staying within tight CPU inner loops (avoiding branch mispredictions), and preferencing continuous memory accesses.
+
+---
+
+### Materialized Views and Data Cubes
+In relational databases, a *virtual view* is just a shortcut for a query—when you query the view, the database expands your query into the underlying SQL on the fly. 
+
+A **materialized view**, however, is an actual *cached copy of the query results* written to disk. If the underlying data changes, the materialized view must be updated, incurring a write overhead but vastly speeding up repetitive read queries.
+
+#### Data Cubes (OLAP Cubes)
+A common type of materialized view in data warehouses is the **Data Cube** (or OLAP Cube). It is a grid of aggregates grouped by various dimensions.
+
+*   **How it Works:** Rather than crunching through raw transaction data every time someone asks for "Total Sales", the database precomputes the `SUM` (or count/avg) grouped by key dimensions (e.g. date and product).
+*   **Advantage:** Queries that match the cube's dimensions become extremely fast since the data has effectively been precomputed.
+*   **Disadvantage:** Cubes lack the flexibility of raw data. If you suddenly need to calculate a percentage based on an attribute that *wasn't* defined as a dimension in the cube, you can't use the cube. For this reason, data warehouses use cubes merely as performance boosters, while still retaining the raw underlying data.
+
+*   **Description:** This figure shows a two-dimensional data cube aggregating data by summing values dynamically across the 'Date' and 'Product' axes, allowing for instant lookups of the intersections.
+![Figure 4-10: Two dimensions of a data cube, aggregating data by summing.](figure-4-10.png)
+
+---
+
+### Multidimensional and Full-Text Indexes
+Standard B-trees and LSM-trees natively support range queries over a single attribute. For example, finding all users whose name starts with an "L". However, they are insufficient for more complex queries.
+
+**Concatenated Indexes vs. Multidimensional Indexes**
+The core difference lies in how they process multi-column data and how rigidly they require you to format your queries.
+
+*   **Concatenated Indexes (The "Phone Book" Approach):** Takes the values of multiple columns and literally sticks them together in a strict, predefined order (e.g., `lastname` + `firstname`, yielding `SmithJohn`).
+    *   *Strength:* Incredibly fast if you search using the *exact order* of the index, or just the *prefix* (e.g., find all people whose last name is "Smith").
+    *   *Flaw (Order Dependency):* Completely useless if you want to search skipping the first column (e.g., find everyone whose first name is "John", regardless of last name). It also struggles to do optimal range queries on *both* metrics at exactly the same time.
+
+*   **Multidimensional Indexes (The "Coordinate Plane" Approach):** Treats your columns not as a single string, but as independent axes (dimensions) in space.
+    *   *Strength:* Allows you to query multiple variables simultaneously *without* worrying about their order. You can ask for dynamic ranges across both dimensions at once.
+    *   *Use Case:* Mandatory for things like geospatial data (e.g. `latitude BETWEEN 10 AND 20` AND `longitude BETWEEN 50 AND 60`) or multidimensional combinations like searching for all weather observations in the year 2013 where the temperature was exactly between 25 and 30℃.
+
+#### R-Trees (Region Trees)
+Because standard 1D B-trees fail when trying to sort data that has simultaneous horizontal and vertical properties, databases use specialized spatial indexes like **R-trees** (Region Trees).
+*   **Bounding Boxes:** R-Trees solve this by dividing multidimensional space into **bounding boxes** (or rectangles/regions). It groups nearby data points together and draws a minimal bounding box around them. It then groups those boxes into even larger parent boxes, building a tree structure.
+*   **Execution:** When you run a query like "find all coffee shops in this map square," the database starts at the top of the R-Tree and checks the largest bounding boxes. If a box does not overlap with your query square, the R-tree instantly ignores everything inside it, only descending into boxes that intersect with your search area.
+*   **Adoption:** R-trees are the standard underlying data structure for advanced spatial database extensions, most notably **PostGIS** for PostgreSQL.
+
+#### Full-Text Search (Inverted Indexes)
+Full-text search goes beyond simple equality, supporting search for words inside large blocks of text, handling typos, synonyms, and grammatical variations.
+
+At its core, full-text search is a multidimensional query where *every possible word* is a dimension.
+*   **Inverted Index:** The primary data structure for full-text search. It is a key-value store where the key is a term (word), and the value is a **postings list** (a list of completely distinct document IDs that contain that word).
+*   **Vectorized Execution:** If document IDs are continuous integers, the postings list acts precisely like the bitmaps from column-oriented storage. Finding documents that contain both "red" AND "apples" is just a high-speed bitwise AND operation between the two bitmaps.
+*   **Handling Typos:** Modern engines like Apache Lucene (Elasticsearch) handle typos within a certain "edit distance" by representing the terms not just as a hash dictionary, but as a finite state automaton (like a trie that transforms into a Levenshtein automaton).
+
+---
+
+### Vector Embeddings and Semantic Search
+Semantic search is a massive leap beyond traditional full-text search. Instead of looking for identical words or substrings, semantic search tries to match **concepts and meaning**. If a user searches "terminate contract", they should find the page titled "cancelling your subscription".
+
+#### Vector Embeddings
+To match concepts, semantic search models (like BERT, GPT, or Word2Vec) translate sentences, documents, images, or audio into abstract floating-point arrays called **vector embeddings**.
+*   A vector represents a distinct point in a multi-dimensional space (often consisting of over 1,000 dimensions).
+*   If two documents are semantically similar (in human meaning), the machine learning model will generate vectors that reside very close to each other in this abstract space.
+
+*Note: Do not confuse this with "vectorized processing". In execution engines, vectors are batches of bits processed via SIMD. In semantic search, vectors are mathematical coordinates representing concepts.*
+
+#### Distance/Similarity Metrics
+Search engines determine how similar two items are by mathematically measuring the distance between their vectors using calculating techniques:
+*   **Cosine Similarity:** Measures the angle between two vectors.
+*   **Euclidean Distance:** Measures the straight-line physical distance between two points in space.
+
+#### Vector Indexes
+When a user provides a search query, the system generates a vector embedding for the query string on the fly, and must find the "nearest neighbor" vectors inside the database. Because standard R-trees cannot handle 1,000+ dimensions, databases use specialized vector indexes:
+
+1.  **Flat Indexes:** Performs an exact, brute-force comparison of the query vector against every single vector in the database. 100% accurate, but incredibly slow.
+2.  **Inverted File (IVF) Indexes:** Clusters the vector space into partitions (centroids). The system only measures vectors inside nearby partitions. Faster, but approximate (might miss a match sitting right on the border of a partition).
+3.  **Hierarchical Navigable Small World (HNSW):** An approximate algorithm representing the vector space as a multi-layered graph. The top layer has few nodes, while bottom layers are dense. The query rapidly descends the layers, following proximity edges to hone in on the closest match.
+
+*   **Description:** This figure visualizes the HNSW algorithm. It shows a query vector dropping down through progressively denser graph layers to locate the nearest matching entry without needing to scan every node.
+![Figure 4-11: Searching for the database entry that is closest to a given query vector in a HNSW index.](figure-4-11.png)
