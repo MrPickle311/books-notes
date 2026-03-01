@@ -124,3 +124,167 @@ While simple, blindly retrying transactions in code isn't perfect:
 2.  **Cascading Overload:** If the database threw an error because it was completely out of memory and melting down under heavy contention, 100 clients instantly and aggressively "retrying" their transactions will immediately kill the database completely. (Use Exponential Backoff).
 3.  **Permanent Errors:** If the attempt failed because of a Constraint Violation (e.g. Username Already Exists), retrying will never work.
 4.  **External Side Effects:** If your transaction logic includes shooting off an email via the SendGrid API, and the database transaction aborts and retries 3 times, you just accidentally sent 3 identical emails to the customer.
+
+---
+
+### Weak Isolation Levels
+If two transactions are completely independent, the database runs them safely in parallel. But what if one transaction modifies data exactly while another one reads or modifies it? That is a **Race Condition**.
+
+In a perfect world, databases would simply hide these race conditions by relying on **Serializable Isolation** (the database mathematically ensures that transactions have the exact same effect as if they were forced to run sequentially: one at a time, completely eliminating race conditions). 
+
+However, forcing a global distributed database to run everything sequentially is agonizingly slow. Because of the massive performance penalty, almost all databases (even "ACID" relational ones like Oracle) use **Weak Isolation Levels** by default. These weaker levels provide *some* protection, but intentionally allow certain bugs to leak through in exchange for speed.
+
+*(Note: Weak isolation causes catastrophic real-world bugs, including bankrupting a Bitcoin exchange in 2014 when attackers mathematically exploited a race condition allowing them to overdraw their balances).*
+
+#### 1. Read Committed
+The most basic, baseline level of isolation that most databases provide is **Read Committed**. 
+It guarantees exactly two things:
+1.  **No Dirty Reads:** When reading, you will only see committed data.
+2.  **No Dirty Writes:** When writing, you will only overwrite committed data.
+
+**What is a Dirty Read?**
+Imagine Transaction A modifies a user's balance from $10 to $20, but the transaction hasn't officially *Committed* yet. Can Transaction B "peek" and see that uncommitted $20?
+If yes, that is a **Dirty Read**. 
+
+*Read Committed isolation explicitly forbids this.* Transaction B will continue to see $10 until Transaction A fully commits.
+![Figure 8-4: No dirty reads: user 2 sees the new value for x only after user 1’s transaction has committed.](figure-8-4.png)
+*Why preventing Dirty Reads is vital:*
+1.  If Transaction A was updating multiple rows (e.g., adding an email AND updating an unread counter), a Dirty Read means Transaction B might see a halfway state (the email, but an empty counter).
+2.  **Cascading Aborts:** If Transaction B reads the $20, makes business decisions based on the $20, and then Transaction A suddenly *Aborts* (crashing back to $10), Transaction B is now hopelessly corrupted because it based its logic on data that mathematically never existed.
+
+**What is a Dirty Write?**
+Imagine Transaction A edits a user's shopping cart, adding an "Apple". Before it commits, Transaction B swoops in and maliciously edits the *same* cart, adding a "Banana". Which write wins?
+
+If a database allows Transaction B to blindly overwrite an *uncommitted* value currently held by Transaction A, that is a **Dirty Write**.
+
+*Read Committed isolation explicitly forbids this.* It prevents Dirty Writes by enforcing a Row Lock. Transaction B must sit patiently and wait for Transaction A to either Commit or Abort before it is allowed to touch the object.
+![Figure 8-5: With dirty writes, conflicting writes from different transactions can be mixed up.](figure-8-5.png)
+
+*Why preventing Dirty Writes is vital:*
+Without it, transactions that modify multiple identical rows interleave incorrectly. Imagine Alice and Bob both click "Buy Car" at the exact same millisecond. 
+*   Alice updates the `listings` table.
+*   Bob updates the `listings` table (overwriting Alice).
+*   Alice updates the `invoices` table.
+*   Bob updates the `invoices` table (overwriting Alice).
+Without Read Committed locks, you end up with a mix: Bob wins the car listing, but Alice wins the invoice (paying for a car she didn't get). Read Committed safely prevents this by forcing whoever acts second to wait until the first buyer's transaction completely finishes.
+
+#### Implementing Read Committed
+How do databases (like Postgres, Oracle, and SQL Server) actually enforce this isolation level under the hood?
+
+**Preventing Dirty Writes (Row-Level Locks)**
+Databases almost universally prevent dirty writes by using **Row-Level Locks**. 
+If Transaction A wants to modify a row, it must acquire the lock for that specific row. It holds that lock until it officially Commits or Aborts. If Transaction B wants to write to that exact same row, it physically cannot; it must wait in line for the lock to be released.
+
+**Preventing Dirty Reads (Remembering the Old Value)**
+You *could* use a read-lock to prevent dirty reads (forcing Transaction B to wait for the write-lock to release before it's allowed to *read* the data). 
+However, **Read Locks perform terribly**. One massive, long-running write transaction would freeze every single read in the system, crippling the application's response time.
+
+Instead, almost all modern databases prevent Dirty Reads by **Versioning** the data:
+*   When Transaction A acquires the write-lock and modifies the row, the database *remembers* the old, officially committed value.
+*   While Transaction A is still working, any other transaction that asks to read the row is simply handed the old value. 
+*   The instant Transaction A commits, the database switches over and starts handing out the new value.
+
+*(Sidebar: Some databases offer an ultra-weak isolation level called **Read Uncommitted**. This prevents Dirty Writes using locks, but completely allows Dirty Reads. This avoids storing two versions of a row, making it slightly faster at the cost of exposing users to partially-finished corrupted data).*
+
+---
+
+### Snapshot Isolation and Repeatable Read
+Read Committed is great, but it still allows a dangerous concurrency bug called **Read Skew** (also known as a Nonrepeatable Read).
+
+**The Read Skew Anomaly:**
+Imagine Aaliyah has $1,000 split across two bank accounts ($500 each). A transaction begins transferring $100 from Account 1 to Account 2. 
+If Aaliyah opens her banking app at the exact wrong millisecond, her app might query Account 1 *before* the transfer hits it (saying $500), but then query Account 2 *after* the transfer has left it (saying $400). 
+To Aaliyah, it appears she only has $900. $100 has vanished into thin air.
+![Figure 8-6: Read skew: Aaliyah observes the database in an inconsistent state.](figure-8-6.png)
+
+This is completely legal under "Read Committed" isolation! Both the $500 and the $400 were officially committed values at the exact millisecond her app queried them. If she refreshes the page, it will fix itself, so for a banking app, Read Skew is usually an acceptable temporary side effect.
+
+**When Read Skew is Unacceptable:**
+However, temporary Read Skew is completely catastrophic for:
+1.  **Backups:** A backup can take 10 hours. If a backup copies Account 1 at hour 1, and Account 2 at hour 9 (after the transfer), the backup is permanently corrupted with vanished money. 
+2.  **Analytics:** If an analytical query takes 20 minutes to aggregate global revenue, and active transactions are actively shifting money around while the query runs, the final revenue report will be mathematically nonsensical.
+
+#### The Solution: Snapshot Isolation
+To fix Read Skew, databases use **Snapshot Isolation**. 
+When a transaction begins, it takes a "Snapshot" of the database. For the entire duration of that transaction, it will *only* see the data exactly as it existed at that specific moment in time. Even if 10,000 other transactions actively change data underneath it, the query is completely isolated in its frozen snapshot in the past. 
+*(This is a massively popular feature used by Postgres, MySQL InnoDB, Oracle, and Data Warehouses like BigQuery).*
+
+#### Multi-Version Concurrency Control (MVCC)
+To guarantee Snapshot Isolation, a database can't just keep 2 versions of a row (Old and New) like Read Committed does. Because an analytical query might run for 2 hours, the database might need to keep dozens of historical versions of the exact same row alive simultaneously.
+
+This mechanism is called **MVCC (Multi-Version Concurrency Control)**.
+*   **The Golden Rule of MVCC:** Readers never block writers, and writers never block readers.
+*   **How it Works (PostgreSQL Example):** Every single transaction is given a permanent, unique Auto-Incrementing ID (`txid`). 
+    *   Every row on disk has an `inserted_by` field and a `deleted_by` field.
+    *   When you `UPDATE` a row, Postgres doesn't overwrite it! It actually marks the old row's `deleted_by` field with your `txid`, and inserts a brand new row with your `txid` in the `inserted_by` field.
+    *   Both the old and new rows physically exist on disk side-by-side as a linked list.
+    *   Any other transaction reading the database simply looks at their own `txid`, compares it to the rows, and mathematically ignores any row that was inserted "after" they started their snapshot.
+![Figure 8-7: Implementing snapshot isolation using multi-version concurrency control.](figure-8-7.png)
+
+*(Eventually, when the database knows for a fact that the oldest ongoing analytical query has finally finished, a garbage collection process—like Postgres's `VACUUM`—will sweep through the disk and physically delete all the obsolete historical rows to free up space).*
+
+#### Visibility Rules for MVCC Snapshots
+How does the database actually decide which historical row a transaction legally gets to see? It relies on the `txid` math:
+1.  **Ignore Active Contemporaries:** The exact millisecond your transaction starts, the database writes down a list of every other transaction currently in progress globally. Anything written by those transactions is completely ignored (even if they happen to commit 5 seconds later).
+2.  **Ignore the Future:** Any transaction that started *after* you is mathematically from "the future." Every row stamped with their `txid` is completely invisible to you.
+3.  **Ignore the Aborted:** Any writes made by an aborted transaction are obviously ignored (which is brilliantly efficient, because Abort no longer requires actively deleting the bad rows; the database just flags the `txid` as aborted and everyone mathematically ignores it).
+4.  **Accept the Rest:** The only rows you see are those that were successfully committed *before* your specific `txid` began.
+
+#### Indexes and Snapshot Isolation
+How do Indexes work if there are 5 different versions of the exact same row on the disk simultaneously?
+*   **The Postgres Approach:** The Index simply points to *every* version of the row. When the query uses the index to jump to the row, it must quickly glance at the `txid` linked-list to figure out which specific version it is legally allowed to see.
+*   **The Append-Only B-Tree (CouchDB, Datomic):** Instead of pointing to multiple rows, the database uses an *Immutable Copy-on-Write* B-Tree. When a row changes, the database creates a brand new copy of that leaf node, and a new copy of its parent node, all the way up to creating a brand new root node. To query a snapshot, you just hold a pointer to the "Root Node" that existed at your exact point in time, and those pointers naturally ignore all future writes (which spin off into new tree branches).
+
+#### Snapshot Isolation vs. "Repeatable Read" (Naming Confusion)
+Because Snapshot Isolation is so incredibly useful, you would think the SQL standard would clearly define it. 
+Unfortunately, the official SQL standard was written in 1992, based on IBM's 1975 papers, *before Snapshot Isolation was fully invented*.
+
+Therefore, the SQL standard doesn't mention Snapshot Isolation; instead, it defines a flawed, extremely vague isolation level called **Repeatable Read**. 
+
+Because of this, database marketing is completely chaotic and non-standardized:
+*   **PostgreSQL** offers true Snapshot Isolation, but explicitly calls it `Repeatable Read` just so they can legally claim they comply with the SQL standard.
+*   **MySQL (InnoDB)** also calls it `Repeatable Read`, but implements it very differently with weaker consistency than Postgres.
+*   **Oracle** offers true Snapshot Isolation, but falsely calls it `Serializable` (the highest possible isolation level).
+*   **IBM Db2** uses the phrase `Repeatable Read`, but actually maps it to true `Serializable`.
+
+*Conclusion: Nobody actually knows what "Repeatable Read" means anymore. You must read the specific documentation for your database to understand what anomalies it actually protects you against.*
+
+---
+
+### Preventing Lost Updates
+The isolation levels discussed so far (Read Committed, Snapshot Isolation) primarily protect *Read-Only* transactions from concurrent writers. But what happens when two transactions actively try to **write** to the exact same object concurrently? 
+
+The most famous write-write conflict is the **Lost Update Problem**.
+
+**What is a Lost Update?**
+It occurs almost exclusively during a **Read-Modify-Write** cycle.
+1.  Transaction A reads a counter (value: 42).
+2.  Transaction B reads the same counter (value: 42).
+3.  Transaction A adds 1 and writes back 43.
+4.  Transaction B adds 1 (to its local snapshot of 42) and writes back 43.
+*The Result:* The counter is 43 instead of 44. Transaction A's modification was completely "clobbered" (lost). 
+
+This happens constantly when:
+*   Incrementing account balances.
+*   Updating a value deep inside a complex JSON document.
+*   Two users editing the same Wiki page simultaneously.
+
+#### Solutions to the Lost Update Problem
+Because this is incredibly common, databases offer several mechanisms to completely eliminate it:
+
+**1. Atomic Write Operations (Let the DB do the math)**
+The best solution is to completely remove the Read-Modify-Write logic from your application code.
+Many databases provide custom commands that natively perform the math inside the database atomically (by briefly applying an exclusive write-lock while the math executes).
+*Example:* `UPDATE counters SET value = value + 1 WHERE key = 'foo';`
+*(Warning: ORM frameworks like Django or Ruby on Rails often foolishly abstract this away, silently executing a dangerous Read-Modify-Write cycle behind the scenes instead of using the database's native atomic increment).*
+
+**2. Explicit Locking (`FOR UPDATE`)**
+If your application logic is too complex for a standard Atomic Increment (e.g., "Move this game piece, but only after mathematically verifying the move is legal against the rules engine"), your application can explicitly order the database to lock the row.
+*Example (SQL):* `SELECT * FROM figures WHERE name = 'robot' FOR UPDATE;`
+The `FOR UPDATE` clause places an ironclad lock on the row. If a second player attempts to grab the robot, they are forced to wait patiently until the first player finishes their entire complex Read-Modify-Write cycle.
+
+**3. Automatically Detecting Lost Updates**
+Instead of forcing developers to remember to type `FOR UPDATE` manually, some advanced databases allow transactions to execute perfectly in parallel. However, right before they Commit, the Database Transaction Manager rapidly checks the math. 
+If it detects that a Lost Update is about to happen, it **Aborts** the offending transaction and forces the application to retry. 
+*   *Advantage:* It is vastly less error-prone because developers don't have to write any special locking code; the database just catches the math errors automatically.
+*   *Implementation:* PostgreSQL (`Repeatable Read`) and Oracle (`Serializable`) automatically detect and block lost updates. However, **MySQL InnoDB (`Repeatable Read`) does NOT**. (Many authors argue MySQL shouldn't even be allowed to claim it offers Snapshot Isolation because of this).
