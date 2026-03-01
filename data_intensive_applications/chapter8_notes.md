@@ -288,3 +288,78 @@ Instead of forcing developers to remember to type `FOR UPDATE` manually, some ad
 If it detects that a Lost Update is about to happen, it **Aborts** the offending transaction and forces the application to retry. 
 *   *Advantage:* It is vastly less error-prone because developers don't have to write any special locking code; the database just catches the math errors automatically.
 *   *Implementation:* PostgreSQL (`Repeatable Read`) and Oracle (`Serializable`) automatically detect and block lost updates. However, **MySQL InnoDB (`Repeatable Read`) does NOT**. (Many authors argue MySQL shouldn't even be allowed to claim it offers Snapshot Isolation because of this).
+
+**4. Conditional Writes (Compare-And-Set)**
+If your database doesn't offer true transactions, it might offer a conditional write built to mimic a hardware CPU's "compare-and-swap" (CAS) instruction. This forces an update to ONLY occur if the database row *still matches* the exact state you saw when you first read it.
+*Example (SQL):* `UPDATE wiki_pages SET content = 'new' WHERE id = 123 AND content = 'old';`
+If another user already changed the content to 'different', the `WHERE` clause mathematically fails, the update has zero effect, and the application must retry.
+*(Sidebar: Sometimes, developers use an auto-incrementing `version` column instead of comparing the entire text content. This is commonly known as **Optimistic Locking**).*
+
+#### Conflict Resolution and Replication
+Everything discussed so far (Row Locks, Compare-and-Set, Atomic Increments) makes one giant assumption: **That there is only ONE authoritative copy of the data.** 
+
+In Replicated databases (like Multi-Leader or Leaderless architectures), these solutions completely break down. 
+Because multiple geographically separated nodes accept writes concurrently and blindly replicate them in the background later, there is no "Single Authority" to hold a lock or instantly verify a `Compare-and-Set`. 
+
+How do Replicated databases handle write-write conflicts then?
+Instead of preventing conflicts, they intentionally let them happen. They allow concurrent writes to create multiple conflicting versions of the exact same record simultaneously (called **Siblings**). 
+It is then the responsibility of the application (or a special data structure) to merge those siblings after the fact.
+*   **Commutative Math (Safe):** If the conflicting writes are mathematically Commutative (like incrementing a counter), they can be merged flawlessly later. E.g., Node A gets `+1`, Node B gets `+2`. When they finally sync over the network, the total is naturally `+3`. (This is the underlying principle behind CRDTs).
+*   **Last Write Wins (Dangerous):** If the database simply relies on LWW (using timestamps to blindly pick a "winner" and aggressively delete the other), it is completely prone to Lost Updates. *Unfortunately, LWW is the default setting in many modern replicated databases.*
+
+---
+
+### Write Skew and Phantoms
+So far, protecting against Write-Write Conflicts focused on protecting *a single object* (e.g. locking a specific `counter` row). 
+There is an incredibly subtle race condition where two transactions modify *different objects* simultaneously, leading to a catastrophic logic error collectively. This is called **Write Skew**.
+
+**The Write Skew Anomaly (The On-Call Doctors):**
+Imagine a hospital rule: "There must always be strictly >= 1 doctor on call." 
+Aaliyah and Bryce are currently both on-call. They both get sick, and click "Request Leave" at the exact same millisecond. 
+1.  Transaction A completes a `SELECT` count and sees 2 doctors on call. 
+2.  Transaction B completes a `SELECT` count and sees 2 doctors on call.
+3.  Because "2 > 1", both transactions calculate that it is perfectly legal to drop their respective doctor's status.
+4.  Transaction A updates Aaliyah's row to `on_call = false`.
+5.  Transaction B updates Bryce's row to `on_call = false`.
+*The Result:* The hospital has zero doctors on call. The business logic constraint was completely mathematically circumvented. 
+![Figure 8-8: Example of write skew causing an application bug.](figure-8-8.png)
+
+*Why previous defenses fail here:*
+*   This is not a "Dirty Write" (they didn't update the same row).
+*   This is not a "Lost Update" (no data was clobbered or written over).
+*   Automatic Lost-Update Detection does nothing here because two completely different rows were modified.
+
+#### Characterizing Write Skew
+Write Skew is a generalization of the lost update problem. It occurs when two conflicting transactions:
+1.  Read the same shared dataset (the total count of doctors).
+2.  Make a decision based on that data (it's safe to take leave).
+3.  Separately write data that fundamentally invalidates the original premise the decision was based on.
+
+Because they touched *different* rows, weak isolation levels (like Snapshot Isolation) mathematically see no conflict and allow both to commit happily. 
+
+#### Solutions to Write Skew
+Preventing Write Skew is incredibly difficult:
+1.  **Atomic Operations don't work**, because multiple separate rows are involved.
+2.  **Database Constraints (e.g., Uniqueness, Foreign Keys) rarely help**, because creating a complex trigger-based constraint like "COUNT(doctors) where shift=123 must be >=1" is very difficult to build correctly in most SQL databases.
+3.  **True Serializable Isolation:** Running transactions sequentially perfectly eliminates this, but at a huge performance cost.
+4.  **Explicit Locking (The practical workaround):** If you can't use Serializable isolation, the second-best option is explicitly locking the rows the transaction mathematically relied upon:
+    ```sql
+    BEGIN TRANSACTION;
+    -- Explicitly place a lock on ALL doctors currently working this shift
+    SELECT * FROM doctors WHERE on_call = true AND shift_id = 1234 FOR UPDATE;
+    
+    UPDATE doctors SET on_call = false WHERE name = 'Aaliyah' AND shift_id = 1234;
+    COMMIT;
+    ```
+
+#### More Examples of Write Skew
+This sounds esoteric, but it is extremely prevalent in modern web apps:
+1.  **Meeting Room Booking System:** 
+    *User 1 and User 2 both try to book Room A at 12:00 PM.* 
+    Transaction A and B both `SELECT` to check if a conflicting meeting exists. Both return zero rows. Both perfectly insert their own brand-new `booking` rows. (Room is double booked).
+2.  **Claiming a Username:** 
+    *User 1 and 2 try to register 'Alice' simultaneously.* 
+    Transactions A and B both `SELECT` and see the username is free, and both attempt to create the account. (Fortunately, a simple `UNIQUE` constraint perfectly fixes this specific scenario). 
+3.  **Preventing Double-Spending:** 
+    *User has $10 and buys both Item A ($8) and Item B ($8) at the exact same millisecond.*
+    Transaction A and B both SELECT the total balance, see $10, and legally insert their $8 purchases into the `purchases` ledger. The user's account drops to -$6, completely skipping the insufficient funds check.
