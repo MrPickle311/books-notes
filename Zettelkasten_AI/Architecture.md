@@ -23,8 +23,9 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 ## Chapter 2: Discerning Coupling in Software Architecture
 * [[The Entanglement Problem]]
 * [[Architecture Quantum]]
-* [[Static Coupling: The "Wiring"|Static Coupling]]
-* [[Dynamic Coupling: Runtime Communication|Dynamic Coupling]]
+* [[Static Coupling. The Wiring|Static Coupling]]
+* [[Dynamic Coupling. Runtime Communication|Dynamic Coupling]]
+* [[Tips for Discerning Coupling]]
 
 ## Chapter 3: Architectural Modularity
 * [[Why Modularity Matters: Making the Business Case|Why Modularity Matters]]
