@@ -1,0 +1,219 @@
+{
+  "main": {
+    "id": "2513314874792140",
+    "type": "split",
+    "children": [
+      {
+        "id": "22f3a0ea9387372b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f5e439822e5002e5",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ccd58bfbc5929610",
+    "type": "split",
+    "children": [
+      {
+        "id": "2a3a16913f6cd216",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0a5c6a8e2a43106c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "d6203b3ceb15aacd",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "1dde384557d89ee2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "bdc68a9f82b599c0",
+    "type": "split",
+    "children": [
+      {
+        "id": "b56b8d01993e0b00",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6ff8bfeb2fbac882",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "879e05614446deaf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "c1f62f204640c272",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "d84acf45bd9dfa5e",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "21f0c04713b7693b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "f5e439822e5002e5",
+  "lastOpenFiles": [
+    "Automated Governance. Architecture Fitness Functions.md",
+    "Sample Architectural Problem.md",
+    "The Architect's Dilemma. No \"Best Practices\".md",
+    "Tips for architectural best practices.md",
+    "The Importance of Data in Architecture.md",
+    "chapter1_what_happens_when_there_are_no_best_practices_summary.md",
+    "images/figure-1-2.png",
+    "images/figure-2-13.png",
+    "images/figure-2-12.png",
+    "figure-3-1.png.md",
+    "images/figure-1-1.png",
+    "images",
+    "Architecture.md",
+    "Documenting Decisions. Architecture Decision Records (ADRs).md",
+    "Flattening Components.md",
+    "Untitled 1.canvas",
+    "dynamic_coupling_runtime_communication.md",
+    "documenting_decisions_architecture_decision_records.md",
+    "choosing_a_decomposition_approach.md",
+    "Architecture Quantum.md",
+    "Untitled.canvas",
+    "tactical_forking.md",
+    "component_based_decomposition.md",
+    "is_the_code_base_decomposable.md",
+    "the_drivers_for_modularity.md",
+    "static_coupling_the_wiring.md",
+    "Orchestration vs Choreography.md",
+    "Transactional Saga Patterns.md",
+    "the_architects_dilemma.md",
+    "architecture_quantum.md",
+    "figure-2-4.png.md",
+    "images/figure-2-11.png",
+    "images/figure-2-10.png",
+    "images/figure-2-9.png",
+    "images/figure-2-8.png",
+    "images/figure-2-7.png",
+    "images/figure-2-6.png"
+  ]
+}
