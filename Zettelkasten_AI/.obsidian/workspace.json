@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 1365.020593918775,
-                  "y": 781.8625772650121,
-                  "zoom": -1.0403982093907644
+                  "x": 1968.599784382046,
+                  "y": 1364.9806512014923,
+                  "zoom": -1.4403982093907644
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -199,6 +199,12 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Tips for Architectural Decomposition.md",
+    "Sysops Squad ADR. Choosing the Approach.md",
+    "Tactical Forking.md",
+    "Component-Based Decomposition.md",
+    "Is the Code Base Decomposable.md",
+    "Choosing a Decomposition Approach.md",
     "Untitled.canvas",
     "2026-03-20.md",
     "Architecture.canvas",
@@ -234,11 +240,6 @@
     "images",
     "Documenting Decisions. Architecture Decision Records (ADRs).md",
     "Flattening Components.md",
-    "Untitled 1.canvas",
-    "dynamic_coupling_runtime_communication.md",
-    "documenting_decisions_architecture_decision_records.md",
-    "choosing_a_decomposition_approach.md",
-    "tactical_forking.md",
-    "component_based_decomposition.md"
+    "Untitled 1.canvas"
   ]
 }

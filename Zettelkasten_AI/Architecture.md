@@ -35,9 +35,11 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 
 ## Chapter 4: Architectural Decomposition
 * [[Choosing a Decomposition Approach]]
-* [[Is the Code Base Decomposable?]]
+* [[Is the Code Base Decomposable]]
 * [[Component-Based Decomposition]]
 * [[Tactical Forking]]
+* [[Sysops Squad ADR. Choosing the Approach]]
+* [[Tips for Architectural Decomposition]]
 
 ## Chapter 5-6: Decomposition Patterns
 * [[Architectural Decomposition Strategies]]

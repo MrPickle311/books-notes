@@ -1,5 +1,17 @@
 {
 	"nodes":[
+		{
+			"id":"decomposition_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":1100,
+			"width":2000,
+			"height":1300,
+			"label":"Decomposition"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -23,6 +35,12 @@
 		{"id":"c3_2","type":"file","file":"The Drivers for Modularity.md","x":1950,"y":-280,"width":600,"height":500},
 		{"id":"c3_3","type":"file","file":"Building the Business Case. The Sysops Squad ADR.md","x":1300,"y":400,"width":600,"height":500},
 		{"id":"c3_4","type":"file","file":"Tips for Architectural Modularity.md","x":1950,"y":400,"width":600,"height":500},
+		{"id":"c4_1","type":"file","file":"Choosing a Decomposition Approach.md","x":1300,"y":1150,"width":600,"height":500},
+		{"id":"c4_2","type":"file","file":"Is the Code Base Decomposable.md","x":1950,"y":1150,"width":600,"height":500},
+		{"id":"c4_3","type":"file","file":"Component-Based Decomposition.md","x":2600,"y":1150,"width":600,"height":500},
+		{"id":"c4_4","type":"file","file":"Tactical Forking.md","x":1300,"y":1800,"width":600,"height":500},
+		{"id":"c4_5","type":"file","file":"Sysops Squad ADR. Choosing the Approach.md","x":1950,"y":1800,"width":600,"height":500},
+		{"id":"c4_6","type":"file","file":"Tips for Architectural Decomposition.md","x":2600,"y":1800,"width":600,"height":500},
 		{"id":"c2_1","type":"file","file":"The Entanglement Problem.md","x":-770,"y":-300,"width":570,"height":500},
 		{"id":"c2_2","type":"file","file":"Architecture Quantum.md","x":-770,"y":250,"width":570,"height":450},
 		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-1700,"y":890,"width":660,"height":600},
@@ -40,7 +58,8 @@
 		{"id":"e_c2_2","fromNode":"root","fromSide":"left","toNode":"c2_2","toSide":"right"},
 		{"id":"76ba8250d7f9f6bc","fromNode":"root","fromSide":"bottom","toNode":"d6919865161b3aae","toSide":"top"},
 		{"id":"e6be10506b8176be","fromNode":"root","fromSide":"bottom","toNode":"38ec717ba0b67e2b","toSide":"top"},
-		{"id":"e_root_c3","fromNode":"root","fromSide":"right","toNode":"modularity_group","toSide":"left"}
+		{"id":"e_root_c3","fromNode":"root","fromSide":"right","toNode":"modularity_group","toSide":"left"},
+		{"id":"e_root_c4","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"decomposition_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
