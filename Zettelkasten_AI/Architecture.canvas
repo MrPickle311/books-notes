@@ -36,6 +36,18 @@
 			"height":1300,
 			"label":"Databases choice, integration & desintegration"
 		},
+		{
+			"id":"service_granularity_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":6000,
+			"width":2000,
+			"height":1300,
+			"label":"Service Granularity"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -84,7 +96,13 @@
 		{"id":"c6_2","type":"file","file":"The 5-Step Database Decomposition Process.md","x":1950,"y":4630,"width":600,"height":500},
 		{"id":"c6_3","type":"file","file":"Polyglot Persistence.md","x":2600,"y":4630,"width":600,"height":500},
 		{"id":"c6_4","type":"file","file":"Sysops Squad Saga. Polyglot Databases.md","x":1300,"y":5280,"width":600,"height":500},
-		{"id":"c6_5","type":"file","file":"Tips for Pulling Apart Operational Data.md","x":1950,"y":5280,"width":600,"height":500}
+		{"id":"c6_5","type":"file","file":"Tips for Pulling Apart Operational Data.md","x":1950,"y":5280,"width":600,"height":500},
+		{"id":"c7_1","type":"file","file":"Modularity vs Granularity.md","x":1300,"y":6050,"width":600,"height":500},
+		{"id":"c7_2","type":"file","file":"Granularity Disintegrators.md","x":1950,"y":6050,"width":600,"height":500},
+		{"id":"c7_3","type":"file","file":"Granularity Integrators.md","x":2600,"y":6050,"width":600,"height":500},
+		{"id":"c7_4","type":"file","file":"Finding The Right Balance.md","x":1300,"y":6700,"width":600,"height":500},
+		{"id":"c7_5","type":"file","file":"Sysops Squad Sagas. Granularity.md","x":1950,"y":6700,"width":600,"height":500},
+		{"id":"c7_6","type":"file","file":"Tips for Service Granularity.md","x":2600,"y":6700,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -98,7 +116,8 @@
 		{"id":"e_root_c3","fromNode":"root","fromSide":"right","toNode":"modularity_group","toSide":"left"},
 		{"id":"e_root_c4","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"decomposition_group","toSide":"left"},
 		{"id":"e_root_c5","fromNode":"root","fromSide":"right","toNode":"component_decomposition_group","toSide":"left"},
-		{"id":"e_root_c6","fromNode":"root","fromSide":"right","toNode":"operational_data_group","toSide":"left"}
+		{"id":"e_root_c6","fromNode":"root","fromSide":"right","toNode":"operational_data_group","toSide":"left"},
+		{"id":"e_root_c7","fromNode":"root","fromSide":"right","toNode":"service_granularity_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

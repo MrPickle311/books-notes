@@ -58,10 +58,15 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Sysops Squad Saga. Polyglot Databases]]
 * [[Tips for Pulling Apart Operational Data]]
 
-## Chapter 7-9: Granularity and Data Ownership
+## Chapter 7: Service Granularity
 * [[Modularity vs Granularity]]
 * [[Granularity Disintegrators]]
 * [[Granularity Integrators]]
+* [[Finding The Right Balance]]
+* [[Sysops Squad Sagas. Granularity]]
+* [[Tips for Service Granularity]]
+
+## Chapters 8-9: Data Ownership
 * [[Code Replication]]
 * [[Shared Library vs Shared Service]]
 * [[Sidecars and Service Mesh]]

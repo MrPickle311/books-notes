@@ -15,8 +15,8 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 2083.9320947684723,
-                  "y": 4714.5138995585285,
+                  "x": 2292.978685186067,
+                  "y": 6271.519423459271,
                   "zoom": -0.6403982093907644
                 }
               },
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "Modularity vs Granularity.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Architecture"
+              "title": "Backlinks for Modularity vs Granularity"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "Modularity vs Granularity.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Architecture"
+              "title": "Outgoing links from Modularity vs Granularity"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "Modularity vs Granularity.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Architecture"
+              "title": "Outline of Modularity vs Granularity"
             }
           }
         ]
@@ -198,6 +198,12 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Tips for Service Granularity.md",
+    "Sysops Squad Sagas. Granularity.md",
+    "Finding The Right Balance.md",
+    "Granularity Integrators.md",
+    "Granularity Disintegrators.md",
+    "Modularity vs Granularity.md",
     "Tips for Pulling Apart Operational Data.md",
     "Sysops Squad Saga. Polyglot Databases.md",
     "Polyglot Persistence.md",
@@ -219,7 +225,6 @@
     "Is the Code Base Decomposable.md",
     "Choosing a Decomposition Approach.md",
     "Untitled.canvas",
-    "2026-03-20.md",
     "Architecture.canvas",
     "Tags",
     "images/architecture_the_hard_parts/figure-15-12.png",
@@ -233,11 +238,6 @@
     "images/architecture_the_hard_parts/figure-15-4.png",
     "images/architecture_the_hard_parts/figure-15-3.png",
     "images/architecture_the_hard_parts",
-    "The Drivers for Modularity.md",
-    "Building the Business Case. The Sysops Squad ADR.md",
-    "Tips for Architectural Modularity.md",
-    "Why Modularity Matters. Making the Business Case.md",
-    "Static Coupling. The Wiring.md",
     "images",
     "Untitled 1.canvas"
   ]
