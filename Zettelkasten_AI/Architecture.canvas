@@ -1,28 +1,50 @@
 {
 	"nodes":[
-		{"id":"d6919865161b3aae","type":"group","x":-1620,"y":1330,"width":1440,"height":1290,"label":"Coupling"},
-		{"id":"38ec717ba0b67e2b","type":"group","x":0,"y":2120,"width":600,"height":1260,"label":"Architectural decisions"},
+		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
+		{
+			"id":"modularity_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":-340,
+			"width":1360,
+			"height":1300,
+			"label":"Modularity"
+		},
+		{"id":"38ec717ba0b67e2b","type":"group","x":-240,"y":1120,"width":600,"height":1260,"label":"Architectural decisions"},
 		{"id":"root","type":"file","file":"Architecture.md","x":0,"y":300,"width":300,"height":400},
-		{"id":"c2_1","type":"file","file":"The Entanglement Problem.md","x":-770,"y":-300,"width":570,"height":500},
-		{"id":"c2_2","type":"file","file":"Architecture Quantum.md","x":-770,"y":250,"width":570,"height":450},
+		{"id":"c1_6","type":"file","file":"Tips for architectural best practices.md","x":500,"y":-920,"width":560,"height":520},
 		{"id":"c1_1","type":"file","file":"The Architect's Dilemma. No \"Best Practices\".md","x":500,"y":-300,"width":560,"height":500},
 		{"id":"c1_2","type":"file","file":"The Importance of Data in Architecture.md","x":500,"y":300,"width":560,"height":560},
-		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-1560,"y":1380,"width":660,"height":600},
-		{"id":"c2_5","type":"file","file":"Tips for Discerning Coupling.md","x":-1340,"y":2080,"width":855,"height":480},
-		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-840,"y":1380,"width":640,"height":600},
 		{"id":"c1_5","type":"file","file":"Sample Architectural Problem.md","x":500,"y":900,"width":560,"height":490},
-		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":20,"y":2780,"width":560,"height":580},
-		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":20,"y":2180,"width":560,"height":540},
-		{"id":"c1_6","type":"file","file":"Tips for architectural best practices.md","x":500,"y":-920,"width":560,"height":520}
+		{"id":"c3_1","type":"file","file":"Why Modularity Matters. Making the Business Case.md","x":1300,"y":-280,"width":600,"height":500},
+		{"id":"c3_2","type":"file","file":"The Drivers for Modularity.md","x":1950,"y":-280,"width":600,"height":500},
+		{"id":"c3_3","type":"file","file":"Building the Business Case. The Sysops Squad ADR.md","x":1300,"y":400,"width":600,"height":500},
+		{"id":"c3_4","type":"file","file":"Tips for Architectural Modularity.md","x":1950,"y":400,"width":600,"height":500},
+		{"id":"c2_1","type":"file","file":"The Entanglement Problem.md","x":-770,"y":-300,"width":570,"height":500},
+		{"id":"c2_2","type":"file","file":"Architecture Quantum.md","x":-770,"y":250,"width":570,"height":450},
+		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-1700,"y":890,"width":660,"height":600},
+		{"id":"c2_5","type":"file","file":"Tips for Discerning Coupling.md","x":-1480,"y":1590,"width":855,"height":480},
+		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-980,"y":890,"width":640,"height":600},
+		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":-220,"y":1180,"width":560,"height":540},
+		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":-220,"y":1780,"width":560,"height":580}
 	],
 	"edges":[
-		{"id":"e_c1_1","fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
+		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
 		{"id":"e_c1_2","fromNode":"root","fromSide":"right","toNode":"c1_2","toSide":"left"},
 		{"id":"e_c1_5","fromNode":"root","fromSide":"right","toNode":"c1_5","toSide":"left"},
 		{"id":"e_c1_6","fromNode":"root","fromSide":"right","toNode":"c1_6","toSide":"left"},
 		{"id":"e_c2_1","fromNode":"root","fromSide":"left","toNode":"c2_1","toSide":"right"},
 		{"id":"e_c2_2","fromNode":"root","fromSide":"left","toNode":"c2_2","toSide":"right"},
 		{"id":"76ba8250d7f9f6bc","fromNode":"root","fromSide":"bottom","toNode":"d6919865161b3aae","toSide":"top"},
-		{"id":"e6be10506b8176be","fromNode":"root","fromSide":"bottom","toNode":"38ec717ba0b67e2b","toSide":"top"}
-	]
+		{"id":"e6be10506b8176be","fromNode":"root","fromSide":"bottom","toNode":"38ec717ba0b67e2b","toSide":"top"},
+		{"id":"e_root_c3","fromNode":"root","fromSide":"right","toNode":"modularity_group","toSide":"left"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{},
+		"startNode":"77bc70bf7ac852e2"
+	}
 }

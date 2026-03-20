@@ -28,8 +28,10 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Tips for Discerning Coupling]]
 
 ## Chapter 3: Architectural Modularity
-* [[Why Modularity Matters: Making the Business Case|Why Modularity Matters]]
+* [[Why Modularity Matters. Making the Business Case|Why Modularity Matters]]
 * [[The Drivers for Modularity]]
+* [[Building the Business Case. The Sysops Squad ADR]]
+* [[Tips for Architectural Modularity]]
 
 ## Chapter 4: Architectural Decomposition
 * [[Choosing a Decomposition Approach]]

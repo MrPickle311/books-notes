@@ -4,20 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "6b76edcf4036e962",
+        "id": "457beb8f464e4df1",
         "type": "tabs",
         "children": [
           {
-            "id": "43910c22b2f834f0",
+            "id": "93560c67e5578530",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 439.2792256437697,
-                  "y": 2054.0033988539626,
-                  "zoom": -1.6
+                  "x": 1365.020593918775,
+                  "y": 781.8625772650121,
+                  "zoom": -1.0403982093907644
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -76,12 +76,23 @@
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
             }
+          },
+          {
+            "id": "c0dfce3303880a21",
+            "type": "leaf",
+            "state": {
+              "type": "mk-path-view",
+              "state": {},
+              "icon": "layout-grid",
+              "title": "Navigator"
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 297.5
   },
   "right": {
     "id": "bdc68a9f82b599c0",
@@ -97,7 +108,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "The Entanglement Problem.md",
+                "file": "Architecture.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -107,7 +118,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for The Entanglement Problem"
+              "title": "Backlinks for Architecture"
             }
           },
           {
@@ -116,12 +127,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "The Entanglement Problem.md",
+                "file": "Architecture.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from The Entanglement Problem"
+              "title": "Outgoing links from Architecture"
             }
           },
           {
@@ -159,13 +170,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "The Entanglement Problem.md",
+                "file": "Architecture.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of The Entanglement Problem"
+              "title": "Outline of Architecture"
             }
           }
         ]
@@ -186,19 +197,27 @@
       "bases:Create new base": false
     }
   },
-  "active": "43910c22b2f834f0",
+  "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Untitled.canvas",
+    "2026-03-20.md",
     "Architecture.canvas",
-    "images/figure-15-12.png",
-    "images/figure-15-11.png",
-    "images/figure-15-10.png",
-    "images/figure-15-9.png",
-    "images/figure-15-8.png",
-    "images/figure-15-7.png",
-    "images/figure-15-6.png",
-    "images/figure-15-5.png",
-    "images/figure-15-4.png",
-    "images/figure-15-3.png",
+    "Tags",
+    "images/architecture_the_hard_parts/figure-15-12.png",
+    "images/architecture_the_hard_parts/figure-15-11.png",
+    "images/architecture_the_hard_parts/figure-15-10.png",
+    "images/architecture_the_hard_parts/figure-15-9.png",
+    "images/architecture_the_hard_parts/figure-15-8.png",
+    "images/architecture_the_hard_parts/figure-15-7.png",
+    "images/architecture_the_hard_parts/figure-15-6.png",
+    "images/architecture_the_hard_parts/figure-15-5.png",
+    "images/architecture_the_hard_parts/figure-15-4.png",
+    "images/architecture_the_hard_parts/figure-15-3.png",
+    "images/architecture_the_hard_parts",
+    "The Drivers for Modularity.md",
+    "Building the Business Case. The Sysops Squad ADR.md",
+    "Tips for Architectural Modularity.md",
+    "Why Modularity Matters. Making the Business Case.md",
     "Static Coupling. The Wiring.md",
     "The Architect's Dilemma. No \"Best Practices\".md",
     "The Entanglement Problem.md",
@@ -209,9 +228,7 @@
     "Architecture.md",
     "Sample Architectural Problem.md",
     "Dynamic Coupling. Runtime Communication.md",
-    "Untitled.canvas",
     "Automated Governance. Architecture Fitness Functions.md",
-    "2026-03-20.md",
     "chapter1_what_happens_when_there_are_no_best_practices_summary.md",
     "figure-3-1.png.md",
     "images",
@@ -222,10 +239,6 @@
     "documenting_decisions_architecture_decision_records.md",
     "choosing_a_decomposition_approach.md",
     "tactical_forking.md",
-    "component_based_decomposition.md",
-    "is_the_code_base_decomposable.md",
-    "the_drivers_for_modularity.md",
-    "static_coupling_the_wiring.md",
-    "Orchestration vs Choreography.md"
+    "component_based_decomposition.md"
   ]
 }
