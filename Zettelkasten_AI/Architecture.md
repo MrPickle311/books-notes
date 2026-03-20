@@ -41,12 +41,16 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Sysops Squad ADR. Choosing the Approach]]
 * [[Tips for Architectural Decomposition]]
 
-## Chapter 5-6: Decomposition Patterns
-* [[Architectural Decomposition Strategies]]
-* [[Distance from the Main Sequence]]
-* [[Tackling the Big Ball of Mud with Tactical Forking]]
-* [[Component-Based Decomposition Patterns]]
-* [[Flattening Components]]
+## Chapter 5: Component-Based Decomposition Patterns
+* [[Component-Based Decomposition Roadmap]]
+* [[Architecture Stories]]
+* [[Identify and Size Components Pattern]]
+* [[Gather Common Domain Components Pattern]]
+* [[Flatten Components Pattern]]
+* [[Determine Component Dependencies Pattern]]
+* [[Create Component Domains Pattern]]
+* [[Create Domain Services Pattern]]
+* [[Tips for Component-Based Decomposition]]
 * [[Data Disintegrators vs Integrators]]
 * [[The 5-Step Database Decomposition Process]]
 * [[Polyglot Persistence]]

@@ -1,6 +1,18 @@
 {
 	"nodes":[
 		{
+			"id":"component_decomposition_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":2500,
+			"width":2000,
+			"height":1900,
+			"label":"Component Decomposition Patterns"
+		},
+		{
 			"id":"decomposition_group",
 			"type":"group",
 			"styleAttributes":{
@@ -47,7 +59,15 @@
 		{"id":"c2_5","type":"file","file":"Tips for Discerning Coupling.md","x":-1480,"y":1590,"width":855,"height":480},
 		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-980,"y":890,"width":640,"height":600},
 		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":-220,"y":1180,"width":560,"height":540},
-		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":-220,"y":1780,"width":560,"height":580}
+		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":-220,"y":1780,"width":560,"height":580},
+		{"id":"c5_1","type":"file","file":"Component-Based Decomposition Roadmap.md","x":1300,"y":2550,"width":600,"height":500},
+		{"id":"c5_4","type":"file","file":"Gather Common Domain Components Pattern.md","x":1300,"y":3200,"width":600,"height":500},
+		{"id":"c5_5","type":"file","file":"Flatten Components Pattern.md","x":1950,"y":3200,"width":600,"height":500},
+		{"id":"c5_6","type":"file","file":"Determine Component Dependencies Pattern.md","x":2600,"y":3200,"width":600,"height":500},
+		{"id":"c5_7","type":"file","file":"Create Component Domains Pattern.md","x":1300,"y":3850,"width":600,"height":500},
+		{"id":"c5_8","type":"file","file":"Create Domain Services Pattern.md","x":1950,"y":3850,"width":600,"height":500},
+		{"id":"c5_9","type":"file","file":"Tips for Component-Based Decomposition.md","x":2600,"y":3850,"width":600,"height":500},
+		{"id":"c5_3","type":"file","file":"Identify and Size Components Pattern.md","x":1950,"y":2550,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -59,7 +79,8 @@
 		{"id":"76ba8250d7f9f6bc","fromNode":"root","fromSide":"bottom","toNode":"d6919865161b3aae","toSide":"top"},
 		{"id":"e6be10506b8176be","fromNode":"root","fromSide":"bottom","toNode":"38ec717ba0b67e2b","toSide":"top"},
 		{"id":"e_root_c3","fromNode":"root","fromSide":"right","toNode":"modularity_group","toSide":"left"},
-		{"id":"e_root_c4","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"decomposition_group","toSide":"left"}
+		{"id":"e_root_c4","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"decomposition_group","toSide":"left"},
+		{"id":"e_root_c5","fromNode":"root","fromSide":"right","toNode":"component_decomposition_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 1968.599784382046,
-                  "y": 1364.9806512014923,
-                  "zoom": -1.4403982093907644
+                  "x": 2083.9320947684723,
+                  "y": 3322.8535562141396,
+                  "zoom": -0.6403982093907644
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -87,8 +87,7 @@
               "title": "Navigator"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -199,6 +198,15 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Tips for Component-Based Decomposition.md",
+    "Create Domain Services Pattern.md",
+    "Create Component Domains Pattern.md",
+    "Determine Component Dependencies Pattern.md",
+    "Flatten Components Pattern.md",
+    "Gather Common Domain Components Pattern.md",
+    "Identify and Size Components Pattern.md",
+    "Architecture Stories.md",
+    "Component-Based Decomposition Roadmap.md",
     "Tips for Architectural Decomposition.md",
     "Sysops Squad ADR. Choosing the Approach.md",
     "Tactical Forking.md",
@@ -230,16 +238,7 @@
     "The Importance of Data in Architecture.md",
     "Tips for architectural best practices.md",
     "Tips for Discerning Coupling.md",
-    "Architecture Quantum.md",
-    "Architecture.md",
-    "Sample Architectural Problem.md",
-    "Dynamic Coupling. Runtime Communication.md",
-    "Automated Governance. Architecture Fitness Functions.md",
-    "chapter1_what_happens_when_there_are_no_best_practices_summary.md",
-    "figure-3-1.png.md",
     "images",
-    "Documenting Decisions. Architecture Decision Records (ADRs).md",
-    "Flattening Components.md",
     "Untitled 1.canvas"
   ]
 }
