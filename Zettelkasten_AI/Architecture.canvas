@@ -1,29 +1,28 @@
 {
 	"nodes":[
+		{"id":"d6919865161b3aae","type":"group","x":-1620,"y":1330,"width":1440,"height":1290,"label":"Coupling"},
+		{"id":"38ec717ba0b67e2b","type":"group","x":0,"y":2120,"width":600,"height":1260,"label":"Architectural decisions"},
 		{"id":"root","type":"file","file":"Architecture.md","x":0,"y":300,"width":300,"height":400},
 		{"id":"c2_1","type":"file","file":"The Entanglement Problem.md","x":-770,"y":-300,"width":570,"height":500},
 		{"id":"c2_2","type":"file","file":"Architecture Quantum.md","x":-770,"y":250,"width":570,"height":450},
-		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-770,"y":750,"width":570,"height":500},
 		{"id":"c1_1","type":"file","file":"The Architect's Dilemma. No \"Best Practices\".md","x":500,"y":-300,"width":560,"height":500},
-		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-770,"y":1350,"width":570,"height":530},
-		{"id":"c2_5","type":"file","file":"Tips for Discerning Coupling.md","x":-770,"y":1980,"width":570,"height":620},
 		{"id":"c1_2","type":"file","file":"The Importance of Data in Architecture.md","x":500,"y":300,"width":560,"height":560},
-		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":500,"y":940,"width":560,"height":540},
-		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":500,"y":1580,"width":560,"height":580},
-		{"id":"c1_5","type":"file","file":"Sample Architectural Problem.md","x":500,"y":2240,"width":560,"height":490},
-		{"id":"c1_6","type":"file","file":"Tips for architectural best practices.md","x":500,"y":2800,"width":560,"height":520}
+		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-1560,"y":1380,"width":660,"height":600},
+		{"id":"c2_5","type":"file","file":"Tips for Discerning Coupling.md","x":-1340,"y":2080,"width":855,"height":480},
+		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-840,"y":1380,"width":640,"height":600},
+		{"id":"c1_5","type":"file","file":"Sample Architectural Problem.md","x":500,"y":900,"width":560,"height":490},
+		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":20,"y":2780,"width":560,"height":580},
+		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":20,"y":2180,"width":560,"height":540},
+		{"id":"c1_6","type":"file","file":"Tips for architectural best practices.md","x":500,"y":-920,"width":560,"height":520}
 	],
 	"edges":[
 		{"id":"e_c1_1","fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
 		{"id":"e_c1_2","fromNode":"root","fromSide":"right","toNode":"c1_2","toSide":"left"},
-		{"id":"e_c1_3","fromNode":"root","fromSide":"right","toNode":"c1_3","toSide":"left"},
-		{"id":"e_c1_4","fromNode":"root","fromSide":"right","toNode":"c1_4","toSide":"left"},
 		{"id":"e_c1_5","fromNode":"root","fromSide":"right","toNode":"c1_5","toSide":"left"},
 		{"id":"e_c1_6","fromNode":"root","fromSide":"right","toNode":"c1_6","toSide":"left"},
 		{"id":"e_c2_1","fromNode":"root","fromSide":"left","toNode":"c2_1","toSide":"right"},
 		{"id":"e_c2_2","fromNode":"root","fromSide":"left","toNode":"c2_2","toSide":"right"},
-		{"id":"e_c2_3","fromNode":"root","fromSide":"left","toNode":"c2_3","toSide":"right"},
-		{"id":"e_c2_4","fromNode":"root","fromSide":"left","toNode":"c2_4","toSide":"right"},
-		{"id":"e_c2_5","fromNode":"root","fromSide":"left","toNode":"c2_5","toSide":"right"}
+		{"id":"76ba8250d7f9f6bc","fromNode":"root","fromSide":"bottom","toNode":"d6919865161b3aae","toSide":"top"},
+		{"id":"e6be10506b8176be","fromNode":"root","fromSide":"bottom","toNode":"38ec717ba0b67e2b","toSide":"top"}
 	]
 }

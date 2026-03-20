@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 354.8896667846326,
-                  "y": 1540.460089185367,
-                  "zoom": -1.2000000000000002
+                  "x": 439.2792256437697,
+                  "y": 2054.0033988539626,
+                  "zoom": -1.6
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -97,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "The Entanglement Problem.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -107,7 +107,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Architecture"
+              "title": "Backlinks for The Entanglement Problem"
             }
           },
           {
@@ -116,12 +116,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "The Entanglement Problem.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Architecture"
+              "title": "Outgoing links from The Entanglement Problem"
             }
           },
           {
@@ -159,13 +159,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "The Entanglement Problem.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Architecture"
+              "title": "Outline of The Entanglement Problem"
             }
           }
         ]
@@ -188,8 +188,18 @@
   },
   "active": "43910c22b2f834f0",
   "lastOpenFiles": [
-    "Static Coupling. The Wiring.md",
     "Architecture.canvas",
+    "images/figure-15-12.png",
+    "images/figure-15-11.png",
+    "images/figure-15-10.png",
+    "images/figure-15-9.png",
+    "images/figure-15-8.png",
+    "images/figure-15-7.png",
+    "images/figure-15-6.png",
+    "images/figure-15-5.png",
+    "images/figure-15-4.png",
+    "images/figure-15-3.png",
+    "Static Coupling. The Wiring.md",
     "The Architect's Dilemma. No \"Best Practices\".md",
     "The Entanglement Problem.md",
     "The Importance of Data in Architecture.md",
@@ -203,11 +213,7 @@
     "Automated Governance. Architecture Fitness Functions.md",
     "2026-03-20.md",
     "chapter1_what_happens_when_there_are_no_best_practices_summary.md",
-    "images/figure-1-2.png",
-    "images/figure-2-13.png",
-    "images/figure-2-12.png",
     "figure-3-1.png.md",
-    "images/figure-1-1.png",
     "images",
     "Documenting Decisions. Architecture Decision Records (ADRs).md",
     "Flattening Components.md",
@@ -220,12 +226,6 @@
     "is_the_code_base_decomposable.md",
     "the_drivers_for_modularity.md",
     "static_coupling_the_wiring.md",
-    "Orchestration vs Choreography.md",
-    "images/figure-2-11.png",
-    "images/figure-2-10.png",
-    "images/figure-2-9.png",
-    "images/figure-2-8.png",
-    "images/figure-2-7.png",
-    "images/figure-2-6.png"
+    "Orchestration vs Choreography.md"
   ]
 }
