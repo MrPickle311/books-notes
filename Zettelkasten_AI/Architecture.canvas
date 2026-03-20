@@ -24,6 +24,18 @@
 			"height":1300,
 			"label":"Decomposition"
 		},
+		{
+			"id":"operational_data_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":4580,
+			"width":2000,
+			"height":1300,
+			"label":"Databases choice, integration & desintegration"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -67,7 +79,12 @@
 		{"id":"c5_7","type":"file","file":"Create Component Domains Pattern.md","x":1300,"y":3850,"width":600,"height":500},
 		{"id":"c5_8","type":"file","file":"Create Domain Services Pattern.md","x":1950,"y":3850,"width":600,"height":500},
 		{"id":"c5_9","type":"file","file":"Tips for Component-Based Decomposition.md","x":2600,"y":3850,"width":600,"height":500},
-		{"id":"c5_3","type":"file","file":"Identify and Size Components Pattern.md","x":1950,"y":2550,"width":600,"height":500}
+		{"id":"c5_3","type":"file","file":"Identify and Size Components Pattern.md","x":1950,"y":2550,"width":600,"height":500},
+		{"id":"c6_1","type":"file","file":"Data Disintegrators vs Integrators.md","x":1300,"y":4630,"width":600,"height":500},
+		{"id":"c6_2","type":"file","file":"The 5-Step Database Decomposition Process.md","x":1950,"y":4630,"width":600,"height":500},
+		{"id":"c6_3","type":"file","file":"Polyglot Persistence.md","x":2600,"y":4630,"width":600,"height":500},
+		{"id":"c6_4","type":"file","file":"Sysops Squad Saga. Polyglot Databases.md","x":1300,"y":5280,"width":600,"height":500},
+		{"id":"c6_5","type":"file","file":"Tips for Pulling Apart Operational Data.md","x":1950,"y":5280,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -80,7 +97,8 @@
 		{"id":"e6be10506b8176be","fromNode":"root","fromSide":"bottom","toNode":"38ec717ba0b67e2b","toSide":"top"},
 		{"id":"e_root_c3","fromNode":"root","fromSide":"right","toNode":"modularity_group","toSide":"left"},
 		{"id":"e_root_c4","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"decomposition_group","toSide":"left"},
-		{"id":"e_root_c5","fromNode":"root","fromSide":"right","toNode":"component_decomposition_group","toSide":"left"}
+		{"id":"e_root_c5","fromNode":"root","fromSide":"right","toNode":"component_decomposition_group","toSide":"left"},
+		{"id":"e_root_c6","fromNode":"root","fromSide":"right","toNode":"operational_data_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

@@ -51,9 +51,12 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Create Component Domains Pattern]]
 * [[Create Domain Services Pattern]]
 * [[Tips for Component-Based Decomposition]]
+## Chapter 6: Pulling Apart Operational Data
 * [[Data Disintegrators vs Integrators]]
 * [[The 5-Step Database Decomposition Process]]
 * [[Polyglot Persistence]]
+* [[Sysops Squad Saga. Polyglot Databases]]
+* [[Tips for Pulling Apart Operational Data]]
 
 ## Chapter 7-9: Granularity and Data Ownership
 * [[Modularity vs Granularity]]

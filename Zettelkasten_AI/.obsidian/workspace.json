@@ -16,7 +16,7 @@
                 "file": "Architecture.canvas",
                 "viewState": {
                   "x": 2083.9320947684723,
-                  "y": 3322.8535562141396,
+                  "y": 4714.5138995585285,
                   "zoom": -0.6403982093907644
                 }
               },
@@ -198,6 +198,11 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Tips for Pulling Apart Operational Data.md",
+    "Sysops Squad Saga. Polyglot Databases.md",
+    "Polyglot Persistence.md",
+    "The 5-Step Database Decomposition Process.md",
+    "Data Disintegrators vs Integrators.md",
     "Tips for Component-Based Decomposition.md",
     "Create Domain Services Pattern.md",
     "Create Component Domains Pattern.md",
@@ -233,11 +238,6 @@
     "Tips for Architectural Modularity.md",
     "Why Modularity Matters. Making the Business Case.md",
     "Static Coupling. The Wiring.md",
-    "The Architect's Dilemma. No \"Best Practices\".md",
-    "The Entanglement Problem.md",
-    "The Importance of Data in Architecture.md",
-    "Tips for architectural best practices.md",
-    "Tips for Discerning Coupling.md",
     "images",
     "Untitled 1.canvas"
   ]
