@@ -39,6 +39,19 @@
 			"label":"Trade-off Analysis"
 		},
 		{
+			"id":"dia_ch2_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":-80,
+			"width":2700,
+			"height":1300,
+			"color":"4",
+			"label":"Data-Intensive Applications: Ch2 Nonfunctional Requirements"
+		},
+		{
 			"id":"decomposition_group",
 			"type":"group",
 			"styleAttributes":{
@@ -476,7 +489,13 @@
 		{"id":"dia_ch1_9","type":"file","file":"data_intensive_applications/Data Systems Law and Society.md","x":8160,"y":-3030,"width":600,"height":500},
 		{"id":"dia_ch1_4","type":"file","file":"data_intensive_applications/Systems of Record and Derived Data.md","x":8920,"y":-3030,"width":600,"height":500},
 		{"id":"dia_ch1_5","type":"file","file":"data_intensive_applications/Cloud Versus Self-Hosting.md","x":9440,"y":-2380,"width":600,"height":500},
-		{"id":"dia_ch1_6","type":"file","file":"data_intensive_applications/Cloud-Native System Architecture.md","x":9440,"y":-1680,"width":600,"height":500}
+		{"id":"dia_ch1_6","type":"file","file":"data_intensive_applications/Cloud-Native System Architecture.md","x":9440,"y":-1680,"width":600,"height":500},
+		{"id":"dia_ch2_1","type":"file","file":"data_intensive_applications/Functional vs Nonfunctional Requirements.md","x":7690,"y":-30,"width":600,"height":500},
+		{"id":"dia_ch2_2","type":"file","file":"data_intensive_applications/Social Network Timelines Case Study.md","x":8340,"y":-30,"width":600,"height":500},
+		{"id":"dia_ch2_3","type":"file","file":"data_intensive_applications/Describing Performance.md","x":8990,"y":-30,"width":600,"height":500},
+		{"id":"dia_ch2_4","type":"file","file":"data_intensive_applications/Reliability and Fault Tolerance.md","x":7690,"y":620,"width":600,"height":500},
+		{"id":"dia_ch2_5","type":"file","file":"data_intensive_applications/Scalability.md","x":8340,"y":620,"width":600,"height":500},
+		{"id":"dia_ch2_6","type":"file","file":"data_intensive_applications/Maintainability.md","x":8990,"y":620,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -676,7 +695,8 @@
 			"fromSide":"bottom",
 			"toNode":"dia_ch1_6",
 			"toSide":"top"
-		}
+		},
+		{"id":"e_dia_ch1_ch2","fromNode":"dia_group","fromSide":"bottom","toNode":"dia_ch2_group","toSide":"top"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

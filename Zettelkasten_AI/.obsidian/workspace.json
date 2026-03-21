@@ -15,8 +15,8 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 10201.67424649377,
-                  "y": -1475.990044906417,
+                  "x": 8979.539706812508,
+                  "y": -331.9441378270945,
                   "zoom": -2.8000000000000003
                 }
               },
@@ -200,6 +200,12 @@
   },
   "active": "f77e7eae0d55cd5e",
   "lastOpenFiles": [
+    "data_intensive_applications/Maintainability.md",
+    "data_intensive_applications/Scalability.md",
+    "data_intensive_applications/Reliability and Fault Tolerance.md",
+    "data_intensive_applications/Describing Performance.md",
+    "data_intensive_applications/Social Network Timelines Case Study.md",
+    "data_intensive_applications/Functional vs Nonfunctional Requirements.md",
     "data_intensive_applications/Data Intensive Applications.canvas",
     "data_intensive_applications/Tips for Data Systems Architecture.md",
     "data_intensive_applications/Data Systems Law and Society.md",
@@ -235,11 +241,6 @@
     "Avoiding Snake Oil and Evangelism.md",
     "Prefer Bottom Line over Overwhelming Evidence.md",
     "Model Relevant Domain Cases.md",
-    "The Out of Context Trap.md",
-    "MECE Lists.md",
-    "Qualitative vs Quantitative Analysis.md",
-    "Three-Step Process for Trade-Off Analysis.md",
-    "Tips for Managing Analytical Data.md",
     "Untitled.canvas",
     "Tags",
     "images/architecture_the_hard_parts",

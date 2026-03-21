@@ -10,7 +10,7 @@ status: pending
 This section discusses the "build vs. buy" decision for software and infrastructure.
 
 *   **Description**: This diagram shows a spectrum of choices for software development and operations. At one end is fully bespoke software, written and run in-house. At the other end are SaaS products, where both development and operations are handled by a vendor. In the middle lies off-the-shelf software (like open-source databases) that a company chooses to self-host.
-![Figure 1-2: A spectrum of types of software and its operations.](figure-1-2.png)
+![Figure 1-2: A spectrum of types of software and its operations.](data_intensive_applications/figure-1-2.png)
 
 #### Pros and Cons of Cloud Services
 *   **Pros:**

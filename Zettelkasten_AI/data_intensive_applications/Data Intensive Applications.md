@@ -20,3 +20,11 @@ status: moc
 * [[Microservices and Serverless]]
 * [[Data Systems Law and Society]]
 * [[Tips for Data Systems Architecture]]
+
+## Chapter 2: Defining Nonfunctional Requirements
+* [[Functional vs Nonfunctional Requirements]]
+* [[Social Network Timelines Case Study]]
+* [[Describing Performance]]
+* [[Reliability and Fault Tolerance]]
+* [[Scalability]]
+* [[Maintainability]]
