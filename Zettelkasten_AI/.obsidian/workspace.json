@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 8450.507159682495,
-                  "y": 1964.0723727138989,
-                  "zoom": -1.2000000000000006
+                  "x": 5330.8798165802455,
+                  "y": 4530.714331916539,
+                  "zoom": -3.2
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data_intensive_applications/Event Sourcing and CQRS.md",
+                "file": "Architecture.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Event Sourcing and CQRS"
+              "title": "Backlinks for Architecture"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data_intensive_applications/Event Sourcing and CQRS.md",
+                "file": "Architecture.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Event Sourcing and CQRS"
+              "title": "Outgoing links from Architecture"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "data_intensive_applications/Event Sourcing and CQRS.md",
+                "file": "Architecture.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Event Sourcing and CQRS"
+              "title": "Outline of Architecture"
             }
           }
         ]
@@ -200,6 +200,14 @@
   },
   "active": "f77e7eae0d55cd5e",
   "lastOpenFiles": [
+    "data_intensive_applications/Vector Embeddings and Semantic Search.md",
+    "data_intensive_applications/Multidimensional and Full-Text Indexes.md",
+    "data_intensive_applications/Query Execution and Materialized Views.md",
+    "data_intensive_applications/Secondary Indexes and In-Memory Databases.md",
+    "data_intensive_applications/Column-Oriented Storage.md",
+    "data_intensive_applications/Comparing B-Trees and LSM-Trees.md",
+    "data_intensive_applications/B-Trees.md",
+    "data_intensive_applications/Log-Structured Storage.md",
     "data_intensive_applications/Event Sourcing and CQRS.md",
     "data_intensive_applications/Data Warehousing Schemas.md",
     "data_intensive_applications/Query Languages for Data.md",
@@ -219,14 +227,7 @@
     "data_intensive_applications/Microservices and Serverless.md",
     "data_intensive_applications/Distributed Versus Single-Node Systems.md",
     "data_intensive_applications/Cloud-Native System Architecture.md",
-    "data_intensive_applications/Cloud Versus Self-Hosting.md",
-    "data_intensive_applications/Systems of Record and Derived Data.md",
-    "data_intensive_applications/Data Warehousing and Data Lakes.md",
-    "data_intensive_applications/Operational Versus Analytical Systems.md",
-    "data_intensive_applications/Data-Intensive Applications Building Blocks.md",
-    "data_intensive_applications/Data Intensive Applications.md",
     "data_intensive_applications",
-    "architecture_the_hards_parts/Operational Versus Analytical Systems.md",
     "images/data_intensive_applications/figure-13-2.png",
     "images/data_intensive_applications/figure-13-1.png",
     "images/data_intensive_applications/figure-12-8.png",
@@ -239,7 +240,6 @@
     "images/data_intensive_applications/figure-12-1.png",
     "images/data_intensive_applications",
     "Architecture.canvas",
-    "images/architecture_the_hard_parts/Architecture Quantum.md",
     "architecture_the_hards_parts",
     "Untitled.canvas",
     "Tags",

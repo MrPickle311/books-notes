@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"f6875e71952b0f2c","type":"group","x":2540,"y":3800,"width":4520,"height":3280,"color":"6","label":"Distributed"},
+		{"id":"f6875e71952b0f2c","type":"group","x":2540,"y":3670,"width":4520,"height":3410,"color":"6","label":"Distributed"},
 		{
 			"id":"dia_group",
 			"type":"group",
@@ -13,6 +13,19 @@
 			"height":2600,
 			"color":"4",
 			"label":"Data-Intensive Applications: Ch1 Trade-offs"
+		},
+		{
+			"id":"dia_ch4_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":3120,
+			"width":3350,
+			"height":1300,
+			"color":"4",
+			"label":"Storage & Retrieval"
 		},
 		{
 			"id":"component_decomposition_group",
@@ -39,19 +52,6 @@
 			"label":"Trade-off Analysis"
 		},
 		{
-			"id":"dia_ch2_group",
-			"type":"group",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":7640,
-			"y":-80,
-			"width":2700,
-			"height":1300,
-			"color":"4",
-			"label":"Data-Intensive Applications: Ch2 Nonfunctional Requirements"
-		},
-		{
 			"id":"dia_ch3_group",
 			"type":"group",
 			"styleAttributes":{
@@ -61,7 +61,21 @@
 			"y":1520,
 			"width":2700,
 			"height":1300,
+			"color":"4",
 			"label":"Data Models & Query Languages"
+		},
+		{
+			"id":"dia_ch2_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":-80,
+			"width":2100,
+			"height":1300,
+			"color":"4",
+			"label":"Nonfunctional Requirements"
 		},
 		{
 			"id":"decomposition_group",
@@ -514,7 +528,15 @@
 		{"id":"dia_ch3_4","type":"file","file":"data_intensive_applications/Graph-Like Data Models.md","x":7690,"y":2220,"width":600,"height":500},
 		{"id":"dia_ch3_6","type":"file","file":"data_intensive_applications/Data Warehousing Schemas.md","x":8990,"y":2220,"width":600,"height":500},
 		{"id":"dia_ch3_7","type":"file","file":"data_intensive_applications/Event Sourcing and CQRS.md","x":9640,"y":1570,"width":600,"height":500},
-		{"id":"dia_ch3_5","type":"file","file":"data_intensive_applications/Query Languages for Data.md","x":8340,"y":2220,"width":600,"height":500}
+		{"id":"dia_ch3_5","type":"file","file":"data_intensive_applications/Query Languages for Data.md","x":8340,"y":2220,"width":600,"height":500},
+		{"id":"dia_ch4_1","type":"file","file":"data_intensive_applications/Log-Structured Storage.md","x":7690,"y":3170,"width":600,"height":500},
+		{"id":"dia_ch4_2","type":"file","file":"data_intensive_applications/B-Trees.md","x":8340,"y":3170,"width":600,"height":500},
+		{"id":"dia_ch4_3","type":"file","file":"data_intensive_applications/Comparing B-Trees and LSM-Trees.md","x":8990,"y":3170,"width":600,"height":500},
+		{"id":"dia_ch4_4","type":"file","file":"data_intensive_applications/Column-Oriented Storage.md","x":9640,"y":3170,"width":600,"height":500},
+		{"id":"dia_ch4_5","type":"file","file":"data_intensive_applications/Secondary Indexes and In-Memory Databases.md","x":7690,"y":3820,"width":600,"height":500},
+		{"id":"dia_ch4_6","type":"file","file":"data_intensive_applications/Query Execution and Materialized Views.md","x":8340,"y":3820,"width":600,"height":500},
+		{"id":"dia_ch4_7","type":"file","file":"data_intensive_applications/Multidimensional and Full-Text Indexes.md","x":8990,"y":3820,"width":600,"height":500},
+		{"id":"dia_ch4_8","type":"file","file":"data_intensive_applications/Vector Embeddings and Semantic Search.md","x":9640,"y":3820,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -764,6 +786,74 @@
 			"fromSide":"left",
 			"toNode":"dia_ch3_2",
 			"toSide":"right"
+		},
+		{
+			"id":"44a7c892e6f05762",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch2_1",
+			"fromSide":"top",
+			"toNode":"dia_ch2_3",
+			"toSide":"top"
+		},
+		{
+			"id":"f5affc4beef7412d",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch3_5",
+			"fromSide":"left",
+			"toNode":"c6_3",
+			"toSide":"right"
+		},
+		{"id":"e_dia_ch3_ch4","fromNode":"dia_ch3_group","fromSide":"bottom","toNode":"dia_ch4_group","toSide":"top"},
+		{
+			"id":"f8b9ed566e5a4ef9",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"c6_3",
+			"fromSide":"right",
+			"toNode":"dia_ch4_4",
+			"toSide":"top",
+			"label":"columnar storage"
+		},
+		{
+			"id":"31a63a0ace91c5b4",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"c9_3",
+			"fromSide":"right",
+			"toNode":"dia_ch3_1",
+			"toSide":"left",
+			"label":"DB models and DB consistency"
+		},
+		{
+			"id":"470ef15ba3ee58ac",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c9_4",
+			"fromSide":"right",
+			"toNode":"c11_2",
+			"toSide":"top"
+		},
+		{
+			"id":"0ca888cc700d8d3f",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c8_4",
+			"fromSide":"right",
+			"toNode":"f6875e71952b0f2c",
+			"toSide":"left"
+		},
+		{
+			"id":"c8d3718d33975c45",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c13_3",
+			"fromSide":"top",
+			"toNode":"d6919865161b3aae",
+			"toSide":"bottom"
 		}
 	],
 	"metadata":{

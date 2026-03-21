@@ -37,3 +37,13 @@ status: moc
 * [[Query Languages for Data]]
 * [[Data Warehousing Schemas]]
 * [[Event Sourcing and CQRS]]
+
+## Chapter 4: Storage and Retrieval
+* [[Log-Structured Storage]]
+* [[B-Trees]]
+* [[Comparing B-Trees and LSM-Trees]]
+* [[Column-Oriented Storage]]
+* [[Secondary Indexes and In-Memory Databases]]
+* [[Query Execution and Materialized Views]]
+* [[Multidimensional and Full-Text Indexes]]
+* [[Vector Embeddings and Semantic Search]]
