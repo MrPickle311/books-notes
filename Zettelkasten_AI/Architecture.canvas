@@ -563,10 +563,10 @@
 		{"id":"dia_ch5_6","type":"file","file":"data_intensive_applications/Durable Execution and Workflows.md","x":8340,"y":6340,"width":600,"height":500},
 		{"id":"dia_ch5_7","type":"file","file":"data_intensive_applications/Event-Driven Architectures.md","x":8990,"y":6340,"width":600,"height":500},
 		{"id":"dia_ch5_5","type":"file","file":"data_intensive_applications/Dataflow Through Services.md","x":9640,"y":6340,"width":600,"height":500},
-		{"id":"b688a9a87f5f03d4","type":"file","file":"data_intensive_applications/Modes of Dataflow.md","x":10500,"y":6460,"width":400,"height":400},
-		{"id":"8ab869670d6d1513","type":"file","file":"data_intensive_applications/Load Balancers, Service Discovery, and Service Meshes.md","x":10600,"y":6140,"width":400,"height":400},
-		{"id":"3696c30361900c83","type":"file","file":"data_intensive_applications/Data Encoding and Evolution for RPC and Services.md","x":8000,"y":6560,"width":400,"height":400},
-		{"id":"aff7e89108ba5f98","type":"file","file":"data_intensive_applications/Advantages of Schemas.md","x":7960,"y":6340,"width":400,"height":400}
+		{"id":"8ab869670d6d1513","type":"file","file":"data_intensive_applications/Load Balancers, Service Discovery, and Service Meshes.md","x":7760,"y":7040,"width":580,"height":560},
+		{"id":"b688a9a87f5f03d4","type":"file","file":"data_intensive_applications/Modes of Dataflow.md","x":10360,"y":6020,"width":550,"height":520},
+		{"id":"3696c30361900c83","type":"file","file":"data_intensive_applications/Data Encoding and Evolution for RPC and Services.md","x":7690,"y":6390,"width":600,"height":450},
+		{"id":"aff7e89108ba5f98","type":"file","file":"data_intensive_applications/Advantages of Schemas.md","x":8400,"y":7040,"width":640,"height":520}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1017,6 +1017,78 @@
 			"fromSide":"right",
 			"toNode":"dia_ch5_7",
 			"toSide":"left"
+		},
+		{
+			"id":"33cfb1f395794948",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"b688a9a87f5f03d4",
+			"fromSide":"left",
+			"toNode":"dia_ch5_4",
+			"toSide":"right"
+		},
+		{
+			"id":"e26e00862913cb4f",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"b688a9a87f5f03d4",
+			"fromSide":"left",
+			"toNode":"dia_ch5_5",
+			"toSide":"right"
+		},
+		{
+			"id":"82f34190be405b69",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"3696c30361900c83",
+			"fromSide":"top",
+			"toNode":"dia_ch5_2",
+			"toSide":"bottom"
+		},
+		{
+			"id":"cbe71654756f4678",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"3696c30361900c83",
+			"fromSide":"top",
+			"toNode":"dia_ch5_3",
+			"toSide":"bottom"
+		},
+		{
+			"id":"70c8e76ac7fbf8be",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"aff7e89108ba5f98",
+			"fromSide":"top",
+			"toNode":"dia_ch5_1",
+			"toSide":"left"
+		},
+		{
+			"id":"57a66167b6068768",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c14_2",
+			"fromSide":"right",
+			"toNode":"8ab869670d6d1513",
+			"toSide":"left"
+		},
+		{
+			"id":"60fa3a14bcbb29af",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"8ab869670d6d1513",
+			"fromSide":"left",
+			"toNode":"c14_4",
+			"toSide":"bottom"
+		},
+		{
+			"id":"d6a9f4fcecf910e7",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c14_4",
+			"fromSide":"top",
+			"toNode":"c14_2",
+			"toSide":"bottom"
 		}
 	],
 	"metadata":{
