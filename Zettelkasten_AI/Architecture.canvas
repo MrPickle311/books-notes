@@ -714,7 +714,36 @@
 		{"id":"dia_ch11_8","type":"file","file":"data_intensive_applications/Handling Faults in Batch.md","x":7690,"y":20300,"width":600,"height":500},
 		{"id":"dia_ch11_9","type":"file","file":"data_intensive_applications/MapReduce.md","x":8340,"y":20300,"width":600,"height":500},
 		{"id":"dia_ch11_10","type":"file","file":"data_intensive_applications/Dataflow Engines.md","x":8990,"y":20300,"width":600,"height":500},
-		{"id":"fc033741b02af935","type":"file","file":"data_intensive_applications/Batch Processing in Distributed Systems.md","x":7690,"y":20880,"width":600,"height":560}
+		{"id":"fc033741b02af935","type":"file","file":"data_intensive_applications/Batch Processing in Distributed Systems.md","x":7690,"y":20880,"width":600,"height":560},
+		{
+			"id":"dia_ch12_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":22000,
+			"width":5900,
+			"height":1300,
+			"color":"5",
+			"label":"Stream Processing"
+		},
+		{"id":"dia_ch12_1","type":"file","file":"data_intensive_applications/The Reality of Unbounded Data.md","x":7690,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_2","type":"file","file":"data_intensive_applications/Transmitting Event Streams.md","x":8340,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_3","type":"file","file":"data_intensive_applications/Messaging Systems.md","x":8990,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_4","type":"file","file":"data_intensive_applications/Direct Messaging.md","x":9640,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_5","type":"file","file":"data_intensive_applications/Message Brokers.md","x":10290,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_6","type":"file","file":"data_intensive_applications/Multiple Consumers and Routing.md","x":10940,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_7","type":"file","file":"data_intensive_applications/Acknowledgments and Redelivery.md","x":11590,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_8","type":"file","file":"data_intensive_applications/Log-based Message Brokers.md","x":12240,"y":22050,"width":600,"height":500},
+		{"id":"dia_ch12_9","type":"file","file":"data_intensive_applications/Databases and Streams.md","x":7690,"y":22700,"width":600,"height":500},
+		{"id":"dia_ch12_10","type":"file","file":"data_intensive_applications/Change Data Capture.md","x":8340,"y":22700,"width":600,"height":500},
+		{"id":"dia_ch12_11","type":"file","file":"data_intensive_applications/CDC vs Event Sourcing.md","x":8990,"y":22700,"width":600,"height":500},
+		{"id":"dia_ch12_12","type":"file","file":"data_intensive_applications/State Streams and Immutability.md","x":9640,"y":22700,"width":600,"height":500},
+		{"id":"dia_ch12_13","type":"file","file":"data_intensive_applications/Processing Streams.md","x":10290,"y":22700,"width":600,"height":500},
+		{"id":"dia_ch12_14","type":"file","file":"data_intensive_applications/Reasoning About Time.md","x":10940,"y":22700,"width":600,"height":500},
+		{"id":"dia_ch12_15","type":"file","file":"data_intensive_applications/Stream Joins.md","x":11590,"y":22700,"width":600,"height":500},
+		{"id":"dia_ch12_16","type":"file","file":"data_intensive_applications/Fault Tolerance in Streams.md","x":12240,"y":22700,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1346,7 +1375,8 @@
 			"color":"6"
 		},
 		{"id":"e_dia_ch9_ch10","fromNode":"dia_ch9_group","fromSide":"bottom","toNode":"dia_ch10_group","toSide":"top"},
-		{"id":"e_dia_ch10_ch11","fromNode":"dia_ch10_group","fromSide":"bottom","toNode":"dia_ch11_group","toSide":"top"}
+		{"id":"e_dia_ch10_ch11","fromNode":"dia_ch10_group","fromSide":"bottom","toNode":"dia_ch11_group","toSide":"top"},
+		{"id":"e_dia_ch11_ch12","fromNode":"dia_ch11_group","fromSide":"bottom","toNode":"dia_ch12_group","toSide":"top"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
