@@ -72,6 +72,18 @@
 			"height":1300,
 			"label":"Data Ownership and Distributed Transactions"
 		},
+		{
+			"id":"data_access_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":10200,
+			"width":2000,
+			"height":1300,
+			"label":"Distributed Data Access"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -137,7 +149,12 @@
 		{"id":"c9_2","type":"file","file":"Techniques for Resolving Joint Ownership.md","x":1950,"y":8850,"width":600,"height":500},
 		{"id":"c9_3","type":"file","file":"Distributed Transactions. ACID vs BASE.md","x":2600,"y":8850,"width":600,"height":500},
 		{"id":"c9_4","type":"file","file":"Eventual Consistency Patterns.md","x":1300,"y":9500,"width":600,"height":500},
-		{"id":"c9_5","type":"file","file":"Sysops Squad Saga. Data Ownership.md","x":1950,"y":9500,"width":600,"height":500}
+		{"id":"c9_5","type":"file","file":"Sysops Squad Saga. Data Ownership.md","x":1950,"y":9500,"width":600,"height":500},
+		{"id":"c10_1","type":"file","file":"Inter-service Communication Pattern.md","x":1300,"y":10250,"width":600,"height":500},
+		{"id":"c10_2","type":"file","file":"Column Schema Replication Pattern.md","x":1950,"y":10250,"width":600,"height":500},
+		{"id":"c10_3","type":"file","file":"Replicated Caching Pattern.md","x":2600,"y":10250,"width":600,"height":500},
+		{"id":"c10_4","type":"file","file":"Data Domain Pattern.md","x":1300,"y":10900,"width":600,"height":500},
+		{"id":"c10_5","type":"file","file":"Sysops Squad Saga. Data Access.md","x":1950,"y":10900,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -154,7 +171,8 @@
 		{"id":"e_root_c6","fromNode":"root","fromSide":"right","toNode":"operational_data_group","toSide":"left"},
 		{"id":"e_root_c7","fromNode":"root","fromSide":"right","toNode":"service_granularity_group","toSide":"left"},
 		{"id":"e_root_c8","fromNode":"root","fromSide":"right","toNode":"reuse_patterns_group","toSide":"left"},
-		{"id":"e_root_c9","fromNode":"root","fromSide":"right","toNode":"data_ownership_group","toSide":"left"}
+		{"id":"e_root_c9","fromNode":"root","fromSide":"right","toNode":"data_ownership_group","toSide":"left"},
+		{"id":"e_root_c10","fromNode":"root","fromSide":"right","toNode":"data_access_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

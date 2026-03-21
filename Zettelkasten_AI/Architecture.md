@@ -80,8 +80,14 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Eventual Consistency Patterns]]
 * [[Sysops Squad Saga. Data Ownership]]
 
-## Chapter 10-12: Distributed Data and Workflows
-* [[Distributed Data Access Patterns]]
+## Chapter 10: Distributed Data Access
+* [[Inter-service Communication Pattern]]
+* [[Column Schema Replication Pattern]]
+* [[Replicated Caching Pattern]]
+* [[Data Domain Pattern]]
+* [[Sysops Squad Saga. Data Access]]
+
+## Chapters 11-12: Distributed Workflows
 * [[Dimensions of Dynamic Coupling]]
 * [[Orchestration vs Choreography]]
 * [[Semantic vs Implementation Coupling]]

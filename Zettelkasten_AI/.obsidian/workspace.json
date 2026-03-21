@@ -16,7 +16,7 @@
                 "file": "Architecture.canvas",
                 "viewState": {
                   "x": 2245.058858823152,
-                  "y": 8077.868397985881,
+                  "y": 9359.815762162574,
                   "zoom": -1.2000000000000006
                 }
               },
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "Eventual Consistency Patterns.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Architecture"
+              "title": "Backlinks for Eventual Consistency Patterns"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "Eventual Consistency Patterns.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Architecture"
+              "title": "Outgoing links from Eventual Consistency Patterns"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "Eventual Consistency Patterns.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Architecture"
+              "title": "Outline of Eventual Consistency Patterns"
             }
           }
         ]
@@ -198,6 +198,11 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Sysops Squad Saga. Data Access.md",
+    "Data Domain Pattern.md",
+    "Replicated Caching Pattern.md",
+    "Column Schema Replication Pattern.md",
+    "Inter-service Communication Pattern.md",
     "Sysops Squad Saga. Data Ownership.md",
     "Eventual Consistency Patterns.md",
     "Distributed Transactions. ACID vs BASE.md",
@@ -220,11 +225,6 @@
     "Tips for Pulling Apart Operational Data.md",
     "Sysops Squad Saga. Polyglot Databases.md",
     "Polyglot Persistence.md",
-    "The 5-Step Database Decomposition Process.md",
-    "Data Disintegrators vs Integrators.md",
-    "Tips for Component-Based Decomposition.md",
-    "Create Domain Services Pattern.md",
-    "Create Component Domains Pattern.md",
     "Untitled.canvas",
     "Tags",
     "images/architecture_the_hard_parts/figure-15-12.png",
