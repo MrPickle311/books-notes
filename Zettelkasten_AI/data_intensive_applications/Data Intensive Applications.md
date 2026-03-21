@@ -56,3 +56,15 @@ status: moc
 * [[Dataflow Through Services]]
 * [[Durable Execution and Workflows]]
 * [[Event-Driven Architectures]]
+
+## Chapter 6: Replication
+* [[Single-Leader Replication]]
+* [[Synchronous vs Asynchronous Replication]]
+* [[Setting Up New Followers]]
+* [[Databases Backed by Object Storage]]
+* [[Handling Node Outages]]
+* [[Implementation of Replication Logs]]
+* [[Problems with Replication Lag]]
+* [[Multi-Leader Replication]]
+* [[Dealing with Conflicting Writes]]
+* [[Leaderless Replication]]
