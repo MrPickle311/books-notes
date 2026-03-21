@@ -87,10 +87,14 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Data Domain Pattern]]
 * [[Sysops Squad Saga. Data Access]]
 
-## Chapters 11-12: Distributed Workflows
+## Chapter 11: Managing Distributed Workflows
 * [[Dimensions of Dynamic Coupling]]
 * [[Orchestration vs Choreography]]
 * [[Semantic vs Implementation Coupling]]
+* [[Workflow State Management in Choreography]]
+* [[Sysops Squad Saga. Managing Workflows]]
+
+## Chapter 12: Transactional Sagas
 * [[Transactional Saga Patterns]]
 * [[Saga State Machines and Compensating Transactions]]
 

@@ -16,7 +16,7 @@
                 "file": "Architecture.canvas",
                 "viewState": {
                   "x": 2245.058858823152,
-                  "y": 9359.815762162574,
+                  "y": 12180.0999633513,
                   "zoom": -1.2000000000000006
                 }
               },
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Eventual Consistency Patterns.md",
+                "file": "Tips for Distributed Workflows.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Eventual Consistency Patterns"
+              "title": "Backlinks for Tips for Distributed Workflows"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Eventual Consistency Patterns.md",
+                "file": "Tips for Distributed Workflows.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Eventual Consistency Patterns"
+              "title": "Outgoing links from Tips for Distributed Workflows"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Eventual Consistency Patterns.md",
+                "file": "Tips for Distributed Workflows.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Eventual Consistency Patterns"
+              "title": "Outline of Tips for Distributed Workflows"
             }
           }
         ]
@@ -198,6 +198,17 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Architecture.canvas",
+    "Tips for Distributed Data Access.md",
+    "Tips for Distributed Workflows.md",
+    "Tips for Distributed Data Access copy.md",
+    "Sysops Squad Sagas - Reuse.md",
+    "Tips for Service Granularity copy.md",
+    "Sysops Squad Saga. Managing Workflows.md",
+    "Workflow State Management in Choreography.md",
+    "Semantic vs Implementation Coupling.md",
+    "Orchestration vs Choreography.md",
+    "Dimensions of Dynamic Coupling.md",
     "Sysops Squad Saga. Data Access.md",
     "Data Domain Pattern.md",
     "Replicated Caching Pattern.md",
@@ -208,23 +219,11 @@
     "Distributed Transactions. ACID vs BASE.md",
     "Techniques for Resolving Joint Ownership.md",
     "Assigning Data Ownership.md",
-    "Architecture.canvas",
-    "Sysops Squad Sagas - Reuse.md",
     "When Does Reuse Add Value copy.md",
     "When Does Reuse Add Value.md",
     "Sidecars and Service Mesh.md",
     "Shared Service.md",
     "Shared Library.md",
-    "Code Replication.md",
-    "Tips for Service Granularity.md",
-    "Sysops Squad Sagas. Granularity.md",
-    "Finding The Right Balance.md",
-    "Granularity Integrators.md",
-    "Granularity Disintegrators.md",
-    "Modularity vs Granularity.md",
-    "Tips for Pulling Apart Operational Data.md",
-    "Sysops Squad Saga. Polyglot Databases.md",
-    "Polyglot Persistence.md",
     "Untitled.canvas",
     "Tags",
     "images/architecture_the_hard_parts/figure-15-12.png",

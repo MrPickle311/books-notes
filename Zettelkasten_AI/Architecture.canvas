@@ -84,6 +84,18 @@
 			"height":1300,
 			"label":"Distributed Data Access"
 		},
+		{
+			"id":"distributed_workflows_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":11600,
+			"width":2000,
+			"height":1300,
+			"label":"Managing Distributed Workflows"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -154,7 +166,14 @@
 		{"id":"c10_2","type":"file","file":"Column Schema Replication Pattern.md","x":1950,"y":10250,"width":600,"height":500},
 		{"id":"c10_3","type":"file","file":"Replicated Caching Pattern.md","x":2600,"y":10250,"width":600,"height":500},
 		{"id":"c10_4","type":"file","file":"Data Domain Pattern.md","x":1300,"y":10900,"width":600,"height":500},
-		{"id":"c10_5","type":"file","file":"Sysops Squad Saga. Data Access.md","x":1950,"y":10900,"width":600,"height":500}
+		{"id":"c10_5","type":"file","file":"Sysops Squad Saga. Data Access.md","x":1950,"y":10900,"width":600,"height":500},
+		{"id":"c11_1","type":"file","file":"Dimensions of Dynamic Coupling.md","x":1300,"y":11650,"width":600,"height":500},
+		{"id":"c11_2","type":"file","file":"Orchestration vs Choreography.md","x":1950,"y":11650,"width":600,"height":500},
+		{"id":"c11_3","type":"file","file":"Semantic vs Implementation Coupling.md","x":2600,"y":11650,"width":600,"height":500},
+		{"id":"c11_4","type":"file","file":"Workflow State Management in Choreography.md","x":1300,"y":12300,"width":600,"height":500},
+		{"id":"c11_5","type":"file","file":"Sysops Squad Saga. Managing Workflows.md","x":1950,"y":12300,"width":600,"height":500},
+		{"id":"f081daa9f8d07310","type":"file","file":"Tips for Distributed Data Access.md","x":2600,"y":10900,"width":600,"height":500},
+		{"id":"29c5755389d227bf","type":"file","file":"Tips for Distributed Workflows.md","x":2600,"y":12300,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -172,7 +191,8 @@
 		{"id":"e_root_c7","fromNode":"root","fromSide":"right","toNode":"service_granularity_group","toSide":"left"},
 		{"id":"e_root_c8","fromNode":"root","fromSide":"right","toNode":"reuse_patterns_group","toSide":"left"},
 		{"id":"e_root_c9","fromNode":"root","fromSide":"right","toNode":"data_ownership_group","toSide":"left"},
-		{"id":"e_root_c10","fromNode":"root","fromSide":"right","toNode":"data_access_group","toSide":"left"}
+		{"id":"e_root_c10","fromNode":"root","fromSide":"right","toNode":"data_access_group","toSide":"left"},
+		{"id":"e_root_c11","fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
