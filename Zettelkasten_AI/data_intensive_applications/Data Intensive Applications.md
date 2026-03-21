@@ -68,3 +68,15 @@ status: moc
 * [[Multi-Leader Replication]]
 * [[Dealing with Conflicting Writes]]
 * [[Leaderless Replication]]
+
+## Chapter 7: Sharding
+* [[Sharding Overview]]
+* [[Pros and Cons of Sharding]]
+* [[Sharding for Multitenancy]]
+* [[Sharding by Key Range]]
+* [[Sharding by Hash of Key]]
+* [[Consistent Hashing]]
+* [[Skewed Workloads and Hot Spots]]
+* [[Automatic or Manual Rebalancing]]
+* [[Request Routing]]
+* [[Sharding and Secondary Indexes]]

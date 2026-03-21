@@ -15,6 +15,19 @@
 			"label":"Data-Intensive Applications: Ch1 Trade-offs"
 		},
 		{
+			"id":"dia_ch7_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":9960,
+			"width":2840,
+			"height":2560,
+			"color":"4",
+			"label":"Sharding"
+		},
+		{
 			"id":"dia_ch4_group",
 			"type":"group",
 			"styleAttributes":{
@@ -589,7 +602,18 @@
 		{"id":"dia_ch6_8","type":"file","file":"data_intensive_applications/Multi-Leader Replication.md","x":8990,"y":8860,"width":600,"height":500},
 		{"id":"3219a44a156092c1","type":"file","file":"data_intensive_applications/Why replicate?.md","x":7690,"y":8210,"width":600,"height":500},
 		{"id":"dia_ch6_10","type":"file","file":"data_intensive_applications/Leaderless Replication.md","x":10290,"y":8860,"width":600,"height":500},
-		{"id":"dia_ch6_1","type":"file","file":"data_intensive_applications/Single-Leader Replication.md","x":9640,"y":8860,"width":600,"height":500}
+		{"id":"dia_ch6_1","type":"file","file":"data_intensive_applications/Single-Leader Replication.md","x":9640,"y":8860,"width":600,"height":500},
+		{"id":"dia_ch7_1","type":"file","file":"data_intensive_applications/Sharding Overview.md","x":7690,"y":10010,"width":600,"height":500},
+		{"id":"dia_ch7_2","type":"file","file":"data_intensive_applications/Pros and Cons of Sharding.md","x":8340,"y":10010,"width":600,"height":500},
+		{"id":"dia_ch7_3","type":"file","file":"data_intensive_applications/Sharding for Multitenancy.md","x":8990,"y":10010,"width":600,"height":500},
+		{"id":"dia_ch7_6","type":"file","file":"data_intensive_applications/Consistent Hashing.md","x":7740,"y":11440,"width":600,"height":500},
+		{"id":"dia_ch7_4","type":"file","file":"data_intensive_applications/Sharding by Key Range.md","x":8440,"y":11440,"width":600,"height":500},
+		{"id":"dia_ch7_5","type":"file","file":"data_intensive_applications/Sharding by Hash of Key.md","x":8440,"y":12000,"width":600,"height":500},
+		{"id":"524c9e94c9224b17","type":"file","file":"data_intensive_applications/Sharding by Hash Range.md","x":7740,"y":12000,"width":600,"height":480},
+		{"id":"dia_ch7_7","type":"file","file":"data_intensive_applications/Skewed Workloads and Hot Spots.md","x":9240,"y":11500,"width":600,"height":500},
+		{"id":"dia_ch7_8","type":"file","file":"data_intensive_applications/Automatic or Manual Rebalancing.md","x":8390,"y":10720,"width":600,"height":500},
+		{"id":"dia_ch7_9","type":"file","file":"data_intensive_applications/Request Routing.md","x":9120,"y":10720,"width":600,"height":500},
+		{"id":"dia_ch7_10","type":"file","file":"data_intensive_applications/Sharding and Secondary Indexes.md","x":9800,"y":10720,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1158,6 +1182,25 @@
 			"fromSide":"left",
 			"toNode":"d6919865161b3aae",
 			"toSide":"right"
+		},
+		{"id":"e_dia_ch6_ch7","fromNode":"dia_ch6_group","fromSide":"bottom","toNode":"dia_ch7_group","toSide":"top"},
+		{
+			"id":"816d5043c85eeca2",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch7_10",
+			"fromSide":"left",
+			"toNode":"dia_ch4_5",
+			"toSide":"bottom"
+		},
+		{
+			"id":"9e6edd4014a740f5",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch7_6",
+			"fromSide":"top",
+			"toNode":"dia_ch7_7",
+			"toSide":"left"
 		}
 	],
 	"metadata":{
