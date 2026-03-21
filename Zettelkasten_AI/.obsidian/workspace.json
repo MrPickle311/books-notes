@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 2245.058858823152,
-                  "y": 15256.773637375365,
-                  "zoom": -1.2000000000000006
+                  "x": 1864.8446335426706,
+                  "y": 16197.061303024606,
+                  "zoom": -1.6000000000000005
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -198,6 +198,15 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Tips for Trade-Off Analysis.md",
+    "Sysops Squad Saga. Trade-off Analysis Epilog.md",
+    "Avoiding Snake Oil and Evangelism.md",
+    "Prefer Bottom Line over Overwhelming Evidence.md",
+    "Model Relevant Domain Cases.md",
+    "The Out of Context Trap.md",
+    "MECE Lists.md",
+    "Qualitative vs Quantitative Analysis.md",
+    "Three-Step Process for Trade-Off Analysis.md",
     "Tips for Managing Analytical Data.md",
     "Sysops Squad Saga. Data Mesh.md",
     "Data Product Quantum.md",
@@ -216,15 +225,6 @@
     "Architecture.canvas",
     "Tips for Distributed Data Access.md",
     "Tips for Distributed Workflows.md",
-    "Tips for Distributed Data Access copy.md",
-    "Sysops Squad Sagas - Reuse.md",
-    "Tips for Service Granularity copy.md",
-    "Sysops Squad Saga. Managing Workflows.md",
-    "Workflow State Management in Choreography.md",
-    "Semantic vs Implementation Coupling.md",
-    "Orchestration vs Choreography.md",
-    "Dimensions of Dynamic Coupling.md",
-    "Sysops Squad Saga. Data Access.md",
     "Untitled.canvas",
     "Tags",
     "images/architecture_the_hard_parts/figure-15-12.png",

@@ -132,6 +132,18 @@
 			"height":1300,
 			"label":"Managing Analytical Data"
 		},
+		{
+			"id":"trade_off_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":17200,
+			"width":2000,
+			"height":1900,
+			"label":"Trade-off Analysis"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -224,7 +236,16 @@
 		{"id":"c14_2","type":"file","file":"The Data Mesh.md","x":1950,"y":15850,"width":600,"height":500},
 		{"id":"c14_3","type":"file","file":"Data Product Quantum.md","x":2600,"y":15850,"width":600,"height":500},
 		{"id":"c14_4","type":"file","file":"Sysops Squad Saga. Data Mesh.md","x":1300,"y":16500,"width":600,"height":500},
-		{"id":"c14_5","type":"file","file":"Tips for Managing Analytical Data.md","x":1950,"y":16500,"width":600,"height":500}
+		{"id":"c14_5","type":"file","file":"Tips for Managing Analytical Data.md","x":1950,"y":16500,"width":600,"height":500},
+		{"id":"c15_1","type":"file","file":"Three-Step Process for Trade-Off Analysis.md","x":1300,"y":17250,"width":600,"height":500},
+		{"id":"c15_2","type":"file","file":"Qualitative vs Quantitative Analysis.md","x":1950,"y":17250,"width":600,"height":500},
+		{"id":"c15_3","type":"file","file":"MECE Lists.md","x":2600,"y":17250,"width":600,"height":500},
+		{"id":"c15_4","type":"file","file":"The Out of Context Trap.md","x":1300,"y":17900,"width":600,"height":500},
+		{"id":"c15_5","type":"file","file":"Model Relevant Domain Cases.md","x":1950,"y":17900,"width":600,"height":500},
+		{"id":"c15_6","type":"file","file":"Prefer Bottom Line over Overwhelming Evidence.md","x":2600,"y":17900,"width":600,"height":500},
+		{"id":"c15_7","type":"file","file":"Avoiding Snake Oil and Evangelism.md","x":1300,"y":18550,"width":600,"height":500},
+		{"id":"c15_8","type":"file","file":"Sysops Squad Saga. Trade-off Analysis Epilog.md","x":1950,"y":18550,"width":600,"height":500},
+		{"id":"c15_9","type":"file","file":"Tips for Trade-Off Analysis.md","x":2600,"y":18550,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -246,7 +267,8 @@
 		{"id":"e_root_c11","fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"},
 		{"id":"e_root_c12","fromNode":"root","fromSide":"right","toNode":"transactional_sagas_group","toSide":"left"},
 		{"id":"e_root_c13","fromNode":"root","fromSide":"right","toNode":"contracts_group","toSide":"left"},
-		{"id":"e_root_c14","fromNode":"root","fromSide":"right","toNode":"analytical_data_group","toSide":"left"}
+		{"id":"e_root_c14","fromNode":"root","fromSide":"right","toNode":"analytical_data_group","toSide":"left"},
+		{"id":"e_root_c15","fromNode":"root","fromSide":"right","toNode":"trade_off_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

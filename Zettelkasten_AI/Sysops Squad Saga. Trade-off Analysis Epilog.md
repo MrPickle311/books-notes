@@ -1,0 +1,15 @@
+---
+aliases:
+tags:
+  - layer4strategy
+  - architecturethehardparts
+source_book: "Architecture: The Hard Parts"
+topic_layer: "Layer 4: Strategy"
+status: pending
+---
+The final saga reinforces the book's central theme. The team recognizes that generic advice is insufficient. The real advantage comes from learning how to perform trade-off analysis on their own specific architecture. By modeling and, critically, **testing** their solutions, they can turn qualitative speculation into quantitative engineering.
+
+> I’ve always said that **Testing is the engineering rigor of software development**. While we don’t have the kind of math other engineers have, we can incrementally build and test our solutions... Testing with objective outcomes allows our trade-off analyses to go from qualitative to quantitative—from speculation to engineering.
+---
+## Related Concepts
+* [[Architecture]]
