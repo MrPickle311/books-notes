@@ -15,6 +15,19 @@
 			"label":"Data-Intensive Applications: Ch1 Trade-offs"
 		},
 		{
+			"id":"dia_ch10_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":17200,
+			"width":4600,
+			"height":1920,
+			"color":"1",
+			"label":"Consistency and Consensus"
+		},
+		{
 			"id":"dia_ch8_group",
 			"type":"group",
 			"styleAttributes":{
@@ -659,7 +672,21 @@
 		{"id":"dia_ch9_8","type":"file","file":"data_intensive_applications/Distributed Locks and Fencing.md","x":8990,"y":16100,"width":600,"height":500},
 		{"id":"dia_ch9_9","type":"file","file":"data_intensive_applications/Byzantine Faults.md","x":9640,"y":16100,"width":600,"height":500},
 		{"id":"dia_ch9_4","type":"file","file":"data_intensive_applications/Unreliable Clocks.md","x":8990,"y":15450,"width":600,"height":500},
-		{"id":"dia_ch9_10","type":"file","file":"data_intensive_applications/System Models and Correctness.md","x":9640,"y":15450,"width":600,"height":500}
+		{"id":"dia_ch9_10","type":"file","file":"data_intensive_applications/System Models and Correctness.md","x":9640,"y":15450,"width":600,"height":500},
+		{"id":"dia_ch10_1","type":"file","file":"data_intensive_applications/Linearizability.md","x":7690,"y":17250,"width":600,"height":500},
+		{"id":"dia_ch10_2","type":"file","file":"data_intensive_applications/Linearizability vs Serializability.md","x":8340,"y":17250,"width":600,"height":500},
+		{"id":"dia_ch10_3","type":"file","file":"data_intensive_applications/Relying on Linearizability.md","x":8990,"y":17250,"width":600,"height":500},
+		{"id":"dia_ch10_4","type":"file","file":"data_intensive_applications/Implementing Linearizable Systems.md","x":9640,"y":17250,"width":600,"height":500},
+		{"id":"dia_ch10_5","type":"file","file":"data_intensive_applications/The Cost of Linearizability.md","x":10290,"y":17250,"width":600,"height":500},
+		{"id":"dia_ch10_6","type":"file","file":"data_intensive_applications/Distributed ID Generators.md","x":10940,"y":17250,"width":600,"height":500},
+		{"id":"dia_ch10_7","type":"file","file":"data_intensive_applications/Logical Clocks.md","x":7690,"y":17900,"width":600,"height":500},
+		{"id":"dia_ch10_8","type":"file","file":"data_intensive_applications/Linearizable ID Generators.md","x":8340,"y":17900,"width":600,"height":500},
+		{"id":"dia_ch10_9","type":"file","file":"data_intensive_applications/Consensus.md","x":8990,"y":17900,"width":600,"height":500},
+		{"id":"dia_ch10_10","type":"file","file":"data_intensive_applications/The Many Faces of Consensus.md","x":9640,"y":17900,"width":600,"height":500},
+		{"id":"dia_ch10_11","type":"file","file":"data_intensive_applications/Coordination Services.md","x":10290,"y":17900,"width":600,"height":500},
+		{"id":"dia_ch10_12","type":"file","file":"data_intensive_applications/The True Cost of Consensus.md","x":10940,"y":17900,"width":600,"height":500},
+		{"id":"9439866d6a3601b6","type":"file","file":"data_intensive_applications/Consistency models.md","x":7690,"y":18480,"width":600,"height":560},
+		{"id":"fb210c8dd8fa0157","type":"file","file":"data_intensive_applications/ID Generators and Logical Clocks.md","x":8340,"y":18480,"width":600,"height":560}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1289,7 +1316,8 @@
 			"toNode":"data_ownership_group",
 			"toSide":"bottom",
 			"color":"6"
-		}
+		},
+		{"id":"e_dia_ch9_ch10","fromNode":"dia_ch9_group","fromSide":"bottom","toNode":"dia_ch10_group","toSide":"top"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

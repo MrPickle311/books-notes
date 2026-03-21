@@ -104,3 +104,17 @@ status: moc
 * [[Distributed Locks and Fencing]]
 * [[Byzantine Faults]]
 * [[System Models and Correctness]]
+
+## Chapter 10: Consistency and Consensus
+* [[Linearizability]]
+* [[Linearizability vs Serializability]]
+* [[Relying on Linearizability]]
+* [[Implementing Linearizable Systems]]
+* [[The Cost of Linearizability]]
+* [[Distributed ID Generators]]
+* [[Logical Clocks]]
+* [[Linearizable ID Generators]]
+* [[Consensus]]
+* [[The Many Faces of Consensus]]
+* [[Coordination Services]]
+* [[The True Cost of Consensus]]
