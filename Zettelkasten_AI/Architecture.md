@@ -101,10 +101,14 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Sysops Squad Saga. Atomic Transactions]]
 * [[Tips for Transactional Sagas]]
 
-## Chapter 13-15: Contracts, Analytics and Trade-offs
+## Chapter 13: Contracts
 * [[Strict vs Loose Contracts]]
 * [[Consumer-Driven Contracts]]
 * [[Stamp Coupling]]
+* [[Sysops Squad Saga. Managing Ticketing Contracts]]
+* [[Tips for Contracts]]
+
+## Chapters 14-15: Analytics and Trade-offs
 * [[Data Warehouse vs Data Lake]]
 * [[The Data Mesh]]
 * [[Data Product Quantum]]
