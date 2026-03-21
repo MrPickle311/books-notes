@@ -1279,7 +1279,17 @@
 			"toSide":"bottom",
 			"color":"4"
 		},
-		{"id":"e_dia_ch8_ch9","toFloating":false,"fromNode":"dia_ch8_group","fromSide":"bottom","toNode":"dia_ch9_group","toSide":"top"}
+		{"id":"e_dia_ch8_ch9","toFloating":false,"fromNode":"dia_ch8_group","fromSide":"bottom","toNode":"dia_ch9_group","toSide":"top"},
+		{
+			"id":"434e507809fb3961",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch9_8",
+			"fromSide":"left",
+			"toNode":"data_ownership_group",
+			"toSide":"bottom",
+			"color":"6"
+		}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
