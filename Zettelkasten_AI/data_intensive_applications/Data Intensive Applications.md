@@ -28,3 +28,12 @@ status: moc
 * [[Reliability and Fault Tolerance]]
 * [[Scalability]]
 * [[Maintainability]]
+
+## Chapter 3: Data Models and Query Languages
+* [[Relational Model vs Document Model]]
+* [[Schema-on-Read vs Schema-on-Write]]
+* [[Normalization vs Denormalization]]
+* [[Graph-Like Data Models]]
+* [[Query Languages for Data]]
+* [[Data Warehousing Schemas]]
+* [[Event Sourcing and CQRS]]

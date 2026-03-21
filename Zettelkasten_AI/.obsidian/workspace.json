@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 8979.539706812508,
-                  "y": -331.9441378270945,
-                  "zoom": -2.8000000000000003
+                  "x": 8450.507159682495,
+                  "y": 1964.0723727138989,
+                  "zoom": -1.2000000000000006
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "data_intensive_applications/Event Sourcing and CQRS.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Architecture"
+              "title": "Backlinks for Event Sourcing and CQRS"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "data_intensive_applications/Event Sourcing and CQRS.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Architecture"
+              "title": "Outgoing links from Event Sourcing and CQRS"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "data_intensive_applications/Event Sourcing and CQRS.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Architecture"
+              "title": "Outline of Event Sourcing and CQRS"
             }
           }
         ]
@@ -200,6 +200,13 @@
   },
   "active": "f77e7eae0d55cd5e",
   "lastOpenFiles": [
+    "data_intensive_applications/Event Sourcing and CQRS.md",
+    "data_intensive_applications/Data Warehousing Schemas.md",
+    "data_intensive_applications/Query Languages for Data.md",
+    "data_intensive_applications/Graph-Like Data Models.md",
+    "data_intensive_applications/Normalization vs Denormalization.md",
+    "data_intensive_applications/Schema-on-Read vs Schema-on-Write.md",
+    "data_intensive_applications/Relational Model vs Document Model.md",
     "data_intensive_applications/Maintainability.md",
     "data_intensive_applications/Scalability.md",
     "data_intensive_applications/Reliability and Fault Tolerance.md",
@@ -233,14 +240,7 @@
     "images/data_intensive_applications",
     "Architecture.canvas",
     "images/architecture_the_hard_parts/Architecture Quantum.md",
-    "Architecture.md",
     "architecture_the_hards_parts",
-    "Tips for Distributed Workflows.md",
-    "Tips for Trade-Off Analysis.md",
-    "Sysops Squad Saga. Trade-off Analysis Epilog.md",
-    "Avoiding Snake Oil and Evangelism.md",
-    "Prefer Bottom Line over Overwhelming Evidence.md",
-    "Model Relevant Domain Cases.md",
     "Untitled.canvas",
     "Tags",
     "images/architecture_the_hard_parts",

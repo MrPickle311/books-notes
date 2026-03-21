@@ -52,6 +52,18 @@
 			"label":"Data-Intensive Applications: Ch2 Nonfunctional Requirements"
 		},
 		{
+			"id":"dia_ch3_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":1520,
+			"width":2700,
+			"height":1300,
+			"label":"Data Models & Query Languages"
+		},
+		{
 			"id":"decomposition_group",
 			"type":"group",
 			"styleAttributes":{
@@ -495,7 +507,14 @@
 		{"id":"dia_ch2_3","type":"file","file":"data_intensive_applications/Describing Performance.md","x":8990,"y":-30,"width":600,"height":500},
 		{"id":"dia_ch2_4","type":"file","file":"data_intensive_applications/Reliability and Fault Tolerance.md","x":7690,"y":620,"width":600,"height":500},
 		{"id":"dia_ch2_5","type":"file","file":"data_intensive_applications/Scalability.md","x":8340,"y":620,"width":600,"height":500},
-		{"id":"dia_ch2_6","type":"file","file":"data_intensive_applications/Maintainability.md","x":8990,"y":620,"width":600,"height":500}
+		{"id":"dia_ch2_6","type":"file","file":"data_intensive_applications/Maintainability.md","x":8990,"y":620,"width":600,"height":500},
+		{"id":"dia_ch3_1","type":"file","file":"data_intensive_applications/Relational Model vs Document Model.md","x":7690,"y":1570,"width":600,"height":500},
+		{"id":"dia_ch3_2","type":"file","file":"data_intensive_applications/Schema-on-Read vs Schema-on-Write.md","x":8340,"y":1570,"width":600,"height":500},
+		{"id":"dia_ch3_3","type":"file","file":"data_intensive_applications/Normalization vs Denormalization.md","x":8990,"y":1570,"width":600,"height":500},
+		{"id":"dia_ch3_4","type":"file","file":"data_intensive_applications/Graph-Like Data Models.md","x":7690,"y":2220,"width":600,"height":500},
+		{"id":"dia_ch3_6","type":"file","file":"data_intensive_applications/Data Warehousing Schemas.md","x":8990,"y":2220,"width":600,"height":500},
+		{"id":"dia_ch3_7","type":"file","file":"data_intensive_applications/Event Sourcing and CQRS.md","x":9640,"y":1570,"width":600,"height":500},
+		{"id":"dia_ch3_5","type":"file","file":"data_intensive_applications/Query Languages for Data.md","x":8340,"y":2220,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -696,7 +715,56 @@
 			"toNode":"dia_ch1_6",
 			"toSide":"top"
 		},
-		{"id":"e_dia_ch1_ch2","fromNode":"dia_group","fromSide":"bottom","toNode":"dia_ch2_group","toSide":"top"}
+		{"id":"e_dia_ch1_ch2","fromNode":"dia_group","fromSide":"bottom","toNode":"dia_ch2_group","toSide":"top"},
+		{"id":"e_dia_ch2_ch3","fromNode":"dia_ch2_group","fromSide":"bottom","toNode":"dia_ch3_group","toSide":"top"},
+		{
+			"id":"5e761f004897e284",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"c6_3",
+			"fromSide":"right",
+			"toNode":"dia_ch3_1",
+			"toSide":"left",
+			"label":"database choice"
+		},
+		{
+			"id":"cc634ac7a657b956",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch3_1",
+			"fromSide":"bottom",
+			"toNode":"dia_ch3_4",
+			"toSide":"top"
+		},
+		{
+			"id":"b3839e7f6b2207f3",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch3_6",
+			"fromSide":"top",
+			"toNode":"dia_ch1_3",
+			"toSide":"right",
+			"label":"schemas"
+		},
+		{
+			"id":"2b0742b9844db9ea",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch3_2",
+			"fromSide":"left",
+			"toNode":"dia_ch3_1",
+			"toSide":"right"
+		},
+		{
+			"id":"9d73999d7d08314f",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch3_3",
+			"fromSide":"left",
+			"toNode":"dia_ch3_2",
+			"toSide":"right"
+		}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

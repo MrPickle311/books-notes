@@ -15,7 +15,7 @@ To illustrate performance and scalability, consider a Twitter-like system where 
 Data is stored in standard relational tables: `Users`, `Posts`, and `Follows`.
 
 *   **Description**: This diagram shows a simple relational database schema for a social network. It consists of three tables: `Users` (storing user profiles), `Posts` (storing messages sent by users), and `Follows` (a many-to-many join table linking a follower to a followee).
-![Figure 2-1: Simple relational schema for a social network in which users can follow each other.](figure-2-1.png)
+![Figure 2-1: Simple relational schema for a social network in which users can follow each other.](data_intensive_applications/figure-2-1.png)
 
 To generating a home timeline:
 ```sql
@@ -36,7 +36,7 @@ Instead of computing the timeline on read, we precompute it on write.
 *   **Trade-off:** Fast reads (O(1)) but expensive writes. A celebrity with 100 million followers causes a massive write spike ("fan-out").
 
 *   **Description**: This diagram illustrates the "fan-out" process. When a User posts a message, the Load Balancer sends it to a Web Server, which then inserts the post into the sender's timeline. Crucially, it also looks up the user's followers and pushes the new post into the Home Timeline Cache of *every* follower (User 2, User 3, etc.), pre-computing their view.
-![Figure 2-2: Fan-out: delivering new posts to every follower of the user who made the post.](figure-2-2.png)
+![Figure 2-2: Fan-out: delivering new posts to every follower of the user who made the post.](data_intensive_applications/figure-2-2.png)
 
 *   **Hybrid Solution:** Most users use the push model. For celebrities (users with huge follower counts), the system falls back to the pull model (merging their posts in at read time) to avoid the massive write penalty.
 ---
