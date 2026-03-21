@@ -23,9 +23,9 @@
 			"x":7640,
 			"y":3120,
 			"width":3350,
-			"height":1300,
+			"height":2160,
 			"color":"4",
-			"label":"Storage & Retrieval"
+			"label":"Storage & Retrieval in DB's"
 		},
 		{
 			"id":"component_decomposition_group",
@@ -536,7 +536,13 @@
 		{"id":"dia_ch4_5","type":"file","file":"data_intensive_applications/Secondary Indexes and In-Memory Databases.md","x":7690,"y":3820,"width":600,"height":500},
 		{"id":"dia_ch4_6","type":"file","file":"data_intensive_applications/Query Execution and Materialized Views.md","x":8340,"y":3820,"width":600,"height":500},
 		{"id":"dia_ch4_7","type":"file","file":"data_intensive_applications/Multidimensional and Full-Text Indexes.md","x":8990,"y":3820,"width":600,"height":500},
-		{"id":"dia_ch4_8","type":"file","file":"data_intensive_applications/Vector Embeddings and Semantic Search.md","x":9640,"y":3820,"width":600,"height":500}
+		{"id":"dia_ch4_8","type":"file","file":"data_intensive_applications/Vector Embeddings and Semantic Search.md","x":9640,"y":3820,"width":600,"height":500},
+		{"id":"a2320288c53c3a5c","type":"file","file":"data_intensive_applications/Storage and Indexing for OLTP.md","x":10320,"y":3170,"width":560,"height":500},
+		{"id":"73b0df62e94397ec","type":"file","file":"data_intensive_applications/Data Storage for Analytics (OLAP).md","x":10320,"y":3820,"width":560,"height":500},
+		{"id":"1e8705eb0eb58f04","type":"file","file":"data_intensive_applications/Materialized Views and Data Cubes.md","x":7690,"y":4400,"width":600,"height":640},
+		{"id":"6deb8894f1b1e19a","type":"file","file":"data_intensive_applications/Query Execution. Compilation and Vectorization.md","x":8340,"y":4400,"width":600,"height":640},
+		{"id":"56c3fbe259b0d65c","type":"file","file":"data_intensive_applications/SSTables.md","x":8990,"y":4400,"width":600,"height":640},
+		{"id":"0189cb1f77578dae","type":"file","file":"data_intensive_applications/Storage and Indexing for OLTP.md","x":9640,"y":4400,"width":600,"height":640}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -854,6 +860,17 @@
 			"fromSide":"top",
 			"toNode":"d6919865161b3aae",
 			"toSide":"bottom"
+		},
+		{
+			"id":"2d346efb43041fa8",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"dia_ch4_1",
+			"fromSide":"top",
+			"toNode":"dia_ch4_3",
+			"toSide":"top",
+			"label":"upgraded by"
 		}
 	],
 	"metadata":{
