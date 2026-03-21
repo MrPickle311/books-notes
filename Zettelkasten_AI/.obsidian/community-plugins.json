@@ -1,4 +1,6 @@
 [
   "make-md",
-  "advanced-canvas"
+  "advanced-canvas",
+  "table-editor-obsidian",
+  "obsidian-excalidraw-plugin"
 ]

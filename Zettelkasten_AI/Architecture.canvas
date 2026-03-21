@@ -1,13 +1,14 @@
 {
 	"nodes":[
+		{"id":"f6875e71952b0f2c","type":"group","x":2540,"y":3800,"width":4520,"height":3280,"color":"6","label":"Distributed"},
 		{
 			"id":"component_decomposition_group",
 			"type":"group",
 			"styleAttributes":{
 				"border":null
 			},
-			"x":610,
-			"y":1620,
+			"x":-6760,
+			"y":480,
 			"width":2000,
 			"height":1900,
 			"label":"Component Decomposition Patterns"
@@ -18,8 +19,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":2800,
-			"y":6940,
+			"x":-240,
+			"y":-3960,
 			"width":2000,
 			"height":1900,
 			"label":"Trade-off Analysis"
@@ -30,8 +31,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":-2320,
-			"y":2320,
+			"x":-4480,
+			"y":720,
 			"width":2000,
 			"height":1300,
 			"label":"Decomposition"
@@ -42,8 +43,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":2800,
-			"y":2220,
+			"x":4040,
+			"y":1080,
 			"width":2000,
 			"height":1300,
 			"label":"Databases choice, integration & desintegration"
@@ -54,8 +55,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":-2320,
-			"y":3920,
+			"x":-5840,
+			"y":-2280,
 			"width":2000,
 			"height":1300,
 			"label":"Service Granularity"
@@ -66,8 +67,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":610,
-			"y":3820,
+			"x":-1040,
+			"y":3980,
 			"width":2000,
 			"height":1300,
 			"label":"Reuse Patterns"
@@ -79,7 +80,7 @@
 				"border":null
 			},
 			"x":2800,
-			"y":3820,
+			"y":3980,
 			"width":2000,
 			"height":1300,
 			"label":"Data Ownership and Distributed Transactions"
@@ -90,8 +91,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":-2320,
-			"y":5520,
+			"x":5040,
+			"y":3820,
 			"width":2000,
 			"height":1300,
 			"label":"Distributed Data Access"
@@ -102,8 +103,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":610,
-			"y":5420,
+			"x":5040,
+			"y":5280,
 			"width":2000,
 			"height":1300,
 			"label":"Managing Distributed Workflows"
@@ -114,8 +115,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":2800,
-			"y":5420,
+			"x":2560,
+			"y":5760,
 			"width":2000,
 			"height":1300,
 			"label":"Transactional Sagas"
@@ -126,8 +127,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":-2320,
-			"y":7040,
+			"x":-5200,
+			"y":5780,
 			"width":2000,
 			"height":1300,
 			"label":"Contracts"
@@ -138,255 +139,63 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":610,
-			"y":6820,
+			"x":3280,
+			"y":-480,
 			"width":2000,
 			"height":1300,
 			"label":"Managing Analytical Data"
 		},
-		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
+		{"id":"d6919865161b3aae","type":"group","x":-4200,"y":2220,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
 			"type":"group",
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":-340,
+			"x":-3840,
+			"y":-720,
 			"width":1360,
 			"height":1300,
 			"label":"Modularity"
 		},
-		{"id":"38ec717ba0b67e2b","type":"group","x":-240,"y":1120,"width":600,"height":1260,"label":"Architectural decisions"},
-		{"id":"root","type":"file","file":"Architecture.md","x":0,"y":300,"width":300,"height":400},
-		{"id":"c1_6","type":"file","file":"Tips for architectural best practices.md","x":500,"y":-920,"width":560,"height":520},
-		{"id":"c1_1","type":"file","file":"The Architect's Dilemma. No \"Best Practices\".md","x":500,"y":-300,"width":560,"height":500},
-		{"id":"c1_2","type":"file","file":"The Importance of Data in Architecture.md","x":500,"y":300,"width":560,"height":560},
-		{"id":"c1_5","type":"file","file":"Sample Architectural Problem.md","x":500,"y":900,"width":560,"height":490},
-		{"id":"c3_1","type":"file","file":"Why Modularity Matters. Making the Business Case.md","x":1300,"y":-280,"width":600,"height":500},
-		{"id":"c3_2","type":"file","file":"The Drivers for Modularity.md","x":1950,"y":-280,"width":600,"height":500},
-		{"id":"c3_3","type":"file","file":"Building the Business Case. The Sysops Squad ADR.md","x":1300,"y":400,"width":600,"height":500},
-		{"id":"c3_4","type":"file","file":"Tips for Architectural Modularity.md","x":1950,"y":400,"width":600,"height":500},
-		{"id":"c2_1","type":"file","file":"The Entanglement Problem.md","x":-770,"y":-300,"width":570,"height":500},
-		{"id":"c2_2","type":"file","file":"Architecture Quantum.md","x":-770,"y":250,"width":570,"height":450},
-		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-1700,"y":890,"width":660,"height":600},
-		{"id":"c2_5","type":"file","file":"Tips for Discerning Coupling.md","x":-1480,"y":1590,"width":855,"height":480},
-		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-980,"y":890,"width":640,"height":600},
-		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":-220,"y":1180,"width":560,"height":540},
-		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":-220,"y":1780,"width":560,"height":580},
-		{
-			"id":"c13_1",
-			"type":"file",
-			"file":"Strict vs Loose Contracts.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":-2270,
-			"y":7090,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c13_4",
-			"type":"file",
-			"file":"Sysops Squad Saga. Managing Ticketing Contracts.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":-2270,
-			"y":7740,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c13_2",
-			"type":"file",
-			"file":"Consumer-Driven Contracts.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":-1620,
-			"y":7090,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c13_5",
-			"type":"file",
-			"file":"Tips for Contracts.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":-1620,
-			"y":7740,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c13_3",
-			"type":"file",
-			"file":"Stamp Coupling.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":-970,
-			"y":7090,
-			"width":600,
-			"height":500
-		},
-		{"id":"c10_3","type":"file","file":"Replicated Caching Pattern.md","x":-970,"y":5570,"width":600,"height":500},
-		{"id":"f081daa9f8d07310","type":"file","file":"Tips for Distributed Data Access.md","x":-970,"y":6220,"width":600,"height":500},
-		{"id":"c10_1","type":"file","file":"Inter-service Communication Pattern.md","x":-2270,"y":5570,"width":600,"height":500},
-		{"id":"c10_2","type":"file","file":"Column Schema Replication Pattern.md","x":-1620,"y":5570,"width":600,"height":500},
-		{"id":"c10_4","type":"file","file":"Data Domain Pattern.md","x":-2270,"y":6220,"width":600,"height":500},
-		{"id":"c10_5","type":"file","file":"Sysops Squad Saga. Data Access.md","x":-1620,"y":6220,"width":600,"height":500},
-		{"id":"c7_1","type":"file","file":"Modularity vs Granularity.md","x":-2270,"y":3970,"width":600,"height":500},
-		{"id":"c7_2","type":"file","file":"Granularity Disintegrators.md","x":-1620,"y":3970,"width":600,"height":500},
-		{"id":"c7_3","type":"file","file":"Granularity Integrators.md","x":-970,"y":3970,"width":600,"height":500},
-		{"id":"c7_4","type":"file","file":"Finding The Right Balance.md","x":-2270,"y":4620,"width":600,"height":500},
-		{"id":"c7_5","type":"file","file":"Sysops Squad Sagas. Granularity.md","x":-1620,"y":4620,"width":600,"height":500},
-		{"id":"c7_6","type":"file","file":"Tips for Service Granularity.md","x":-970,"y":4620,"width":600,"height":500},
-		{"id":"c4_4","type":"file","file":"Tactical Forking.md","x":-2270,"y":3020,"width":600,"height":500},
-		{"id":"c4_5","type":"file","file":"Sysops Squad ADR. Choosing the Approach.md","x":-1620,"y":3020,"width":600,"height":500},
-		{"id":"c4_6","type":"file","file":"Tips for Architectural Decomposition.md","x":-970,"y":3020,"width":600,"height":500},
-		{"id":"c4_1","type":"file","file":"Choosing a Decomposition Approach.md","x":-2270,"y":2370,"width":600,"height":500},
-		{"id":"c4_2","type":"file","file":"Is the Code Base Decomposable.md","x":-1620,"y":2370,"width":600,"height":500},
-		{"id":"c4_3","type":"file","file":"Component-Based Decomposition.md","x":-970,"y":2370,"width":600,"height":500},
-		{"id":"c9_1","type":"file","file":"Assigning Data Ownership.md","x":2850,"y":3870,"width":600,"height":500},
-		{"id":"c9_4","type":"file","file":"Eventual Consistency Patterns.md","x":2850,"y":4520,"width":600,"height":500},
-		{"id":"c9_2","type":"file","file":"Techniques for Resolving Joint Ownership.md","x":3500,"y":3870,"width":600,"height":500},
-		{"id":"c9_5","type":"file","file":"Sysops Squad Saga. Data Ownership.md","x":3500,"y":4520,"width":600,"height":500},
-		{"id":"c9_3","type":"file","file":"Distributed Transactions. ACID vs BASE.md","x":4150,"y":3870,"width":600,"height":500},
-		{
-			"id":"c15_4",
-			"type":"file",
-			"file":"The Out of Context Trap.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":2850,
-			"y":7640,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_5",
-			"type":"file",
-			"file":"Model Relevant Domain Cases.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":3500,
-			"y":7640,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_6",
-			"type":"file",
-			"file":"Prefer Bottom Line over Overwhelming Evidence.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":4150,
-			"y":7640,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_7",
-			"type":"file",
-			"file":"Avoiding Snake Oil and Evangelism.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":2850,
-			"y":8290,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_8",
-			"type":"file",
-			"file":"Sysops Squad Saga. Trade-off Analysis Epilog.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":3500,
-			"y":8290,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_9",
-			"type":"file",
-			"file":"Tips for Trade-Off Analysis.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":4150,
-			"y":8290,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_1",
-			"type":"file",
-			"file":"Three-Step Process for Trade-Off Analysis.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":2850,
-			"y":6990,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_2",
-			"type":"file",
-			"file":"Qualitative vs Quantitative Analysis.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":3500,
-			"y":6990,
-			"width":600,
-			"height":500
-		},
-		{
-			"id":"c15_3",
-			"type":"file",
-			"file":"MECE Lists.md",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":4150,
-			"y":6990,
-			"width":600,
-			"height":500
-		},
-		{"id":"c12_1","type":"file","file":"Transactional Saga Patterns.md","x":2850,"y":5470,"width":600,"height":500},
-		{"id":"c12_2","type":"file","file":"Saga State Machines.md","x":3500,"y":5470,"width":600,"height":500},
-		{"id":"c12_3","type":"file","file":"Techniques For Managing Sagas.md","x":4150,"y":5470,"width":600,"height":500},
-		{"id":"c12_4","type":"file","file":"Sysops Squad Saga. Atomic Transactions.md","x":2850,"y":6120,"width":600,"height":500},
-		{"id":"c12_5","type":"file","file":"Tips for Transactional Sagas.md","x":3500,"y":6120,"width":600,"height":500},
-		{"id":"c6_1","type":"file","file":"Data Disintegrators vs Integrators.md","x":2850,"y":2270,"width":600,"height":500},
-		{"id":"c6_2","type":"file","file":"The 5-Step Database Decomposition Process.md","x":3500,"y":2270,"width":600,"height":500},
-		{"id":"c6_3","type":"file","file":"Polyglot Persistence.md","x":4150,"y":2270,"width":600,"height":500},
-		{"id":"c6_4","type":"file","file":"Sysops Squad Saga. Polyglot Databases.md","x":2850,"y":2920,"width":600,"height":500},
-		{"id":"c6_5","type":"file","file":"Tips for Pulling Apart Operational Data.md","x":3500,"y":2920,"width":600,"height":500},
-		{"id":"c11_2","type":"file","file":"Orchestration vs Choreography.md","x":1310,"y":5470,"width":600,"height":500},
-		{"id":"c11_3","type":"file","file":"Semantic vs Implementation Coupling.md","x":1960,"y":5470,"width":600,"height":500},
-		{"id":"c11_5","type":"file","file":"Sysops Squad Saga. Managing Workflows.md","x":1310,"y":6120,"width":600,"height":500},
-		{"id":"29c5755389d227bf","type":"file","file":"Tips for Distributed Workflows.md","x":1960,"y":6120,"width":600,"height":500},
-		{"id":"c8_2","type":"file","file":"Shared Library.md","x":1310,"y":3870,"width":600,"height":500},
-		{"id":"c8_5","type":"file","file":"When Does Reuse Add Value.md","x":1310,"y":4520,"width":600,"height":500},
-		{"id":"c8_3","type":"file","file":"Shared Service.md","x":1960,"y":3870,"width":600,"height":500},
-		{"id":"d1f2a8bf7e958fea","type":"file","file":"Sysops Squad Sagas - Reuse.md","x":1960,"y":4520,"width":580,"height":500},
-		{"id":"c11_1","type":"file","file":"Dimensions of Dynamic Coupling.md","x":660,"y":5470,"width":600,"height":500},
-		{"id":"c11_4","type":"file","file":"Workflow State Management in Choreography.md","x":660,"y":6120,"width":600,"height":500},
-		{"id":"c8_1","type":"file","file":"Code Replication.md","x":660,"y":3870,"width":600,"height":500},
-		{"id":"c8_4","type":"file","file":"Sidecars and Service Mesh.md","x":660,"y":4520,"width":600,"height":500},
+		{"id":"38ec717ba0b67e2b","type":"group","x":-1400,"y":-1350,"width":600,"height":1260,"label":"Architectural decisions"},
+		{"id":"root","type":"file","file":"Architecture.md","x":0,"y":300,"width":300,"height":400,"color":"2"},
+		{"id":"c10_1","type":"file","file":"Inter-service Communication Pattern.md","x":5090,"y":3870,"width":600,"height":500},
+		{"id":"c10_2","type":"file","file":"Column Schema Replication Pattern.md","x":5740,"y":3870,"width":600,"height":500},
+		{"id":"c10_3","type":"file","file":"Replicated Caching Pattern.md","x":6390,"y":3870,"width":600,"height":500},
+		{"id":"c10_4","type":"file","file":"Data Domain Pattern.md","x":5090,"y":4520,"width":600,"height":500},
+		{"id":"c10_5","type":"file","file":"Sysops Squad Saga. Data Access.md","x":5740,"y":4520,"width":600,"height":500},
+		{"id":"f081daa9f8d07310","type":"file","file":"Tips for Distributed Data Access.md","x":6390,"y":4520,"width":600,"height":500},
+		{"id":"c3_1","type":"file","file":"Why Modularity Matters. Making the Business Case.md","x":-3790,"y":-660,"width":600,"height":500},
+		{"id":"c3_3","type":"file","file":"Building the Business Case. The Sysops Squad ADR.md","x":-3790,"y":20,"width":600,"height":500},
+		{"id":"c3_2","type":"file","file":"The Drivers for Modularity.md","x":-3140,"y":-660,"width":600,"height":500},
+		{"id":"c3_4","type":"file","file":"Tips for Architectural Modularity.md","x":-3140,"y":20,"width":600,"height":500},
+		{"id":"c4_1","type":"file","file":"Choosing a Decomposition Approach.md","x":-4430,"y":770,"width":600,"height":500},
+		{"id":"c4_2","type":"file","file":"Is the Code Base Decomposable.md","x":-3780,"y":770,"width":600,"height":500},
+		{"id":"c4_4","type":"file","file":"Tactical Forking.md","x":-4430,"y":1420,"width":600,"height":500},
+		{"id":"c4_5","type":"file","file":"Sysops Squad ADR. Choosing the Approach.md","x":-3780,"y":1420,"width":600,"height":500},
+		{"id":"c4_6","type":"file","file":"Tips for Architectural Decomposition.md","x":-3130,"y":1420,"width":600,"height":500},
+		{"id":"c4_3","type":"file","file":"Component-Based Decomposition.md","x":-3130,"y":770,"width":600,"height":500},
+		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-4140,"y":2270,"width":660,"height":600},
+		{"id":"c2_5","type":"file","file":"Tips for Discerning Coupling.md","x":-3920,"y":2970,"width":855,"height":480},
+		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-3420,"y":2270,"width":640,"height":600},
+		{"id":"c1_2","type":"file","file":"The Importance of Data in Architecture.md","x":2120,"y":620,"width":560,"height":560},
+		{"id":"c1_6","type":"file","file":"Tips for architectural best practices.md","x":1400,"y":-1840,"width":560,"height":520},
+		{"id":"c2_1","type":"file","file":"The Entanglement Problem.md","x":-2120,"y":360,"width":570,"height":500},
+		{"id":"c5_1","type":"file","file":"Component-Based Decomposition Roadmap.md","x":-6710,"y":530,"width":600,"height":500},
+		{"id":"c5_4","type":"file","file":"Gather Common Domain Components Pattern.md","x":-6710,"y":1180,"width":600,"height":500},
+		{"id":"c5_7","type":"file","file":"Create Component Domains Pattern.md","x":-6710,"y":1830,"width":600,"height":500},
+		{"id":"c5_3","type":"file","file":"Identify and Size Components Pattern.md","x":-6060,"y":530,"width":600,"height":500},
+		{"id":"c5_9","type":"file","file":"Tips for Component-Based Decomposition.md","x":-5410,"y":1830,"width":600,"height":500},
+		{"id":"c5_5","type":"file","file":"Flatten Components Pattern.md","x":-6060,"y":1180,"width":600,"height":500},
+		{"id":"c5_8","type":"file","file":"Create Domain Services Pattern.md","x":-6060,"y":1830,"width":600,"height":500},
+		{"id":"c5_6","type":"file","file":"Determine Component Dependencies Pattern.md","x":-5410,"y":1180,"width":600,"height":500},
+		{"id":"c11_2","type":"file","file":"Orchestration vs Choreography.md","x":5740,"y":5330,"width":600,"height":500},
+		{"id":"c11_5","type":"file","file":"Sysops Squad Saga. Managing Workflows.md","x":5740,"y":5980,"width":600,"height":500},
+		{"id":"c11_3","type":"file","file":"Semantic vs Implementation Coupling.md","x":6390,"y":5330,"width":600,"height":500},
+		{"id":"29c5755389d227bf","type":"file","file":"Tips for Distributed Workflows.md","x":6390,"y":5980,"width":600,"height":500},
+		{"id":"c11_1","type":"file","file":"Dimensions of Dynamic Coupling.md","x":5090,"y":5330,"width":600,"height":500},
+		{"id":"c11_4","type":"file","file":"Workflow State Management in Choreography.md","x":5090,"y":5980,"width":600,"height":500},
 		{
 			"id":"c14_1",
 			"type":"file",
@@ -394,8 +203,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":660,
-			"y":6870,
+			"x":3330,
+			"y":-430,
 			"width":600,
 			"height":500
 		},
@@ -406,8 +215,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1310,
-			"y":6870,
+			"x":3980,
+			"y":-430,
 			"width":600,
 			"height":500
 		},
@@ -418,8 +227,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1960,
-			"y":6870,
+			"x":4630,
+			"y":-430,
 			"width":600,
 			"height":500
 		},
@@ -430,8 +239,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":660,
-			"y":7520,
+			"x":3330,
+			"y":220,
 			"width":600,
 			"height":500
 		},
@@ -442,42 +251,357 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1310,
-			"y":7520,
+			"x":3980,
+			"y":220,
 			"width":600,
 			"height":500
 		},
-		{"id":"c5_1","type":"file","file":"Component-Based Decomposition Roadmap.md","x":660,"y":1670,"width":600,"height":500},
-		{"id":"c5_4","type":"file","file":"Gather Common Domain Components Pattern.md","x":660,"y":2320,"width":600,"height":500},
-		{"id":"c5_7","type":"file","file":"Create Component Domains Pattern.md","x":660,"y":2970,"width":600,"height":500},
-		{"id":"c5_3","type":"file","file":"Identify and Size Components Pattern.md","x":1310,"y":1670,"width":600,"height":500},
-		{"id":"c5_5","type":"file","file":"Flatten Components Pattern.md","x":1310,"y":2320,"width":600,"height":500},
-		{"id":"c5_8","type":"file","file":"Create Domain Services Pattern.md","x":1310,"y":2970,"width":600,"height":500},
-		{"id":"c5_6","type":"file","file":"Determine Component Dependencies Pattern.md","x":1960,"y":2320,"width":600,"height":500},
-		{"id":"c5_9","type":"file","file":"Tips for Component-Based Decomposition.md","x":1960,"y":2970,"width":600,"height":500}
+		{"id":"c12_1","type":"file","file":"Transactional Saga Patterns.md","x":2610,"y":5810,"width":600,"height":500},
+		{"id":"c12_4","type":"file","file":"Sysops Squad Saga. Atomic Transactions.md","x":2610,"y":6460,"width":600,"height":500},
+		{"id":"c12_2","type":"file","file":"Saga State Machines.md","x":3260,"y":5810,"width":600,"height":500},
+		{"id":"c12_5","type":"file","file":"Tips for Transactional Sagas.md","x":3260,"y":6460,"width":600,"height":500},
+		{"id":"c12_3","type":"file","file":"Techniques For Managing Sagas.md","x":3910,"y":5810,"width":600,"height":500},
+		{"id":"c9_1","type":"file","file":"images/architecture_the_hard_parts/Assigning Data Ownership.md","x":2850,"y":4030,"width":600,"height":500},
+		{"id":"c9_2","type":"file","file":"Techniques for Resolving Joint Ownership.md","x":3500,"y":4030,"width":600,"height":500},
+		{"id":"c9_3","type":"file","file":"Distributed Transactions. ACID vs BASE.md","x":4150,"y":4030,"width":600,"height":500},
+		{"id":"c9_4","type":"file","file":"Eventual Consistency Patterns.md","x":2850,"y":4680,"width":600,"height":500},
+		{"id":"c9_5","type":"file","file":"Sysops Squad Saga. Data Ownership.md","x":3500,"y":4680,"width":600,"height":500},
+		{"id":"c6_1","type":"file","file":"Data Disintegrators vs Integrators.md","x":4090,"y":1130,"width":600,"height":500},
+		{"id":"c6_2","type":"file","file":"The 5-Step Database Decomposition Process.md","x":4740,"y":1130,"width":600,"height":500},
+		{"id":"c6_3","type":"file","file":"Polyglot Persistence.md","x":5390,"y":1130,"width":600,"height":500},
+		{"id":"c6_4","type":"file","file":"Sysops Squad Saga. Polyglot Databases.md","x":4090,"y":1780,"width":600,"height":500},
+		{"id":"c6_5","type":"file","file":"Tips for Pulling Apart Operational Data.md","x":4740,"y":1780,"width":600,"height":500},
+		{"id":"c7_1","type":"file","file":"Modularity vs Granularity.md","x":-5790,"y":-2230,"width":600,"height":500},
+		{"id":"c7_4","type":"file","file":"Finding The Right Balance.md","x":-5790,"y":-1580,"width":600,"height":500},
+		{"id":"c7_2","type":"file","file":"Granularity Disintegrators.md","x":-5140,"y":-2230,"width":600,"height":500},
+		{"id":"c7_5","type":"file","file":"Sysops Squad Sagas. Granularity.md","x":-5140,"y":-1580,"width":600,"height":500},
+		{"id":"c7_3","type":"file","file":"Granularity Integrators.md","x":-4490,"y":-2230,"width":600,"height":500},
+		{"id":"c7_6","type":"file","file":"Tips for Service Granularity.md","x":-4490,"y":-1580,"width":600,"height":500},
+		{
+			"id":"c13_1",
+			"type":"file",
+			"file":"Strict vs Loose Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-5150,
+			"y":5830,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_2",
+			"type":"file",
+			"file":"Consumer-Driven Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-4500,
+			"y":5830,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_4",
+			"type":"file",
+			"file":"Sysops Squad Saga. Managing Ticketing Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-5150,
+			"y":6480,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_5",
+			"type":"file",
+			"file":"Tips for Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-4500,
+			"y":6480,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_3",
+			"type":"file",
+			"file":"Stamp Coupling.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-3850,
+			"y":5830,
+			"width":600,
+			"height":500
+		},
+		{"id":"c8_1","type":"file","file":"Code Replication.md","x":-990,"y":4030,"width":600,"height":500},
+		{"id":"c8_4","type":"file","file":"Sidecars and Service Mesh.md","x":-990,"y":4680,"width":600,"height":500},
+		{"id":"c8_2","type":"file","file":"Shared Library.md","x":-340,"y":4030,"width":600,"height":500},
+		{"id":"c8_5","type":"file","file":"When Does Reuse Add Value.md","x":-340,"y":4680,"width":600,"height":500},
+		{"id":"c8_3","type":"file","file":"Shared Service.md","x":310,"y":4030,"width":600,"height":500},
+		{"id":"d1f2a8bf7e958fea","type":"file","file":"Sysops Squad Sagas - Reuse.md","x":310,"y":4680,"width":580,"height":500},
+		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":-1380,"y":-1290,"width":560,"height":540},
+		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":-1380,"y":-690,"width":560,"height":580},
+		{"id":"c1_1","type":"file","file":"The Architect's Dilemma. No \"Best Practices\".md","x":300,"y":-1270,"width":560,"height":500},
+		{
+			"id":"c15_1",
+			"type":"file",
+			"file":"Three-Step Process for Trade-Off Analysis.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-190,
+			"y":-3910,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_2",
+			"type":"file",
+			"file":"Qualitative vs Quantitative Analysis.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":460,
+			"y":-3910,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_3",
+			"type":"file",
+			"file":"MECE Lists.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1110,
+			"y":-3910,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_4",
+			"type":"file",
+			"file":"The Out of Context Trap.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-190,
+			"y":-3260,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_5",
+			"type":"file",
+			"file":"Model Relevant Domain Cases.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":460,
+			"y":-3260,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_6",
+			"type":"file",
+			"file":"Prefer Bottom Line over Overwhelming Evidence.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1110,
+			"y":-3260,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_7",
+			"type":"file",
+			"file":"Avoiding Snake Oil and Evangelism.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-190,
+			"y":-2610,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_8",
+			"type":"file",
+			"file":"Sysops Squad Saga. Trade-off Analysis Epilog.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":460,
+			"y":-2610,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_9",
+			"type":"file",
+			"file":"Tips for Trade-Off Analysis.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1110,
+			"y":-2610,
+			"width":600,
+			"height":500
+		},
+		{"id":"c2_2","type":"file","file":"images/architecture_the_hard_parts/Architecture Quantum.md","x":710,"y":-655,"width":570,"height":450},
+		{"id":"c1_5","type":"file","file":"Sample Architectural Problem.md","x":860,"y":10,"width":560,"height":490}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
 		{"id":"e_c1_2","fromNode":"root","fromSide":"right","toNode":"c1_2","toSide":"left"},
 		{"id":"e_c1_5","fromNode":"root","fromSide":"right","toNode":"c1_5","toSide":"left"},
-		{"id":"e_c1_6","fromNode":"root","fromSide":"right","toNode":"c1_6","toSide":"left"},
 		{"id":"e_c2_1","fromNode":"root","fromSide":"left","toNode":"c2_1","toSide":"right"},
-		{"id":"e_c2_2","fromNode":"root","fromSide":"left","toNode":"c2_2","toSide":"right"},
-		{"id":"76ba8250d7f9f6bc","fromNode":"root","fromSide":"bottom","toNode":"d6919865161b3aae","toSide":"top"},
-		{"id":"e6be10506b8176be","fromNode":"root","fromSide":"bottom","toNode":"38ec717ba0b67e2b","toSide":"top"},
-		{"id":"e_root_c3","fromNode":"root","fromSide":"right","toNode":"modularity_group","toSide":"left"},
-		{"id":"e_root_c4","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"decomposition_group","toSide":"left"},
-		{"id":"e_root_c5","fromNode":"root","fromSide":"right","toNode":"component_decomposition_group","toSide":"left"},
-		{"id":"e_root_c6","fromNode":"root","fromSide":"right","toNode":"operational_data_group","toSide":"left"},
-		{"id":"e_root_c7","fromNode":"root","fromSide":"right","toNode":"service_granularity_group","toSide":"left"},
-		{"id":"e_root_c8","fromNode":"root","fromSide":"right","toNode":"reuse_patterns_group","toSide":"left"},
-		{"id":"e_root_c9","fromNode":"root","fromSide":"right","toNode":"data_ownership_group","toSide":"left"},
-		{"id":"e_root_c10","fromNode":"root","fromSide":"right","toNode":"data_access_group","toSide":"left"},
-		{"id":"e_root_c11","fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"},
-		{"id":"e_root_c12","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c5_9","toSide":"left"},
-		{"id":"e_root_c13","fromNode":"root","fromSide":"right","toNode":"contracts_group","toSide":"left"},
-		{"id":"e_root_c14","fromNode":"root","fromSide":"right","toNode":"analytical_data_group","toSide":"left"},
-		{"id":"e_root_c15","fromNode":"root","fromSide":"right","toNode":"trade_off_group","toSide":"left"}
+		{"id":"e_root_c8","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"reuse_patterns_group","toSide":"left"},
+		{"id":"e_root_c11","toFloating":false,"fromFloating":false,"fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"},
+		{"id":"e_root_c13","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"contracts_group","toSide":"top"},
+		{
+			"id":"a50fa08a8e918615",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"decomposition_group",
+			"fromSide":"left",
+			"toNode":"component_decomposition_group",
+			"toSide":"right"
+		},
+		{
+			"id":"37bfc26e0964ac54",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c1_1",
+			"fromSide":"right",
+			"toNode":"c1_6",
+			"toSide":"left"
+		},
+		{
+			"id":"060dd28d08470e8d",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c1_2",
+			"fromSide":"right",
+			"toNode":"operational_data_group",
+			"toSide":"left"
+		},
+		{
+			"id":"6812d938e8fd8a23",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c1_2",
+			"fromSide":"right",
+			"toNode":"analytical_data_group",
+			"toSide":"left"
+		},
+		{
+			"id":"d43fe74815eaae17",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c1_2",
+			"fromSide":"bottom",
+			"toNode":"data_access_group",
+			"toSide":"top"
+		},
+		{
+			"id":"44ff2f7bfa7f0e4c",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"data_ownership_group",
+			"fromSide":"bottom",
+			"toNode":"transactional_sagas_group",
+			"toSide":"top"
+		},
+		{
+			"id":"591f4ae3e0b3cd33",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c1_2",
+			"fromSide":"bottom",
+			"toNode":"data_ownership_group",
+			"toSide":"top"
+		},
+		{
+			"id":"c97e9a6e48c9a613",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"modularity_group",
+			"fromSide":"left",
+			"toNode":"c7_1",
+			"toSide":"bottom"
+		},
+		{
+			"id":"0755c29527bdf6b5",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c2_1",
+			"fromSide":"left",
+			"toNode":"modularity_group",
+			"toSide":"right"
+		},
+		{
+			"id":"97d0628e55e52051",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"decomposition_group",
+			"fromSide":"right",
+			"toNode":"operational_data_group",
+			"toSide":"left",
+			"label":"DECOMPOSITION"
+		},
+		{
+			"id":"4cf851e4481f034a",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c2_1",
+			"fromSide":"bottom",
+			"toNode":"decomposition_group",
+			"toSide":"right"
+		},
+		{
+			"id":"7583452d9fb653f1",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c2_1",
+			"fromSide":"bottom",
+			"toNode":"d6919865161b3aae",
+			"toSide":"right"
+		},
+		{
+			"id":"e5f5f350863a8aeb",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"root",
+			"fromSide":"top",
+			"toNode":"38ec717ba0b67e2b",
+			"toSide":"right"
+		},
+		{
+			"id":"b59b69306f81166b",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"38ec717ba0b67e2b",
+			"fromSide":"top",
+			"toNode":"trade_off_group",
+			"toSide":"left"
+		},
+		{
+			"id":"76269b264cb6fd31",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"root",
+			"fromSide":"top",
+			"toNode":"c2_2",
+			"toSide":"left"
+		}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

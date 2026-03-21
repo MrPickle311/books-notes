@@ -4,20 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "457beb8f464e4df1",
+        "id": "9b99ad4c6e5daf3e",
         "type": "tabs",
         "children": [
           {
-            "id": "93560c67e5578530",
+            "id": "f77e7eae0d55cd5e",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 1455.5459487580288,
-                  "y": 315.6128700019616,
-                  "zoom": -1.2000000000000006
+                  "x": 61.40161651469447,
+                  "y": -850.1430164071381,
+                  "zoom": -2.8000000000000003
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -193,11 +193,17 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "93560c67e5578530",
+  "active": "f77e7eae0d55cd5e",
   "lastOpenFiles": [
+    "images/architecture_the_hard_parts/Architecture Quantum.md",
+    "Architecture.md",
+    "architecture_the_hards_parts",
+    "Tips for Distributed Workflows.md",
     "Tips for Trade-Off Analysis.md",
     "Sysops Squad Saga. Trade-off Analysis Epilog.md",
     "Avoiding Snake Oil and Evangelism.md",
@@ -221,10 +227,7 @@
     "Sysops Squad Saga. Atomic Transactions.md",
     "Techniques For Managing Sagas.md",
     "Saga State Machines.md",
-    "Transactional Saga Patterns.md",
     "Architecture.canvas",
-    "Tips for Distributed Data Access.md",
-    "Tips for Distributed Workflows.md",
     "Untitled.canvas",
     "Tags",
     "images/architecture_the_hard_parts/figure-15-12.png",
