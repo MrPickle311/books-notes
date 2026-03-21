@@ -15,6 +15,19 @@
 			"label":"Data-Intensive Applications: Ch1 Trade-offs"
 		},
 		{
+			"id":"dia_ch8_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":13000,
+			"width":3950,
+			"height":2200,
+			"color":"5",
+			"label":"Transactions"
+		},
+		{
 			"id":"dia_ch7_group",
 			"type":"group",
 			"styleAttributes":{
@@ -613,7 +626,19 @@
 		{"id":"dia_ch7_7","type":"file","file":"data_intensive_applications/Skewed Workloads and Hot Spots.md","x":9240,"y":11500,"width":600,"height":500},
 		{"id":"dia_ch7_8","type":"file","file":"data_intensive_applications/Automatic or Manual Rebalancing.md","x":8390,"y":10720,"width":600,"height":500},
 		{"id":"dia_ch7_9","type":"file","file":"data_intensive_applications/Request Routing.md","x":9120,"y":10720,"width":600,"height":500},
-		{"id":"dia_ch7_10","type":"file","file":"data_intensive_applications/Sharding and Secondary Indexes.md","x":9800,"y":10720,"width":600,"height":500}
+		{"id":"dia_ch7_10","type":"file","file":"data_intensive_applications/Sharding and Secondary Indexes.md","x":9800,"y":10720,"width":600,"height":500},
+		{"id":"dia_ch8_1","type":"file","file":"data_intensive_applications/What is a Transaction.md","x":7690,"y":13050,"width":600,"height":500},
+		{"id":"dia_ch8_2","type":"file","file":"data_intensive_applications/The Meaning of ACID.md","x":8340,"y":13050,"width":600,"height":500},
+		{"id":"dia_ch8_3","type":"file","file":"data_intensive_applications/Single-Object and Multi-Object Operations.md","x":8990,"y":13050,"width":600,"height":500},
+		{"id":"dia_ch8_4","type":"file","file":"data_intensive_applications/Handling Errors and Aborts.md","x":9640,"y":13050,"width":600,"height":500},
+		{"id":"dia_ch8_5","type":"file","file":"data_intensive_applications/Read Committed.md","x":10290,"y":13050,"width":600,"height":500},
+		{"id":"dia_ch8_6","type":"file","file":"data_intensive_applications/Snapshot Isolation and Repeatable Read.md","x":7690,"y":13700,"width":600,"height":500},
+		{"id":"dia_ch8_7","type":"file","file":"data_intensive_applications/Preventing Lost Updates.md","x":8340,"y":13700,"width":600,"height":500},
+		{"id":"dia_ch8_8","type":"file","file":"data_intensive_applications/Write Skew and Phantoms.md","x":8990,"y":13700,"width":600,"height":500},
+		{"id":"dia_ch8_9","type":"file","file":"data_intensive_applications/Serializability.md","x":9640,"y":13700,"width":600,"height":500},
+		{"id":"dia_ch8_10","type":"file","file":"data_intensive_applications/Distributed Transactions.md","x":10290,"y":13700,"width":600,"height":500},
+		{"id":"4bca8de6e15bb8cb","type":"file","file":"data_intensive_applications/Weak Isolation Levels.md","x":7690,"y":14280,"width":600,"height":520},
+		{"id":"080c6351d9d29e9a","type":"file","file":"data_intensive_applications/Distributed Transactions Accross Different Systems.md","x":10300,"y":14280,"width":580,"height":520}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1201,6 +1226,37 @@
 			"fromSide":"top",
 			"toNode":"dia_ch7_7",
 			"toSide":"left"
+		},
+		{"id":"e_dia_ch7_ch8","fromNode":"dia_ch7_group","fromSide":"bottom","toNode":"dia_ch8_group","toSide":"top"},
+		{
+			"id":"12e708a0d8b2b5e1",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch8_group",
+			"fromSide":"left",
+			"toNode":"transactional_sagas_group",
+			"toSide":"bottom",
+			"color":"4"
+		},
+		{
+			"id":"dc381f5b79fa96f9",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch8_10",
+			"fromSide":"left",
+			"toNode":"data_ownership_group",
+			"toSide":"bottom",
+			"color":"4"
+		},
+		{
+			"id":"edc1311735f79b2c",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"080c6351d9d29e9a",
+			"fromSide":"left",
+			"toNode":"data_ownership_group",
+			"toSide":"bottom",
+			"color":"4"
 		}
 	],
 	"metadata":{

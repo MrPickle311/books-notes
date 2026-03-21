@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 8815.459588177677,
-                  "y": 10929.73462552831,
-                  "zoom": -1.2000000000000006
+                  "x": 10201.336024826458,
+                  "y": 12952.867327918095,
+                  "zoom": -2.0000000000000004
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data_intensive_applications/Automatic or Manual Rebalancing.md",
+                "file": "Architecture.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Automatic or Manual Rebalancing"
+              "title": "Backlinks for Architecture"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data_intensive_applications/Automatic or Manual Rebalancing.md",
+                "file": "Architecture.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Automatic or Manual Rebalancing"
+              "title": "Outgoing links from Architecture"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "data_intensive_applications/Automatic or Manual Rebalancing.md",
+                "file": "Architecture.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Automatic or Manual Rebalancing"
+              "title": "Outline of Architecture"
             }
           }
         ]
@@ -201,8 +201,23 @@
   "active": "f77e7eae0d55cd5e",
   "lastOpenFiles": [
     "Architecture.canvas",
-    "data_intensive_applications/Why replicate?.md",
+    "data_intensive_applications/Distributed Versus Single-Node Systems.md",
+    "data_intensive_applications/Weak Isolation Levels.md",
     "data_intensive_applications/Sharding by Hash Range.md",
+    "data_intensive_applications/Distributed Transactions Accross Different Systems.md",
+    "data_intensive_applications/Distributed Transactions copy.md",
+    "data_intensive_applications/Serializability copy.md",
+    "data_intensive_applications/Distributed Transactions.md",
+    "data_intensive_applications/Serializability.md",
+    "data_intensive_applications/Write Skew and Phantoms.md",
+    "data_intensive_applications/Preventing Lost Updates.md",
+    "data_intensive_applications/Snapshot Isolation and Repeatable Read.md",
+    "data_intensive_applications/Read Committed.md",
+    "data_intensive_applications/Handling Errors and Aborts.md",
+    "data_intensive_applications/Single-Object and Multi-Object Operations.md",
+    "data_intensive_applications/The Meaning of ACID.md",
+    "data_intensive_applications/What is a Transaction.md",
+    "data_intensive_applications/Why replicate?.md",
     "data_intensive_applications/Sharding and Secondary Indexes copy.md",
     "data_intensive_applications/Fixed Number of Shards.md",
     "data_intensive_applications/Sharding of Key-Value Data.md",
@@ -211,21 +226,6 @@
     "data_intensive_applications/Request Routing.md",
     "data_intensive_applications/Automatic or Manual Rebalancing.md",
     "data_intensive_applications/Skewed Workloads and Hot Spots.md",
-    "data_intensive_applications/Consistent Hashing.md",
-    "data_intensive_applications/Sharding by Hash of Key.md",
-    "data_intensive_applications/Sharding by Key Range.md",
-    "data_intensive_applications/Sharding for Multitenancy.md",
-    "data_intensive_applications/Pros and Cons of Sharding.md",
-    "data_intensive_applications/Sharding Overview.md",
-    "data_intensive_applications/Solutions for Replication Lag (The Rise of NewSQL).md",
-    "data_intensive_applications/Leaderless Replication copy.md",
-    "data_intensive_applications/Backups vs Replication.md",
-    "data_intensive_applications/Dealing with Conflicting Writes copy.md",
-    "data_intensive_applications/Databases Backed by Object Storage copy.md",
-    "data_intensive_applications/Leaderless Replication.md",
-    "data_intensive_applications/Dealing with Conflicting Writes.md",
-    "data_intensive_applications/Multi-Leader Replication.md",
-    "data_intensive_applications/Problems with Replication Lag.md",
     "data_intensive_applications/Data Encoding and Evolution for RPC",
     "data_intensive_applications/Data Intensive Applications.canvas",
     "data_intensive_applications",
