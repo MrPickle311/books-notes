@@ -16,7 +16,7 @@
                 "file": "Architecture.canvas",
                 "viewState": {
                   "x": 2245.058858823152,
-                  "y": 13205.657854692656,
+                  "y": 15256.773637375365,
                   "zoom": -1.2000000000000006
                 }
               },
@@ -198,6 +198,11 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Tips for Managing Analytical Data.md",
+    "Sysops Squad Saga. Data Mesh.md",
+    "Data Product Quantum.md",
+    "The Data Mesh.md",
+    "Data Warehouse vs Data Lake.md",
     "Tips for Contracts.md",
     "Sysops Squad Saga. Managing Ticketing Contracts.md",
     "Stamp Coupling.md",
@@ -220,11 +225,6 @@
     "Orchestration vs Choreography.md",
     "Dimensions of Dynamic Coupling.md",
     "Sysops Squad Saga. Data Access.md",
-    "Data Domain Pattern.md",
-    "Replicated Caching Pattern.md",
-    "Column Schema Replication Pattern.md",
-    "Inter-service Communication Pattern.md",
-    "Sysops Squad Saga. Data Ownership.md",
     "Untitled.canvas",
     "Tags",
     "images/architecture_the_hard_parts/figure-15-12.png",

@@ -108,10 +108,14 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Sysops Squad Saga. Managing Ticketing Contracts]]
 * [[Tips for Contracts]]
 
-## Chapters 14-15: Analytics and Trade-offs
+## Chapter 14: Managing Analytical Data
 * [[Data Warehouse vs Data Lake]]
 * [[The Data Mesh]]
 * [[Data Product Quantum]]
+* [[Sysops Squad Saga. Data Mesh]]
+* [[Tips for Managing Analytical Data]]
+
+## Chapter 15: Trade-off Analysis
 * [[Three-Step Process for Trade-Off Analysis]]
 * [[Qualitative vs Quantitative Analysis]]
 * [[MECE Lists]]

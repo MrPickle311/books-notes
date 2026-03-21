@@ -120,6 +120,18 @@
 			"height":1300,
 			"label":"Contracts"
 		},
+		{
+			"id":"analytical_data_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":15800,
+			"width":2000,
+			"height":1300,
+			"label":"Managing Analytical Data"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -207,7 +219,12 @@
 		{"id":"c13_2","type":"file","file":"Consumer-Driven Contracts.md","x":1950,"y":14450,"width":600,"height":500},
 		{"id":"c13_3","type":"file","file":"Stamp Coupling.md","x":2600,"y":14450,"width":600,"height":500},
 		{"id":"c13_4","type":"file","file":"Sysops Squad Saga. Managing Ticketing Contracts.md","x":1300,"y":15100,"width":600,"height":500},
-		{"id":"c13_5","type":"file","file":"Tips for Contracts.md","x":1950,"y":15100,"width":600,"height":500}
+		{"id":"c13_5","type":"file","file":"Tips for Contracts.md","x":1950,"y":15100,"width":600,"height":500},
+		{"id":"c14_1","type":"file","file":"Data Warehouse vs Data Lake.md","x":1300,"y":15850,"width":600,"height":500},
+		{"id":"c14_2","type":"file","file":"The Data Mesh.md","x":1950,"y":15850,"width":600,"height":500},
+		{"id":"c14_3","type":"file","file":"Data Product Quantum.md","x":2600,"y":15850,"width":600,"height":500},
+		{"id":"c14_4","type":"file","file":"Sysops Squad Saga. Data Mesh.md","x":1300,"y":16500,"width":600,"height":500},
+		{"id":"c14_5","type":"file","file":"Tips for Managing Analytical Data.md","x":1950,"y":16500,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -228,7 +245,8 @@
 		{"id":"e_root_c10","fromNode":"root","fromSide":"right","toNode":"data_access_group","toSide":"left"},
 		{"id":"e_root_c11","fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"},
 		{"id":"e_root_c12","fromNode":"root","fromSide":"right","toNode":"transactional_sagas_group","toSide":"left"},
-		{"id":"e_root_c13","fromNode":"root","fromSide":"right","toNode":"contracts_group","toSide":"left"}
+		{"id":"e_root_c13","fromNode":"root","fromSide":"right","toNode":"contracts_group","toSide":"left"},
+		{"id":"e_root_c14","fromNode":"root","fromSide":"right","toNode":"analytical_data_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
