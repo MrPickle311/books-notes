@@ -15,8 +15,8 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 9512.84883326507,
-                  "y": 18331.269945721877,
+                  "x": 9725.32150789707,
+                  "y": 20346.12647682714,
                   "zoom": -1.6000000000000005
                 }
               },
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data_intensive_applications/ID Generators and Logical Clocks.md",
+                "file": "Architecture.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ID Generators and Logical Clocks"
+              "title": "Backlinks for Architecture"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data_intensive_applications/ID Generators and Logical Clocks.md",
+                "file": "Architecture.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from ID Generators and Logical Clocks"
+              "title": "Outgoing links from Architecture"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "data_intensive_applications/ID Generators and Logical Clocks.md",
+                "file": "Architecture.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ID Generators and Logical Clocks"
+              "title": "Outline of Architecture"
             }
           }
         ]
@@ -201,31 +201,31 @@
   "active": "f77e7eae0d55cd5e",
   "lastOpenFiles": [
     "Architecture.canvas",
+    "data_intensive_applications/ID Generators and Logical Clocks.md",
+    "data_intensive_applications/Batch Processing in Distributed Systems.md",
+    "data_intensive_applications/Batch Use Cases copy.md",
+    "data_intensive_applications/Batch Use Cases.md",
+    "data_intensive_applications/The Evolution of Query Languages.md",
+    "data_intensive_applications/JOIN and GROUP BY.md",
+    "data_intensive_applications/Shuffling Data.md",
+    "data_intensive_applications/Dataflow Engines.md",
+    "data_intensive_applications/MapReduce.md",
+    "data_intensive_applications/Handling Faults in Batch.md",
+    "data_intensive_applications/Scheduling Workflows.md",
+    "data_intensive_applications/Distributed Job Orchestration.md",
+    "data_intensive_applications/Object Stores.md",
+    "data_intensive_applications/Distributed Filesystems.md",
+    "data_intensive_applications/Batch Processing with Unix Tools.md",
+    "data_intensive_applications/The Evolution of Batch Frameworks.md",
+    "data_intensive_applications/The Philosophy of Batch Processing.md",
     "data_intensive_applications/Consistency models.md",
     "data_intensive_applications/Distributed Transactions Accross Different Systems.md",
-    "data_intensive_applications/ID Generators and Logical Clocks.md",
     "data_intensive_applications/ ID Generators and Logical Clocks.md",
     "data_intensive_applications/Consensus copy.md",
     "data_intensive_applications/The True Cost of Consensus.md",
     "data_intensive_applications/Coordination Services.md",
     "data_intensive_applications/The Many Faces of Consensus.md",
     "data_intensive_applications/Consensus.md",
-    "data_intensive_applications/Linearizable ID Generators.md",
-    "data_intensive_applications/Logical Clocks.md",
-    "data_intensive_applications/Distributed ID Generators.md",
-    "data_intensive_applications/The Cost of Linearizability.md",
-    "data_intensive_applications/Implementing Linearizable Systems.md",
-    "data_intensive_applications/Relying on Linearizability.md",
-    "data_intensive_applications/Linearizability vs Serializability.md",
-    "data_intensive_applications/Linearizability.md",
-    "data_intensive_applications/System Models and Correctness.md",
-    "data_intensive_applications/Byzantine Faults.md",
-    "data_intensive_applications/Distributed Locks and Fencing.md",
-    "data_intensive_applications/Knowledge Truth and Lies.md",
-    "data_intensive_applications/Process Pauses.md",
-    "data_intensive_applications/Clock Confidence Intervals.md",
-    "data_intensive_applications/Unreliable Clocks.md",
-    "data_intensive_applications/Timeouts and Unbounded Delays.md",
     "data_intensive_applications/Data Encoding and Evolution for RPC",
     "data_intensive_applications/Data Intensive Applications.canvas",
     "data_intensive_applications",

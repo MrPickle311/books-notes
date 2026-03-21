@@ -2,6 +2,19 @@
 	"nodes":[
 		{"id":"f6875e71952b0f2c","type":"group","x":2540,"y":3670,"width":4520,"height":3410,"color":"6","label":"Distributed"},
 		{
+			"id":"dia_ch11_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":19600,
+			"width":5250,
+			"height":2240,
+			"color":"3",
+			"label":"Batch Processing"
+		},
+		{
 			"id":"dia_group",
 			"type":"group",
 			"styleAttributes":{
@@ -686,7 +699,22 @@
 		{"id":"dia_ch10_11","type":"file","file":"data_intensive_applications/Coordination Services.md","x":10290,"y":17900,"width":600,"height":500},
 		{"id":"dia_ch10_12","type":"file","file":"data_intensive_applications/The True Cost of Consensus.md","x":10940,"y":17900,"width":600,"height":500},
 		{"id":"9439866d6a3601b6","type":"file","file":"data_intensive_applications/Consistency models.md","x":7690,"y":18480,"width":600,"height":560},
-		{"id":"fb210c8dd8fa0157","type":"file","file":"data_intensive_applications/ID Generators and Logical Clocks.md","x":8340,"y":18480,"width":600,"height":560}
+		{"id":"fb210c8dd8fa0157","type":"file","file":"data_intensive_applications/ID Generators and Logical Clocks.md","x":8340,"y":18480,"width":600,"height":560},
+		{"id":"dia_ch11_1","type":"file","file":"data_intensive_applications/The Philosophy of Batch Processing.md","x":7690,"y":19650,"width":600,"height":500},
+		{"id":"dia_ch11_4","type":"file","file":"data_intensive_applications/Distributed Filesystems.md","x":9640,"y":19650,"width":600,"height":500},
+		{"id":"dia_ch11_5","type":"file","file":"data_intensive_applications/Object Stores.md","x":10290,"y":19650,"width":600,"height":500},
+		{"id":"dia_ch11_6","type":"file","file":"data_intensive_applications/Distributed Job Orchestration.md","x":10940,"y":19650,"width":600,"height":500},
+		{"id":"dia_ch11_7","type":"file","file":"data_intensive_applications/Scheduling Workflows.md","x":11590,"y":19650,"width":600,"height":500},
+		{"id":"dia_ch11_11","type":"file","file":"data_intensive_applications/Shuffling Data.md","x":9640,"y":20300,"width":600,"height":500},
+		{"id":"dia_ch11_12","type":"file","file":"data_intensive_applications/JOIN and GROUP BY.md","x":10290,"y":20300,"width":600,"height":500},
+		{"id":"dia_ch11_13","type":"file","file":"data_intensive_applications/The Evolution of Query Languages.md","x":10940,"y":20300,"width":600,"height":500},
+		{"id":"dia_ch11_14","type":"file","file":"data_intensive_applications/Batch Use Cases.md","x":11590,"y":20300,"width":600,"height":500},
+		{"id":"dia_ch11_2","type":"file","file":"data_intensive_applications/The Evolution of Batch Frameworks.md","x":8340,"y":19650,"width":600,"height":500},
+		{"id":"dia_ch11_3","type":"file","file":"data_intensive_applications/Batch Processing with Unix Tools.md","x":8990,"y":19650,"width":600,"height":500},
+		{"id":"dia_ch11_8","type":"file","file":"data_intensive_applications/Handling Faults in Batch.md","x":7690,"y":20300,"width":600,"height":500},
+		{"id":"dia_ch11_9","type":"file","file":"data_intensive_applications/MapReduce.md","x":8340,"y":20300,"width":600,"height":500},
+		{"id":"dia_ch11_10","type":"file","file":"data_intensive_applications/Dataflow Engines.md","x":8990,"y":20300,"width":600,"height":500},
+		{"id":"fc033741b02af935","type":"file","file":"data_intensive_applications/Batch Processing in Distributed Systems.md","x":7690,"y":20880,"width":600,"height":560}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1317,7 +1345,8 @@
 			"toSide":"bottom",
 			"color":"6"
 		},
-		{"id":"e_dia_ch9_ch10","fromNode":"dia_ch9_group","fromSide":"bottom","toNode":"dia_ch10_group","toSide":"top"}
+		{"id":"e_dia_ch9_ch10","fromNode":"dia_ch9_group","fromSide":"bottom","toNode":"dia_ch10_group","toSide":"top"},
+		{"id":"e_dia_ch10_ch11","fromNode":"dia_ch10_group","fromSide":"bottom","toNode":"dia_ch11_group","toSide":"top"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

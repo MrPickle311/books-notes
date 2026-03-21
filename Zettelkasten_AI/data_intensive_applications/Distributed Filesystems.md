@@ -1,0 +1,21 @@
+---
+aliases:
+tags:
+  - dataintensive
+  - dataintensiveapplications
+source_book: "Designing Data-Intensive Applications"
+topic_layer: "Layer 4: Derived Data"
+status: pending
+---
+On a local machine, a filesystem (like `ext4` or `XFS`) breaks files into tiny chunks called *blocks* (usually 4KB), reads/writes them to the disk, and caches frequently accessed blocks in memory (the Page Cache).
+
+A **Distributed Filesystem** (DFS) does the exact same thing, but across a network of separate computers (the "Shared-Nothing" architecture).
+*   **Massive Blocks:** Instead of 4KB blocks, DFSs use massive block sizes (e.g., 128MB in Hadoop HDFS, or 4MB in Object Stores). This drastically reduces the metadata tracking overhead for petabyte-scale datasets and maximizes sequential read throughput.
+*   **Data Nodes:** The physical servers storing these chunks run background daemons (called DataNodes in HDFS) that serve the block data over the network to any requesting client.
+*   **Metadata Nodes:** Just like a local filesystem has *inodes* to map where a file's blocks live on disk, a DFS has a central Metadata Service (like HDFS's *NameNode*) that maps which network servers currently hold which blocks of a huge file.
+*   **Replication vs RAID:** Real big-data clusters are built using thousands of cheap, unreliable commodity servers that crash constantly. To survive this, the DFS automatically replicates every block onto multiple separate machines (or uses Erasure Coding for a cheaper form of redundancy). This is the distributed equivalent of a local hardware RAID array.
+
+*(Note: Modern cloud data processing has largely abstracted the hard work of managing a DFS away. Developers today usually rely on massively scalable Cloud Object Storage—like Amazon S3 or Google Cloud Storage—which serves the identical underlying function via a standard REST API).*
+---
+## Related Concepts
+* [[Data Intensive Applications]]
