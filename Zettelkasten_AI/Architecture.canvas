@@ -6,11 +6,23 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":2500,
+			"x":610,
+			"y":1620,
 			"width":2000,
 			"height":1900,
 			"label":"Component Decomposition Patterns"
+		},
+		{
+			"id":"trade_off_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":2800,
+			"y":6940,
+			"width":2000,
+			"height":1900,
+			"label":"Trade-off Analysis"
 		},
 		{
 			"id":"decomposition_group",
@@ -18,8 +30,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":1100,
+			"x":-2320,
+			"y":2320,
 			"width":2000,
 			"height":1300,
 			"label":"Decomposition"
@@ -30,8 +42,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":4580,
+			"x":2800,
+			"y":2220,
 			"width":2000,
 			"height":1300,
 			"label":"Databases choice, integration & desintegration"
@@ -42,8 +54,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":6000,
+			"x":-2320,
+			"y":3920,
 			"width":2000,
 			"height":1300,
 			"label":"Service Granularity"
@@ -54,8 +66,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":7400,
+			"x":610,
+			"y":3820,
 			"width":2000,
 			"height":1300,
 			"label":"Reuse Patterns"
@@ -66,8 +78,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":8800,
+			"x":2800,
+			"y":3820,
 			"width":2000,
 			"height":1300,
 			"label":"Data Ownership and Distributed Transactions"
@@ -78,8 +90,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":10200,
+			"x":-2320,
+			"y":5520,
 			"width":2000,
 			"height":1300,
 			"label":"Distributed Data Access"
@@ -90,8 +102,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":11600,
+			"x":610,
+			"y":5420,
 			"width":2000,
 			"height":1300,
 			"label":"Managing Distributed Workflows"
@@ -102,8 +114,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":13000,
+			"x":2800,
+			"y":5420,
 			"width":2000,
 			"height":1300,
 			"label":"Transactional Sagas"
@@ -114,8 +126,8 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":14400,
+			"x":-2320,
+			"y":7040,
 			"width":2000,
 			"height":1300,
 			"label":"Contracts"
@@ -126,23 +138,11 @@
 			"styleAttributes":{
 				"border":null
 			},
-			"x":1250,
-			"y":15800,
+			"x":610,
+			"y":6820,
 			"width":2000,
 			"height":1300,
 			"label":"Managing Analytical Data"
-		},
-		{
-			"id":"trade_off_group",
-			"type":"group",
-			"styleAttributes":{
-				"border":null
-			},
-			"x":1250,
-			"y":17200,
-			"width":2000,
-			"height":1900,
-			"label":"Trade-off Analysis"
 		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
@@ -167,12 +167,6 @@
 		{"id":"c3_2","type":"file","file":"The Drivers for Modularity.md","x":1950,"y":-280,"width":600,"height":500},
 		{"id":"c3_3","type":"file","file":"Building the Business Case. The Sysops Squad ADR.md","x":1300,"y":400,"width":600,"height":500},
 		{"id":"c3_4","type":"file","file":"Tips for Architectural Modularity.md","x":1950,"y":400,"width":600,"height":500},
-		{"id":"c4_1","type":"file","file":"Choosing a Decomposition Approach.md","x":1300,"y":1150,"width":600,"height":500},
-		{"id":"c4_2","type":"file","file":"Is the Code Base Decomposable.md","x":1950,"y":1150,"width":600,"height":500},
-		{"id":"c4_3","type":"file","file":"Component-Based Decomposition.md","x":2600,"y":1150,"width":600,"height":500},
-		{"id":"c4_4","type":"file","file":"Tactical Forking.md","x":1300,"y":1800,"width":600,"height":500},
-		{"id":"c4_5","type":"file","file":"Sysops Squad ADR. Choosing the Approach.md","x":1950,"y":1800,"width":600,"height":500},
-		{"id":"c4_6","type":"file","file":"Tips for Architectural Decomposition.md","x":2600,"y":1800,"width":600,"height":500},
 		{"id":"c2_1","type":"file","file":"The Entanglement Problem.md","x":-770,"y":-300,"width":570,"height":500},
 		{"id":"c2_2","type":"file","file":"Architecture Quantum.md","x":-770,"y":250,"width":570,"height":450},
 		{"id":"c2_3","type":"file","file":"Static Coupling. The Wiring.md","x":-1700,"y":890,"width":660,"height":600},
@@ -180,72 +174,287 @@
 		{"id":"c2_4","type":"file","file":"Dynamic Coupling. Runtime Communication.md","x":-980,"y":890,"width":640,"height":600},
 		{"id":"c1_3","type":"file","file":"Documenting Decisions. Architecture Decision Records (ADRs).md","x":-220,"y":1180,"width":560,"height":540},
 		{"id":"c1_4","type":"file","file":"Automated Governance. Architecture Fitness Functions.md","x":-220,"y":1780,"width":560,"height":580},
-		{"id":"c5_1","type":"file","file":"Component-Based Decomposition Roadmap.md","x":1300,"y":2550,"width":600,"height":500},
-		{"id":"c5_4","type":"file","file":"Gather Common Domain Components Pattern.md","x":1300,"y":3200,"width":600,"height":500},
-		{"id":"c5_5","type":"file","file":"Flatten Components Pattern.md","x":1950,"y":3200,"width":600,"height":500},
-		{"id":"c5_6","type":"file","file":"Determine Component Dependencies Pattern.md","x":2600,"y":3200,"width":600,"height":500},
-		{"id":"c5_7","type":"file","file":"Create Component Domains Pattern.md","x":1300,"y":3850,"width":600,"height":500},
-		{"id":"c5_8","type":"file","file":"Create Domain Services Pattern.md","x":1950,"y":3850,"width":600,"height":500},
-		{"id":"c5_9","type":"file","file":"Tips for Component-Based Decomposition.md","x":2600,"y":3850,"width":600,"height":500},
-		{"id":"c5_3","type":"file","file":"Identify and Size Components Pattern.md","x":1950,"y":2550,"width":600,"height":500},
-		{"id":"c6_1","type":"file","file":"Data Disintegrators vs Integrators.md","x":1300,"y":4630,"width":600,"height":500},
-		{"id":"c6_2","type":"file","file":"The 5-Step Database Decomposition Process.md","x":1950,"y":4630,"width":600,"height":500},
-		{"id":"c6_3","type":"file","file":"Polyglot Persistence.md","x":2600,"y":4630,"width":600,"height":500},
-		{"id":"c6_4","type":"file","file":"Sysops Squad Saga. Polyglot Databases.md","x":1300,"y":5280,"width":600,"height":500},
-		{"id":"c6_5","type":"file","file":"Tips for Pulling Apart Operational Data.md","x":1950,"y":5280,"width":600,"height":500},
-		{"id":"c7_1","type":"file","file":"Modularity vs Granularity.md","x":1300,"y":6050,"width":600,"height":500},
-		{"id":"c7_2","type":"file","file":"Granularity Disintegrators.md","x":1950,"y":6050,"width":600,"height":500},
-		{"id":"c7_3","type":"file","file":"Granularity Integrators.md","x":2600,"y":6050,"width":600,"height":500},
-		{"id":"c7_4","type":"file","file":"Finding The Right Balance.md","x":1300,"y":6700,"width":600,"height":500},
-		{"id":"c7_5","type":"file","file":"Sysops Squad Sagas. Granularity.md","x":1950,"y":6700,"width":600,"height":500},
-		{"id":"c7_6","type":"file","file":"Tips for Service Granularity.md","x":2600,"y":6700,"width":600,"height":500},
-		{"id":"c8_1","type":"file","file":"Code Replication.md","x":1300,"y":7450,"width":600,"height":500},
-		{"id":"c8_2","type":"file","file":"Shared Library.md","x":1950,"y":7450,"width":600,"height":500},
-		{"id":"c8_3","type":"file","file":"Shared Service.md","x":2600,"y":7450,"width":600,"height":500},
-		{"id":"c8_4","type":"file","file":"Sidecars and Service Mesh.md","x":1300,"y":8100,"width":600,"height":500},
-		{"id":"c8_5","type":"file","file":"When Does Reuse Add Value.md","x":1950,"y":8100,"width":600,"height":500},
-		{"id":"d1f2a8bf7e958fea","type":"file","file":"Sysops Squad Sagas - Reuse.md","x":2600,"y":8100,"width":580,"height":500},
-		{"id":"c9_1","type":"file","file":"Assigning Data Ownership.md","x":1300,"y":8850,"width":600,"height":500},
-		{"id":"c9_2","type":"file","file":"Techniques for Resolving Joint Ownership.md","x":1950,"y":8850,"width":600,"height":500},
-		{"id":"c9_3","type":"file","file":"Distributed Transactions. ACID vs BASE.md","x":2600,"y":8850,"width":600,"height":500},
-		{"id":"c9_4","type":"file","file":"Eventual Consistency Patterns.md","x":1300,"y":9500,"width":600,"height":500},
-		{"id":"c9_5","type":"file","file":"Sysops Squad Saga. Data Ownership.md","x":1950,"y":9500,"width":600,"height":500},
-		{"id":"c10_1","type":"file","file":"Inter-service Communication Pattern.md","x":1300,"y":10250,"width":600,"height":500},
-		{"id":"c10_2","type":"file","file":"Column Schema Replication Pattern.md","x":1950,"y":10250,"width":600,"height":500},
-		{"id":"c10_3","type":"file","file":"Replicated Caching Pattern.md","x":2600,"y":10250,"width":600,"height":500},
-		{"id":"c10_4","type":"file","file":"Data Domain Pattern.md","x":1300,"y":10900,"width":600,"height":500},
-		{"id":"c10_5","type":"file","file":"Sysops Squad Saga. Data Access.md","x":1950,"y":10900,"width":600,"height":500},
-		{"id":"c11_1","type":"file","file":"Dimensions of Dynamic Coupling.md","x":1300,"y":11650,"width":600,"height":500},
-		{"id":"c11_2","type":"file","file":"Orchestration vs Choreography.md","x":1950,"y":11650,"width":600,"height":500},
-		{"id":"c11_3","type":"file","file":"Semantic vs Implementation Coupling.md","x":2600,"y":11650,"width":600,"height":500},
-		{"id":"c11_4","type":"file","file":"Workflow State Management in Choreography.md","x":1300,"y":12300,"width":600,"height":500},
-		{"id":"c11_5","type":"file","file":"Sysops Squad Saga. Managing Workflows.md","x":1950,"y":12300,"width":600,"height":500},
-		{"id":"f081daa9f8d07310","type":"file","file":"Tips for Distributed Data Access.md","x":2600,"y":10900,"width":600,"height":500},
-		{"id":"29c5755389d227bf","type":"file","file":"Tips for Distributed Workflows.md","x":2600,"y":12300,"width":600,"height":500},
-		{"id":"c12_1","type":"file","file":"Transactional Saga Patterns.md","x":1300,"y":13050,"width":600,"height":500},
-		{"id":"c12_2","type":"file","file":"Saga State Machines.md","x":1950,"y":13050,"width":600,"height":500},
-		{"id":"c12_3","type":"file","file":"Techniques For Managing Sagas.md","x":2600,"y":13050,"width":600,"height":500},
-		{"id":"c12_4","type":"file","file":"Sysops Squad Saga. Atomic Transactions.md","x":1300,"y":13700,"width":600,"height":500},
-		{"id":"c12_5","type":"file","file":"Tips for Transactional Sagas.md","x":1950,"y":13700,"width":600,"height":500},
-		{"id":"c13_1","type":"file","file":"Strict vs Loose Contracts.md","x":1300,"y":14450,"width":600,"height":500},
-		{"id":"c13_2","type":"file","file":"Consumer-Driven Contracts.md","x":1950,"y":14450,"width":600,"height":500},
-		{"id":"c13_3","type":"file","file":"Stamp Coupling.md","x":2600,"y":14450,"width":600,"height":500},
-		{"id":"c13_4","type":"file","file":"Sysops Squad Saga. Managing Ticketing Contracts.md","x":1300,"y":15100,"width":600,"height":500},
-		{"id":"c13_5","type":"file","file":"Tips for Contracts.md","x":1950,"y":15100,"width":600,"height":500},
-		{"id":"c14_1","type":"file","file":"Data Warehouse vs Data Lake.md","x":1300,"y":15850,"width":600,"height":500},
-		{"id":"c14_2","type":"file","file":"The Data Mesh.md","x":1950,"y":15850,"width":600,"height":500},
-		{"id":"c14_3","type":"file","file":"Data Product Quantum.md","x":2600,"y":15850,"width":600,"height":500},
-		{"id":"c14_4","type":"file","file":"Sysops Squad Saga. Data Mesh.md","x":1300,"y":16500,"width":600,"height":500},
-		{"id":"c14_5","type":"file","file":"Tips for Managing Analytical Data.md","x":1950,"y":16500,"width":600,"height":500},
-		{"id":"c15_1","type":"file","file":"Three-Step Process for Trade-Off Analysis.md","x":1300,"y":17250,"width":600,"height":500},
-		{"id":"c15_2","type":"file","file":"Qualitative vs Quantitative Analysis.md","x":1950,"y":17250,"width":600,"height":500},
-		{"id":"c15_3","type":"file","file":"MECE Lists.md","x":2600,"y":17250,"width":600,"height":500},
-		{"id":"c15_4","type":"file","file":"The Out of Context Trap.md","x":1300,"y":17900,"width":600,"height":500},
-		{"id":"c15_5","type":"file","file":"Model Relevant Domain Cases.md","x":1950,"y":17900,"width":600,"height":500},
-		{"id":"c15_6","type":"file","file":"Prefer Bottom Line over Overwhelming Evidence.md","x":2600,"y":17900,"width":600,"height":500},
-		{"id":"c15_7","type":"file","file":"Avoiding Snake Oil and Evangelism.md","x":1300,"y":18550,"width":600,"height":500},
-		{"id":"c15_8","type":"file","file":"Sysops Squad Saga. Trade-off Analysis Epilog.md","x":1950,"y":18550,"width":600,"height":500},
-		{"id":"c15_9","type":"file","file":"Tips for Trade-Off Analysis.md","x":2600,"y":18550,"width":600,"height":500}
+		{
+			"id":"c13_1",
+			"type":"file",
+			"file":"Strict vs Loose Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-2270,
+			"y":7090,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_4",
+			"type":"file",
+			"file":"Sysops Squad Saga. Managing Ticketing Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-2270,
+			"y":7740,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_2",
+			"type":"file",
+			"file":"Consumer-Driven Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-1620,
+			"y":7090,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_5",
+			"type":"file",
+			"file":"Tips for Contracts.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-1620,
+			"y":7740,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c13_3",
+			"type":"file",
+			"file":"Stamp Coupling.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":-970,
+			"y":7090,
+			"width":600,
+			"height":500
+		},
+		{"id":"c10_3","type":"file","file":"Replicated Caching Pattern.md","x":-970,"y":5570,"width":600,"height":500},
+		{"id":"f081daa9f8d07310","type":"file","file":"Tips for Distributed Data Access.md","x":-970,"y":6220,"width":600,"height":500},
+		{"id":"c10_1","type":"file","file":"Inter-service Communication Pattern.md","x":-2270,"y":5570,"width":600,"height":500},
+		{"id":"c10_2","type":"file","file":"Column Schema Replication Pattern.md","x":-1620,"y":5570,"width":600,"height":500},
+		{"id":"c10_4","type":"file","file":"Data Domain Pattern.md","x":-2270,"y":6220,"width":600,"height":500},
+		{"id":"c10_5","type":"file","file":"Sysops Squad Saga. Data Access.md","x":-1620,"y":6220,"width":600,"height":500},
+		{"id":"c7_1","type":"file","file":"Modularity vs Granularity.md","x":-2270,"y":3970,"width":600,"height":500},
+		{"id":"c7_2","type":"file","file":"Granularity Disintegrators.md","x":-1620,"y":3970,"width":600,"height":500},
+		{"id":"c7_3","type":"file","file":"Granularity Integrators.md","x":-970,"y":3970,"width":600,"height":500},
+		{"id":"c7_4","type":"file","file":"Finding The Right Balance.md","x":-2270,"y":4620,"width":600,"height":500},
+		{"id":"c7_5","type":"file","file":"Sysops Squad Sagas. Granularity.md","x":-1620,"y":4620,"width":600,"height":500},
+		{"id":"c7_6","type":"file","file":"Tips for Service Granularity.md","x":-970,"y":4620,"width":600,"height":500},
+		{"id":"c4_4","type":"file","file":"Tactical Forking.md","x":-2270,"y":3020,"width":600,"height":500},
+		{"id":"c4_5","type":"file","file":"Sysops Squad ADR. Choosing the Approach.md","x":-1620,"y":3020,"width":600,"height":500},
+		{"id":"c4_6","type":"file","file":"Tips for Architectural Decomposition.md","x":-970,"y":3020,"width":600,"height":500},
+		{"id":"c4_1","type":"file","file":"Choosing a Decomposition Approach.md","x":-2270,"y":2370,"width":600,"height":500},
+		{"id":"c4_2","type":"file","file":"Is the Code Base Decomposable.md","x":-1620,"y":2370,"width":600,"height":500},
+		{"id":"c4_3","type":"file","file":"Component-Based Decomposition.md","x":-970,"y":2370,"width":600,"height":500},
+		{"id":"c9_1","type":"file","file":"Assigning Data Ownership.md","x":2850,"y":3870,"width":600,"height":500},
+		{"id":"c9_4","type":"file","file":"Eventual Consistency Patterns.md","x":2850,"y":4520,"width":600,"height":500},
+		{"id":"c9_2","type":"file","file":"Techniques for Resolving Joint Ownership.md","x":3500,"y":3870,"width":600,"height":500},
+		{"id":"c9_5","type":"file","file":"Sysops Squad Saga. Data Ownership.md","x":3500,"y":4520,"width":600,"height":500},
+		{"id":"c9_3","type":"file","file":"Distributed Transactions. ACID vs BASE.md","x":4150,"y":3870,"width":600,"height":500},
+		{
+			"id":"c15_4",
+			"type":"file",
+			"file":"The Out of Context Trap.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":2850,
+			"y":7640,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_5",
+			"type":"file",
+			"file":"Model Relevant Domain Cases.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":3500,
+			"y":7640,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_6",
+			"type":"file",
+			"file":"Prefer Bottom Line over Overwhelming Evidence.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":4150,
+			"y":7640,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_7",
+			"type":"file",
+			"file":"Avoiding Snake Oil and Evangelism.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":2850,
+			"y":8290,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_8",
+			"type":"file",
+			"file":"Sysops Squad Saga. Trade-off Analysis Epilog.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":3500,
+			"y":8290,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_9",
+			"type":"file",
+			"file":"Tips for Trade-Off Analysis.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":4150,
+			"y":8290,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_1",
+			"type":"file",
+			"file":"Three-Step Process for Trade-Off Analysis.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":2850,
+			"y":6990,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_2",
+			"type":"file",
+			"file":"Qualitative vs Quantitative Analysis.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":3500,
+			"y":6990,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c15_3",
+			"type":"file",
+			"file":"MECE Lists.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":4150,
+			"y":6990,
+			"width":600,
+			"height":500
+		},
+		{"id":"c12_1","type":"file","file":"Transactional Saga Patterns.md","x":2850,"y":5470,"width":600,"height":500},
+		{"id":"c12_2","type":"file","file":"Saga State Machines.md","x":3500,"y":5470,"width":600,"height":500},
+		{"id":"c12_3","type":"file","file":"Techniques For Managing Sagas.md","x":4150,"y":5470,"width":600,"height":500},
+		{"id":"c12_4","type":"file","file":"Sysops Squad Saga. Atomic Transactions.md","x":2850,"y":6120,"width":600,"height":500},
+		{"id":"c12_5","type":"file","file":"Tips for Transactional Sagas.md","x":3500,"y":6120,"width":600,"height":500},
+		{"id":"c6_1","type":"file","file":"Data Disintegrators vs Integrators.md","x":2850,"y":2270,"width":600,"height":500},
+		{"id":"c6_2","type":"file","file":"The 5-Step Database Decomposition Process.md","x":3500,"y":2270,"width":600,"height":500},
+		{"id":"c6_3","type":"file","file":"Polyglot Persistence.md","x":4150,"y":2270,"width":600,"height":500},
+		{"id":"c6_4","type":"file","file":"Sysops Squad Saga. Polyglot Databases.md","x":2850,"y":2920,"width":600,"height":500},
+		{"id":"c6_5","type":"file","file":"Tips for Pulling Apart Operational Data.md","x":3500,"y":2920,"width":600,"height":500},
+		{"id":"c11_2","type":"file","file":"Orchestration vs Choreography.md","x":1310,"y":5470,"width":600,"height":500},
+		{"id":"c11_3","type":"file","file":"Semantic vs Implementation Coupling.md","x":1960,"y":5470,"width":600,"height":500},
+		{"id":"c11_5","type":"file","file":"Sysops Squad Saga. Managing Workflows.md","x":1310,"y":6120,"width":600,"height":500},
+		{"id":"29c5755389d227bf","type":"file","file":"Tips for Distributed Workflows.md","x":1960,"y":6120,"width":600,"height":500},
+		{"id":"c8_2","type":"file","file":"Shared Library.md","x":1310,"y":3870,"width":600,"height":500},
+		{"id":"c8_5","type":"file","file":"When Does Reuse Add Value.md","x":1310,"y":4520,"width":600,"height":500},
+		{"id":"c8_3","type":"file","file":"Shared Service.md","x":1960,"y":3870,"width":600,"height":500},
+		{"id":"d1f2a8bf7e958fea","type":"file","file":"Sysops Squad Sagas - Reuse.md","x":1960,"y":4520,"width":580,"height":500},
+		{"id":"c11_1","type":"file","file":"Dimensions of Dynamic Coupling.md","x":660,"y":5470,"width":600,"height":500},
+		{"id":"c11_4","type":"file","file":"Workflow State Management in Choreography.md","x":660,"y":6120,"width":600,"height":500},
+		{"id":"c8_1","type":"file","file":"Code Replication.md","x":660,"y":3870,"width":600,"height":500},
+		{"id":"c8_4","type":"file","file":"Sidecars and Service Mesh.md","x":660,"y":4520,"width":600,"height":500},
+		{
+			"id":"c14_1",
+			"type":"file",
+			"file":"Data Warehouse vs Data Lake.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":660,
+			"y":6870,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c14_2",
+			"type":"file",
+			"file":"The Data Mesh.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1310,
+			"y":6870,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c14_3",
+			"type":"file",
+			"file":"Data Product Quantum.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1960,
+			"y":6870,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c14_4",
+			"type":"file",
+			"file":"Sysops Squad Saga. Data Mesh.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":660,
+			"y":7520,
+			"width":600,
+			"height":500
+		},
+		{
+			"id":"c14_5",
+			"type":"file",
+			"file":"Tips for Managing Analytical Data.md",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1310,
+			"y":7520,
+			"width":600,
+			"height":500
+		},
+		{"id":"c5_1","type":"file","file":"Component-Based Decomposition Roadmap.md","x":660,"y":1670,"width":600,"height":500},
+		{"id":"c5_4","type":"file","file":"Gather Common Domain Components Pattern.md","x":660,"y":2320,"width":600,"height":500},
+		{"id":"c5_7","type":"file","file":"Create Component Domains Pattern.md","x":660,"y":2970,"width":600,"height":500},
+		{"id":"c5_3","type":"file","file":"Identify and Size Components Pattern.md","x":1310,"y":1670,"width":600,"height":500},
+		{"id":"c5_5","type":"file","file":"Flatten Components Pattern.md","x":1310,"y":2320,"width":600,"height":500},
+		{"id":"c5_8","type":"file","file":"Create Domain Services Pattern.md","x":1310,"y":2970,"width":600,"height":500},
+		{"id":"c5_6","type":"file","file":"Determine Component Dependencies Pattern.md","x":1960,"y":2320,"width":600,"height":500},
+		{"id":"c5_9","type":"file","file":"Tips for Component-Based Decomposition.md","x":1960,"y":2970,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -265,7 +474,7 @@
 		{"id":"e_root_c9","fromNode":"root","fromSide":"right","toNode":"data_ownership_group","toSide":"left"},
 		{"id":"e_root_c10","fromNode":"root","fromSide":"right","toNode":"data_access_group","toSide":"left"},
 		{"id":"e_root_c11","fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"},
-		{"id":"e_root_c12","fromNode":"root","fromSide":"right","toNode":"transactional_sagas_group","toSide":"left"},
+		{"id":"e_root_c12","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c5_9","toSide":"left"},
 		{"id":"e_root_c13","fromNode":"root","fromSide":"right","toNode":"contracts_group","toSide":"left"},
 		{"id":"e_root_c14","fromNode":"root","fromSide":"right","toNode":"analytical_data_group","toSide":"left"},
 		{"id":"e_root_c15","fromNode":"root","fromSide":"right","toNode":"trade_off_group","toSide":"left"}
