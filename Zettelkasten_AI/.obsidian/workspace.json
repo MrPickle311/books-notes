@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 2292.978685186067,
-                  "y": 6271.519423459271,
-                  "zoom": -0.6403982093907644
+                  "x": 2245.058858823152,
+                  "y": 8077.868397985881,
+                  "zoom": -1.2000000000000006
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Modularity vs Granularity.md",
+                "file": "Architecture.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Modularity vs Granularity"
+              "title": "Backlinks for Architecture"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Modularity vs Granularity.md",
+                "file": "Architecture.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Modularity vs Granularity"
+              "title": "Outgoing links from Architecture"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Modularity vs Granularity.md",
+                "file": "Architecture.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Modularity vs Granularity"
+              "title": "Outline of Architecture"
             }
           }
         ]
@@ -198,6 +198,19 @@
   },
   "active": "93560c67e5578530",
   "lastOpenFiles": [
+    "Sysops Squad Saga. Data Ownership.md",
+    "Eventual Consistency Patterns.md",
+    "Distributed Transactions. ACID vs BASE.md",
+    "Techniques for Resolving Joint Ownership.md",
+    "Assigning Data Ownership.md",
+    "Architecture.canvas",
+    "Sysops Squad Sagas - Reuse.md",
+    "When Does Reuse Add Value copy.md",
+    "When Does Reuse Add Value.md",
+    "Sidecars and Service Mesh.md",
+    "Shared Service.md",
+    "Shared Library.md",
+    "Code Replication.md",
     "Tips for Service Granularity.md",
     "Sysops Squad Sagas. Granularity.md",
     "Finding The Right Balance.md",
@@ -212,20 +225,7 @@
     "Tips for Component-Based Decomposition.md",
     "Create Domain Services Pattern.md",
     "Create Component Domains Pattern.md",
-    "Determine Component Dependencies Pattern.md",
-    "Flatten Components Pattern.md",
-    "Gather Common Domain Components Pattern.md",
-    "Identify and Size Components Pattern.md",
-    "Architecture Stories.md",
-    "Component-Based Decomposition Roadmap.md",
-    "Tips for Architectural Decomposition.md",
-    "Sysops Squad ADR. Choosing the Approach.md",
-    "Tactical Forking.md",
-    "Component-Based Decomposition.md",
-    "Is the Code Base Decomposable.md",
-    "Choosing a Decomposition Approach.md",
     "Untitled.canvas",
-    "Architecture.canvas",
     "Tags",
     "images/architecture_the_hard_parts/figure-15-12.png",
     "images/architecture_the_hard_parts/figure-15-11.png",

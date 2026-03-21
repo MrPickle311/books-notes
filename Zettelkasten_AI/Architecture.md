@@ -66,14 +66,19 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 * [[Sysops Squad Sagas. Granularity]]
 * [[Tips for Service Granularity]]
 
-## Chapters 8-9: Data Ownership
+## Chapter 8: Reuse Patterns
 * [[Code Replication]]
-* [[Shared Library vs Shared Service]]
+* [[Shared Library]]
+* [[Shared Service]]
 * [[Sidecars and Service Mesh]]
+* [[When Does Reuse Add Value]]
+
+## Chapter 9: Data Ownership and Distributed Transactions
 * [[Assigning Data Ownership]]
 * [[Techniques for Resolving Joint Ownership]]
-* [[Distributed Transactions: ACID vs BASE]]
+* [[Distributed Transactions. ACID vs BASE]]
 * [[Eventual Consistency Patterns]]
+* [[Sysops Squad Saga. Data Ownership]]
 
 ## Chapter 10-12: Distributed Data and Workflows
 * [[Distributed Data Access Patterns]]
