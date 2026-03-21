@@ -152,3 +152,16 @@ status: moc
 * [[Reasoning About Time]]
 * [[Stream Joins]]
 * [[Fault Tolerance in Streams]]
+
+## Chapter 13: A Philosophy of Streaming Systems
+* [[Data Integration]]
+* [[Derived Data vs Distributed Transactions]]
+* [[The Limits of Total Ordering]]
+* [[Unifying Batch and Stream Processing]]
+* [[Unbundling Databases]]
+* [[Designing Applications Around Dataflow]]
+* [[Observing Derived State]]
+* [[Aiming for Correctness]]
+* [[Enforcing Constraints]]
+* [[Timeliness and Integrity]]
+* [[Trust But Verify]]

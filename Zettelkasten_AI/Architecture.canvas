@@ -743,7 +743,31 @@
 		{"id":"dia_ch12_13","type":"file","file":"data_intensive_applications/Processing Streams.md","x":10290,"y":22700,"width":600,"height":500},
 		{"id":"dia_ch12_14","type":"file","file":"data_intensive_applications/Reasoning About Time.md","x":10940,"y":22700,"width":600,"height":500},
 		{"id":"dia_ch12_15","type":"file","file":"data_intensive_applications/Stream Joins.md","x":11590,"y":22700,"width":600,"height":500},
-		{"id":"dia_ch12_16","type":"file","file":"data_intensive_applications/Fault Tolerance in Streams.md","x":12240,"y":22700,"width":600,"height":500}
+		{"id":"dia_ch12_16","type":"file","file":"data_intensive_applications/Fault Tolerance in Streams.md","x":12240,"y":22700,"width":600,"height":500},
+		{
+			"id":"dia_ch13_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":23600,
+			"width":4600,
+			"height":1300,
+			"color":"1",
+			"label":"A Philosophy of Streaming Systems"
+		},
+		{"id":"dia_ch13_1","type":"file","file":"data_intensive_applications/Data Integration.md","x":7690,"y":23650,"width":600,"height":500},
+		{"id":"dia_ch13_2","type":"file","file":"data_intensive_applications/Derived Data vs Distributed Transactions.md","x":8340,"y":23650,"width":600,"height":500},
+		{"id":"dia_ch13_3","type":"file","file":"data_intensive_applications/The Limits of Total Ordering.md","x":8990,"y":23650,"width":600,"height":500},
+		{"id":"dia_ch13_4","type":"file","file":"data_intensive_applications/Unifying Batch and Stream Processing.md","x":9640,"y":23650,"width":600,"height":500},
+		{"id":"dia_ch13_5","type":"file","file":"data_intensive_applications/Unbundling Databases.md","x":10290,"y":23650,"width":600,"height":500},
+		{"id":"dia_ch13_6","type":"file","file":"data_intensive_applications/Designing Applications Around Dataflow.md","x":10940,"y":23650,"width":600,"height":500},
+		{"id":"dia_ch13_7","type":"file","file":"data_intensive_applications/Observing Derived State.md","x":7690,"y":24300,"width":600,"height":500},
+		{"id":"dia_ch13_8","type":"file","file":"data_intensive_applications/Aiming for Correctness.md","x":8340,"y":24300,"width":600,"height":500},
+		{"id":"dia_ch13_9","type":"file","file":"data_intensive_applications/Enforcing Constraints.md","x":8990,"y":24300,"width":600,"height":500},
+		{"id":"dia_ch13_10","type":"file","file":"data_intensive_applications/Timeliness and Integrity.md","x":9640,"y":24300,"width":600,"height":500},
+		{"id":"dia_ch13_11","type":"file","file":"data_intensive_applications/Trust But Verify.md","x":10290,"y":24300,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1376,7 +1400,8 @@
 		},
 		{"id":"e_dia_ch9_ch10","fromNode":"dia_ch9_group","fromSide":"bottom","toNode":"dia_ch10_group","toSide":"top"},
 		{"id":"e_dia_ch10_ch11","fromNode":"dia_ch10_group","fromSide":"bottom","toNode":"dia_ch11_group","toSide":"top"},
-		{"id":"e_dia_ch11_ch12","fromNode":"dia_ch11_group","fromSide":"bottom","toNode":"dia_ch12_group","toSide":"top"}
+		{"id":"e_dia_ch11_ch12","fromNode":"dia_ch11_group","fromSide":"bottom","toNode":"dia_ch12_group","toSide":"top"},
+		{"id":"e_dia_ch12_ch13","fromNode":"dia_ch12_group","fromSide":"bottom","toNode":"dia_ch13_group","toSide":"top"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
