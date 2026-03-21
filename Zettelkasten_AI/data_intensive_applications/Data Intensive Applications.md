@@ -92,3 +92,15 @@ status: moc
 * [[Write Skew and Phantoms]]
 * [[Serializability]]
 * [[Distributed Transactions]]
+
+## Chapter 9: The Trouble with Distributed Systems
+* [[Faults and Partial Failures]]
+* [[Unreliable Networks]]
+* [[Timeouts and Unbounded Delays]]
+* [[Unreliable Clocks]]
+* [[Clock Confidence Intervals]]
+* [[Process Pauses]]
+* [[Knowledge Truth and Lies]]
+* [[Distributed Locks and Fencing]]
+* [[Byzantine Faults]]
+* [[System Models and Correctness]]

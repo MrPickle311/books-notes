@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 10201.336024826458,
-                  "y": 12952.867327918095,
-                  "zoom": -2.0000000000000004
+                  "x": 9197.923122772312,
+                  "y": 15931.291118469187,
+                  "zoom": -1.2000000000000006
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -200,6 +200,16 @@
   },
   "active": "f77e7eae0d55cd5e",
   "lastOpenFiles": [
+    "data_intensive_applications/System Models and Correctness.md",
+    "data_intensive_applications/Byzantine Faults.md",
+    "data_intensive_applications/Distributed Locks and Fencing.md",
+    "data_intensive_applications/Knowledge Truth and Lies.md",
+    "data_intensive_applications/Process Pauses.md",
+    "data_intensive_applications/Clock Confidence Intervals.md",
+    "data_intensive_applications/Unreliable Clocks.md",
+    "data_intensive_applications/Timeouts and Unbounded Delays.md",
+    "data_intensive_applications/Unreliable Networks.md",
+    "data_intensive_applications/Faults and Partial Failures.md",
     "Architecture.canvas",
     "data_intensive_applications/Distributed Versus Single-Node Systems.md",
     "data_intensive_applications/Weak Isolation Levels.md",
@@ -217,15 +227,6 @@
     "data_intensive_applications/Single-Object and Multi-Object Operations.md",
     "data_intensive_applications/The Meaning of ACID.md",
     "data_intensive_applications/What is a Transaction.md",
-    "data_intensive_applications/Why replicate?.md",
-    "data_intensive_applications/Sharding and Secondary Indexes copy.md",
-    "data_intensive_applications/Fixed Number of Shards.md",
-    "data_intensive_applications/Sharding of Key-Value Data.md",
-    "data_intensive_applications/Sharding by Hash of Key copy.md",
-    "data_intensive_applications/Sharding and Secondary Indexes.md",
-    "data_intensive_applications/Request Routing.md",
-    "data_intensive_applications/Automatic or Manual Rebalancing.md",
-    "data_intensive_applications/Skewed Workloads and Hot Spots.md",
     "data_intensive_applications/Data Encoding and Evolution for RPC",
     "data_intensive_applications/Data Intensive Applications.canvas",
     "data_intensive_applications",

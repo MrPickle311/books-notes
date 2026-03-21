@@ -67,6 +67,19 @@
 			"label":"Schema Encoding & Evolution"
 		},
 		{
+			"id":"dia_ch9_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":15400,
+			"width":3950,
+			"height":1300,
+			"color":"6",
+			"label":"The Trouble with Distributed Systems"
+		},
+		{
 			"id":"dia_ch6_group",
 			"type":"group",
 			"styleAttributes":{
@@ -638,7 +651,15 @@
 		{"id":"dia_ch8_9","type":"file","file":"data_intensive_applications/Serializability.md","x":9640,"y":13700,"width":600,"height":500},
 		{"id":"dia_ch8_10","type":"file","file":"data_intensive_applications/Distributed Transactions.md","x":10290,"y":13700,"width":600,"height":500},
 		{"id":"4bca8de6e15bb8cb","type":"file","file":"data_intensive_applications/Weak Isolation Levels.md","x":7690,"y":14280,"width":600,"height":520},
-		{"id":"080c6351d9d29e9a","type":"file","file":"data_intensive_applications/Distributed Transactions Accross Different Systems.md","x":10300,"y":14280,"width":580,"height":520}
+		{"id":"080c6351d9d29e9a","type":"file","file":"data_intensive_applications/Distributed Transactions Accross Different Systems.md","x":10300,"y":14280,"width":580,"height":520},
+		{"id":"dia_ch9_1","type":"file","file":"data_intensive_applications/Faults and Partial Failures.md","x":7690,"y":15450,"width":600,"height":500},
+		{"id":"dia_ch9_2","type":"file","file":"data_intensive_applications/Unreliable Networks.md","x":8340,"y":15450,"width":600,"height":500},
+		{"id":"dia_ch9_6","type":"file","file":"data_intensive_applications/Process Pauses.md","x":7690,"y":16100,"width":600,"height":500},
+		{"id":"dia_ch9_7","type":"file","file":"data_intensive_applications/Knowledge Truth and Lies.md","x":8340,"y":16100,"width":600,"height":500},
+		{"id":"dia_ch9_8","type":"file","file":"data_intensive_applications/Distributed Locks and Fencing.md","x":8990,"y":16100,"width":600,"height":500},
+		{"id":"dia_ch9_9","type":"file","file":"data_intensive_applications/Byzantine Faults.md","x":9640,"y":16100,"width":600,"height":500},
+		{"id":"dia_ch9_4","type":"file","file":"data_intensive_applications/Unreliable Clocks.md","x":8990,"y":15450,"width":600,"height":500},
+		{"id":"dia_ch9_10","type":"file","file":"data_intensive_applications/System Models and Correctness.md","x":9640,"y":15450,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -1257,7 +1278,8 @@
 			"toNode":"data_ownership_group",
 			"toSide":"bottom",
 			"color":"4"
-		}
+		},
+		{"id":"e_dia_ch8_ch9","toFloating":false,"fromNode":"dia_ch8_group","fromSide":"bottom","toNode":"dia_ch9_group","toSide":"top"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
