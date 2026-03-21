@@ -96,6 +96,18 @@
 			"height":1300,
 			"label":"Managing Distributed Workflows"
 		},
+		{
+			"id":"transactional_sagas_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":1250,
+			"y":13000,
+			"width":2000,
+			"height":1300,
+			"label":"Transactional Sagas"
+		},
 		{"id":"d6919865161b3aae","type":"group","x":-1760,"y":840,"width":1440,"height":1290,"label":"Coupling"},
 		{
 			"id":"modularity_group",
@@ -173,7 +185,12 @@
 		{"id":"c11_4","type":"file","file":"Workflow State Management in Choreography.md","x":1300,"y":12300,"width":600,"height":500},
 		{"id":"c11_5","type":"file","file":"Sysops Squad Saga. Managing Workflows.md","x":1950,"y":12300,"width":600,"height":500},
 		{"id":"f081daa9f8d07310","type":"file","file":"Tips for Distributed Data Access.md","x":2600,"y":10900,"width":600,"height":500},
-		{"id":"29c5755389d227bf","type":"file","file":"Tips for Distributed Workflows.md","x":2600,"y":12300,"width":600,"height":500}
+		{"id":"29c5755389d227bf","type":"file","file":"Tips for Distributed Workflows.md","x":2600,"y":12300,"width":600,"height":500},
+		{"id":"c12_1","type":"file","file":"Transactional Saga Patterns.md","x":1300,"y":13050,"width":600,"height":500},
+		{"id":"c12_2","type":"file","file":"Saga State Machines.md","x":1950,"y":13050,"width":600,"height":500},
+		{"id":"c12_3","type":"file","file":"Techniques For Managing Sagas.md","x":2600,"y":13050,"width":600,"height":500},
+		{"id":"c12_4","type":"file","file":"Sysops Squad Saga. Atomic Transactions.md","x":1300,"y":13700,"width":600,"height":500},
+		{"id":"c12_5","type":"file","file":"Tips for Transactional Sagas.md","x":1950,"y":13700,"width":600,"height":500}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -192,7 +209,8 @@
 		{"id":"e_root_c8","fromNode":"root","fromSide":"right","toNode":"reuse_patterns_group","toSide":"left"},
 		{"id":"e_root_c9","fromNode":"root","fromSide":"right","toNode":"data_ownership_group","toSide":"left"},
 		{"id":"e_root_c10","fromNode":"root","fromSide":"right","toNode":"data_access_group","toSide":"left"},
-		{"id":"e_root_c11","fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"}
+		{"id":"e_root_c11","fromNode":"root","fromSide":"right","toNode":"distributed_workflows_group","toSide":"left"},
+		{"id":"e_root_c12","fromNode":"root","fromSide":"right","toNode":"transactional_sagas_group","toSide":"left"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",

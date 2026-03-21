@@ -96,7 +96,10 @@ This is the root Map of Content (MOC) for all concepts extracted from the book *
 
 ## Chapter 12: Transactional Sagas
 * [[Transactional Saga Patterns]]
-* [[Saga State Machines and Compensating Transactions]]
+* [[Saga State Machines]]
+* [[Techniques For Managing Sagas]]
+* [[Sysops Squad Saga. Atomic Transactions]]
+* [[Tips for Transactional Sagas]]
 
 ## Chapter 13-15: Contracts, Analytics and Trade-offs
 * [[Strict vs Loose Contracts]]
