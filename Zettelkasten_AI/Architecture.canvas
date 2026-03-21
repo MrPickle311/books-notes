@@ -28,6 +28,19 @@
 			"label":"Storage & Retrieval in DB's"
 		},
 		{
+			"id":"dia_ch5_group",
+			"type":"group",
+			"styleAttributes":{
+				"border":null
+			},
+			"x":7640,
+			"y":5640,
+			"width":3350,
+			"height":2000,
+			"color":"4",
+			"label":"Schema Encoding & Evolution"
+		},
+		{
 			"id":"component_decomposition_group",
 			"type":"group",
 			"styleAttributes":{
@@ -542,7 +555,18 @@
 		{"id":"1e8705eb0eb58f04","type":"file","file":"data_intensive_applications/Materialized Views and Data Cubes.md","x":7690,"y":4400,"width":600,"height":640},
 		{"id":"6deb8894f1b1e19a","type":"file","file":"data_intensive_applications/Query Execution. Compilation and Vectorization.md","x":8340,"y":4400,"width":600,"height":640},
 		{"id":"56c3fbe259b0d65c","type":"file","file":"data_intensive_applications/SSTables.md","x":8990,"y":4400,"width":600,"height":640},
-		{"id":"0189cb1f77578dae","type":"file","file":"data_intensive_applications/Storage and Indexing for OLTP.md","x":9640,"y":4400,"width":600,"height":640}
+		{"id":"0189cb1f77578dae","type":"file","file":"data_intensive_applications/Storage and Indexing for OLTP.md","x":9640,"y":4400,"width":600,"height":640},
+		{"id":"dia_ch5_1","type":"file","file":"data_intensive_applications/Encoding Formats.md","x":7690,"y":5690,"width":600,"height":500},
+		{"id":"dia_ch5_2","type":"file","file":"data_intensive_applications/Protocol Buffers.md","x":8340,"y":5690,"width":600,"height":500},
+		{"id":"dia_ch5_3","type":"file","file":"data_intensive_applications/Apache Avro.md","x":8990,"y":5690,"width":600,"height":500},
+		{"id":"dia_ch5_4","type":"file","file":"data_intensive_applications/Dataflow Through Databases.md","x":9640,"y":5690,"width":600,"height":500},
+		{"id":"dia_ch5_6","type":"file","file":"data_intensive_applications/Durable Execution and Workflows.md","x":8340,"y":6340,"width":600,"height":500},
+		{"id":"dia_ch5_7","type":"file","file":"data_intensive_applications/Event-Driven Architectures.md","x":8990,"y":6340,"width":600,"height":500},
+		{"id":"dia_ch5_5","type":"file","file":"data_intensive_applications/Dataflow Through Services.md","x":9640,"y":6340,"width":600,"height":500},
+		{"id":"b688a9a87f5f03d4","type":"file","file":"data_intensive_applications/Modes of Dataflow.md","x":10500,"y":6460,"width":400,"height":400},
+		{"id":"8ab869670d6d1513","type":"file","file":"data_intensive_applications/Load Balancers, Service Discovery, and Service Meshes.md","x":10600,"y":6140,"width":400,"height":400},
+		{"id":"3696c30361900c83","type":"file","file":"data_intensive_applications/Data Encoding and Evolution for RPC and Services.md","x":8000,"y":6560,"width":400,"height":400},
+		{"id":"aff7e89108ba5f98","type":"file","file":"data_intensive_applications/Advantages of Schemas.md","x":7960,"y":6340,"width":400,"height":400}
 	],
 	"edges":[
 		{"id":"e_c1_1","toFloating":false,"fromNode":"root","fromSide":"right","toNode":"c1_1","toSide":"left"},
@@ -944,6 +968,54 @@
 			"fromNode":"dia_ch4_2",
 			"fromSide":"right",
 			"toNode":"dia_ch4_3",
+			"toSide":"left"
+		},
+		{"id":"e_dia_ch4_ch5","fromNode":"dia_ch4_group","fromSide":"bottom","toNode":"dia_ch5_group","toSide":"top"},
+		{
+			"id":"87477515316c613d",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch5_2",
+			"fromSide":"left",
+			"toNode":"dia_ch5_1",
+			"toSide":"right"
+		},
+		{
+			"id":"8897edcb8e308f62",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch5_3",
+			"fromSide":"left",
+			"toNode":"dia_ch5_1",
+			"toSide":"bottom"
+		},
+		{
+			"id":"69fc37e3eaa66010",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch5_6",
+			"fromSide":"bottom",
+			"toNode":"distributed_workflows_group",
+			"toSide":"bottom",
+			"label":"workflow"
+		},
+		{
+			"id":"e34d24d2d630a6e3",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"dia_ch5_4",
+			"fromSide":"bottom",
+			"toNode":"dia_ch5_5",
+			"toSide":"top",
+			"fromEnd":"arrow"
+		},
+		{
+			"id":"620bf0cee9be38bd",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"c2_3",
+			"fromSide":"right",
+			"toNode":"dia_ch5_7",
 			"toSide":"left"
 		}
 	],

@@ -47,3 +47,12 @@ status: moc
 * [[Query Execution and Materialized Views]]
 * [[Multidimensional and Full-Text Indexes]]
 * [[Vector Embeddings and Semantic Search]]
+
+## Chapter 5: Encoding and Evolution
+* [[Encoding Formats]]
+* [[Protocol Buffers]]
+* [[Apache Avro]]
+* [[Dataflow Through Databases]]
+* [[Dataflow Through Services]]
+* [[Durable Execution and Workflows]]
+* [[Event-Driven Architectures]]
