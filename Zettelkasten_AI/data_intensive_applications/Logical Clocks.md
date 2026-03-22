@@ -30,7 +30,7 @@ Instead of a single integer, a Lamport Timestamp is a pair of two values: `(coun
 *   Every time a node generates a new ID, it increments its local counter and returns the pair (e.g., `(1, Aaliyah)`).
 *   **Crucially:** Every time a node *receives* a message from another node, it inspects the attached Lamport Timestamp. If the sender's counter is larger than the receiver's local counter, the receiver immediately jumps its local counter forward to match the sender. 
 
-![Figure 10-9: Lamport timestamps provide a total ordering consistent with causality.](figure-10-9.png)
+![Figure 10-9: Lamport timestamps provide a total ordering consistent with causality.](data_intensive_applications/figure-10-9.png)
 
 This simple rule guarantees causality! If Aaliyah sends Bryce message `(1, A)`, Bryce's counter jumps to `1`. If Bryce replies, he increments his counter to `2`, generating `(2, B)`. Because `2` is greater than `1`, the reply mathematically proves it occurred *after* the original message.
 

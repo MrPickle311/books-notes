@@ -14,7 +14,7 @@ Let's look at a Multi-Region deployment with two datacenters (e.g., East Coast a
 *   Nodes within the West Coast can talk to each other.
 *   But the East Coast cannot talk to the West Coast.
 
-![Figure 10-7: A network interruption forcing a choice between linearizability and availability.](figure-10-7.png)
+![Figure 10-7: A network interruption forcing a choice between linearizability and availability.](data_intensive_applications/figure-10-7.png)
 
 #### Multi-Leader (Available, but Nonlinearizable)
 If each datacenter has its own Leader, the localized networks function perfectly. Users on the West Coast write to the local West leader. Users on the East Coast write to the local East leader. The writes are queued up and will asynchronously synchronize whenever the fiber-optic cable is eventually repaired.

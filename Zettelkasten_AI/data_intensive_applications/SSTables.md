@@ -11,7 +11,7 @@ status: pending
 Instead of relying purely on hash tables, a common optimization is to require the sequence of key-value pairs to be **sorted by key** and ensure each key only appears once. This format is called a **Sorted String Table (SSTable)**.
 
 *   **Description**: This diagram depicts an SSTable containing compressed blocks of key-value pairs sorted by key. A sparse in-memory index stores offsets for the first key of each block, allowing queries to quickly jump to the right block without keeping every key in memory.
-![Figure 4-2: An SSTable with a sparse index, allowing queries to jump to the right block.](figure-4-2.png)
+![Figure 4-2: An SSTable with a sparse index, allowing queries to jump to the right block.](data_intensive_applications/figure-4-2.png)
 
 **Advantages of SSTables:**
 1.  **Sparse Index:** You do not need to keep all keys in memory. You can group records into blocks and keep an index to the start of each block.
@@ -29,7 +29,7 @@ The solution is a log-structured approach (a hybrid between append-only logs and
 4. **Compaction and Merging:** Periodically, a background process merges segment files and discards overwritten or deleted values (using an algorithm similar to *mergesort*).
 
 *   **Description:** This figure shows the merging of several SSTable segments in the background. The process looks at the first key in each input file, copies the lowest key to the output, and if the same key appears multiple times, it keeps only the most recent value.
-![Figure 4-3: Merging several SSTable segments, retaining only the most recent value for each key.](figure-4-3.png)
+![Figure 4-3: Merging several SSTable segments, retaining only the most recent value for each key.](data_intensive_applications/figure-4-3.png)
 
 **Handling Deletions and Crashes:**
 *   **Tombstones:** To delete a key, a special deletion marker called a **tombstone** is appended. During the merge/compaction process, the tombstone instructs the database to discard any earlier values for that key.
@@ -45,7 +45,7 @@ Storage engines based on this principle of merging and compacting sorted files a
 #### Bloom Filters for Fast Rejections
 A problem with LSM-trees is that looking up a key that does not exist can be slow, because the database must check the memtable and every single SSTable segment all the way back to the oldest one.
 
-![Figure 4-4: A Bloom filter uses multiple hash functions to check if a key is in the SSTable.](figure-4-4.png)
+![Figure 4-4: A Bloom filter uses multiple hash functions to check if a key is in the SSTable.](data_intensive_applications/figure-4-4.png)
 
 To optimize this, LSM storage engines include a **Bloom filter**, a space-efficient probabilistic data structure used to check if an element is in a set.
 *   **How it Works:** It uses a bit array and multiple hash functions. If you want to check if a key is present, you hash it. If any of the bits corresponding to those hashes are `0`, the key is **definitely not in the SSTable** (true negative). If all bits are `1`, the key is **probably in the SSTable** (possible false positive), so the database will go and read the block.

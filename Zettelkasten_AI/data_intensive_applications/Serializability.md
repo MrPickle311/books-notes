@@ -33,7 +33,7 @@ If the database only has one CPU thread, it CANNOT afford to sit completely idle
 
 To fix this, single-threaded databases completely ban interactive multi-statement network transactions. 
 Instead, you must write your entire application logic as a **Stored Procedure** inside the database itself. You hit the database once: "Execute Procedure X". Because the code and the data are running locally on the exact same server, the single thread never waits on the network and can rip through thousands of procedures blisteringly fast.
-![Figure 8-9: The difference between an interactive transaction and a stored procedure (using the example transaction of Figure 8-8).](figure-8-9.png)
+![Figure 8-9: The difference between an interactive transaction and a stored procedure (using the example transaction of Figure 8-8).](data_intensive_applications/figure-8-9.png)
 
 **Pros and Cons of Stored Procedures**
 Stored procedures originally gained a terrible reputation in the 1990s:
@@ -142,7 +142,7 @@ Because SSI builds perfectly on top of MVCC Snapshot Isolation, it naturally ign
 *   Transaction A reads the Doctors count and sees "Aaliyah is on call." It ignores Transaction B (which is currently deleting Aaliyah) because B hasn't committed yet.
 *   However, when Transaction A tries to finally Commit, the database checks on Transaction B. 
 *   If Transaction B has now committed, the database realizes Transaction A's original read was fundamentally "Stale." Transaction A's premise is no longer mathematically sound, so the database Aborts Transaction A.
-![Figure 8-10: Detecting when a transaction reads outdated values from an MVCC snapshot.](figure-8-10.png)
+![Figure 8-10: Detecting when a transaction reads outdated values from an MVCC snapshot.](data_intensive_applications/figure-8-10.png)
 *(Why wait until commit? If Transaction A was a read-only analytics query, it doesn't matter if it's stale, so the database lets it finish perfectly safely. It only aborts if Transaction A subsequently tries to WRITE based on that stale read).*
 
 #### 2. Detecting Writes That Affect Prior Reads
@@ -152,7 +152,7 @@ In SSI, we repurpose the idea of an **Index-Range Lock**.
 *   Unlike 2PL, this Tripwire *does not block anyone*. Another transaction is completely free to swoop in and insert a new Doctor into `shift = 1234`.
 *   However, as the second transaction modifies the index, it trips the wire. It leaves a mathematical note saying, "Hey, whoever dropped this tripwire just had their premise invalidated."
 *   When the first transaction finally tries to Commit, it checks its tripwires. Seeing the notification, it realizes its original search was compromised by a Phantom, and it Aborts.
-![Figure 8-11: In serializable snapshot isolation, detecting when one transaction modifies another transaction’s reads.](figure-8-11.png)
+![Figure 8-11: In serializable snapshot isolation, detecting when one transaction modifies another transaction’s reads.](data_intensive_applications/figure-8-11.png)
 
 #### Performance of Serializable Snapshot Isolation (SSI)
 SSI is a massive breakthrough for database performance:

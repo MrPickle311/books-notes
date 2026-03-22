@@ -15,7 +15,7 @@ If the Consumer severs its TCP connection or times out without sending an `ACK`,
 ### The Reordering Danger
 When you combine *Load Balancing* with *Redelivery*, you introduce a massive streaming hazard: **Message Reordering**.
 
-![Figure 12-2: Redelivery causes messages to process out of order.](figure-12-2.png)
+![Figure 12-2: Redelivery causes messages to process out of order.](data_intensive_applications/figure-12-2.png)
 *Figure 12-2: Consumer 2 crashes while processing message m3. By the time m3 is redelivered to Consumer 1, Consumer 1 is already processing m4. The final order is scrambled.*
 
 Even if the broker algorithmically tries to guarantee strict ordering, if Consumer 2 crashes while processing `m3`, the broker will immediately pass `m3` to Consumer 1. However, Consumer 1 might have already processed `m4` in the meantime! The order is permanently ruined. If your messages have strict causal dependencies (e.g. `m3` was an "Account Created" event, and `m4` was an "Account Deleted" event), reordering them will crash your system!

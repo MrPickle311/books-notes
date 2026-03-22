@@ -17,7 +17,7 @@ A natural extension is to allow *more than one node* to accept writes. This is c
 A multi-leader setup rarely makes sense within a single datacenter. The added algorithmic complexity heavily outweighs the benefits. 
 However, it shines in a **Geo-distributed** architecture, where you deploy one Leader per geographic region (e.g., one in US-East, one in Europe).
 
-![Figure 6-6: Multi-leader replication across multiple regions.](figure-6-6.png)
+![Figure 6-6: Multi-leader replication across multiple regions.](data_intensive_applications/figure-6-6.png)
 
 **Comparing Single-Leader vs Multi-Leader in Multi-Region:**
 
@@ -34,7 +34,7 @@ Because resolving these asynchronous write conflicts is mathematically treachero
 #### Multi-Leader Replication Topologies
 A "topology" describes the communication paths writes take to get from one node to another. 
 With only two leaders, the topology is simple: Leader 1 sends to Leader 2, and vice versa. With 3 or more leaders, it gets complicated:
-![Figure 6-7: Three example topologies in which multi-leader replication can be set up.](figure-6-7.png)
+![Figure 6-7: Three example topologies in which multi-leader replication can be set up.](data_intensive_applications/figure-6-7.png)
 
 1.  **Circular Topology:** Each node receives writes from one specific node, and forwards them to exactly one other node.
 2.  **Star (Tree) Topology:** A central root node broadcasts writes to all other nodes.
@@ -47,7 +47,7 @@ With only two leaders, the topology is simple: Leader 1 sends to Leader 2, and v
 *   **Causality Problems (All-to-All):** All-to-All is much more fault-tolerant, but suffers from severe causality issues if network links have different speeds. A write might "overtake" another write.
     *   *Example:* Client A sends an `INSERT`. Client B immediately sends an `UPDATE` to that new row. However, due to network congestion, Leader 3 receives the `UPDATE` *before* it receives the `INSERT`, crashing because it is trying to update a row that doesn't exist yet!
     *   *Solution:* This is the exact same problem as Consistent Prefix Reads. Attaching a standard timestamp isn't enough (clocks drift). It requires complex "Version Vectors" to track causality.
-![Figure 6-8: With multi-leader replication, writes may arrive in the wrong order at some replicas.](figure-6-8.png)
+![Figure 6-8: With multi-leader replication, writes may arrive in the wrong order at some replicas.](data_intensive_applications/figure-6-8.png)
 
 ### Sync Engines and Local-First Software
 You use a multi-leader architecture every single day without realizing it: **offline-capable apps** (like Calendar apps, Notes, Google Docs, Figma).
@@ -84,7 +84,7 @@ Two users are concurrently editing the same Wiki title.
 1.  User 1 successfully saves the title "B" to their local Leader 1.
 2.  User 2 successfully saves the title "C" to their local Leader 2.
 3.  Both Leaders asynchronously replicate their changes to each other. When they receive the replication log, they realize they both modified the same field differently. A massive conflict is detected!
-![Figure 6-9: A write conflict caused by two leaders concurrently updating the same record.](figure-6-9.png)
+![Figure 6-9: A write conflict caused by two leaders concurrently updating the same record.](data_intensive_applications/figure-6-9.png)
 
 #### Conflict Avoidance
 The simplest and most highly recommended strategy for dealing with conflicts is simply *avoiding them from occurring in the first place*.
@@ -105,7 +105,7 @@ Instead of silently dropping data, another approach is to keep both conflicting 
 *   **Application Code:** When you query the record, the database returns *both* "B" and "C" simultaneously. Your application code can try to merge them mathematically, or surface a UI asking the user to manually pick the correct version to save.
 *   *The Flaw:* It is incredibly annoying to force app developers to build complex merging UI, and it often confuses end-users. 
 *   *Amazon's Shopping Cart Anomaly:* If you try to manually write a merge algorithm, you can cause wild bugs. Amazon's cart used to merge conflicts by taking the "set union" of both carts. However, if a user deleted a Book on their phone, but simultaneously added a DVD on their laptop, the merging of the two conflicting sibling carts caused the previously-deleted Book to magically reappear!
-![Figure 6-10: Example of Amazon's shopping cart anomaly: if conflicts on a shopping cart are merged by taking the union, deleted items may reappear.](figure-6-10.png)
+![Figure 6-10: Example of Amazon's shopping cart anomaly: if conflicts on a shopping cart are merged by taking the union, deleted items may reappear.](data_intensive_applications/figure-6-10.png)
 
 #### Automatic Conflict Resolution
 Because building custom merging logic usually introduces new bugs, brilliant computer scientists created algorithms to merge standard data types safely and automatically. Combining eventual consistency with a convergence guarantee is known as **strong eventual consistency**:
@@ -125,7 +125,7 @@ Both algorithms can perfectly merge concurrent edits to text, but they use diffe
 **Example:** Two replicas start with the text "ice". 
 *   Replica 1 prepends an "n" (making "nice").
 *   Replica 2 appends an "!" (making "ice!").
-![Figure 6-11: How two concurrent insertions into a string are merged by OT and a CRDT respectively.](figure-6-11.png)
+![Figure 6-11: How two concurrent insertions into a string are merged by OT and a CRDT respectively.](data_intensive_applications/figure-6-11.png)
 
 How do the algorithms correctly merge this into "nice!"?
 

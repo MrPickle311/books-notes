@@ -13,7 +13,7 @@ In service-based architectures, complex processes (like processing a payment) of
     *   *Types:* Some focus on data ETLs (Airflow, Dagster), some allow non-engineers to build visual Business Process Models (Camunda), and others focus heavily on code-based durable execution (Temporal, Restate).
 
 *   **Description:** This figure shows an example workflow for payment processing utilizing Business Process Model and Notation (BPMN) to visually map out task sequences and conditionals.
-![Figure 5-7: Example of a workflow expressed using Business Process Model and Notation (BPMN), a graphical notation.](figure-5-7.png)
+![Figure 5-7: Example of a workflow expressed using Business Process Model and Notation (BPMN), a graphical notation.](data_intensive_applications/figure-5-7.png)
 
 #### Durable Execution (Exactly-Once Semantics)
 When dealing with distributed systems (like payments), you want your workflow to run **exactly once**. However, you cannot wrap three separate microservices and a third-party gateway into a single database transaction. If the server crashes right after charging the credit card but before depositing the funds, you are left with a broken state.

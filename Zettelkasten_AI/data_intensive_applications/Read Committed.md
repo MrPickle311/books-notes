@@ -17,7 +17,7 @@ Imagine Transaction A modifies a user's balance from $10 to $20, but the transac
 If yes, that is a **Dirty Read**. 
 
 *Read Committed isolation explicitly forbids this.* Transaction B will continue to see $10 until Transaction A fully commits.
-![Figure 8-4: No dirty reads: user 2 sees the new value for x only after user 1’s transaction has committed.](figure-8-4.png)
+![Figure 8-4: No dirty reads: user 2 sees the new value for x only after user 1’s transaction has committed.](data_intensive_applications/figure-8-4.png)
 *Why preventing Dirty Reads is vital:*
 1.  If Transaction A was updating multiple rows (e.g., adding an email AND updating an unread counter), a Dirty Read means Transaction B might see a halfway state (the email, but an empty counter).
 2.  **Cascading Aborts:** If Transaction B reads the $20, makes business decisions based on the $20, and then Transaction A suddenly *Aborts* (crashing back to $10), Transaction B is now hopelessly corrupted because it based its logic on data that mathematically never existed.
@@ -28,7 +28,7 @@ Imagine Transaction A edits a user's shopping cart, adding an "Apple". Before it
 If a database allows Transaction B to blindly overwrite an *uncommitted* value currently held by Transaction A, that is a **Dirty Write**.
 
 *Read Committed isolation explicitly forbids this.* It prevents Dirty Writes by enforcing a Row Lock. Transaction B must sit patiently and wait for Transaction A to either Commit or Abort before it is allowed to touch the object.
-![Figure 8-5: With dirty writes, conflicting writes from different transactions can be mixed up.](figure-8-5.png)
+![Figure 8-5: With dirty writes, conflicting writes from different transactions can be mixed up.](data_intensive_applications/figure-8-5.png)
 
 *Why preventing Dirty Writes is vital:*
 Without it, transactions that modify multiple identical rows interleave incorrectly. Imagine Alice and Bob both click "Buy Car" at the exact same millisecond. 

@@ -14,7 +14,7 @@ At a high level, the dataflow systems we've explored provide a mechanism to cons
 
 The **Derived Dataset** (e.g., the Search Index or the Redis Cache) is specifically the exact border wall where the Write Path finally collides with the Read Path!
 
-![Figure 13-1: In a search index, the Write Path meets the Read Path.](figure-13-1.png)
+![Figure 13-1: In a search index, the Write Path meets the Read Path.](data_intensive_applications/figure-13-1.png)
 *Figure 13-1: The search index acts as the exact boundary where background precomputation (Write Path) meets on-demand user queries (Read Path).*
 
 ### Materialized Views and Caching (Shifting the Boundary)

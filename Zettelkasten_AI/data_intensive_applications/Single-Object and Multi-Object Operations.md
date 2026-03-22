@@ -14,11 +14,11 @@ Example: An email application where you insert a new Email record into the `emai
 
 **Why Isolation is Needed:**
 If you don't use a transaction, User 2 might refresh their screen at the exact millisecond after the email was inserted, but *before* the counter was incremented. They see the email in their inbox, but their notification badge incorrectly says 0. The database is in an inconsistent halfway state.
-![Figure 8-2: Violating isolation: one transaction reads another transaction’s uncommitted writes (a “dirty read”).](figure-8-2.png)
+![Figure 8-2: Violating isolation: one transaction reads another transaction’s uncommitted writes (a “dirty read”).](data_intensive_applications/figure-8-2.png)
 
 **Why Atomicity is Needed:**
 If a system crash or network error occurs the instant after the email is inserted but *before* the counter is incremented, the write fails. In a non-ACID database, you are permanently left with phantom emails and a permanently corrupt notification counter. With an Atomic transaction, the database safely rolls back the inserted email.
-![Figure 8-3: Atomicity ensures that if an error occurs any prior writes from that transaction are undone, to avoid an inconsistent state.](figure-8-3.png)
+![Figure 8-3: Atomicity ensures that if an error occurs any prior writes from that transaction are undone, to avoid an inconsistent state.](data_intensive_applications/figure-8-3.png)
 
 #### Grouping Operations Together
 To perform a multi-object transaction, the database needs a way to know exactly which writes belong together.

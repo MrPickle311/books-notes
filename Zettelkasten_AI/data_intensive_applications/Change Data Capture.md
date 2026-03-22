@@ -16,7 +16,7 @@ CDC is the process of observing all data changes written to a primary database (
 ### Solving the Concurrency Race Condition
 By capturing the exact log from the primary database, the race condition from Figure 12-4 completely disappears:
 
-![Figure 12-5: CDC solving the dual-write race condition by establishing a Single Leader.](figure-12-5.png)
+![Figure 12-5: CDC solving the dual-write race condition by establishing a Single Leader.](data_intensive_applications/figure-12-5.png)
 *Figure 12-5: The Database acts as the Single Leader. It totally orders the incoming writes (A, then B). The search index simply reads the CDC log and applies the changes in that exact same guaranteed order.*
 
 Because Postgres physically writes "A" to its replication log first, and then writes "B", the CDC stream mathematically guarantees that Elasticsearch will receive "A" first and "B" second. The two systems remain perfectly synchronized forever. 
@@ -47,7 +47,7 @@ Taking massive database snapshots and bulk-loading them is a painful, operationa
 If you configure a Kafka topic to use Log Compaction, the broker fundamentally stops acting like a dumb "Circular Buffer" that blindly deletes the oldest segments to save disk space. 
 Instead, the storage engine runs a background Garbage Collection process that periodically reads through the log, groups events by their **Primary Key**, and throws away all older duplicates, keeping *only the most recent event* for each key.
 
-![Figure 12-6: Log compaction retaining only the newest value for each primary key.](figure-12-6.png)
+![Figure 12-6: Log compaction retaining only the newest value for each primary key.](data_intensive_applications/figure-12-6.png)
 *Figure 12-6: A compacted log tracking video views. Even though millions of 'mew' events were fired into the topic, the background compactor deletes all historical records of 'mew' and only keeps the absolute latest value (19,451).*
 
 *(Note: Deletions are handled via **Tombstones**. If the Primary Database sends an event deleting the row, the CDC writes a special `null` value to Kafka. The compactor sees this Tombstone and eventually deletes the key entirely).*

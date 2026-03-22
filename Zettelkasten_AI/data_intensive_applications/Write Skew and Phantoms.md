@@ -19,7 +19,7 @@ Aaliyah and Bryce are currently both on-call. They both get sick, and click "Req
 4.  Transaction A updates Aaliyah's row to `on_call = false`.
 5.  Transaction B updates Bryce's row to `on_call = false`.
 *The Result:* The hospital has zero doctors on call. The business logic constraint was completely mathematically circumvented. 
-![Figure 8-8: Example of write skew causing an application bug.](figure-8-8.png)
+![Figure 8-8: Example of write skew causing an application bug.](data_intensive_applications/figure-8-8.png)
 
 *Why previous defenses fail here:*
 *   This is not a "Dirty Write" (they didn't update the same row).

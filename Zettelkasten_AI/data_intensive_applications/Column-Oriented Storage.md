@@ -19,7 +19,7 @@ In analytics, **fact tables** are often very wide (e.g., over 100 columns), but 
 *   To reconstruct a row, the database relies on the fact that every column stores the rows in the exact same order (e.g., the 23rd entry in the `date_key` column belongs to the same record as the 23rd entry in the `quantity` column).
 
 *   **Description:** This figure contrasts row-oriented vs. column-oriented storage physically. Instead of storing entire rows together, it shows separate blocks holding just the `date_key`, just the `product_sk`, etc.
-![Figure 4-7: Storing relational data by column, rather than by row.](figure-4-7.png)
+![Figure 4-7: Storing relational data by column, rather than by row.](data_intensive_applications/figure-4-7.png)
 
 Columnar storage powers data warehouses (Snowflake, BigQuery), embedded DBs (DuckDB), and storage formats (Parquet, ORC, Apache Arrow). *(Note: Do not confuse this with "wide-column" databases like Cassandra or Bigtable, which are actually row-oriented under the hood).*
 
@@ -32,7 +32,7 @@ A common and highly effective technique in data warehouses is **bitmap encoding*
 *   Each bitmap contains one bit per row: `1` if the row has that value, `0` if it does not.
 
 *   **Description:** This figure shows how bitmap encoding works on a repetitive column. It maps the distinct values to their own bit arrays, which can then be tightly run-length encoded.
-![Figure 4-8: Compressed, bitmap-indexed storage of a single column.](figure-4-8.png)
+![Figure 4-8: Compressed, bitmap-indexed storage of a single column.](data_intensive_applications/figure-4-8.png)
 
 **Run-length Encoding:**
 Because these bitmaps will contain mostly zeros, they are considered *sparse* and can be further compressed using **run-length encoding** (e.g., storing "15 zeros, then a 1, then 30 zeros"). Techniques like roaring bitmaps switch representations automatically to keep it as compact as possible.

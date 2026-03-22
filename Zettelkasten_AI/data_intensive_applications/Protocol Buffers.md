@@ -13,7 +13,7 @@ status: pending
 *   **Variable-length integers:** To save even more space, it uses variable-length integers (e.g. standard integers between -64 and 63 only take up one byte).
 *   **Arrays:** There is no specific array datatype. Instead, the `repeated` modifier simply means the same field tag can appear multiple times sequentially in the encoding.
 
-![Figure 5-3: Example record encoded using Protocol Buffers.](figure-5-3.png)
+![Figure 5-3: Example record encoded using Protocol Buffers.](data_intensive_applications/figure-5-3.png)
 
 #### Field Tags and Schema Evolution in Protobuf
 Because field tags are aliased numbers representing the field, **you can change the name of a field in your schema safely, but you can NEVER change a field's tag number.** Changing the tag number invalidates all old data.

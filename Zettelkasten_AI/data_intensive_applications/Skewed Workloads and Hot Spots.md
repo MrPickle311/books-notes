@@ -19,6 +19,7 @@ If a specific key is known to be astronomically hot, you can't rely on the datab
 3.  *The Downside:* To read the celebrity's profile, the application must run 100 simultaneous parallel reads across the global cluster, combine all 100 responses, and serve them to the user. This severely degrades read performance.
 
 This technique is messy. You must maintain bookkeeping logic to know *which* keys are currently hot enough to require splitting, and hot keys change dynamically over time. Cloud providers like Amazon offer automated "Heat Management" algorithms to dynamically scale and partition these unpredictable spikes behind the scenes.
+
 ---
 ## Related Concepts
 * [[Data Intensive Applications]]

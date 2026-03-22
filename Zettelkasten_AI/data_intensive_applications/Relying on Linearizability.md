@@ -31,7 +31,7 @@ Consider a web architecture where a user uploads a video:
 2. The web server then pushes a tiny message to a highly-optimized Message Queue (e.g., RabbitMQ), telling a Transcoder Worker to compress the new video.
 3. The Transcoder reads the queue instantly and attempts to fetch the raw video from the Cloud Storage.
 
-![Figure 10-5: The web server and video transcoder communicate both through file storage and a message queue, opening the potential for race conditions.](figure-10-5.png)
+![Figure 10-5: The web server and video transcoder communicate both through file storage and a message queue, opening the potential for race conditions.](data_intensive_applications/figure-10-5.png)
 
 If the Cloud Storage is *not* linearizable, its internal replication might be slower than the Message Queue. The transcoder races to the storage service and either finds a stale, older version of the file, or a 404 Not Found error, crashing the job. 
 

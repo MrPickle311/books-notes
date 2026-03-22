@@ -34,7 +34,7 @@ At this exact moment, two clients perform a read quorum of $r=2$:
 *   **Client A** queries Nodes 1 and 2. It sees the new value `1` on Node 1, and the old value `0` on Node 2. It correctly resolves the conflict and returns the new value `1`.
 *   **Client B** begins its query *after Client A finishes*. Client B queries Nodes 2 and 3. The delayed write *still* hasn't reached them. So Client B receives `0` from both nodes. Even though B queried strictly after A successfully read the new value, B returns the old value.
 
-![Figure 10-6: A nonlinearizable execution, despite using a quorum.](figure-10-6.png)
+![Figure 10-6: A nonlinearizable execution, despite using a quorum.](data_intensive_applications/figure-10-6.png)
 
 This perfectly fulfills the strict Quorum requirements ($3 + 2 > 3$), but it is a blatant **Violation of Linearizability**. B's read pulled the timeline backward. 
 *(Note: You can force a Dynamo-style database to be linearizable by requiring readers to synchronously repair the data before returning the result, and requiring writers to read the latest quorum state before writing. However, the performance penalty is so severe that almost no databases do it).*

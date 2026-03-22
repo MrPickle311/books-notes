@@ -19,7 +19,7 @@ If you send a request over the network and do not receive a response, here is ev
 5.  **Response Lost:** The server successfully did the work, but the network switch dropped its reply packet.
 6.  **Response Delayed:** The server did the work, but its reply is stuck in a queue.
 
-![Figure 9-1: If you send a request and don’t get a response, it’s not possible to distinguish whether (a) the request was lost, (b) the remote node is down, or (c) the response was lost.](figure-9-1.png)
+![Figure 9-1: If you send a request and don’t get a response, it’s not possible to distinguish whether (a) the request was lost, (b) the remote node is down, or (c) the response was lost.](data_intensive_applications/figure-9-1.png)
 
 **The Crux:** It is mathematically impossible to distinguish between these 6 scenarios. The sender only knows one thing: "I have not received a response yet." 
 The only practical way to handle this is by implementing a **Timeout**, though even when a timeout triggers, you still have no idea *why* it triggered or if the remote node successfully processed your request before timing out.
@@ -81,7 +81,7 @@ Unfortunately, our universe has **unbounded delays**.
 #### Network Congestion and Queueing (Why Delays are Unbounded)
 Why do packets take varying amounts of time to travel? Just like driving a car, it mostly comes down to traffic jams—or in networking terms, **Queueing**. 
 *   **Switch Queues:** If multiple servers all try to send data to the same destination simultaneously, the network switch becomes a bottleneck. It must put the packets in a memory queue and feed them to the destination link one by one. If the queue gets completely full, the switch just drops the newly arriving packets entirely.
-![Figure 9-2: If several machines send network traffic to the same destination, its switch queue can fill up.](figure-9-2.png)
+![Figure 9-2: If several machines send network traffic to the same destination, its switch queue can fill up.](data_intensive_applications/figure-9-2.png)
 *   **OS Queues:** When the packet finally arrives at the server, but all CPU cores are busy, the operating system puts the packet in a queue until the application has time to read it.
 *   **VM Pauses:** If the server is a Virtual Machine on a public cloud, the hypervisor might literally pause the VM for tens of milliseconds to let another tenant use the CPU. While paused, incoming packets just sit buffered. 
 *   **TCP Congestion Control:** Before the packet even leaves the sender, TCP intentionally throttles your send rate to avoid congesting the network further, keeping the data buffered on your own OS.

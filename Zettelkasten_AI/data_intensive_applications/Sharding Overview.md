@@ -13,7 +13,7 @@ At a certain scale, adding more replication doesn't help if your database is fun
 *   **Sharding** = Splitting up a large dataset into smaller chunks (shards) and assigning them to *different* nodes. Every piece of data belongs to exactly one shard.
 
 Usually, sharding and replication are combined. A single physical node might act as the "Leader" for Shard A, but simultaneously act as a generic "Follower" for Shard B.
-![Figure 7-1: Combining replication and sharding: each node acts as leader for some shards and follower for other shards.](figure-7-1.png)
+![Figure 7-1: Combining replication and sharding: each node acts as leader for some shards and follower for other shards.](data_intensive_applications/figure-7-1.png)
 
 #### Terminology
 What this book calls a "Shard" goes by many different names depending on the database:

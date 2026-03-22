@@ -12,7 +12,7 @@ status: pending
 *   **The Difference (No Field Tags):** Unlike Protobuf, Avro's schema **does not use field tags/numbers**. 
 *   **Tiny Size:** Compresses the example record into just **32 bytes** (the most compact format). 
 
-![Figure 5-4: Example record encoded using Avro.](figure-5-4.png)
+![Figure 5-4: Example record encoded using Avro.](data_intensive_applications/figure-5-4.png)
 
 **How it works (and why it's so small):**
 Because there are no tags or field identifiers, the encoded Avro binary is literally just the raw concatenated values in a row. It doesn't even tell you the datatype. A string is just a length prefix followed by UTF-8 bytes; it could just as easily be an integer as far as the raw binary is concerned.
@@ -29,8 +29,8 @@ If they are different, Avro performs **Schema Resolution** by looking at them si
 *   If the writer includes a field the reader wasn't expecting, the reader simply ignores it.
 *   Field order doesn't matter, as long as the names match.
 
-![Figure 5-5: Encoding and decoding can use different versions of a schema in Avro and Protobuf.](figure-5-5.png)
-![Figure 5-6: An Avro reader resolves differences between the writer's schema and the reader's schema.](figure-5-6.png)
+![Figure 5-5: Encoding and decoding can use different versions of a schema in Avro and Protobuf.](data_intensive_applications/figure-5-5.png)
+![Figure 5-6: An Avro reader resolves differences between the writer's schema and the reader's schema.](data_intensive_applications/figure-5-6.png)
 
 #### Avro Schema Evolution Rules
 Because resolution relies on filling in blanks with default values, the rule for Avro schema evolution is strict:

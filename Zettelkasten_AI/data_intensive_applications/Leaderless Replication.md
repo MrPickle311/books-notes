@@ -19,7 +19,7 @@ If you have 3 replicas, and Replica 3 is offline updating its kernel:
 *   The client sends their `write` to all 3 replicas in parallel.
 *   Replica 1 and 2 accept the write and respond "OK". Replica 3 misses it entirely.
 *   The client receives the two "OKs", considers the write successful, and entirely ignores the fact that Replica 3 missed it.
-![Figure 6-12: A quorum write, quorum read, and read repair after a node outage.](figure-6-12.png)
+![Figure 6-12: A quorum write, quorum read, and read repair after a node outage.](data_intensive_applications/figure-6-12.png)
 
 #### Reading & Version Numbers (Solving Stale Data)
 When Replica 3 finishes updating and comes back online, it is missing the new data. If a client queries it, they will receive stale, outdated data.
@@ -49,7 +49,7 @@ As long as **w + r > n**, you are mathematically guaranteed to get an up-to-date
 *   *Typical configuration:* If `n=3`, a common setup is `w=2` and `r=2`. 
 *   *Tolerating Outages:* Because `2 < 3`, you can successfully process writes even if an entire node is dead and unreachable.
 *   *Tuning for Speed:* If you have massive read-heavy traffic, you could configure `w=3` and `r=1`. Reading from 1 node is incredibly fast! However, the trade-off is brutal: if a single node dies, your `w=3` requirement can't be met, meaning your entire database is paralyzed and cannot accept any writes until the node is fixed.
-![Figure 6-13: If w + r > n, at least one of the r replicas you read from must have seen the most recent successful write.](figure-6-13.png)
+![Figure 6-13: If w + r > n, at least one of the r replicas you read from must have seen the most recent successful write.](data_intensive_applications/figure-6-13.png)
 
 #### Limitations of Quorum Consistency
 Even when you correctly configure `w + r > n`, it is a mistake to assume quorums provide absolute, perfect consistency guarantees. There are many confusing edge cases:
@@ -93,7 +93,7 @@ Imagine Client A writes "A" and Client B writes "B" at the same time.
 *   Node 1 receives A. (It never receives B due to a network glitch).
 *   Node 2 receives A, and *then* B. (Node 2 thinks "B" is the final value).
 *   Node 3 receives B, and *then* A. (Node 3 thinks "A" is the final value).
-![Figure 6-14: Concurrent writes in a Dynamo-style datastore: there is no well-defined ordering.](figure-6-14.png)
+![Figure 6-14: Concurrent writes in a Dynamo-style datastore: there is no well-defined ordering.](data_intensive_applications/figure-6-14.png)
 
 If the nodes just blindly overwrite their local data based on the order the packets arrived, the database becomes permanently corrupted and inconsistent. The replicas must converge using a conflict resolution strategy (like LWW or CRDTs). But to resolve conflicts, a database must first mathematically detect that a conflict actually occurred (i.e., that the writes were *concurrent*).
 
@@ -129,7 +129,7 @@ When a server receives a write containing a version number, it knows exactly whi
 
 **The Shopping Cart Example:**
 Imagine two clients concurrently adding items to a single shopping cart over an unreliable network.
-![Figure 6-15: Capturing causal dependencies between two clients concurrently editing a shopping cart.](figure-6-15.png)
+![Figure 6-15: Capturing causal dependencies between two clients concurrently editing a shopping cart.](data_intensive_applications/figure-6-15.png)
 
 1.  **Client 1** adds `[milk]`. The server assigns it **Version 1**.
 2.  **Client 2** (unaware of Client 1) adds `[eggs]`. The server assigns it **Version 2**. Because it was concurrent to Version 1, the server keeps *both* values as siblings.
@@ -141,7 +141,7 @@ Imagine two clients concurrently adding items to a single shopping cart over an 
     *   The server saves `[eggs, milk, ham]` as **Version 4** and keeps `[milk, flour]` as **Version 3**.
 
 Because the clients were forced to pass Version Numbers back and forth, the server successfully mapped out a strict causal dependency graph. Even though the clients' network connections were terribly out of sync, the database never lost a single write. 
-![Figure 6-16: Graph of causal dependencies in Figure 6-15.](figure-6-16.png)
+![Figure 6-16: Graph of causal dependencies in Figure 6-15.](data_intensive_applications/figure-6-16.png)
 
 #### Version Vectors
 The shopping cart example used a Single-Leader database (only one replica accepting writes), so it only needed one single Version Number. How does this work in a Leaderless Database where *every* node accepts writes simultaneously?

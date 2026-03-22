@@ -24,7 +24,7 @@ A Log-based Broker operates exactly like appending to a file:
 ### Sharding the Log (Partitions)
 A single hard drive appending to a single text file cannot physically scale to millions of messages per second. To solve this, Log-based Brokers utilize Database Sharding.
 
-![Figure 12-3: A log-based message broker with multiple partitions.](figure-12-3.png)
+![Figure 12-3: A log-based message broker with multiple partitions.](data_intensive_applications/figure-12-3.png)
 *Figure 12-3: Producers append to shards (partitions). Consumers independently read these files sequentially.*
 
 Instead of one massive log, the topic is split across many different shards (which Apache Kafka calls **Partitions**). Each partition is hosted on a completely independent machine and written to independently.

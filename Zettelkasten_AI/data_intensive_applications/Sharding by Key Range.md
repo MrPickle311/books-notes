@@ -8,7 +8,7 @@ topic_layer: "Layer 3: Distributed"
 status: pending
 ---
 The simplest method is assigning a continuous range of keys to each shard (exactly like how volumes of a physical encyclopedia are broken up: Vol 1 is A-B, Vol 2 is C-D, etc.).
-![Figure 7-2: A print encyclopedia is sharded by key range.](figure-7-2.png)
+![Figure 7-2: A print encyclopedia is sharded by key range.](data_intensive_applications/figure-7-2.png)
 
 *   *Advantages:* Because keys are kept in sorted order within the shard, **Range Scans** are incredibly fast and easy. If your Partition Key is a timestamp, querying "Get all events from July 1st to July 31st" is blazing fast because they are all physically located next to each other on the exact same shard.
 *   *Disadvantages:* Range sharding guarantees **Hot Spots** if your partition key is a timestamp. If you shard by Day, all write traffic for *Today* goes to exactly one shard, perfectly overloading it while yesterday's shards sit completely idle. 

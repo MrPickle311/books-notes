@@ -21,7 +21,7 @@ Stream processors must explicitly choose which clock to use. Conflating the two 
 If everything works perfectly, the delay between Event Time and Processing Time is functionally zero.
 However, in the real world, delays happen. A Kafka broker gets bogged down. A network partition occurs. Or, most commonly, the Stream Processor crashes for 10 minutes and then restarts.
 
-![Figure 12-8: The catastrophic data artifacts caused by using Processing Time instead of Event Time.](figure-12-8.png)
+![Figure 12-8: The catastrophic data artifacts caused by using Processing Time instead of Event Time.](data_intensive_applications/figure-12-8.png)
 *Figure 12-8: If a stream processor crashes for a few minutes, the messages queue up in the broker. When the processor restarts, it rapidly drains the backlog. If you window by Processing Time, it falsely looks like a massive anomaly/spike in user traffic actually occurred.*
 
 **The Star Wars Analogy:**

@@ -29,7 +29,7 @@ When a user provides a search query, the system generates a vector embedding for
 3.  **Hierarchical Navigable Small World (HNSW):** An approximate algorithm representing the vector space as a multi-layered graph. The top layer has few nodes, while bottom layers are dense. The query rapidly descends the layers, following proximity edges to hone in on the closest match.
 
 *   **Description:** This figure visualizes the HNSW algorithm. It shows a query vector dropping down through progressively denser graph layers to locate the nearest matching entry without needing to scan every node.
-![Figure 4-11: Searching for the database entry that is closest to a given query vector in a HNSW index.](figure-4-11.png)
+![Figure 4-11: Searching for the database entry that is closest to a given query vector in a HNSW index.](data_intensive_applications/figure-4-11.png)
 
 ---
 ## Related Concepts

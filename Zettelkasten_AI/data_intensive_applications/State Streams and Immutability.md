@@ -12,7 +12,7 @@ A profound mathematical relationship exists between "State" (what is currently i
 *   **The Stream (The Derivative):** The append-only log of immutable changes over time (e.g., "+$50", "-$10").
 *   **The State (The Integral):** The current viewable database (e.g., "$40"). You arrive at this State by mathematically *integrating* the event stream over time.
 
-![Figure 12-7: Integrating an event stream mathematically produces the current state.](figure-12-7.png)
+![Figure 12-7: Integrating an event stream mathematically produces the current state.](data_intensive_applications/figure-12-7.png)
 *Figure 12-7: State is just the mathematical integration of a stream of events. A stream is just the physical differentiation of state over time.*
 
 As Jim Gray noted in 1992, you don't actually *need* a database. The log of events contains 100% of the information. The only reason we use a Database is for read-performance (so we don't have to sequentially sum up billions of log entries every time a user opens their banking app).

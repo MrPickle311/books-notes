@@ -16,7 +16,7 @@ To see why this destroys linearizability, look at this scenario:
 3.  **The Flaw:** Even though the user performed the actions entirely sequentially in the real world, the logical clocks are inverted.
 4.  **The Result:** A stranger queries the database. Because the photo `(50)` appears to have happened *before* the account was made Private `(100)`, the database serves the embarrassing photo to the stranger! 
 
-![Figure 10-10: User A first sets their account to private, then shares a photo. With a non-linearizable ID generator, an unauthorized viewer may see the photo.](figure-10-10.png)
+![Figure 10-10: User A first sets their account to private, then shares a photo. With a non-linearizable ID generator, an unauthorized viewer may see the photo.](data_intensive_applications/figure-10-10.png)
 
 This is why Logical Clocks are not enough for total system correctness. You need **Linearizable ID Generators**.
 

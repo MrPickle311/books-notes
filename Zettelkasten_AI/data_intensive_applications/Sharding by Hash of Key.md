@@ -15,7 +15,7 @@ A good 32-bit hash function takes incredibly similar input strings and outputs w
 Once you have the hash, how do you map it to a node?
 The amateur attempt is to take `hash(key) % N` (where N is the total number of nodes). If you have 10 nodes, this neatly spits out a node ID from `0-9`.
 *   **The Disadvantage:** Modulo N is a catastrophic design flaw if the cluster ever changes size. If you add an 11th node, `hash % 10` evaluates entirely differently than `hash % 11`. Almost every single piece of data in the entire database will suddenly belong to the wrong node, triggering a massive, unnecessary reshuffling of terabytes of data across the network just to rebalance.
-![Figure 7-3: Assigning keys to nodes by hashing the key and taking it modulo the number of nodes. Changing the number of nodes results in many keys moving from one node to another.](figure-7-3.png)
+![Figure 7-3: Assigning keys to nodes by hashing the key and taking it modulo the number of nodes. Changing the number of nodes results in many keys moving from one node to another.](data_intensive_applications/figure-7-3.png)
 ---
 ## Related Concepts
 * [[Data Intensive Applications]]

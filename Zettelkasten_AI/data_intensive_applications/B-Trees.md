@@ -19,13 +19,13 @@ Pages can be identified by a page number, which acts like a pointer on disk. The
 *   **Lookups:** You start at the **root page**, which contains keys and references to child pages. You scan the keys to find the boundaries that encompass the key you are looking for, and follow the reference down to the next level. This continues until you reach a **leaf page**, which contains either the inline value or a reference to where the value is stored.
 
 *   **Description:** This figure shows how a B-tree lookup works. Starting from the root, we follow the pointer to the range 200–300, then the pointer for the range 250–270, eventually reaching the leaf node for key 251.
-![Figure 4-5: Looking up the key 251 using a B-tree index.](figure-4-5.png)
+![Figure 4-5: Looking up the key 251 using a B-tree index.](data_intensive_applications/figure-4-5.png)
 
 *   **Branching Factor:** The number of references to child pages in one page is called the branching factor. It is typically several hundred, allowing a B-tree to be very shallow (usually 3-4 levels deep even for huge datasets). $O(\log n)$ depth keeps lookups fast.
 *   **Inserts and Splits:** To insert a new key, you find the leaf page whose range encompasses the key. If the page doesn't have enough free space, it is **split** into two half-full pages, and the parent page is updated to point to both new children.
 
 *   **Description:** This figure shows what happens when a B-tree page gets full. To insert key 334, the page covering the range 333–345 is split into two, and the parent page is updated to add the new boundary key (337).
-![Figure 4-6: Growing a B-tree by splitting a page on the boundary key 337.](figure-4-6.png)
+![Figure 4-6: Growing a B-tree by splitting a page on the boundary key 337.](data_intensive_applications/figure-4-6.png)
 
 #### Making B-Trees Reliable (Crash Recovery)
 B-trees overwrite pages in-place, which is dangerous: what if the database crashes halfway through writing a split page? It would result in corrupted pointers and orphan pages.

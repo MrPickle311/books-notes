@@ -13,7 +13,7 @@ Imagine we have two massive, sharded datasets:
 1.  **Activity Events (Fact Table):** A massive log of every button click and page view.
 2.  **User Profiles (Dimension Table):** A database of user metadata (like their Date of Birth).
 
-![Figure 11-2: A join between a log of user activity events and a database of user profiles.](figure-11-2.png)
+![Figure 11-2: A join between a log of user activity events and a database of user profiles.](data_intensive_applications/figure-11-2.png)
 *Figure 11-2: We want to join the Activity Events (left) with the User Database (right) to see if certain pages are more popular with specific age groups.*
 
 ### The Sort-Merge Join
@@ -25,7 +25,7 @@ To execute this join across a distributed cluster, we can't just hold the User D
 2.  **The Shuffle:** The framework routes the data so that *all* records with `user_id: 123` (both from Mapper 1 and Mapper 2) are sent to the exact same Reducer. 
 3.  **Secondary Sort:** The framework is incredibly smart. It sorts the incoming records so that the User Profile record for `user_id: 123` arrives at the Reducer *before* the 50 Activity Event records for `user_id: 123`.
 
-![Figure 11-3: A sort-merge join on user ID.](figure-11-3.png)
+![Figure 11-3: A sort-merge join on user ID.](data_intensive_applications/figure-11-3.png)
 *Figure 11-3: The Sort-Merge join perfectly aligns the Date of Birth record directly before the stream of Page View records for the identical user ID.*
 
 4.  **The Reduce Join Logic:** Because the Reducer receives the Date of Birth first, it simply holds that tiny variable in local single-server RAM. As the 50 subsequent Activity Event lines stream in, it easily attaches the Date of Birth to each one and writes out the final joined output. The Reducer never has to make a network request to a remote database!

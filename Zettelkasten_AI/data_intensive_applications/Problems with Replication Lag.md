@@ -22,7 +22,7 @@ Imagine a user updates their profile picture, hits 'Save', and is immediately re
 *   The 'Save' (Write) was routed to the Leader.
 *   The 'View Profile' (Read) was routed to an async Follower.
 *   Because of replication lag, the Follower hasn't received the new picture yet. To the user, it looks like their save action was completely lost, causing extreme frustration.
-![Figure 6-3: A user makes a write, followed by a read from a stale replica. To prevent this anomaly, we need read-after-write consistency.](figure-6-3.png)
+![Figure 6-3: A user makes a write, followed by a read from a stale replica. To prevent this anomaly, we need read-after-write consistency.](data_intensive_applications/figure-6-3.png)
 
 To prevent this, databases implement **Read-Your-Writes Consistency** (guaranteeing a user always sees their own updates, making no promises about seeing *other* users' updates).
 Solutions include:
@@ -41,7 +41,7 @@ The second massive anomaly of replication lag occurs if a user makes multiple re
 2.  User refreshes the page. The load balancer routes this new read to **Follower B** (which has 10 seconds of lag).
 3.  Because Follower B hasn't received John's comment yet, the comment suddenly vanishes from the screen!
 To the user, time literally moved backward. They saw the future, and then reverted to the past.
-![Figure 6-4: A user first reads from a fresh replica, then from a stale replica. Time appears to go backward. To prevent this anomaly, we need monotonic reads.](figure-6-4.png)
+![Figure 6-4: A user first reads from a fresh replica, then from a stale replica. Time appears to go backward. To prevent this anomaly, we need monotonic reads.](data_intensive_applications/figure-6-4.png)
 
 **Monotonic Reads** is a guarantee that this never happens. It promises that if you read newer data, your subsequent reads will never be served by a replica holding older data. 
 *   *Solution:* The simplest way to achieve this is to ensure a specific user is *always* routed to the exact same replica for all their reads (e.g., routing based on a hash of their User ID, rather than random load balancing). If that replica dies, the user is re-routed to a new one.
@@ -53,7 +53,7 @@ The third anomaly involves causality and the order of operations. Imagine a conv
 
 If an observer is reading from a sharded, asynchronous database, **Follower A** (holding Mr. Poons's shard) might have a huge replication lag, while **Follower B** (holding Mrs. Cake's shard) might have zero lag. 
 The observer would see Mrs. Cake's answer appear *before* Mr. Poons's question is ever asked, making her look psychic!
-![Figure 6-5: If some shards are replicated slower than others, an observer may see the answer before they see the question.](figure-6-5.png)
+![Figure 6-5: If some shards are replicated slower than others, an observer may see the answer before they see the question.](data_intensive_applications/figure-6-5.png)
 
 This happens in sharded/partitioned databases because different shards operate completely independently. There is no global ordering of writes across them.
 

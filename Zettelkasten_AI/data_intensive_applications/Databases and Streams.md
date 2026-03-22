@@ -33,7 +33,7 @@ Dual-writing introduces two massive, system-breaking problems:
 1.  **Partial Failures:** If the Postgres write succeeds, but the Elasticsearch write crashes because of a momentary network blip, the systems are now entirely out of sync. Solving this requires incredibly complex, slow, and expensive "Two-Phase Commit" distributed transactions.
 2.  **Concurrency Race Conditions:** If two users update the same item at the exact same millisecond, the network might interleave the requests, devastating your data integrity.
 
-![Figure 12-4: The devastating race condition caused by dual writes to multiple databases.](figure-12-4.png)
+![Figure 12-4: The devastating race condition caused by dual writes to multiple databases.](data_intensive_applications/figure-12-4.png)
 *Figure 12-4: Client 1 writes 'A'. Client 2 writes 'B'. If the network arbitrarily delays the packets, Postgres correctly ends up with 'B', but Elasticsearch permanently ends up with 'A'.*
 
 This race condition is disastrous because no errors are thrown; one value simply silently overwrites the other, and the two databases diverge forever. 

@@ -9,7 +9,7 @@ status: pending
 ---
 When the leader receives a write, it must decide whether to wait for its followers to copy the data before telling the user the write was "Successful".
 
-![Figure 6-2: Leader-based replication with one synchronous and one asynchronous follower.](figure-6-2.png)
+![Figure 6-2: Leader-based replication with one synchronous and one asynchronous follower.](data_intensive_applications/figure-6-2.png)
 
 #### Synchronous Replication
 The leader waits until the follower formally confirms it received and wrote the data before reporting success to the client.

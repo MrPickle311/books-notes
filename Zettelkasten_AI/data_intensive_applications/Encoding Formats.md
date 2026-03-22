@@ -50,7 +50,7 @@ While JSON is less verbose than XML, textual formats use a lot of space. This le
 *   **Verdict:** MessagePack and similar JSON binary encodings generally only save a trivial amount of space compared to the raw text (e.g. 66 bytes binary vs 81 bytes minified text JSON). It's debatable whether this small space reduction is worth losing human-readability.
 *   *Note:* The text notes that there are better formats that can compress this same record into just 32 bytes (covered in the next sections).
 
-![Figure 5-2: Example record encoded using MessagePack.](figure-5-2.png)
+![Figure 5-2: Example record encoded using MessagePack.](data_intensive_applications/figure-5-2.png)
 ---
 ## Related Concepts
 * [[Data Intensive Applications]]

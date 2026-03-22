@@ -1,0 +1,11 @@
+---
+aliases:
+tags:
+  - domaindrivendesign
+source_book: "Domain-Driven Design"
+status: pending
+---
+**Domain Experts** are the people who have deep knowledge of the business domain or a specific subdomain. They are the source of truth for business requirements and rules. They are typically stakeholders, business analysts, or the end-users of the software. Collaborating closely with them is essential for a successful project. 
+---
+## Related Concepts
+* [[Domain Driven Design]]

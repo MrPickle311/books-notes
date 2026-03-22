@@ -14,7 +14,7 @@ The most common solution for database replication is **Leader-based replication*
 
 *Note:* If the database is sharded, each shard has its own leader. Leader-based replication is the standard in almost every major system: PostgreSQL, MySQL, SQL Server, MongoDB, Kafka, and consensus algorithms like Raft.
 
-![Figure 6-1: Single-leader replication directs all writes to a designated leader, which sends a stream of changes to the follower replicas.](figure-6-1.png)
+![Figure 6-1: Single-leader replication directs all writes to a designated leader, which sends a stream of changes to the follower replicas.](data_intensive_applications/figure-6-1.png)
 ---
 ## Related Concepts
 * [[Data Intensive Applications]]

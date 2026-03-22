@@ -19,7 +19,7 @@ A common type of materialized view in data warehouses is the **Data Cube** (or O
 *   **Disadvantage:** Cubes lack the flexibility of raw data. If you suddenly need to calculate a percentage based on an attribute that *wasn't* defined as a dimension in the cube, you can't use the cube. For this reason, data warehouses use cubes merely as performance boosters, while still retaining the raw underlying data.
 
 *   **Description:** This figure shows a two-dimensional data cube aggregating data by summing values dynamically across the 'Date' and 'Product' axes, allowing for instant lookups of the intersections.
-![Figure 4-10: Two dimensions of a data cube, aggregating data by summing.](figure-4-10.png)
+![Figure 4-10: Two dimensions of a data cube, aggregating data by summing.](data_intensive_applications/figure-4-10.png)
 ---
 ## Related Concepts
 * [[Data Intensive Applications]]

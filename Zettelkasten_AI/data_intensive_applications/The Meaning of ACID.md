@@ -30,7 +30,7 @@ In the context of ACID, **Consistency refers to application-specific Invariants*
 #### I: Isolation
 Most databases are accessed concurrently by dozens of clients. If two clients try to access the exact same record simultaneously, you get a "Race Condition."
 *   *Example:* Two users simultaneously read a counter at `42`, add 1 in their app, and write back `43`. The counter should be `44`. 
-![Figure 8-1: A race condition between two clients concurrently incrementing a counter.](figure-8-1.png)
+![Figure 8-1: A race condition between two clients concurrently incrementing a counter.](data_intensive_applications/figure-8-1.png)
 
 **Isolation** guarantees that concurrently executing transactions cannot step on each other's toes. 
 *   In classic database theory, perfect isolation is called **Serializability**. It guarantees that even if 100 transactions are running perfectly in parallel, the final result will be identical as if they had run *serially* (queued up one at a time).

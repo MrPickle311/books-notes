@@ -38,7 +38,7 @@ Imagine a Bank Transfer:
 
 A traditional SQL database would achieve this via atomic cross-shard committing. But because cross-shard locks absolutely destroy throughput, we can achieve identical correctness using **Event Logs and Stream Processors** instead.
 
-![Figure 13-2: Atomically transferring money across shards using event logs.](figure-13-2.png)
+![Figure 13-2: Atomically transferring money across shards using event logs.](data_intensive_applications/figure-13-2.png)
 *Figure 13-2: A complex multi-shard atomic transfer implemented entirely with asynchronous, deterministic stream processors and End-to-End Request IDs.*
 
 **The Stream Workflow:**

@@ -13,7 +13,7 @@ Read Committed is great, but it still allows a dangerous concurrency bug called 
 Imagine Aaliyah has $1,000 split across two bank accounts ($500 each). A transaction begins transferring $100 from Account 1 to Account 2. 
 If Aaliyah opens her banking app at the exact wrong millisecond, her app might query Account 1 *before* the transfer hits it (saying $500), but then query Account 2 *after* the transfer has left it (saying $400). 
 To Aaliyah, it appears she only has $900. $100 has vanished into thin air.
-![Figure 8-6: Read skew: Aaliyah observes the database in an inconsistent state.](figure-8-6.png)
+![Figure 8-6: Read skew: Aaliyah observes the database in an inconsistent state.](data_intensive_applications/figure-8-6.png)
 
 This is completely legal under "Read Committed" isolation! Both the $500 and the $400 were officially committed values at the exact millisecond her app queried them. If she refreshes the page, it will fix itself, so for a banking app, Read Skew is usually an acceptable temporary side effect.
 
@@ -37,7 +37,7 @@ This mechanism is called **MVCC (Multi-Version Concurrency Control)**.
     *   When you `UPDATE` a row, Postgres doesn't overwrite it! It actually marks the old row's `deleted_by` field with your `txid`, and inserts a brand new row with your `txid` in the `inserted_by` field.
     *   Both the old and new rows physically exist on disk side-by-side as a linked list.
     *   Any other transaction reading the database simply looks at their own `txid`, compares it to the rows, and mathematically ignores any row that was inserted "after" they started their snapshot.
-![Figure 8-7: Implementing snapshot isolation using multi-version concurrency control.](figure-8-7.png)
+![Figure 8-7: Implementing snapshot isolation using multi-version concurrency control.](data_intensive_applications/figure-8-7.png)
 
 *(Eventually, when the database knows for a fact that the oldest ongoing analytical query has finally finished, a garbage collection process—like Postgres's `VACUUM`—will sweep through the disk and physically delete all the obsolete historical rows to free up space).*
 

@@ -57,7 +57,7 @@ Imagine you send the commit request to Node A and Node B over the network:
 *   Node A successfully receives the request, processes it, and writes the commit record to its local disk.
 *   Node B detects a constraint violation (or the network cable is cut, or it runs out of disk space, or it crashes before the commit hits the disk) and Aborts.
 
-![Figure 8-12: When a transaction involves multiple database nodes, it may commit on some and fail on others.](figure-8-12.png)
+![Figure 8-12: When a transaction involves multiple database nodes, it may commit on some and fail on others.](data_intensive_applications/figure-8-12.png)
 
 Now you have a torn transaction. Half the database (Node A) permanently committed the write, while the other half (Node B) rejected it. 
 Furthermore, you cannot retroactively undo Node A! Because Node A committed, under standard isolation levels (like Read Committed), other users immediately began seeing and reading that data and making business decisions based on it. If you forcibly "undo" Node A, you break the reality of every transaction that followed it. 
@@ -77,7 +77,7 @@ Instead of a single "Commit" request, the Coordinator splits the process into tw
 2.  **Phase 2 (Commit/Abort):** 
     *   If *every single Participant* replies "Yes", the Coordinator says: "Great, everyone Commit!"
     *   If *even one Participant* replies "No" (or times out), the Coordinator says: "Abort!" and every node throws the transaction away.
-![Figure 8-13: A successful execution of two-phase commit (2PC).](figure-8-13.png)
+![Figure 8-13: A successful execution of two-phase commit (2PC).](data_intensive_applications/figure-8-13.png)
 
 *The Marriage Analogy:* This is identical to a Western wedding ceremony. The minister (Coordinator) asks both the bride and groom (Participants) "Do you?". Only if *both* say "I do" (Phase 1) does the minister officially pronounce them married (Phase 2). If anyone says "No," the wedding is aborted.
 
@@ -101,7 +101,7 @@ What happens if the Coordinator itself crashes?
 *   However, if a Participant has already replied "YES" to the Phase 1 Prepare request, it is trapped. It surrendered its right to abort, but it hasn't received the final Commit/Abort decision yet. 
 *   If the Coordinator crashes at this exact moment, the Participant is stuck in a state called **"In Doubt" (or Uncertain)**.
 
-![Figure 8-14: The coordinator crashes after participants vote “yes.” Database 1 does not know whether to commit or abort.](figure-8-14.png)
+![Figure 8-14: The coordinator crashes after participants vote “yes.” Database 1 does not know whether to commit or abort.](data_intensive_applications/figure-8-14.png)
 
 The Participant mathematically *cannot* unilaterally Abort (because the Coordinator might have successfully told Database 2 to Commit right before crashing). It also mathematically *cannot* unilaterally Commit (because the Coordinator might have decided to Abort). The Participant has absolutely no alternative but to freeze and wait.
 
