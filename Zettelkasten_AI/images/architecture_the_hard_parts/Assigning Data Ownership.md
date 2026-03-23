@@ -38,6 +38,7 @@ This common and complex scenario occurs when a few services, typically within th
 ![Figure 9-4: A diagram focusing on the joint ownership problem, with both the Catalog and Inventory services performing write operations on the same Product table.](figure-9-4.png)
 
 Four techniques can be used to resolve this.
+
 ---
 ## Related Concepts
 * [[Architecture]]

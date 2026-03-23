@@ -34,3 +34,26 @@
 * [[Domain Events]]
 * [[Domain Services]]
 * [[Complexity and Invariants]]
+
+## Chapter 7: Modeling the Dimension of Time
+* [[Event Sourcing Pattern]]
+* [[State-Based vs Event-Sourced Models]]
+* [[Projections in Event Sourcing]]
+* [[The Event Store]]
+* [[Advantages of Event Sourcing]]
+* [[Challenges of Event Sourcing]]
+* [[Practical Considerations of Event Sourcing]]
+
+## Chapter 8: Architectural Patterns
+* [[Layered Architecture]]
+* [[Ports and Adapters Architecture]]
+* [[Command-Query Responsibility Segregation]]
+* [[Architectural Slices]]
+
+## Chapter 9: Communication Patterns
+* [[Model Translation]]
+* [[Stateless Model Translation]]
+* [[Stateful Model Translation]]
+* [[The Outbox Pattern]]
+* [[The Saga Pattern]]
+* [[The Process Manager Pattern]]

@@ -1,0 +1,58 @@
+---
+aliases:
+  - MongoDB 8.0 in Action
+tags:
+  - mongodb
+  - database
+---
+# MongoDB 8.0 in Action
+
+## Chapter 7: Indexing for query performance
+* [[MongoDB Query Planner]]
+* [[Viewing Query Plan]]
+* [[Plan Cache Purges]]
+* [[Single Field Indexes]]
+* [[Compound Indexes and ESR Rule]]
+* [[Multikey Indexes]]
+* [[Text Indexes]]
+* [[Wildcard Indexes]]
+* [[Geospatial Indexes]]
+* [[Hashed Indexes]]
+* [[Managing Indexes]]
+* [[Partial Indexes]]
+* [[Sparse Indexes]]
+* [[TTL Indexes]]
+* [[Hidden Indexes]]
+* [[Index Building Process]]
+* [[Using Indexes with OR NE NIN]]
+* [[Covered Queries]]
+
+## Chapter 8: Executing multi-document ACID transactions
+* [[WiredTiger Storage Engine]]
+* [[Snapshots and Checkpoints]]
+* [[Journaling in MongoDB]]
+* [[Single vs Multi-Document Transactions]]
+* [[Optimistic Concurrency Control (OCC)]]
+* [[Multi-document Transactions APIs]]
+* [[Transactions Callback API]]
+* [[MongoDB Transactions Considerations]]
+
+## Chapter 9: Using replication and sharding
+* [[MongoDB Replica Set]]
+* [[Replica Set Member States]]
+* [[Electing Primary Replica Set Member]]
+* [[MongoDB Oplog]]
+* [[Logical Initial Sync Process]]
+* [[MongoDB Change Streams]]
+* [[Sharding Architecture]]
+* [[Working with Shard Key]]
+* [[Shard Key Analyzer]]
+* [[Detecting Imbalance]]
+* [[Resharding in MongoDB]]
+* [[Understanding Chunks Balancing]]
+* [[Administrating Chunks]]
+* [[Automatic Chunk Merging]]
+* [[Unsharding Collections]]
+* [[Write Concern]]
+* [[Read Concern]]
+* [[Read Preference]]
