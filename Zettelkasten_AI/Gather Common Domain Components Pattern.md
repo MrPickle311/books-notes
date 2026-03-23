@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This pattern is used to identify and consolidate common business logic that may be duplicated across the application.
 
@@ -67,7 +58,3 @@ Addison identifies three separate notification-related components: `Customer Not
 After analyzing the coupling impact, Addison confirms that consolidating them will not negatively affect the overall architecture. An architecture story is created, and the three components are refactored into a single, common `Notification` component (`ss.notification`).
 
 ![Figure 5-5: A diagram showing the three original notification components being merged into a single new "Notification" component.](figure-5-5.png)
-
----
-## Related Concepts
-* [[Architecture]]

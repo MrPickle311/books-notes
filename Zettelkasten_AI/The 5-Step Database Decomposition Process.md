@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This is an evolutionary and iterative process for safely breaking apart a monolithic database.
 
@@ -40,6 +31,3 @@ A **data domain** is a collection of coupled database artifacts (tables, views, 
 *   **Step 5: Switch Over to Independent Database Servers.**
     *   **Action:** Switch the service connections to point to the new, independent database servers. Decommission the old monolithic database. The migration is complete.
     ![Figure 6-24: The final state, with each service (or group of services) connected to its own independent database server.](figure-6-24.png)
----
-## Related Concepts
-* [[Architecture]]

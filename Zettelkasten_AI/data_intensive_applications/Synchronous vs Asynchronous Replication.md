@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 When the leader receives a write, it must decide whether to wait for its followers to copy the data before telling the user the write was "Successful".
 
 ![Figure 6-2: Leader-based replication with one synchronous and one asynchronous follower.](data_intensive_applications/figure-6-2.png)
@@ -25,6 +16,3 @@ The leader sends the replication log to the followers but does not wait for any 
 *   **Disadvantage (Lost Data):** If the leader fails and is irrecoverable, any writes that had not yet streamed to the followers are permanently lost, even though the client was told they were successful. This weakens durability.
 
 Despite the risk of data loss, fully asynchronous replication is widely used, especially for applications with many followers or geographically distributed nodes across the globe where network latency is high.
----
-## Related Concepts
-* [[Data Intensive Applications]]

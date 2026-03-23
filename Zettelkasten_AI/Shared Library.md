@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This is the most common technique, where shared code is packaged into an external artifact (e.g., JAR, DLL) and bound to each service at compile-time.
 
@@ -41,6 +32,3 @@ Versioning is critical for shared libraries to provide agility and backward comp
 |                                          | Version communication can be difficult       |
 
 *   **When to Use:** The best approach for homogeneous environments where the rate of change for shared code is low to moderate.
----
-## Related Concepts
-* [[Architecture]]

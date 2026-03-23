@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 *   **Problem:** The team needs to become more data-driven in planning for expert supply, which requires analyzing skill set demand in different locations over time. This requires aggregating data from multiple domains.
 *   **Analysis:** They determine that the required data exists across three existing DPQs:
     1.  `Tickets DPQ`: Long-term view of all tickets.
@@ -26,7 +17,3 @@ status: pending
     *   **Fitness functions:**
         *   **Complete daily snapshot:** Check timestamps on incoming messages. A gap of more than one minute indicates a processing issue, marking that day's data as exempt.
         *   **Consumer-driven contract fitness function for Ticket DPQ and Expert Supply DPQ:** To ensure that internal evolution of the Ticket Domain doesn’t break the Experts Supply DPQ.
-
----
-## Related Concepts
-* [[Architecture]]

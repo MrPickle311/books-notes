@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 This pattern is an evolution of Transaction Script, designed for simple business logic that operates on more complex data structures or object hierarchies.
 
 *   **Definition:** "An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data." - Martin Fowler
@@ -42,7 +35,3 @@ public class CreateUser
 *   **Best for:** Supporting subdomains where the main complexity is mapping complex data structures to a database, not complex business rules.
 *   **Good for:** Simple CRUD-heavy applications.
 *   **Warning (The "Anemic Domain Model" critique):** This pattern is often called an anti-pattern because the business logic lives outside the data objects. While this is true, it's a perfectly valid and useful tool for simple domains. Using a more complex pattern here would be over-engineering.
-
----
-## Related Concepts
-* [[Domain Driven Design]]

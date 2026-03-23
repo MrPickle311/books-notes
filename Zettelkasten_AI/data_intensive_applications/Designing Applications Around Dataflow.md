@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 The concept of automatically updating derived views when the underlying data changes is a concept we've already had since 1979: **Spreadsheets** (like VisiCalc or Excel). 
 In Excel, you type a formula in cell `C1` (`=A1+B1`). When you mutate `A1`, `C1` automatically and instantaneously recalculates. You don't have to manually tell `C1` to update, and you don't care *how* it happens—you just trust the reactive dataflow.
 
@@ -61,6 +52,3 @@ Not only is the Dataflow approach infinitely faster (because you physically elim
 
 *The fastest and most reliable network request is no network request at all.* 
 By embracing event streams, we completely eliminate devastating synchronous dependencies and move toward a spreadsheet-like model of reactive dataflow.
----
-## Related Concepts
-* [[Data Intensive Applications]]

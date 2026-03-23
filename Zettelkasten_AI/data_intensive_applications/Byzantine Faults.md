@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Everything we have discussed so far assumes that nodes are unreliable, but **Honest**. 
 We assume a node might crash, or pause, or experience network drops. But we absolutely trust that when a node finally does send a message, it is telling the truth. It is playing by the rules of the protocol to the best of its knowledge.
 
@@ -30,6 +21,3 @@ Even though we don't build full Byzantine Fault-Tolerant systems, we do still pr
 *   **Checksums:** Network packets can get corrupted by bad routers along the way. We use Application-level checksums, TCP checksums, and TLS to detect physically corrupted data.
 *   **Input Sanitization:** We assume end-users are malicious liars. We heavily sanitize web inputs to prevent SQL Injection or XSS attacks.
 *   **NTP Outlier Detection:** We configure our NTP client to talk to multiple servers. If 4 servers tell us it's 3:00 PM, and 1 server tells us it's 8:00 AM, the NTP client realizes the 5th server is "lying" (misconfigured) and safely ignores it as an outlier.
----
-## Related Concepts
-* [[Data Intensive Applications]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 How do architects ensure their designs and principles are actually followed during implementation? The answer is **Architecture Fitness Functions**, which automate architectural governance.
 
 *   **Definition:** "Any mechanism that performs an objective integrity assessment of some architecture characteristic or combination of architecture characteristics."
@@ -70,6 +61,3 @@ How do architects ensure their designs and principles are actually followed duri
     ```
 
 *   **Real-World Impact (Equifax Breach):** The Equifax data breach was caused by a known vulnerability in the Struts framework. If Equifax had used fitness functions in a continuous deployment pipeline, the security team could have inserted a simple test to check for the vulnerable library version, failing the build on every affected project and providing immediate, enterprise-wide feedback.
----
-## Related Concepts
-* [[Architecture]]

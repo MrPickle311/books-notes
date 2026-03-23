@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 Architects should be objective arbiters of trade-offs, not evangelists for a particular tool or technique. Be wary of any solution that promises to be all good with no downsides. Use scenario analysis to cut through the hype and uncover the real trade-offs.
 
 ![Figure 15-10: An architect evangelist who thinks they have found a silver bullet!](figure-15-10.png)
@@ -25,6 +16,3 @@ When faced with a decision like using a single topic vs. individual queues, mode
 | Individual operational profiles per consumer   |                                           |
 
 > **Forced evangelism:** Don’t allow others to force you into evangelizing something—bring it back to trade-offs.
----
-## Related Concepts
-* [[Architecture]]

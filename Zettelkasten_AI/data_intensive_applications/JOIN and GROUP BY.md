@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Let's see the Shuffle in action to perform a massive distributed `JOIN`.
 
 Imagine we have two massive, sharded datasets:
@@ -37,6 +28,3 @@ We simply launch a **second Shuffle step**.
 1.  This time, we instruct the new Mapper to use the `URL` as the Hash Key.
 2.  The network Shuffles the data so that every single page view record for `/favicon.ico` lands on Reducer A, and every page view for `/about-us` lands on Reducer B.
 3.  The Reducers simply iterate over their local lists, maintaining a rolling counter for each age group, effectively executing a massive `GROUP BY URL` aggregation perfectly parallelized across the cluster!
----
-## Related Concepts
-* [[Data Intensive Applications]]

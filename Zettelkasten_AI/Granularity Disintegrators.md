@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### Granularity Disintegrators (Reasons to Break a Service Apart)
 
@@ -48,7 +39,3 @@ Is it known that a service's context will grow over time?
 *   **Example:** A "Payment" service initially handles Credit Cards, Gift Cards, and PayPal. The business plans to add ApplePay, reward points, and store credit in the future. Adding each new method to a single service requires re-testing and re-deploying all existing payment methods.
 *   **Solution:** Split the service by payment method. Now, adding "ApplePay" is a matter of creating a new, independent "ApplePay Service," which can be developed, tested, and deployed with zero risk to the existing payment services.
     ![Figure 7-8: A "Payment Service" is split into separate services for "Credit Card," "Gift Card," and "PayPal," with space to easily add a new "Reward Points" service.](figure-7-8.png)
-
----
-## Related Concepts
-* [[Architecture]]

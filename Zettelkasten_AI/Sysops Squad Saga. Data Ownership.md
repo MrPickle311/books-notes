@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 #### 1. Single Table Ownership
 *   **Problem:** How to assign ownership when one service writes to a table (e.g., `User Maintenance Service` updates the `Expert Profile` table) and another needs frequent read access (e.g., `Ticket Assignment Service`).
 *   **Decision:** The service that **writes** to the table is the owner.
@@ -23,7 +14,3 @@ status: pending
     *   **Consequences:** The event payload is now larger. The creation of the survey record is now decoupled from the ticket completion process.
 
 ![Figure 9-21: The final architecture. The Survey service owns the data, and the Ticket Completion Service delegates its write by sending data in a message.](figure-9-21.png)
-
----
-## Related Concepts
-* [[Architecture]]

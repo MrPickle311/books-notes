@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 **Protocol Buffers (protobuf)** is a binary encoding library (similar to Apache Thrift) that requires a schema for any data being encoded. 
 *   **Compilation:** You write a schema in IDL (Interface Definition Language), and a code generation tool produces classes in your programming language of choice to quickly encode/decode records.
 *   **Space Savings (Field Tags):** The secret to its tiny size (compressing the previous 66-byte MessagePack record into just 33 bytes) is **omitting field names entirely**. Instead of embedding the string "userName", the encoded binary simply uses the number `1` (the **Field Tag**) defined in the schema.
@@ -23,6 +14,3 @@ How Protobuf handles Evolutions:
 *   **Backward Compatibility (Reading old data):** Because field tags are immutable, new code has no problem reading old data. If new code reads an old record that is missing a newly-added field, it simply drops a default value into that field.
 *   **Removing Fields:** You can remove fields, but you can *never* recycle that tag number later.
 *   **Changing Data Types:** Risky. If you change a 32-bit integer to a 64-bit integer, new code can read old data (padding with zeros). But old code reading new data will truncate the value if it exceeds 32 bits, destroying data.
----
-## Related Concepts
-* [[Data Intensive Applications]]

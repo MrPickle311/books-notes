@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 The decision to decompose a database is a trade-off analysis between two opposing sets of forces.
 
@@ -47,6 +38,3 @@ The decision to decompose a database is a trade-off analysis between two opposin
 2.  **Database Transactions:** A monolithic database allows for ACID (Atomicity, Consistency, Isolation, Durability) transactions. A service can update multiple tables as a single, atomic unit of work.
     ![Figure 6-15: A diagram showing a service making multiple writes to a single database within a single transaction boundary.](figure-6-15.png)
     *   **Problem:** When data is split across multiple databases, a single ACID transaction is no longer possible. This requires implementing complex distributed transaction patterns (like Sagas, discussed in Chapter 12), which introduces significant complexity and moves to an eventual consistency model.
----
-## Related Concepts
-* [[Architecture]]

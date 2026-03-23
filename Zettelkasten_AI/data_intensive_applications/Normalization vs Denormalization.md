@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 *   **Normalization (IDs):** Storing `region_id` (e.g., `us:91`) instead of the plain string "Washington, DC".
     *   **Benefits:**
         *   **Consistent Style:** Eliminates spelling variations.
@@ -30,6 +21,3 @@ status: pending
     *   The application then looks up the full post content (from posts table) and user profiles (user table) for these IDs in a second step.
 
 > **Rule of Thumb:** Normalized data is faster to write (one copy). Denormalized data is faster to read (no joins). Document databases are good for 1-to-many. Relational databases are better for many-to-many.
----
-## Related Concepts
-* [[Data Intensive Applications]]

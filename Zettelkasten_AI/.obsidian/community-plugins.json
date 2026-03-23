@@ -2,5 +2,8 @@
   "make-md",
   "advanced-canvas",
   "table-editor-obsidian",
-  "obsidian-excalidraw-plugin"
+  "obsidian-excalidraw-plugin",
+  "obsidian-importer",
+  "google-calendar",
+  "remotely-save"
 ]

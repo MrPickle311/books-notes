@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Consensus algorithms can be packaged and used in several different ways. In fact, if you solve one of the following problems, you have mathematically solved all the others:
 
 #### 1. Compare-and-Set (CAS) as Consensus
@@ -104,7 +95,3 @@ While the basic structure is similar across algorithms, the devil is in the deta
     *   **Paxos**'s rule: Anyone can win an election, but before you are allowed to append *new* entries, you must first forcefully synchronize your log with the rest of the cluster.
 *   **Consistency vs. Availability:** Sticking to the strict rules above guarantees Consensus. But sometimes, databases knowingly break the rules to stay online. For example, Kafka allows "Unclean Leader Election" (letting an out-of-date replica become leader). This maximizes Availability but knowingly sacrifices Consistency (guaranteeing some data will be permanently lost if a crash occurs).
 *   **Reconfiguration:** Standard algorithms assume a static number of servers. If you want to dynamically add or remove servers (e.g., migrating to a new datacenter) without 100% downtime, the algorithm requires incredibly complex "Reconfiguration" protocols.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

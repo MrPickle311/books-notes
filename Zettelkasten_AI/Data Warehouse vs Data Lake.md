@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### Previous Approaches
 
@@ -62,6 +53,3 @@ As a reaction to the complexity of the data warehouse, the Data Lake pattern inv
 | Less structured than data warehouse   | Sometimes difficult to understand relationships |
 | Less up-front transformation          | Required ad-hoc transformations          |
 | Better suited to distributed architectures |                                          |
----
-## Related Concepts
-* [[Architecture]]

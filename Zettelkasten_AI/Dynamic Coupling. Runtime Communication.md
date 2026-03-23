@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 Dynamic coupling concerns how architecture quanta interact with each other at runtime to perform a workflow. It is a multi-dimensional problem space.
 
 ![Figure 2-13: A 3D graph with axes for Communication (Sync/Async), Consistency (Atomic/Eventual), and Coordination (Orchestrated/Choreographed).](figure-2-13.png)
@@ -41,6 +32,3 @@ The intersections of these three dimensions define a set of fundamental architec
 | **Horror Story**      | asynchronous  | atomic      | distributed  | Medium    |
 | **Parallel Saga**     | asynchronous  | eventual    | centralized  | Low       |
 | **Anthology Saga**    | asynchronous  | eventual    | distributed  | Very low  |
----
-## Related Concepts
-* [[Architecture]]

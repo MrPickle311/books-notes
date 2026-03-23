@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 The most basic, baseline level of isolation that most databases provide is **Read Committed**. 
 It guarantees exactly two things:
 1.  **No Dirty Reads:** When reading, you will only see committed data.
@@ -55,6 +46,3 @@ Instead, almost all modern databases prevent Dirty Reads by **Versioning** the d
 *   The instant Transaction A commits, the database switches over and starts handing out the new value.
 
 *(Sidebar: Some databases offer an ultra-weak isolation level called **Read Uncommitted**. This prevents Dirty Writes using locks, but completely allows Dirty Reads. This avoids storing two versions of a row, making it slightly faster at the cost of exposing users to partially-finished corrupted data).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

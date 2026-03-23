@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 On a local machine, a filesystem (like `ext4` or `XFS`) breaks files into tiny chunks called *blocks* (usually 4KB), reads/writes them to the disk, and caches frequently accessed blocks in memory (the Page Cache).
 
 A **Distributed Filesystem** (DFS) does the exact same thing, but across a network of separate computers (the "Shared-Nothing" architecture).
@@ -16,6 +7,3 @@ A **Distributed Filesystem** (DFS) does the exact same thing, but across a netwo
 *   **Replication vs RAID:** Real big-data clusters are built using thousands of cheap, unreliable commodity servers that crash constantly. To survive this, the DFS automatically replicates every block onto multiple separate machines (or uses Erasure Coding for a cheaper form of redundancy). This is the distributed equivalent of a local hardware RAID array.
 
 *(Note: Modern cloud data processing has largely abstracted the hard work of managing a DFS away. Developers today usually rely on massively scalable Cloud Object Storage—like Amazon S3 or Google Cloud Storage—which serves the identical underlying function via a standard REST API).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

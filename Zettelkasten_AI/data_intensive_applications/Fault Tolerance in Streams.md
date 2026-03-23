@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 In Batch Processing, fault tolerance is trivial: if a map task fails, the framework simply throws away its transient output files and restarts the task on another machine. Because the input files are immutable, the output is guaranteed to be exactly the same. The job achieves **Exactly-Once Semantics**.
 
 Stream processing is infinitely harder because a stream never explicitly "finishes". If a stream processor crashes, you cannot simply wait until the end to see the results—it has already been incrementally writing out outputs to the outside world!
@@ -35,7 +26,3 @@ If an Flink processor maintaining a massive 500GB Hash Join Window crashes, how 
 1.  **Remote Datastore:** It can keep its state entirely in an external Redis node. *(Downside: Extremely slow network overhead for every message).*
 2.  **Local State Checkpointing:** The stream processor keeps state purely in local RAM/Disk, but periodically flushes massive snapshots of that RAM to a distributed filesystem (like HDFS or S3). When a new node boots up, it downloads the 500GB file from S3 to restore its RAM.
 3.  **Replaying from the Log:** If the state is just a local Materialized View caching a CDC Stream, the new node boots up entirely empty, connects to the Kafka log, and re-scans the compacted topic top-to-bottom to completely rebuild its state from scratch!
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

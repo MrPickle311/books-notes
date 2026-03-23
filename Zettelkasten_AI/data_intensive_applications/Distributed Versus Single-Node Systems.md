@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 A system involving several machines (nodes) communicating over a network is a distributed system.
 
 **Reasons to Distribute:**
@@ -22,6 +13,3 @@ A system involving several machines (nodes) communicating over a network is a di
 *   **Consistency:** Maintaining data consistency across multiple services becomes the application's responsibility.
 
 > If you can do something on a single machine, this is often much simpler and cheaper compared to setting up a distributed system.
----
-## Related Concepts
-* [[Data Intensive Applications]]

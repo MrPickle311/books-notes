@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 A primary distinction in data systems is between those that serve live user traffic and those used for analysis and reporting.
 
 *   **Operational Systems (OLTP):**
@@ -31,6 +22,3 @@ A primary distinction in data systems is between those that serve live user traf
 | **Type of queries** | Fixed set of queries, predefined by application | Analyst can make arbitrary queries |
 | **Data represents** | Latest state of data (current point in time) | History of events that happened over time |
 | **Dataset size** | Gigabytes to terabytes | Terabytes to petabytes |
----
-## Related Concepts
-* [[Data Intensive Applications]]

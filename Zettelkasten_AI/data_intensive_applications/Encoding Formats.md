@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 Programs interact with data in two main representations:
 1.  **In-Memory:** Objects, structs, lists, arrays, hash tables. Optimized for CPU access via pointers.
 2.  **Network/Disk (Byte Sequence):** Self-contained sequence of bytes (e.g., a JSON document) that any process can understand without relying on memory pointers.
@@ -51,6 +42,3 @@ While JSON is less verbose than XML, textual formats use a lot of space. This le
 *   *Note:* The text notes that there are better formats that can compress this same record into just 32 bytes (covered in the next sections).
 
 ![Figure 5-2: Example record encoded using MessagePack.](data_intensive_applications/figure-5-2.png)
----
-## Related Concepts
-* [[Data Intensive Applications]]

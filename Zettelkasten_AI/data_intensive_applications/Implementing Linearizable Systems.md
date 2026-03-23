@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 If Linearizability means "behave as though there is only a single copy of the data," the most obvious solution is to literally only host a single copy of the data. 
 
 However, a single node cannot tolerate faults. If it crashes, all data is lost or offline. To survive datacenter outages, we must use Replication. But how do the different replication methods stack up when trying to achieve Linearizability?
@@ -38,6 +29,3 @@ At this exact moment, two clients perform a read quorum of $r=2$:
 
 This perfectly fulfills the strict Quorum requirements ($3 + 2 > 3$), but it is a blatant **Violation of Linearizability**. B's read pulled the timeline backward. 
 *(Note: You can force a Dynamo-style database to be linearizable by requiring readers to synchronously repair the data before returning the result, and requiring writers to read the latest quorum state before writing. However, the performance penalty is so severe that almost no databases do it).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

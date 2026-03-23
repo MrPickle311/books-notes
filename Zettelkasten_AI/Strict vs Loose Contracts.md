@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 ### The Nature of Contracts
 
 Contracts are a cross-cutting concern that affects all dimensions of dynamic coupling (communication, consistency, and coordination).
@@ -66,7 +57,3 @@ Loose contracts are critical for keeping services decoupled, especially when the
 | ------------------ | ------------------------ |
 | Highly decoupled   | Contract management      |
 | Easier to evolve   | Requires fitness functions |
-
----
-## Related Concepts
-* [[Architecture]]

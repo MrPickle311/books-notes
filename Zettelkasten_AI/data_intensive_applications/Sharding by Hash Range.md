@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 To get the best of both worlds (eliminating hotspots with hashes, but dynamically scaling like key ranges), databases like DynamoDB and MongoDB offer **Hash Range Sharding**.
 
 Instead of assigning a *continuous block of keys* to a shard, you assign a *continuous block of hashes* to a shard.
@@ -23,6 +14,3 @@ Cassandra takes this further. Instead of having cleanly split, evenly distribute
 ![Figure 7-6: Cassandra and ScyllaDB split the range of possible hash values (here 0–1023) into contiguous ranges with random boundaries, and assign several ranges to each node.](data_intensive_applications/figure-7-6.png)
 
 *(Sidebar: Remember that using a Hash obliterates Range Scans. If your partition key is hashed, finding "Dates between July 1 and July 3" requires scanning the entire global cluster. Databases mitigate this by using a Compound Key. The first column is hashed to determine the Shard. The second column is used to sort the data strictly within that one Shard, enabling rapid range scans as long as you filter by the exact first column).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

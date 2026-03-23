@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 To design distributed algorithms that solve real problems (like Consensus, which we cover in Chapter 10), we cannot write code that relies on the arbitrary quirks of specific hardware. 
 
 Instead, computer scientists formalize the expected faults in a network by defining a **System Model**. A system model is a mathematical abstraction of what an algorithm is legally "allowed to assume" about the environment.
@@ -104,6 +95,3 @@ Making things **Deterministic** (ensuring the exact same inputs always produce t
 *   **State Machine Replication:** Forcing every replica in a cluster to independently execute the exact same deterministic transactions in the exact same order (the foundation of Chapter 10).
 
 *(Warning: True determinism in real programming languages is incredibly hard. Even if you mock the network and the clock, iterating over a standard Hash Map in Java or Go is inherently nondeterministic due to random seed generation, and random memory exhaustion will still crash your code unpredictably).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

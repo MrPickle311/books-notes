@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 At a certain scale, adding more replication doesn't help if your database is fundamentally too large or handles too many writes for a single machine. The solution is **Sharding** (also known as Partitioning).
 
 *   **Replication** = Having a copy of the *same* data on multiple nodes.
@@ -23,7 +14,3 @@ What this book calls a "Shard" goes by many different names depending on the dat
 *   **vNode / Token-Range / vBucket:** Riak, Cassandra, Couchbase
 
 *(Note: "Partitioning" data has absolutely nothing to do with "Network Partitions", which are a type of fault where nodes lose connection to each other).*
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

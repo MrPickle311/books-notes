@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 *   **Problem:** The team needs to choose a coordination pattern for the primary ticket workflow, which involves four services and six steps. Austen favors choreography for decoupling; Addison favors orchestration for control.
 *   **Models:** They model the workflow using both patterns.
     *   **Choreography Model:**
@@ -30,6 +21,3 @@ status: pending
     *   **Decision:** We will use orchestration.
     *   **Justification:** The trade-off analysis showed that orchestration better handles the key requirements for workflow control and complex error handling.
     *   **Consequences:** The orchestrator could become a scalability bottleneck if requirements change significantly in the future.
----
-## Related Concepts
-* [[Architecture]]

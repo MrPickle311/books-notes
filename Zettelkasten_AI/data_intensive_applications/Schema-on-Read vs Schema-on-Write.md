@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 *   **"Schemaless" is Misleading:** Document databases are often called schemaless, but there is usually an implicit schema assumed by the application code.
 *   **Schema-on-Read (Document):** The structure is interpreted only when data is read (like dynamic typing).
     *   **Pros:** Great for heterogeneous data (where items have different structures) or when data structure is determined by external systems. Easy to evolve: just write new fields; handle old documents in code.
@@ -26,6 +17,3 @@ status: pending
         ```sql
         ALTER TABLE users ADD COLUMN first_name text DEFAULT NULL;
         UPDATE users SET first_name = split_part(name, ' ', 1); -- Slow on large tables!
----
-## Related Concepts
-* [[Data Intensive Applications]]

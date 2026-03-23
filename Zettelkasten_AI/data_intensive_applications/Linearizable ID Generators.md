@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 As brilliant as Lamport and Hybrid Logical Clocks are, they are fundamentally **not linearizable**. 
 A Lamport clock dictates that if Node A reads a timestamp from Node B, it will mathematically guarantee its *next* timestamp is larger. But it says absolutely nothing about nodes that have never spoken to each other.
 
@@ -40,7 +31,3 @@ To know that your timestamp `(10, NodeA)` is truly the smallest timestamp in the
 To build distributed uniqueness constraints, locks, and leader elections that actually survive datacenter outages, logical clocks and linearizable IDs are simply not enough.
 
 **We need Consensus.**
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

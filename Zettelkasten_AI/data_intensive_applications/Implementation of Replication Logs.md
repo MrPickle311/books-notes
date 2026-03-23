@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Under the hood, how does the leader actually send a stream of changes to the followers? There are a few different methodologies used:
 
 **1. Statement-based Replication**
@@ -24,6 +15,3 @@ To solve the tight-coupling of WAL shipping, databases create a separate log exc
 *   Instead of writing "Modify disk block 583", it writes "Row ID 52 was updated over in the Users table. Column X changed to Y".
 *   Because it strictly defines *logical rows* rather than *physical disk bytes*, it is completely decoupled from the storage engine. This seamlessly allows leaders and followers to run entirely different database versions, enabling zero-downtime rolling upgrades.
 *   *(Bonus: Logical logs are incredibly easy for external systems to read, enabling Change Data Capture (CDC) to stream live database edits into a Data Warehouse).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

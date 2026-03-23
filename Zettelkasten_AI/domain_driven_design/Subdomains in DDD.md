@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 ### The Three Types of Subdomains
 
 #### 1. Core Subdomains
@@ -38,6 +31,3 @@ status: pending
 | **Complexity** | High | High | Low |
 | **Volatility (Rate of Change)** | High | Low | Low |
 | **Solution Strategy** | Build In-house | Buy / Adopt | In-house / Outsource |
----
-## Related Concepts
-* [[Domain Driven Design]]

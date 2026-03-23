@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 > **1. Untangle Architectural Problems Before Analyzing Them.** Deconstruct complex problems into their constituent parts. For distributed workflows, those parts are Communication (sync/async), Consistency (atomic/eventual), and Coordination (orchestration/choreography).
 >
 > **2. Use the Architecture Quantum as Your Unit of Analysis.** Identify the quanta in your system. A quantum defines the scope of architectural characteristics. Everything inside a single quantum shares the same scalability, reliability, and performance profile.
@@ -18,6 +9,3 @@ status: processed
 > **5. Use Asynchronous Communication to Preserve Quantum Independence.** Asynchronous messaging acts as a buffer or shock absorber between quanta, allowing them to operate and scale independently, preserving their individual architectural characteristics.
 >
 > **6. Map Your Workflows to the Dynamic Coupling Matrix.** Use the matrix of eight patterns to understand the inherent coupling level of a proposed design. If you need low coupling, you must move towards asynchronous, eventually consistent, and choreographed solutions.
----
-## Related Concepts
-* [[Architecture]]

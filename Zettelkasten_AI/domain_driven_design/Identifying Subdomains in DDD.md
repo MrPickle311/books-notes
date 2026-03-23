@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 ### How to Identify Subdomains
 
 1.  **Start with Business Strategy:** Look at the company's organizational structure (departments) and business capabilities.
@@ -54,7 +47,3 @@ A public transportation company that provides optimized, on-demand bus rides.
     *   **Accounting, Billing, Authorization:** Standard financial and user management tasks.
 *   **Supporting Subdomains:**
     *   **Promotions Management:** A simple module for managing discounts and promo codes.
-
----
-## Related Concepts
-* [[Domain Driven Design]]

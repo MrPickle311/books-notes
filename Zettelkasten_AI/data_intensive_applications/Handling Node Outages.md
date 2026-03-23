@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Nodes fail constantly (due to crashes or routine patch reboots). The goal of replication is to keep the system running despite individual node deaths.
 
 #### Follower Failure: Catch-up Recovery
@@ -33,6 +24,3 @@ Automatic failover is fraught with terrifying edge cases:
 *   **Timeout Tuning:** If your timeout is too long, failover takes forever and the system is down for writes. If it's too short, a temporary load spike will trigger unnecessary failovers, making the system's performance *substantially worse* while it struggles to elect a new leader and catch up.
 
 Because of these sheer complexities and catastrophic risks, many operations teams disable automatic failover entirely and mandate that a human administrator performs the failover manually.
----
-## Related Concepts
-* [[Data Intensive Applications]]

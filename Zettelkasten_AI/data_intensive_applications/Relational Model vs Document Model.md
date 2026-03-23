@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 *   **Relational Model (SQL):** Data is organized into relations (tables) of tuples (rows). Dominant since the 1980s. Best for highly structured data with regular schemas.
 *   **Document Model (NoSQL):**
     *   **Best Use Case:** Data with a document-like structure (tree of one-to-many relationships) where the **entire tree is loaded at once**.
@@ -75,6 +66,3 @@ Consider a LinkedIn profile. A user has *many* jobs, *many* schools, etc.
 }
 ```
 So entries in `positions` field may be duplicated across `organization` and `user` documents. It may lead to incosisteny. 
----
-## Related Concepts
-* [[Data Intensive Applications]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 The chapter presents a sequential roadmap for applying the decomposition patterns. This flow provides a structured, iterative approach to breaking apart a monolith.
 
@@ -19,6 +10,3 @@ The six patterns are:
 4.  **Determine Component Dependencies:** Analyze the coupling between components to determine migration feasibility and effort.
 5.  **Create Component Domains:** Logically group related components into domains that will eventually become services.
 6.  **Create Domain Services:** Physically extract the defined domains from the monolith into separately deployed services.
----
-## Related Concepts
-* [[Architecture]]

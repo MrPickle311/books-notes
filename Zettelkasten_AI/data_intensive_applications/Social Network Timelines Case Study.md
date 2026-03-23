@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 To illustrate performance and scalability, consider a Twitter-like system where users post messages and follow others.
 *   **Scale:** 500 million posts/day (avg 5,800/sec, peak 150,000/sec).
 *   **Graph:** Average user follows 200 people; celebrities have millions.
@@ -39,6 +30,3 @@ Instead of computing the timeline on read, we precompute it on write.
 ![Figure 2-2: Fan-out: delivering new posts to every follower of the user who made the post.](data_intensive_applications/figure-2-2.png)
 
 *   **Hybrid Solution:** Most users use the push model. For celebrities (users with huge follower counts), the system falls back to the pull model (merging their posts in at read time) to avoid the massive write penalty.
----
-## Related Concepts
-* [[Data Intensive Applications]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 These are the two fundamental patterns for coordinating workflows.
 
@@ -69,7 +60,3 @@ The decision depends on the complexity of the workflow. As semantic complexity (
 
 *   **Use Choreography for:** Simple workflows that need high responsiveness and scalability, with few and simple error conditions.
 *   **Use Orchestration for:** Complex workflows with significant error handling, boundary conditions, and the need for a queryable state.
-
----
-## Related Concepts
-* [[Architecture]]

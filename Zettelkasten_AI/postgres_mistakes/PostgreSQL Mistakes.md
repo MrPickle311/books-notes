@@ -1,10 +1,3 @@
----
-aliases:
-  - PostgreSQL Mistakes
-tags:
-  - postgresql
-  - database
----
 # PostgreSQL Mistakes
 
 ## Chapter 4: Table and Index Mistakes

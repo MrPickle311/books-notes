@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 The isolation levels discussed so far (Read Committed, Snapshot Isolation) primarily protect *Read-Only* transactions from concurrent writers. But what happens when two transactions actively try to **write** to the exact same object concurrently? 
 
 The most famous write-write conflict is the **Lost Update Problem**.
@@ -61,6 +52,3 @@ Instead of preventing conflicts, they intentionally let them happen. They allow 
 It is then the responsibility of the application (or a special data structure) to merge those siblings after the fact.
 *   **Commutative Math (Safe):** If the conflicting writes are mathematically Commutative (like incrementing a counter), they can be merged flawlessly later. E.g., Node A gets `+1`, Node B gets `+2`. When they finally sync over the network, the total is naturally `+3`. (This is the underlying principle behind CRDTs).
 *   **Last Write Wins (Dangerous):** If the database simply relies on LWW (using timestamps to blindly pick a "winner" and aggressively delete the other), it is completely prone to Lost Updates. *Unfortunately, LWW is the default setting in many modern replicated databases.*
----
-## Related Concepts
-* [[Data Intensive Applications]]

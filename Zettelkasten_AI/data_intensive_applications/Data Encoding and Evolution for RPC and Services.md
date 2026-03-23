@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 Unlike databases (where data outlives code and you need massive forward & backward compatibility), dataflow across services allows for a simplifying assumption: **You can assume servers will be updated first, and clients will be updated second.**
 
 Therefore, in an RPC environment:
@@ -23,6 +14,3 @@ There is no universal agreement on how REST API versioning should occur. The thr
 1.  Version number strictly embedded in the URL (e.g. `/v1/users`).
 2.  Version passed in the HTTP `Accept` header.
 3.  Configured via API Key: A client's API key locks them into the version they had when they signed up, until they manually upgrade via an admin dashboard.
----
-## Related Concepts
-* [[Data Intensive Applications]]

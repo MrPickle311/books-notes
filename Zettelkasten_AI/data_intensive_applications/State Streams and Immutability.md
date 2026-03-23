@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 A profound mathematical relationship exists between "State" (what is currently in your database) and "Streams" (the log of all events). They are simply two sides of the exact same coin.
 
 *   **The Stream (The Derivative):** The append-only log of immutable changes over time (e.g., "+$50", "-$10").
@@ -44,6 +35,3 @@ Despite the incredible power of immutable event logs, keeping a permanent histor
 2.  **The Nightmare of Deletion (GDPR):** Sometimes, data *must* be physically destroyed. If a European citizen enacts their "Right to Be Forgotten" under GDPR, you cannot simply append a new "User Deleted" event to the log. You are legally required to actually erase the historical data.
     *   **The Immutability Paradox:** Deleting data from an immutable log is brutally difficult. It requires rewriting history (like Git `filter-branch`), or using concepts like Datomic's *Excision*. 
     *   **Crypto-Shredding:** A common workaround is storing the immutable data AES-encrypted. When the user requests deletion, you physically destroy the AES decryption key. While the impossible-to-delete immutable log remains, it is permanently transformed into cryptographic garbage.
----
-## Related Concepts
-* [[Data Intensive Applications]]

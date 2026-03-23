@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 #### Event Sourcing
 *   **Definition:** Using an **append-only log** of immutable events as the primary **source of truth**. Every state change is recorded as an event (named in the past tense, e.g., `seatsBooked`).
 *   **CQRS (Command Query Responsibility Segregation):** Separates the write model (event log) from the read model (materialized views). The read models are derived from the event log.
@@ -25,6 +16,3 @@ status: pending
 
 *   **Description**: This diagram shows the Event Sourcing pattern. User requests are validated and written as immutable "Events" to an "Event Log". This log is the source of truth. "Materialized Views" (like a Booking Status or Dashboard) are derived by processing the event log.
 ![Figure 3-8: Using a log of immutable events as source of truth.](data_intensive_applications/figure-3-8.png)
----
-## Related Concepts
-* [[Data Intensive Applications]]

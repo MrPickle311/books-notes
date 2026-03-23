@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Consensus is conceptually simple: **getting multiple nodes to agree on a single value**. 
 
 While simple to define, it is the most infamously difficult problem in all of distributed systems to implement correctly. For decades, computer scientists have tried to reliably elect a Single Leader, implement an Atomic Compare-and-Set, or construct an Append-Only Log across an unreliable network. 
@@ -41,6 +32,3 @@ If we didn't care about fault tolerance, we wouldn't need a PhD algorithm. We co
 A true consensus algorithm's actual job is to guarantee **Termination** (Liveness), even when earthquakes are destroying datacenters. Because of physics, termination is mathematically guaranteed *only if* an absolute majority ($> 50\%$) of the cluster is currently online and communicating. 
 
 However, the brilliant design of Raft and Paxos guarantees that the **Safety Properties** (Agreement and Integrity) NEVER break, no matter what happens. Even if $99\%$ of the nodes are destroyed or a network partition severs the country in half, the system will completely cease to process requests rather than risking a single inconsistent or "split-brain" decision.
----
-## Related Concepts
-* [[Data Intensive Applications]]

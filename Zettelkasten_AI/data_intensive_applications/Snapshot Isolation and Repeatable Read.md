@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Read Committed is great, but it still allows a dangerous concurrency bug called **Read Skew** (also known as a Nonrepeatable Read).
 
 **The Read Skew Anomaly:**
@@ -66,6 +57,3 @@ Because of this, database marketing is completely chaotic and non-standardized:
 *   **IBM Db2** uses the phrase `Repeatable Read`, but actually maps it to true `Serializable`.
 
 *Conclusion: Nobody actually knows what "Repeatable Read" means anymore. You must read the specific documentation for your database to understand what anomalies it actually protects you against.*
----
-## Related Concepts
-* [[Data Intensive Applications]]

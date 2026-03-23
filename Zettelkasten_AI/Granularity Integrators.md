@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### Granularity Integrators (Reasons to Combine Services)
 
@@ -40,7 +31,3 @@ Do the functions you want to split have tightly coupled data dependencies?
 *   **Problem:** If you split them into Service B and Service C, each with its own database, they can no longer read each other's tables directly. Service B must constantly call Service C for data, and vice-versa. This creates a "chatty" workflow (see Integrator #2).
     ![Figure 7-17: The services are split. Service B now has to make a network call to Service C to get data, and C has to call B.](figure-7-17.png)
 *   **Solution:** Consolidate the services. The tight data dependencies suggest that the functions belong together in a single service with a shared data model.
-
----
-## Related Concepts
-* [[Architecture]]

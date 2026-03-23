@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 Architectural change should be driven by clear business needs. The primary business drivers are **speed-to-market** and **competitive advantage**. These are achieved through improvements in five key architectural characteristics.
 
 ![Figure 3-3: A diagram showing how technical drivers (Maintainability, Testability, Deployability, Scalability, Fault Tolerance) lead to the business drivers of Speed-to-Market and Competitive Advantage.](architecture_the_hard_parts/figure-3-3.png)
@@ -57,6 +48,3 @@ Fault tolerance is the ability for parts of the system to remain available even 
 
 *   **Impact of Modularity:** In a monolith, an unhandled exception (like an OutOfMemoryError) in one minor feature can bring down the entire application. Modularity isolates the fault to a single service, allowing the rest of the system to continue functioning.
 *   **Warning:** This benefit is nullified by synchronous coupling. If the "Search" service makes a synchronous call to the "Recommendations" service, and the Recommendations service fails, the Search feature will also fail for that user. Asynchronous communication is essential for true fault tolerance.
----
-## Related Concepts
-* [[Architecture]]

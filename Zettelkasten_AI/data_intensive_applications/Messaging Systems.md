@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 A messaging system is a dedicated intermediary designed specifically to receive messages from a Producer and actively push them to Consumers. 
 
 Conceptually, a simple messaging system could just be a direct TCP connection between the Producer and the Consumer. However, a dedicated Messaging System vastly expands on this: instead of connecting exactly one sender to exactly one receiver (like TCP), it allows **Multiple Producers** to broadcast to a single Topic, and **Multiple Consumers** to safely pull from that identical Topic.
@@ -28,6 +19,3 @@ If the power goes out on the messaging server, what happens to the events curren
 ### The Batch Comparison
 In Chapter 11, we saw that Batch Systems offer a beautiful guarantee: if a job crashes, the system safely deletes the partial output and tries again, guaranteeing an immaculate "Exactly-Once" output. 
 Streaming systems are dealing with infinite, continuous data moving in real-time. Designing a streaming system that can survive node failures *without* accidentally processing a billing event twice (or missing it entirely) is incredibly difficult. We will explore how modern systems attempt to replicate batch's safety guarantees later in the chapter.
----
-## Related Concepts
-* [[Data Intensive Applications]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### Is the Code Base Decomposable?
 
@@ -44,6 +35,3 @@ Components far from this line fall into two undesirable zones:
 ![Figure 4-3: A graph with Abstractness on the Y-axis and Instability on the X-axis, showing the idealized "main sequence" line from (0,1) to (1,0).](figure-4-3.png)
 
 ![Figure 4-4: The same graph as above, but with the "Zone of Pain" highlighted in the lower-left corner and the "Zone of Uselessness" in the upper-right corner.](figure-4-4.png)
----
-## Related Concepts
-* [[Architecture]]

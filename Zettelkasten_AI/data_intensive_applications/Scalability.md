@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 Scalability is not a label ("X is scalable") but a question: "If load increases, how do we cope?"
 
 *   **Describing Load:** Identify the **load parameter** (e.g., writes/sec, concurrent users, cache hit rate).
@@ -16,6 +7,3 @@ Scalability is not a label ("X is scalable") but a question: "If load increases,
 *   **Autoscaling:** Automatically adding or removing computing resources in response to changing demand. Useful for unpredictable load but can introduce operational surprises.
 
 > **Magic Scaling Sauce:** There is no generic scalable architecture. A system designed for 100k small requests/sec is different from one designed for 3 massive requests/min. Architecture must evolve with load (usually every 10x growth).
----
-## Related Concepts
-* [[Data Intensive Applications]]

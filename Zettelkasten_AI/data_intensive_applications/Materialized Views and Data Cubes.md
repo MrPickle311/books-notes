@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 In relational databases, a *virtual view* is just a shortcut for a query—when you query the view, the database expands your query into the underlying SQL on the fly. 
 
 A **materialized view**, however, is an actual *cached copy of the query results* written to disk. If the underlying data changes, the materialized view must be updated, incurring a write overhead but vastly speeding up repetitive read queries.
@@ -20,6 +11,3 @@ A common type of materialized view in data warehouses is the **Data Cube** (or O
 
 *   **Description:** This figure shows a two-dimensional data cube aggregating data by summing values dynamically across the 'Date' and 'Product' axes, allowing for instant lookups of the intersections.
 ![Figure 4-10: Two dimensions of a data cube, aggregating data by summing.](data_intensive_applications/figure-4-10.png)
----
-## Related Concepts
-* [[Data Intensive Applications]]

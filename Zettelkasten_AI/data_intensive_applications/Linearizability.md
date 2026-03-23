@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 If an engineer asks for "Strong Consistency," they are usually asking for a specific mathematical guarantee called **Linearizability** (also known as *Atomic Consistency*, *Immediate Consistency*, or *External Consistency*).
 
 The goal of Linearizability is simple: **Make a replicated system appear as if there is only exactly one copy of the data, and all operations on it are atomic.**
@@ -63,7 +54,3 @@ We can visualize this by drawing a vertical line down every operation bar. This 
 In a linearizable system, if you connect these vertical execution lines chronologically, the connecting wire must **always** move forward in time (left to right). It can never loop backwards. Once the wire moves past a new value, the system's state has advanced permanently.
 
 *(In the diagram above, the final read by B violates linearizability because it attempts to read the value `2`, even though Client A chronologically already read the newer value `4`. This pulls the timeline backwards).*
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

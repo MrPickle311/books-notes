@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 To scale, systems use various tricks to distribute ID generation, but they all sacrifice ordering guarantees:
 
 1.  **Sharded ID Assignment:** Node A generates only even numbers (2, 4, 6), Node B generates only odd numbers (1, 3, 5).
@@ -19,6 +10,3 @@ To scale, systems use various tricks to distribute ID generation, but they all s
     *   *The Flaw:* Wall clocks drift and jump backwards (Chapter 9). If Node A has a slightly fast clock and Node B has a slightly slow clock, their timestamps will mathematically lie about the order of events.
 
 All of these distributed methods can guarantee **Uniqueness**, but they completely fail to guarantee **Causal Ordering**.
----
-## Related Concepts
-* [[Data Intensive Applications]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### 1. Code Replication
 
@@ -56,6 +47,3 @@ class PaymentServiceAPI {
 | No versioning complexities       | No versioning capabilities across services |
 
 *   **When to Use:** Use with extreme caution for simple, truly static code (like marker annotations or one-off utilities) that is highly unlikely to ever change.
----
-## Related Concepts
-* [[Architecture]]

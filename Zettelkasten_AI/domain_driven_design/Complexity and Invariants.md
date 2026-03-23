@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 The domain model reduces complexity by encapsulating invariants, which reduce the system's degrees of freedom.
 
 #### Degrees of Freedom Example
@@ -31,6 +24,3 @@ public class ClassB
 ```
 
 ClassB is actually **less complex** because invariants reduce the degrees of freedom needed to describe its state.
----
-## Related Concepts
-* [[Domain Driven Design]]

@@ -1,10 +1,3 @@
----
-aliases:
-  - MongoDB 8.0 in Action
-tags:
-  - mongodb
-  - database
----
 # MongoDB 8.0 in Action
 
 ## Chapter 7: Indexing for query performance

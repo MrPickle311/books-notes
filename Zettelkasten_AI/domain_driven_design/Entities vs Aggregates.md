@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 *   **Entities:** Objects that require explicit IDs and can change over time
 *   **Entities are NOT used independently** - only as part of aggregates
 *   **Aggregates:** Collections of entities that share transactional consistency
@@ -70,6 +63,3 @@ public class Ticket
     private List<ProductId> products;
 }
 ```
----
-## Related Concepts
-* [[Domain Driven Design]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 Another way encoded data flows between processes is via an *Event-Driven Architecture*. Here, a process sends a "message" or "event", but unlike RPC, the sender **does not wait for the recipient to process it**. 
 Furthermore, instead of a direct network connection, the message is sent through an intermediary called a **Message Broker** (or event broker / message queue).
 
@@ -39,6 +30,3 @@ In these frameworks, this exact same message-passing model is used to scale acro
 *   If Actor A and Actor B are on different servers, the framework transparently intercepts the message, encodes it into bytes, sends it over the network, and decodes it on the other side.
 *   *Why this works better than RPC:* RPC tries to pretend network calls are perfectly safe local functions (which is a lie). The Actor model natively assumes that messages can be lost anyway, even within a local process. Thus, the fundamental mismatch between local and remote communication is drastically minimized.
 *   **Compatibility:** Because distributed actors essentially integrate a message broker directly into the runtime, you still have to worry about Forward and Backward Compatibility (using schemas like Avro/Protobuf) during rolling upgrades when Old-Actor-Nodes are sending messages to New-Actor-Nodes.
----
-## Related Concepts
-* [[Data Intensive Applications]]

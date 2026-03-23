@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 A saga is a sequence of local transactions distributed across multiple services. The overall consistency of the business operation is managed by the saga. There are eight canonical saga patterns, each representing a unique combination of trade-offs.
 
 ![Table 12-1: The matrix showing the eight saga patterns derived from the three dimensions of dynamic coupling.](table-12-1.png)
@@ -200,6 +191,3 @@ Services communicate via asynchronous messages without a central orchestrator. E
 | Complexity                  | High      |
 | Responsiveness/availability | High      |
 | Scale/elasticity            | Very high |
----
-## Related Concepts
-* [[Architecture]]

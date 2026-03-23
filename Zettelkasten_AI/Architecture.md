@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - moc
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 
 # Architecture (Root)
 

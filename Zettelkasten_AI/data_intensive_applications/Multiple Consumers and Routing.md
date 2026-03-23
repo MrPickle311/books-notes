@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 If millions of messages are firing into a single topic, a single Consumer server physically cannot process them fast enough.
 When you attach *multiple* Consumer servers to the same Topic, you must mathematically decide how the messages are mathematically routed. There are two primary patterns:
 
@@ -17,6 +8,3 @@ When you attach *multiple* Consumer servers to the same Topic, you must mathemat
 2.  **Fan-Out (Broadcast):** The broker acts as a loudspeaker. Message 1 is completely duplicated and delivered to Consumer A, Consumer B, and Consumer C simultaneously. This is the streaming equivalent to having three different Batch Jobs read the exact same input file.
 
 *(Note: Modern systems like Kafka elegantly combine these two. A Single "Consumer Group" acts as a Load Balancer, while multiple different "Consumer Groups" attached to the exact same topic act as a massive Fan-Out).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

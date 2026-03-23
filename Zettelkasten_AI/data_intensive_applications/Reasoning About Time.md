@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 In Batch Processing, determining the timestamp of an event is easy. The Hadoop batch job reads a year's worth of log files in 5 minutes. The batch job doesn't look at the system clock of the Linux server running it; it simply reads the timestamp embedded inside the physical log file. 
 Because of this, Batch Processing is perfectly deterministic: if you run the same job on the exact same input files, the result is identical.
 
@@ -57,6 +48,3 @@ When defining time intervals for aggregations, Stream Processors generally use o
 2.  **Hopping Window:** Fixed length, but overlaps to provide smoothing. (e.g., A 5-minute window that "hops" every 1 minute. 10:00-10:05, 10:01-10:06). Events will belong to multiple windows.
 3.  **Sliding Window:** Groups events that occur within a specific interval of *each other*. If you need to detect two events happening within 5 minutes of each other, sliding windows dynamically bound to the physical event times rather than hard wall-clock bounds.
 4.  **Session Window:** Completely variable length. Instead of fixed time, a session window groups all events for a specific user together. The window stays open until the user stops clicking buttons for a specific timeout period (e.g., 30 minutes of inactivity). This is standard for tracking User Sessions on a website.
----
-## Related Concepts
-* [[Data Intensive Applications]]

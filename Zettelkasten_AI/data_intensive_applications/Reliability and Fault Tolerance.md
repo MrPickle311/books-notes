@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 Reliability means "continuing to work correctly, even when things go wrong."
 
 *   **Fault:** A component stops working (e.g., a disk crash).
@@ -23,6 +14,3 @@ Reliability means "continuing to work correctly, even when things go wrong."
 3.  **Human Errors:** Configuration mistakes are the leading cause of outages. Mitigated by testing, rollbacks, and clear interfaces.
 
 > **Blameless Postmortems:** A culture where incidents are investigated to understand the *systemic* causes rather than blaming individuals. This leads to better long-term reliability.
----
-## Related Concepts
-* [[Data Intensive Applications]]

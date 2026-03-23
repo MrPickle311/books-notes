@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Viewing an outdated sports score is annoying but harmless. However, there are several critical architectural scenarios where a lack of Linearizability will completely destroy your system:
 
 ### Locking and Leader Election
@@ -36,7 +27,3 @@ Consider a web architecture where a user uploads a video:
 If the Cloud Storage is *not* linearizable, its internal replication might be slower than the Message Queue. The transcoder races to the storage service and either finds a stale, older version of the file, or a 404 Not Found error, crashing the job. 
 
 To fix this, the storage service must provide immediate recency (Linearizability), guaranteeing that if the write finished *before* the message queue was pinged, the data is globally visible.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

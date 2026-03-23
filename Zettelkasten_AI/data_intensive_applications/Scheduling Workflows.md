@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 The Unix tool example chained several commands together using pipes (`awk | sort | uniq`). The exact same pattern happens in distributed processing. It is very rare for a single batch job to compute the entire final answer natively; instead, data is passed through a sequence of dozens of independent jobs. 
 
 This chain of jobs is called a **Workflow**, or a **Directed Acyclic Graph (DAG)** of jobs.
@@ -29,6 +20,3 @@ The cluster orchestrators we just talked about (YARN, Kubernetes) **do not** man
 
 To manage the dependencies between 100 sequential batch jobs (e.g., "Don't run Job C until both Job A and Job B have finished analyzing their partitions"), the industry built a secondary layer of **Workflow Schedulers** (Data Orchestrators).
 Modern data engineering teams manage their DAGs almost exclusively using generalized Python orchestrators like **Apache Airflow, Dagster,** or **Prefect**. These tools give data engineers a visual dashboard to monitor exactly where massive chains of dependencies are succeeding, failing, or bottlenecking.
----
-## Related Concepts
-* [[Data Intensive Applications]]

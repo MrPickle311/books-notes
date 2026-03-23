@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 In any large organization, different departments or experts often use the same term to mean different things. This creates ambiguity that is difficult to represent in a single, unified software model.
 
 *   **Example:** The term **"Lead"** can have conflicting meanings.
@@ -16,6 +9,3 @@ In any large organization, different departments or experts often use the same t
 Trying to force a single model for "Lead" for the entire company results in a solution that is either over-engineered for Marketing or under-engineered for Sales. The traditional approach of creating a massive, enterprise-wide model often fails, becoming a "jack of all trades, master of none."
 
 ![Figure 3-2: An image of a massive, complex entity-relationship diagram covering a wall.](figure-3-2.png)
----
-## Related Concepts
-* [[Domain Driven Design]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Traditional AMQP/JMS message brokers inherited the transient networking mindset: send a packet, receive it, delete it. They treat messages as ephemeral. 
 
 Databases, in contrast, expect data to be permanently recorded. This fundamental difference destroys a primary benefit we saw in Chapter 11's Batch Processing: **Repeatability**.
@@ -84,7 +75,3 @@ In a Log-based system, consuming is a 100% read-only operation. The log is physi
 Because the Offset is completely under the consumer's control, **you can manually rewind time.**
 
 **Replaying:** If you deploy a bug to production that corrupts your analytics database for 24 hours, you do not panic. You simply fix the bug, manually reset the Consumer's Offset back to the integer value from 24 hours ago, and point the consumer to a fresh empty database. The consumer will rapidly "replay" the last 24 hours of logs at maximum disk speed, flawlessly reconstructing the correct derived data exactly as perfectly as a Hadoop MapReduce batch job would!
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

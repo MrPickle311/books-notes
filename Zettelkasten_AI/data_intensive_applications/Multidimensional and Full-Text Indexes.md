@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 tandard B-trees and LSM-trees natively support range queries over a single attribute. For example, finding all users whose name starts with an "L". However, they are insufficient for more complex queries.
 
 **Concatenated Indexes vs. Multidimensional Indexes**
@@ -25,6 +16,3 @@ Because standard 1D B-trees fail when trying to sort data that has simultaneous 
 *   **Bounding Boxes:** R-Trees solve this by dividing multidimensional space into **bounding boxes** (or rectangles/regions). It groups nearby data points together and draws a minimal bounding box around them. It then groups those boxes into even larger parent boxes, building a tree structure.
 *   **Execution:** When you run a query like "find all coffee shops in this map square," the database starts at the top of the R-Tree and checks the largest bounding boxes. If a box does not overlap with your query square, the R-tree instantly ignores everything inside it, only descending into boxes that intersect with your search area.
 *   **Adoption:** R-trees are the standard underlying data structure for advanced spatial database extensions, most notably **PostGIS** for PostgreSQL.
----
-## Related Concepts
-* [[Data Intensive Applications]]

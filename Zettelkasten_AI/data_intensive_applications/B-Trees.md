@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 hile log-structured indexes (LSM-trees) are popular, the **B-tree** remains the most widely used index structure and is the standard for almost all relational databases.
 
 Like SSTables, B-trees keep key-value pairs sorted by key. However, their design philosophy is completely different:
@@ -40,6 +31,3 @@ Decades of optimization have produced many variants:
 2.  **Key Abbreviation:** Not storing entire keys, especially in interior pages, just enough to act as boundaries. This compresses pages and increases the branching factor.
 3.  **Leaf Page Layout:** Trying to lay out the tree so that leaf pages appear sequentially on disk, optimizing large scan queries (hard to maintain as the tree grows).
 4.  **Sibling Pointers:** Adding pointers to sibling pages (left and right) in leaf nodes, allowing sequential range scans without jumping back up to the parent page (sometimes called a B+ Tree).
----
-## Related Concepts
-* [[Data Intensive Applications]]

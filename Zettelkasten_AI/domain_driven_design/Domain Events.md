@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 Aggregates communicate with the outside world through domain events.
 
 *   **Purpose:** Describe significant business events that have occurred
@@ -23,6 +16,3 @@ Example domain event:
   "escalation-time": 1628970815
 }
 ```
----
-## Related Concepts
-* [[Domain Driven Design]]

@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 The biggest challenge is ensuring true transactional behavior. Failures often lead to data corruption.
 
 #### 1. Lack of an Explicit Database Transaction
@@ -58,6 +51,3 @@ A transaction isn't just about the database; it includes every part of an operat
 *   **Disadvantage:** Prone to code duplication as logic gets more complex. **Should not be used for core subdomains.**
 
 ![Figure 5-3: A diagram of an Extract-Transform-Load (ETL) data flow, a good use case for Transaction Script.](figure-5-3.png)
----
-## Related Concepts
-* [[Domain Driven Design]]

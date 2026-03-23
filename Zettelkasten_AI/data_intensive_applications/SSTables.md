@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 #### SSTables (Sorted String Tables)
 Instead of relying purely on hash tables, a common optimization is to require the sequence of key-value pairs to be **sorted by key** and ensure each key only appears once. This format is called a **Sorted String Table (SSTable)**.
 
@@ -56,6 +47,3 @@ Compaction is necessary to clean up deleted/overwritten data and keep the number
 
 1.  **Size-tiered Compaction (e.g., Cassandra default):** Newer and smaller SSTables are merged into older and larger ones. Great for **write-heavy workloads** but can require a lot of temporary disk space for merges and slower for reads (must check more SSTables).
 2.  **Leveled Compaction (e.g., RocksDB, LevelDB):** SSTables are organized into "levels" (L0, L1, L2...). Each level is exponentially larger than the previous and contains non-overlapping keyed SSTables (except L0). When a level fills up, files are merged into the next level. This is much better for **read-heavy workloads** and more predictable disk space usage.
----
-## Related Concepts
-* [[Data Intensive Applications]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 > **1. Justify Data Decomposition with Clear Drivers.** Don't break apart a database just because it's a "best practice." Build a solid business case using the data disintegrators (change control, scalability, fault tolerance, etc.) to justify the effort and risk.
 
@@ -21,6 +12,3 @@ status: pending
 > **6. Embrace Polyglot Persistence.** Don't assume a relational database is the answer to everything. Analyze the specific needs of each data domain and choose the database type (Document, Graph, Key-Value, etc.) that provides the optimal set of trade-offs for that domain.
 
 > **7. Document Data Architecture Decisions in an ADR.** Decisions about data are among the most critical and long-lasting. Use an ADR to capture the context, the decision (e.g., "Use a single aggregate document model for surveys"), the justification, and the consequences (e.g., "We accept data duplication to improve UI performance").
----
-## Related Concepts
-* [[Architecture]]

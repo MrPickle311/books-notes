@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 s a general rule of thumb: **LSM-trees are typically faster for writes, whereas B-trees are thought to be faster for reads.** However, this depends heavily on the specific workload. 
 
 #### 1. Read Performance and Range Queries
@@ -30,6 +21,3 @@ s a general rule of thumb: **LSM-trees are typically faster for writes, whereas 
 *   **B-Trees (Fragmentation):** Suffer from fragmentation. When pages are split or data is deleted, empty space is left inside pages that cannot easily be returned to the OS. 
 *   **LSM-Trees (More Compact):** Do not suffer from internal fragmentation. Background compaction continually re-packs data into tight files. Due to linear block writing, SSTables often achieve better compression ratios than B-tree pages.
 *   **Snapshots:** LSM-Trees make taking point-in-time snapshots very easy—just flush the memtable and keep references to the immutable SSTable files. B-Trees make point-in-time snapshots more complex.
----
-## Related Concepts
-* [[Data Intensive Applications]]

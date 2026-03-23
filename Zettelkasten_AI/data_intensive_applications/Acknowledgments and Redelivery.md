@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Because Consumers can crash in the exact middle of processing a message, how do we guarantee data isn't lost?
 Message brokers utilize **Acknowledgments (ACKs)**. The rule is simple: The broker simply refuses to permanently delete the message from the queue until the Consumer sends back an explicit `ACK` network request stating *"I have fully processed this message"*.
 
@@ -28,6 +19,3 @@ What if the Consumer didn't crash because of a hardware fault? What if the messa
 4. Redeliver to Consumer 3... and so on forever.
 
 This is a permanent blockage. To solve this, queuing systems implement a **Dead Letter Queue (DLQ)**. If a piece of data is retried too many times and fails, the broker stops trying. It removes the Poison Pill from the active stream and dumps it into a special DLQ database, setting off an alarm so a human engineer can manually inspect the bad code.
----
-## Related Concepts
-* [[Data Intensive Applications]]

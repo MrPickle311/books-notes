@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 ### 3. Replicated Caching Pattern
 
 This pattern uses a replicated in-memory cache to share data. The owning service writes to the cache, and that data is automatically replicated to read-only cache instances within other services.
@@ -38,7 +29,3 @@ The `Catalog` service owns a cache of product descriptions, and a read-only repl
 | Good level of fault tolerance     | Not good for high update rates               |
 | Data remains consistent           | Initial service startup dependency           |
 | Data ownership is preserved       |                                              |
-
----
-## Related Concepts
-* [[Architecture]]

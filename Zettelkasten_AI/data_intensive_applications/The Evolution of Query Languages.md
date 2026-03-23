@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 As distributed frameworks stabilized and easily achieved petabyte-scale across 10,000+ machine clusters, the industry's focus naturally shifted away from scaling the hardware infrastructure and towards improving the **Programming Model**.
 
 Writing highly optimized Java/Scala MapReduce or Spark code is difficult and heavily restricts who can use the data. To solve this, **SQL has become the undisputed lingua franca of batch processing.** 
@@ -38,6 +29,3 @@ Because data scientists demanded this syntax, modern batch frameworks (Spark, Fl
 1.  **Lazy Evaluation vs Eager Execution:** In local Pandas, the moment you call a `.filter()` method, the computer physically executes it immediately. In Apache Spark, DataFrame methods are *Lazy*. When you call methods, Spark simply builds a logical DAG under the hood. It doesn't actually process a single byte of data until you call an "Action" command at the very end. Before executing, Spark hands the DAG to its Query Optimizer to restructure the math for maximum cluster efficiency. 
 2.  **Indexing:** Local Pandas DataFrames are heavily indexed and strictly ordered. Distributed DataFrames (like Spark) are typically NOT physically ordered or indexed natively, because keeping a perfectly ordered index synchronized across 10,000 servers is nearly impossible. This can lead to terrifying performance surprises for data scientists migrating code from local Pandas directly to Spark!
 3.  **Client/Server Architectures:** Modern engines like Daft allow transparent hybrid execution. Tiny mathematical operations on small data are executed locally on the client's laptop, while structurally massive joins are automatically shipped to the distributed server cluster. To make passing data back and forth between the laptop and the server seamless, both the client and server agree to use a unified, memory-optimized columnar blueprint like **Apache Arrow**.
----
-## Related Concepts
-* [[Data Intensive Applications]]

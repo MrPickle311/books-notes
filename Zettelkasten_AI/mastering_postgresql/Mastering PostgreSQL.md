@@ -1,10 +1,3 @@
----
-aliases:
-  - Mastering PostgreSQL
-tags:
-  - postgresql
-  - database
----
 # Mastering PostgreSQL
 
 ## Chapter 2: Understanding Transactions and Locking

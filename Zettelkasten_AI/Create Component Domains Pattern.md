@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This is the final pattern, where the logically defined component domains are physically extracted from the monolith into separately deployed **domain services**.
 
@@ -37,6 +28,3 @@ The process involves taking a defined domain (e.g., everything under the `ss.rep
 The team develops a plan to migrate each of the five defined domains (`Ticketing`, `Reporting`, `Customer`, `Admin`, `Shared`) into its own separately deployed domain service. This staged migration transforms the Sysops Squad application from a monolith into a Service-Based Architecture.
 
 ![Figure 5-22: The final architecture diagram. The monolith has been replaced by five separate services (Ticketing, Reporting, Customer, Admin, Shared), all still connected to the single monolithic database.](figure-5-22.png)
----
-## Related Concepts
-* [[Architecture]]

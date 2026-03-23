@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 If your data is highly interconnected (many-to-many relationships are the norm), a **Graph Model** is best. Graphs are good for evolvability: as you add features to your application, a graph can easily be extended to accommodate changes in your application’s data structures.
 *   **Examples:** Social graphs, fraud detection, road networks.
 *   **Components:** Vertices (nodes/entities) and Edges (relationships/arcs).
@@ -74,6 +65,3 @@ If your data is highly interconnected (many-to-many relationships are the norm),
 
 *   **Description**: This diagram illustrates how Datalog rules derive new facts. Rule 1 infers `within_recursive(1, "North America")`. Rule 2 combines `within(2,1)` with the previous fact to infer `within_recursive(2, "North America")` (US is in North America). This recursion continues to infer that Idaho is also in North America.
 ![Figure 3-7: Determining that Idaho is in North America, using Datalog rules.](data_intensive_applications/figure-3-7.png)
----
-## Related Concepts
-* [[Data Intensive Applications]]

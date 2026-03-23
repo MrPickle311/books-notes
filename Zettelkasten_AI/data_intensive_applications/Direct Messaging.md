@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Before diving into complex, distributed Message Brokers (like Kafka), it's important to note that many systems simply choose to bypass the "middleman" entirely and pass messages directly from the Producer to the Consumer over the network. 
 
 Common implementations of Brokerless Messaging include:
@@ -20,7 +11,3 @@ While Direct Messaging is lightning fast due to the lack of an intermediary brok
 
 **Direct Messaging fundamentally assumes that both the Producer and Consumer are constantly online.** 
 If the Consumer crashes or goes offline for 10 minutes, all events sent during that window are permanently lost into the void. While some protocols allow the Producer to temporarily buffer messages in memory and retry the HTTP call when the Consumer wakes up, this too is fragile: if the *Producer* crashes before the retry succeeds, those buffered messages are, once again, permanently lost.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

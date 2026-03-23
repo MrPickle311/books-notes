@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 Architects can't justify expensive refactoring efforts by saying, "nothing else we try seems to work." A solid business case is required, and it starts with explaining the "why" behind modularity.
 
 #### The Water Glass Analogy
@@ -20,6 +11,3 @@ This analogy is a powerful tool for explaining the limitations of a monolith to 
 *   **Modularity Creates Capacity:** Breaking the monolith apart is like getting a second, empty glass and pouring half the water into it. You now have two half-full glasses, creating 50% more capacity for growth and scalability across your existing resources.
 
     ![Figure 3-2: Two half-full glasses, representing how breaking an application apart creates more capacity for growth.](figure-3-2.png)
----
-## Related Concepts
-* [[Architecture]]

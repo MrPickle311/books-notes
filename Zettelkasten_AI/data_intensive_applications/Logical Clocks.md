@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Physical Clocks (Wall-Clock and Monotonic) measure the actual passage of time in seconds. 
 A **Logical Clock** is an algorithm that completely ignores true physics, and instead just counts the *relative order of events*. 
 
@@ -59,6 +50,3 @@ If you look at two Lamport timestamps—`(10, NodeA)` and `(15, NodeB)`—you ca
 If it is critical for your database to definitively detect concurrent writes (so it can prompt the user to resolve the conflict), you must use a **Vector Clock**. 
 
 Instead of passing a single integer, a Vector Clock passes an array containing the counters for *every single node in the entire cluster* (e.g., `[A: 10, B: 15, C: 2]`). By comparing these massive arrays, you can mathematically prove that two users edited the same document at the exact same time. If write A has a higher counter value than B for one node, and write B has a higher counter value than A for another node, then A and B must be concurrent. The brutal downside is storage: Vector Clocks require an enormous amount of space attached to every single row in the database, while Lamport/HLCs only require a few bytes.
----
-## Related Concepts
-* [[Data Intensive Applications]]

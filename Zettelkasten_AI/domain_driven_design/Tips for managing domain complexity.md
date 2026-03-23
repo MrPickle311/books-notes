@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 Here are some key takeaways and guiding principles from this chapter that you can apply in your day-to-day work as a software architect and developer.
 
 > **1. Avoid the "One-Model-to-Rule-Them-All" Trap.**
@@ -33,6 +26,3 @@ Here are some key takeaways and guiding principles from this chapter that you ca
 
 > **8. A "Ubiquitous Language" is Only Ubiquitous Within Its Boundary.**
 > Don't get hung up on the word "ubiquitous." The language is only shared and consistent *inside* its Bounded Context. You should expect—and design for—the language to be different across different contexts. 
----
-## Related Concepts
-* [[Domain Driven Design]]

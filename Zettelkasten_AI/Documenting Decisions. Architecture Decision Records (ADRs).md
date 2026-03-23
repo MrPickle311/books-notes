@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 ADRs are a simple, effective way to document significant architectural decisions. They are short text files that capture the context, the decision made, and the consequences of that choice.
 
 The book uses the following ADR format:
@@ -15,6 +6,3 @@ The book uses the following ADR format:
 *   **Context:** A one or two-sentence description of the problem and a list of the alternative solutions considered.
 *   **Decision:** A statement of the chosen solution and a detailed justification.
 *   **Consequences:** A description of the outcome after the decision is applied, including a discussion of the trade-offs that were weighed.
----
-## Related Concepts
-* [[Architecture]]

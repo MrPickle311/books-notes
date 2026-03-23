@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 Semantic search is a massive leap beyond traditional full-text search. Instead of looking for identical words or substrings, semantic search tries to match **concepts and meaning**. If a user searches "terminate contract", they should find the page titled "cancelling your subscription".
 
 #### Vector Embeddings
@@ -30,7 +21,3 @@ When a user provides a search query, the system generates a vector embedding for
 
 *   **Description:** This figure visualizes the HNSW algorithm. It shows a query vector dropping down through progressively denser graph layers to locate the nearest matching entry without needing to scan every node.
 ![Figure 4-11: Searching for the database entry that is closest to a given query vector in a HNSW index.](data_intensive_applications/figure-4-11.png)
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

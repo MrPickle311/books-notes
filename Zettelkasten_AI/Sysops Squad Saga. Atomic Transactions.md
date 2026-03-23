@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 *   **Problem:** The team models the "mark ticket complete" workflow using an **Epic Saga(sao)**, requiring an atomic update across the `Ticket Service` and the `Survey Service`.
     ![Figure 12-22: The Epic Saga workflow for completing a ticket.](figure-12-22.png)
 *   **Analysis of Failures:**
@@ -15,7 +6,3 @@ status: pending
     2.  **Compensation Failure:** What if the compensating update itself fails? The system is now left in a completely inconsistent state, and the user receives a confusing error message.
         ![Figure 12-24: The compensation failure problem, leading to data inconsistency and a confusing user experience.](figure-12-24.png)
 *   **Decision:** The team realizes the Epic Saga is too complex and brittle. They decide to investigate patterns that use **eventual consistency and state management** (like the Fairy Tale or Parallel sagas) as a more robust and responsive alternative.
-
----
-## Related Concepts
-* [[Architecture]]

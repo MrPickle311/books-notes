@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 At their core, Databases, Stream Processors, and Unix Operating Systems all do the exact same thing: they are "Information Management Systems" that store data and let you query it. 
 
 Historically, Unix and SQL took two completely opposing philosophies to this problem:
@@ -55,7 +46,3 @@ Stitching together Kafka, Flink, Postgres, and Elasticsearch carries immense ope
 
 The goal of Unbundling is not to compete with individual databases on pure performance. The goal is entirely about **breadth**. 
 When your application requirements grow so diverse that *no single database on Earth can physically handle all your workloads*, unbundling provides the only robust architectural framework to safely stitch specialized tools together.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

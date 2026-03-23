@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 > **1. Use the Eight Saga Patterns as a Design Palette.** Don't assume "saga" just means one thing. Use the matrix of eight patterns to consciously choose the right set of trade-offs for your specific workflow. Start by deciding on your required consistency level (atomic vs. eventual).
 
 > **2. Avoid Atomic Sagas (Epic, Phone Tag, etc.) if Possible.** Attempting to achieve perfect atomic consistency across distributed services is fraught with complexity, side effects, and failure modes. Challenge business requirements that demand it and favor eventual consistency unless absolutely necessary.
@@ -22,7 +13,3 @@ status: pending
 > **7. Use Choreography for High-Throughput, Simple Workflows.** If your workflow is a simple, linear chain and your primary driver is maximum scale and decoupling, a choreographed pattern (like Time Travel or Anthology) is a good fit.
 
 > **8. Document Your Sagas Programmatically.** Use techniques like custom annotations or attributes to embed saga participation information directly in your service code. This creates a living document that helps developers understand the testing scope and impact of changes.
-
----
-## Related Concepts
-* [[Architecture]]

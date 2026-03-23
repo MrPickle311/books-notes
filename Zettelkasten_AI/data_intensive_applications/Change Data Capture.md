@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 For decades, a database's internal Replication Log was completely hidden away. It was considered a proprietary, internal-only implementation detail used purely to keep a Postgres Leader synced with a Postgres Follower.
 
 However, the industry recently realized that exposing this internal log is the ultimate solution to the Dual-Write Synchronization problem. This practice is known as **Change Data Capture (CDC)**. 
@@ -62,6 +53,3 @@ Historically, CDC required massive engineering hacks (like Debezium reverse-engi
 *   **Quorum/Leaderless Databases:** Surprisingly, even leaderless databases like Cassandra now support CDC. However, achieving this is brutally complex. Because there is no "Single Leader" acting as the source of truth, Cassandra exposes the raw log segments of *every individual node*. If a downstream system wants to listen, it must manually read all the disparate logs and merge them together in the exact same mathematical way a quorum-read coordinates data. 
 
 Ultimately, frameworks like **Kafka Connect** serve as the universal glue, bridging these countless database APIs directly into standardized Kafka topics, ready to be consumed by Search Indexes, Caches, or powerful Stream Processing engines.
----
-## Related Concepts
-* [[Data Intensive Applications]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 After encountering Dirty Writes, Dirty Reads, Lost Updates, Read Skew, and Write Skew caused by Phantoms, the harsh reality of weak isolation is clear: it places a massive burden on the application developer to manually reason through every possible timing issue and explicitly add `FOR UPDATE` locks everywhere.
 
 This has been the situation since the 1970s. The academic answer to all of this has always been simple: use **Serializable Isolation**.
@@ -160,7 +151,3 @@ SSI is a massive breakthrough for database performance:
 *   **Highly Scalable:** Unlike "Actual Serial Execution" which caps out at a single CPU core, SSI scales beautifully across multiple cores and even distributed architectures (like FoundationDB), because the conflict-detection math can be distributed globally. 
 *   **The Only Weakness - Abort Rates:** The fundamental performance limit of SSI is the retry rate. If your application has extremely long-read-write transactions that constantly trip each other's wires, the database will spend all its time aborting and retrying them. (To solve this, keep Read-Write transactions extremely short; long-running Read-Only analytics transactions are perfectly safe from aborts).
 
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

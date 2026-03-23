@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 Analyzing millions of rows means CPU time becomes a major bottleneck, not just reading from disk. 
 A naive query executor acts like an interpreter: it iterates over each row one by one, checking conditions iteratively. This is far too slow for analytics. Two alternative approaches make execution much faster:
 
@@ -22,6 +13,3 @@ A naive query executor acts like an interpreter: it iterates over each row one b
 ![Figure 4-9: A bitwise AND between two bitmaps lends itself to vectorization.](data_intensive_applications/figure-4-9.png)
 
 *   **Advantages of both approaches:** Both optimize heavily for modern CPUs by utilizing SIMD (Single-Instruction-Multi-Data) instructions, operating directly on compressed data, staying within tight CPU inner loops (avoiding branch mispredictions), and preferencing continuous memory accesses.
----
-## Related Concepts
-* [[Data Intensive Applications]]

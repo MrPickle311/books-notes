@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 Analytics databases use different schemas than operational (OLTP) ones.
 
 *   **Star Schema:** A central **Fact Table** (events, e.g., sales) references many **Dimension Tables** (who, what, where).
@@ -15,7 +6,3 @@ Analytics databases use different schemas than operational (OLTP) ones.
 
 *   **Snowflake Schema:** Dimensions are normalized into sub-dimensions (e.g., Product -> Brand -> Manufacturer). Each dimensions is split into several subdomains. Harder for analysts to use.
 *   **One Big Table (OBT):** A completely denormalized schema where dimension tables are removed entirely, and all attributes are stored directly in the fact table (essentially pre-computing the joins). While this uses more storage, it can sometimes enable faster queries by avoiding joins altogether.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

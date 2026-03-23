@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 #### Ticket Assignment Granularity
 
@@ -35,6 +26,3 @@ status: pending
     *   **Decision:** We will create a single consolidated customer service for all four functions.
     *   **Justification:** The requirement for a single, atomic (ACID) transaction for customer registration and unsubscription is paramount. Security risks are acceptably mitigated by using the Tortoise security library.
     *   **Consequences:** Security access must be managed carefully within the single service. Testing scope and deployment risk are increased. The combined functionality must scale as a single unit.
----
-## Related Concepts
-* [[Architecture]]

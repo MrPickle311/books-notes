@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 #### 1. Common Infrastructure Logic
 *   **Problem:** Different services and libraries are producing inconsistent, duplicated log messages. How should operational concerns like logging be handled consistently?
@@ -29,6 +20,3 @@ status: pending
     *   **Decision:** We will use a shared library.
     *   **Justification:** This approach improves performance, scalability, and fault tolerance. The shared code is stable, minimizing the impact of change control.
     *   **Consequences:** Changes to the shared library will require the ticketing services to be re-tested and re-deployed.
----
-## Related Concepts
-* [[Architecture]]

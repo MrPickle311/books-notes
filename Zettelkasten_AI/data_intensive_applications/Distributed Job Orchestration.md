@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Returning to our Unix analogy: on a single machine, the OS Kernel is responsible for allocating CPU time, enforcing memory boundaries (so one program doesn't crash another), and piping inputs and outputs. 
 
 In a distributed cluster, this role is played by a **Job Orchestrator** like **Kubernetes** or **Hadoop YARN**. 
@@ -27,6 +18,3 @@ If you have a 160-CPU cluster, and two different teams simultaneously submit job
 *   **Preemption (Violence):** If Job A has been running for an hour, but Job B is deemed "Mission Critical", the scheduler might actively *assassinate* 50 of Job A's tasks, re-allocating the CPUs to Job B. This guarantees priority but absolutely tanks cluster efficiency because Job A's progress is destroyed and must be recomputed later.
 
 Because deciding the "perfect" mathematically optimal allocation across a huge datacenter with thousands of competing jobs is physically impossible (it is an NP-hard problem mathematically), real-world Orchestrators rely on heuristics like Dominant Resource Fairness (DRF), basic FIFO queues, or static Quotas to keep the cluster humming along reasonably well.
----
-## Related Concepts
-* [[Data Intensive Applications]]

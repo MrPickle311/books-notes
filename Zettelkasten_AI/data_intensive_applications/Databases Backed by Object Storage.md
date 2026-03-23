@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Many modern databases are shifting to use cloud object storage (AWS S3, Google Cloud Storage, Azure Blob Storage) not just for backups, but for serving live query data.
 
 **Benefits of Object Storage:**
@@ -20,6 +11,3 @@ Many modern databases are shifting to use cloud object storage (AWS S3, Google C
 2.  **Tiered vs. Zero-Disk Architectures (ZDA):** 
     *   *Tiered Storage:* Keep fast, small WALs (Write-Ahead Logs) on low-latency virtual disks (EBS), and periodically flush cold data to Object Storage.
     *   *Zero-Disk Architecture (ZDA):* Systems like WarpStream, Confluent Freight, and Turbopuffer push everything to S3, using local disks and RAM *strictly* as temporary caches. This means the actual compute nodes are completely stateless, making operations and scaling drastically simpler.
----
-## Related Concepts
-* [[Data Intensive Applications]]

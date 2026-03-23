@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Thus far, we've discussed replication utilizing Leaders. A totally different architectural approach is to abandon the concept of a "Leader" entirely and allow *any replica* to directly accept writes from clients.
 
 This **Leaderless Replication** model fell out of fashion during the era of Relational Databases, but was heavily resurrected in 2007 when Amazon published the paper on their internal *Dynamo* system. Today, databases inspired by this model (Riak, Cassandra, ScyllaDB) are known as **Dynamo-style** databases.
@@ -156,7 +147,3 @@ The mathematical collection of all these version numbers from all replicas bundl
 *   *Why it's brilliant:* Because the Version Vector inherently tracks the causal history across *every independent node* globally, the database can perfectly distinguish between simple overwrites versus dangerous concurrent writes, guaranteeing that no data is ever silently lost, even if you are reading from one replica and suddenly writing to a totally different replica.
 
 *(Sidebar: "Version Vectors" are frequently, but incorrectly, called "Vector Clocks". While similar, Version Vectors are the correct data structure and mathematical term when dealing with the state of replicas).*
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

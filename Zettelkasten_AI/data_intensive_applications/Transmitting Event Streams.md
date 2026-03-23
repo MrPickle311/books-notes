@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 In batch processing, the primitive unit of work is a *File*. In stream processing, the primitive unit of work is an **Event**.
 
 ### What is an Event?
@@ -28,7 +19,3 @@ However, as you move towards low-latency continuous processing, polling the data
 
 Instead of the Consumer continuously asking *"Are we there yet?"*, the architecture must shift to **Notifications**: The system must actively push a notification directly to the Consumer the exact millisecond a new Event arrives. 
 While relational databases have basic mechanisms for this (like Triggers), they are highly limited and notoriously fragile. To solve this, the industry designed specialized, dedicated infrastructure purely to deliver high-speed event notifications.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

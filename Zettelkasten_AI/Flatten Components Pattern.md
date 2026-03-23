@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This pattern ensures that components are clearly defined and not nested within each other, which creates ambiguity. It establishes that a component should only exist as a **leaf-node** in a namespace or directory structure.
 
@@ -50,7 +41,3 @@ Addison identifies that both the `Ticket` and `Survey` namespaces contain orphan
 *   For the simpler `Survey` domain, Addison chooses to **flatten down**, moving the code from `ss.survey.templates` into `ss.survey` and deleting the templates component.
 
 ![Figure 5-12: The "after" diagram showing the results. The `Survey` component is now a single, flat component. The `Ticket` root namespace is now a sub-domain with no orphaned code, and its functionality is split into several new leaf-node components.](figure-5-12.png)
-
----
-## Related Concepts
-* [[Architecture]]

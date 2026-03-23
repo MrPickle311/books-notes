@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 If Linearizability is the gold standard for avoiding horrific data bugs, why doesn't every database just use it? The answer is the brutal tradeoff between Linearizability and **Availability**. 
 
 Let's look at a Multi-Region deployment with two datacenters (e.g., East Coast and West Coast). What happens if a backhoe severs the fiber-optic cable between the two datacenters, creating a **Network Partition**?
@@ -52,6 +43,3 @@ This mirrors exactly why distributed databases abandon Linearizability: **Latenc
 If you demand true Linearizability in a network with unpredictable delays (like the internet), computer scientists (Attiya and Welch) have mathematically proven that the database's response time will *always* be heavily bottlenecked by those network delays. There is no magic algorithm that can make Linearizability fast over an unreliable network. 
 
 If your application is sensitive to high latency, you are fundamentally forced to abandon linearizability and embrace weaker consistency models.
----
-## Related Concepts
-* [[Data Intensive Applications]]

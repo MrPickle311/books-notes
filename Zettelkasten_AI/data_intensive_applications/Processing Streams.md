@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Once you have an endless stream of real-time events flowing through a message broker, what do you actually do with it? 
 Historically, there are three major use cases for stream processing:
 1. **Complex Event Processing (CEP):** Looking for specific patterns (e.g., detecting fraud if a credit card is swiped in New York and London within 10 minutes).
@@ -51,6 +42,3 @@ Earlier in the book, we discussed the "Actor Model" as an alternative to RPC cal
 *   Actors use messaging primarily to manage concurrency and distributed execution. Stream processing is fundamentally a *Data Management* technique.
 *   Actor communication is generally ephemeral, one-to-one, and allows cyclic request/response loops. Stream processing relies on durable logs, multi-subscriber fan-outs, and strictly *acyclic* pipelines (DAGs) where data flows purely in one direction.
 *   Most Actor frameworks do not guarantee message delivery during node crashes. Stream processors are built entirely around flawless fault-tolerance.
----
-## Related Concepts
-* [[Data Intensive Applications]]

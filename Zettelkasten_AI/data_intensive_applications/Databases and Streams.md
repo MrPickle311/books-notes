@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Historically, "Databases" and "Message Brokers" were viewed as completely separate worlds. However, as we just saw, Log-based brokers (Kafka) achieved massive success by stealing ideas from Databases (Write-Ahead Logs and Sharding). 
 
 Now, the industry is reversing the trend: taking ideas from streams and bringing them *into* databases.
@@ -39,6 +30,3 @@ Dual-writing introduces two massive, system-breaking problems:
 This race condition is disastrous because no errors are thrown; one value simply silently overwrites the other, and the two databases diverge forever. 
 
 **The the only way to solve this is to establish a Single Leader.** If Postgres is the absolute leader, can we somehow make Elasticsearch a "Follower" of Postgres, so that it receives every write event from Postgres in a strictly coordinated sequence? We will explore this next.
----
-## Related Concepts
-* [[Data Intensive Applications]]

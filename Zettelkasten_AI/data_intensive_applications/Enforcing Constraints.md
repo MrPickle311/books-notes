@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Beyond suppressing duplicates, databases must also enforce **Constraints**. 
 *   **Uniqueness:** Two users cannot claim the exact same username, or book the exact same airline seat.
 *   **Boundaries:** An account balance cannot dip below zero, or an inventory count below zero.
@@ -49,7 +40,3 @@ A traditional SQL database would achieve this via atomic cross-shard committing.
 This is a profoundly different way to build systems. Atomicity does not come from locking the three shards together! 
 Atomicity comes solely from **the very first atomic write of the Request Event to the Payer Log**. 
 Because the downstream processors are strictly deterministic, once that first parent event is successfully logged, it is mathematically guaranteed that the three child events will eventually be emitted and sequentially processed by the Payee and Fee shards, no matter how many times the servers crash in between!
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

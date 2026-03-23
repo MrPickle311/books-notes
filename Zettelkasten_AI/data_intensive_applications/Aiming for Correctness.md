@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 If a stateless web-server crashes, no one cares. You reboot it, and life moves on. 
 If a stateful *database* corrupts data, that corruption might last forever. Building applications that remain mathematically correct in the face of network partitions, hardware destruction, and concurrency is the hardest challenge in computer science.
 
@@ -72,6 +63,3 @@ The core principle is that low-level infrastructure (like TCP or Databases) can 
 Because traditional distributed transactions are overwhelmingly expensive at scale, many companies abandoned them entirely. But reasoning about race conditions and partial failures is incredibly counterintuitive, so application-level error handling almost always has subtle bugs resulting in lost or corrupted data.
 
 We need fault-tolerance abstractions that are stronger and more reliable than "crossing our fingers" with Weak Consistency, but vastly more scalable than locking the entire database with Two-Phase Commit. By relying on Immutable Event Logs, Idempotent Consumers, and strict End-to-End Request IDs, we can finally architect highly scalable, globally distributed systems that are fundamentally, mathematically correct.
----
-## Related Concepts
-* [[Data Intensive Applications]]

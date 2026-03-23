@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 To ground abstract concepts, the book uses a running saga about modernizing a legacy system for **Penultimate Electronics**.
 
 *   **The Business:** Customers buy support plans for their electronics. When a problem occurs, a "Sysops Squad" expert is dispatched to fix it.
@@ -45,6 +36,3 @@ The existing monolith is composed of several tightly coupled components.
 All components share a single, third-normal-form database schema.
 
 ![Figure 1-4: The Entity-Relationship diagram for the Sysops Squad database, showing tables for Customer, Ticket, Billing, Survey, etc., all interconnected.](figure-1-4.png)
----
-## Related Concepts
-* [[Architecture]]

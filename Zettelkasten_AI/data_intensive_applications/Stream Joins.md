@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 In Chapter 11, we saw how Batch Pipelines use `JOIN` operations to merge massive datasets together. Stream Processors feature the exact same capability, but joining unbounded streams is significantly more challenging because new events can arrive at any arbitrary time. 
 
 There are three major types of Streaming Joins:
@@ -43,6 +34,3 @@ Because the ordering of events *across different Kafka partitions* is inherently
 In data warehouses, this is called the **Slowly Changing Dimension (SCD)** problem. 
 The standard way to fix this is to attach a unique Version ID to the tax rate (e.g., `Tax_Rate_v42`). The invoice event explicitly records that it used `Tax_Rate_v42`. This guarantees the mathematical join remains perfectly deterministic forever, even if the data is replayed years later. The devastating tradeoff is that you can no longer use Log Compaction—you are mathematically forced to retain every single historical version of your tables! Alternatively, you
 can denormalize the data and include the applicable tax rate directly in every sale event.
----
-## Related Concepts
-* [[Data Intensive Applications]]

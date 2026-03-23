@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 Static coupling concerns all the dependencies an architecture quantum needs to simply operate. It's about how things are wired together at a component and infrastructure level. Answering the question, "What is all the wiring required to bootstrap this service from scratch?" reveals its static coupling.
 
 The number of quanta in an architecture is determined by its static coupling points.
@@ -27,6 +18,3 @@ The number of quanta in an architecture is determined by its static coupling poi
     ![Figure 2-9](figure-2-9.png)
 *   **Integration Databases:** A shared database used to integrate two otherwise separate systems statically couples them into a single, large architecture quantum.
     ![Figure 2-10](figure-2-10.png)
----
-## Related Concepts
-* [[Architecture]]

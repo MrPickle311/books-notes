@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 The book proposes a three-step process for conducting custom trade-off analysis.
 
 1.  **Find what parts are entangled together:** Discover the unique dimensions that are braided together within a specific architecture.
@@ -72,6 +63,3 @@ This iterative process of building a matrix and modeling possibilities is key to
 ### Assess Trade-Offs
 
 With the analysis in place, architects can focus on the fundamental trade-offs. By fixing one dimension (e.g., choosing asynchronous communication), subsequent choices become limited, simplifying the decision-making process. What’s left after the hard, entangled decisions are made is design.
----
-## Related Concepts
-* [[Architecture]]

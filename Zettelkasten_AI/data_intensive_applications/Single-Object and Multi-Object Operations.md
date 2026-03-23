@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 To recap, Atomicity and Isolation are deeply tied to the concept of a **Multi-Object Transaction**. 
 
 A Multi-Object Transaction is required when your application needs to modify several pieces of data that *must* be kept in sync. 
@@ -44,6 +35,3 @@ Could we build an application completely without true multi-object transactions,
 1.  **Relational:** `Foreign Keys`. If inserting a child, the parent must exist.
 2.  **Document:** `Denormalization`. If you lack `JOINs`, you denormalize your data (like the unread counter in Figure 8-2). Denormalized data inherently requires updating several separate documents in sync.
 3.  **Indexes:** `Secondary Indexes`. Every time you change a value, the underlying data *and* the secondary index must both be updated. Without transactions, the index can go out of sync with the raw data.
----
-## Related Concepts
-* [[Data Intensive Applications]]

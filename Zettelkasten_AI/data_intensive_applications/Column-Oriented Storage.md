@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 In analytics, **fact tables** are often very wide (e.g., over 100 columns), but a typical data warehouse query (like calculating the sum of quantities sold) accesses only a small handful of them at a time (e.g., 3-5 columns). `SELECT *` is rarely used.
 
 **The Problem with Row-Oriented Storage:**
@@ -61,6 +52,3 @@ Column-oriented storage, compression, and sorting are optimized for reads (analy
     1.  New writes go into an **in-memory, row-oriented store** where they are immediately sorted.
     2.  When the in-memory store fills up, the data is dumped in bulk to disk as compressed columnar files (often to object storage).
     3.  Queries must merge data from the on-disk columnar files and the in-memory recent writes, but the query engine handles this transparently for the user.
----
-## Related Concepts
-* [[Data Intensive Applications]]

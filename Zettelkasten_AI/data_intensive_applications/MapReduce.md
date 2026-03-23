@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 
 The MapReduce algorithm functions almost identically to the Unix pipeline example we studied earlier. Every MapReduce job consists of four distinct steps:
 
@@ -25,6 +16,3 @@ Because `Map` operates on a single independent record, it is mathematically "emb
 While completely revolutionary in 2004, MapReduce had two fatal flaws that caused the industry to abandon it:
 1.  **Laborious API:** Writing pure MapReduce code in Java was incredibly painful. If you wanted to do a simple SQL `JOIN` on two datasets, you had to manually write the underlying algorithmic logic from absolute scratch. 
 2.  **Disk I/O Bottlenecks:** To survive node failures, MapReduce was deeply paranoid. It forcefully wrote the entire state of the job to physical hard drives (HDFS) between every single phase (Map -> Disk -> Shuffle -> Reduce -> Disk). This brutal file-based I/O prevented job pipelining and made the algorithm incredibly slow compared to modern, in-memory systems.
----
-## Related Concepts
-* [[Data Intensive Applications]]

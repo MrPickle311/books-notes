@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 *   **Problem:** The team needs to define the contract types for the new orchestrated ticketing workflow.
 *   **Analysis:**
     *   **Orchestrator to Ticket Services:** The `Ticket Management` and `Ticket Assignment` services are tightly related to the orchestrator's domain. Changes are likely to be coordinated. A **strict contract** is appropriate here.
@@ -20,7 +11,3 @@ status: pending
     *   **Context:** The mobile app deployment cycle through the App Store is slow and unpredictable.
     *   **Decision:** We will use a loose, name-value pair contract for communication between the orchestrator and the mobile application. We will also build an extension mechanism for temporary flexibility.
     *   **Consequences:** More validation logic is required in both the orchestrator and the mobile app. This decision should be revisited if the App Store deployment process becomes faster.
-
----
-## Related Concepts
-* [[Architecture]]

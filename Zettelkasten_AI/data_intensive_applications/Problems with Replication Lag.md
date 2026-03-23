@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 While replication adds fault tolerance, many massive online architectures use it purely for **Read Scaling**. 
 If your app is 95% reads, you can simply spin up 50 asynchronous followers, distribute the read-load across them, and leave the Leader to only handle the 5% write traffic.
 
@@ -59,6 +50,3 @@ This happens in sharded/partitioned databases because different shards operate c
 
 **Consistent Prefix Reads** is a guarantee that prevents this. It ensures that if a sequence of writes happens in a specific order, anyone reading those writes will see them appear in that exact same order.
 *   *Solution:* The main workaround is to ensure that any writes that are causally related to each other are written to the exact same partition/shard. (However, in complex applications, this can be extremely inefficient).
----
-## Related Concepts
-* [[Data Intensive Applications]]

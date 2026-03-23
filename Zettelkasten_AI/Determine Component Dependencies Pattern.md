@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This pattern analyzes the coupling between components to answer three critical migration questions:
 1.  Is it feasible to break apart the monolith?
@@ -60,6 +51,3 @@ Addison generates a dependency diagram for the Sysops Squad application, which i
 However, after filtering out the shared components (`Notification`, `Reporting Shared`, `Ticket Shared`), which would likely become shared libraries, the picture becomes much clearer. The core functional components have minimal dependencies, confirming that the application is a good candidate for migration.
 
 ![Figure 5-17: The filtered dependency diagram. With shared components removed, the graph is much cleaner, showing that the core domains are largely independent.](figure-5-17.png)
----
-## Related Concepts
-* [[Architecture]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This technique places shared functionality into its own separately deployed service, which other services call at runtime.
 
@@ -35,6 +26,3 @@ This technique places shared functionality into its own separately deployed serv
 |                                             | Increased risk due to runtime changes                      |
 
 *   **When to Use:** Good for polyglot environments and for shared functionality that changes very frequently. Be aware of the significant operational downsides.
----
-## Related Concepts
-* [[Architecture]]

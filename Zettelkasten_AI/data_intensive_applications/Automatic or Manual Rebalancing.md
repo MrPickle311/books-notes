@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 When a shard becomes too large and splits, or when a node is added/removed, the database must **Rebalance** by transferring massive gigabytes of data between nodes over the network. Should this happen automatically?
 
 **Fully Automatic Rebalancing**
@@ -16,6 +7,3 @@ When a shard becomes too large and splits, or when a node is added/removed, the 
 **Manual (Human-in-the-loop) Rebalancing**
 Systems like Couchbase or Riak will automatically *calculate* the optimal new shard layout, but will halt and require a human administrator to click "Commit" before the gigabytes of data begin moving.
 *   *Pros:* Significantly safer. It prevents automated cascading failures. It also allows Ops teams to preemptively rebalance a cluster *before* a scheduled traffic spike (like Cyber Monday or the World Cup) rather than a totally reactive automatic algorithm panicking mid-spike.
----
-## Related Concepts
-* [[Data Intensive Applications]]

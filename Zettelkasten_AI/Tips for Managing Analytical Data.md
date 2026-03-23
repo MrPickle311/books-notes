@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 > **1. Partition by Domain, Not by Technology.** Avoid the technical partitioning of data warehouses and data lakes, which separates data from its business context. Align your analytical data architecture with your business domains to preserve semantic meaning.
 
 > **2. Treat Analytical Data as a First-Class Product.** Encourage domain teams to own their analytical data and serve it as a well-documented, discoverable, and trustworthy product. This shifts the mindset from data extraction to data sharing.
@@ -22,6 +13,3 @@ status: pending
 > **7. Define Clear, Loosely Coupled Contracts.** The contracts between source DPQs and aggregate DPQs are critical. Use loose contracts to prevent brittleness, and govern them with fitness functions (like consumer-driven contracts) to ensure they don't break unexpectedly.
 
 > **8. Use Fitness Functions to Guarantee Data Quality.** For analytics that depend on data completeness (like trend analysis), implement architectural fitness functions to verify data integrity and automatically handle or flag incomplete datasets.
----
-## Related Concepts
-* [[Architecture]]

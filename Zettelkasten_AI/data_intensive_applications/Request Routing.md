@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Once you have split your data into hundreds of shards across dozens of nodes, a final glaring issue remains: When a client wants to read or write a specific key, how do they actually know which physical IP address and Port holds that specific shard?
 
 Unlike generic web application servers (where a Load Balancer can blindly send a request to *any* stateless server), database routing must be highly precise. 
@@ -27,6 +18,3 @@ To track this routing map perfectly without encountering Split Brain or fatal de
 ![Figure 7-8: Using ZooKeeper to keep track of assignment of shards to nodes.](data_intensive_applications/figure-7-8.png)
 
 *(Note: While HBase, Solr, Kafka, and Kubernetes rely heavily on separate coordinators like ZooKeeper or etcd, some modern databases like TiDB, YugabyteDB, and ScyllaDB have now effectively embedded these Consensus Coordination algorithms directly into their own internal architecture, removing the need to manage a separate ZooKeeper cluster).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

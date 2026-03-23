@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 Bounded Contexts define clear lines of separation in your system.
 
 1.  **Model Boundary:** It defines the scope where a Ubiquitous Language is consistent.
@@ -28,6 +21,3 @@ The concept of using different models in different contexts is everywhere.
 
 ![Figure 3-9: A picture of a flat piece of cardboard.](figure-3-9.png)
 ![Figure 3-10: The cardboard cutout being used to check if it fits through a doorway.](figure-3-10.png)
----
-## Related Concepts
-* [[Domain Driven Design]]

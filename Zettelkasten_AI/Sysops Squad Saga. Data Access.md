@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 ### Sysops Squad Saga: Data Access For Ticket Assignment
 
 *   **Problem:** The `Ticket Assignment Service` needs fast, frequent read access to the `expert profile` table, which is owned by the `User Management Service`.
@@ -20,6 +11,3 @@ status: pending
     *   **Decision:** We will use replicated caching. The User Management Service will own the cache (writes), and the Ticket Assignment Service will have a read-only replica.
     *   **Justification:** This pattern resolves the performance and fault tolerance issues of inter-service communication. The data volume is low and the data is relatively static, making it a good fit.
     *   **Consequences:** The User Management Service must be running to start the first Ticket Assignment Service instance. Licensing costs for a caching product may be required.
----
-## Related Concepts
-* [[Architecture]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Modern distributed data architectures are rapidly replacing raw Distributed Filesystems with **Object Storage** systems like Amazon S3, Google Cloud Storage, or Azure Blob Storage. 
 While they may seem like simple file systems, there are drastic architectural differences beneath the hood that engineers must keep in mind:
 
@@ -26,6 +17,3 @@ A primary feature of the older Hadoop (HDFS) ecosystem was "Data Locality". Hado
 
 Object Stores (like S3) completely abandon Data Locality in favor of **Decoupled Storage and Compute**. Compute servers are entirely stateless, and storage servers are entirely dumb. 
 This means that *every single byte of data* must be streamed over the network to be processed. While this sounds slow, modern datacenter network switches are so fast that the bandwidth bottleneck is largely irrelevant. The massive advantage is elasticity: you can instantly scale up 1,000 compute CPUs to crunch a batch job without needing to buy 1,000 new storage hard drives alongside them.
----
-## Related Concepts
-* [[Data Intensive Applications]]

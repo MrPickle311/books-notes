@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Whether you are using Unix tools, MapReduce, Spark, Flink, or BigQuery, all distributed batch processing relies on one foundational algorithm to scale past a single server: **The Shuffle**.
 
 *"Shuffling" in computer science does not mean randomizing (like shuffling cards). It means mathematically Sorting and Routing data across a network so that identical keys end up on the exact same server.*
@@ -24,7 +15,3 @@ Using MapReduce as the structural example, a Shuffle works like this:
 4.  **Merge-Sort & Reduce:** The Reducer now has a bunch of sorted files from different Mappers. It merges these files together, preserving the strict merge-sort order so that all rows with the identical Key are consecutive. The `reduce()` function is called, and the outputs are sequentially written to a final output file (labeled $r_1$, $r_2$, and $r_3$ in Figure 11-1), which become the shards of the new dataset on the distributed filesystem.
 
 *(Note: Advanced modern cloud warehouses like BigQuery no longer force the Mappers and Reducers to do the Shuffle locally. They actually extract the Shuffle phase into dedicated, independent "Sorting Services" that run entirely in RAM to massively accelerate the network routing).*
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

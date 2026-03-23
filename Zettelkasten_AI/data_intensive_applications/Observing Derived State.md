@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 At a high level, the dataflow systems we've explored provide a mechanism to constantly compute and update derived datasets. The entire journey of a piece of data can be split into two fundamental halves:
 
 1.  **The Write Path (Eager Evaluation):** The journey data takes from the moment the user makes a change until it is fully processed through the streams and mathematically materialized into various derived caches ready to be served. This work happens *eagerly*, ahead of time, regardless of whether anyone ever actually asks to see it.
@@ -72,6 +63,3 @@ Recording every single user "Read" into an immutable disk log provides immense a
 Treating Reads as a stream of events seems like overkill for a standard single-database query. However, it becomes incredibly powerful when performing massively distributed joins.
 Imagine a Fraud Prevention system: to determine if a checkout event is fraudulent, the system must check the user's IP reputation, Email reputation, and Billing Address reputation. Each of these three datasets is massively sharded across different clusters.
 Instead of making synchronous RPC calls to three different sharded databases, you can simply feed the "Checkout Event" into a Stream Processor, which automatically routes and joins the event across the differently sharded reputation streams! 
----
-## Related Concepts
-* [[Data Intensive Applications]]

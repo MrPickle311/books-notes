@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Modern distributed databases use a "shared-nothing" architecture. Dozens of computers have their own CPU, memory, and disk. They share absolutely nothing except a network cable.
 
 The internet and datacenter networks are **Asynchronous Packet Networks**. They offer absolutely zero guarantees about when a packet will arrive, or if it will fundamentally arrive at all.
@@ -124,6 +115,3 @@ The same trade-off applies to CPU Cores (Static allocation vs Dynamic OS Thread 
 We *could* build computer networks with latency guarantees if we statically partitioned them with exclusive bandwidth. But the industry has unanimously decided that the immense cost savings of multitenancy and dynamic packet switching are worth the headache of variable delays. 
 
 Therefore, variable network delays are not a law of physics—they are a deliberate, system-wide cost/benefit trade-off. We chose cheap and bursty over reliable and stable. As software engineers, it is now our job to handle the resulting chaos.
----
-## Related Concepts
-* [[Data Intensive Applications]]

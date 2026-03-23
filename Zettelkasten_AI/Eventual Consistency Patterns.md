@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 These patterns are used to resolve the inconsistencies inherent in distributed transactions. Consider a customer unsubscribing, which requires data to be removed from `Profile`, `Contract`, and `Billing` tables, owned by separate services.
 
 ![Figure 9-14: The "before" state for eventual consistency. A customer has unsubscribed via the Profile Service, but their data still exists in the Contract and Billing tables.](figure-9-14.png)
@@ -56,7 +47,3 @@ The initiating service performs its action and then publishes an event (e.g., `C
 | Services are decoupled         | Complex error handling |
 | Timeliness of data consistency |                        |
 | Fast responsiveness            |                        |
-
----
-## Related Concepts
-* [[Architecture]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 ### Workflow State Management in Choreography
 
 Without a central orchestrator, managing the state of a workflow becomes a challenge.
@@ -23,7 +14,3 @@ Without a central orchestrator, managing the state of a workflow becomes a chall
 | Scalability      | State Management     |
 | Fault tolerance  | Error handling       |
 | Service decoupling | Recoverability       |
-
----
-## Related Concepts
-* [[Architecture]]

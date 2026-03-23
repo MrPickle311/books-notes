@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 So far, protecting against Write-Write Conflicts focused on protecting *a single object* (e.g. locking a specific `counter` row). 
 There is an incredibly subtle race condition where two transactions modify *different objects* simultaneously, leading to a catastrophic logic error collectively. This is called **Write Skew**.
 
@@ -82,7 +73,3 @@ Now, when a user wants to book Room A at 12:00 PM:
 
 This technique is called **Materializing Conflicts** (turning a conceptual invisible Phantom into a tangible row that can be physically locked).
 *Warning:* Materializing conflicts is ugly, incredibly error-prone, and violently leaks database concurrency mechanisms into the application's clean data model. It should only be used as an absolute last resort if you cannot afford true Serializable Isolation.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

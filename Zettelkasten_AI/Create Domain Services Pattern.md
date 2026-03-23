@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This pattern logically groups related components into coarse-grained **domains**. This is a critical step in preparing to create domain services for a Service-Based Architecture.
 
@@ -38,6 +29,3 @@ Addison and Austen work with the product owner to identify five main domains: `T
 ![Figure 5-19: A diagram showing five boxes, each representing a domain (Ticketing, Customer, etc.). Inside each box are the components that belong to that domain.](figure-5-19.png)
 
 Addison then creates architecture stories to refactor the namespaces of components like `ss.kb.maintenance` and `ss.billing.payment` to align them with their new domains (e.g., changing them to `ss.ticket.kb.maintenance` and `ss.customer.billing.payment`, respectively).
----
-## Related Concepts
-* [[Architecture]]

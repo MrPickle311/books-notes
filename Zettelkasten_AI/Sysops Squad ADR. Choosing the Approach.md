@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### Sysops Squad ADR: Choosing the Approach
 
@@ -24,6 +15,3 @@ After analysis, the team determines their codebase is structured enough for a mo
 *   **Consequences:**
     *   The migration will likely take longer than with Tactical Forking.
     *   This approach supports a single, collaborative team structure, whereas Tactical Forking would have required splitting the team and adding coordination overhead.
----
-## Related Concepts
-* [[Architecture]]

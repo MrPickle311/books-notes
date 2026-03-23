@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Because batch jobs are strictly optimized for Bulk Throughput rather than response time, they are totally unsuitable for interactive user-facing systems. However, they are the backbone of virtually all heavy-duty automated business processes:
 *   **Finance & Accounting:** The entire US Banking Network reconciles money transfers at midnight using massive batch jobs.
 *   **Machine Learning:** Tech companies (Netflix, Youtube) run massive pipeline DAGs every night to re-train their Recommendation AI models.
@@ -58,7 +49,3 @@ Instead, there are two primary architectures to serve derived data safely:
 
 1.  **Pushing to Streams (Kafka):** The Spark job outputs its data into a distributed message broker like Kafka. The live production database then safely streams the data from Kafka at its own comfortable, throttled pace. This completely isolates the live database from the brutal force of the batch cluster, and also allows multiple different downstream microservices to subscribe to the same output.
 2.  **Bulk Loading (The Atomic Swap):** The fastest and safest pattern: The batch job literally builds a physical database file (like a RocksDB SSTable or a TiDB data file) completely offline entirely within the batch environment. Once the multi-gigabyte files are constructed, the files are shipped to the production server. The production database simply "Hot-swaps" the new file into memory instantly and atomically replaces the old state.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

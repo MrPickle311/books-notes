@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Let's look at another hidden trap of clocks. 
 Imagine a single-leader database. To prove it is still the leader, it routinely renews a 10-second "lease" (like a lock). The code looks like this:
 
@@ -52,7 +43,3 @@ Modern GC algorithms (like Java's ZGC or Shenandoah) have improved massively, us
 2.  **Object Pools / Off-heap memory:** If using a GC language, allocate memory manually off the heap or reuse objects from a pre-allocated pool to prevent the GC from ever needing to clean them up.
 3.  **Treat GC like a planned outage:** If the language runtime can warn the application that it is about to run a massive "Stop-the-world" GC pause, the application can route all new incoming traffic to other nodes in the cluster, finish its current requests, and *then* run the GC without dropping any active user traffic. This completely hides the GC pause from the end-user.
 4.  **Restart instead of Full GC:** Use the GC only for fast, short-lived objects. Before the slow, long-lived object heap fills up (which requires a massive pause to clean), proactively reboot the entire node one at a time using a rolling upgrade strategy.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

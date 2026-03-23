@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 The core architectural element of the data mesh. The DPQ is built adjacent but coupled to a service, acting as an interface for analytical data.
 
 ![Figure 14-1: Structure of a Data Product Quantum](figure-14-1.png)
@@ -38,7 +29,3 @@ Data Mesh is most suitable for modern distributed architectures like microservic
 | Follows modern architecture principles and engineering practices | requires asynchronous communication and eventual consistency |
 | Allows excellent decoupling between analytical and operational data |                                                          |
 | Carefully formed contracts allow loosely-coupled evolution of analytical capabilities |                                                          |
-
----
-## Related Concepts
-* [[Architecture]]

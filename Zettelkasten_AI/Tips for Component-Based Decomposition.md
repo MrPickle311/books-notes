@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 > **1. Follow a Structured, Pattern-Based Approach.** Don't engage in "seat-of-the-pants" migration. Use a methodical, incremental process like the one outlined in this chapter to reduce risk and ensure a controlled decomposition.
 
@@ -21,6 +12,3 @@ status: pending
 > **6. Use Service-Based Architecture as a Pragmatic First Step.** Don't jump directly to fine-grained microservices. Extracting coarse-grained domain services first is a safer, more manageable step that allows you to learn about your domains before committing to further decomposition.
 
 > **7. Automate Governance with Fitness Functions.** For each decomposition pattern you apply, implement corresponding fitness functions in your CI/CD pipeline to ensure the new architectural rules are not violated as the codebase continues to evolve.
----
-## Related Concepts
-* [[Architecture]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 Instead of relying on complex compensating transactions, a better approach for sagas with eventual consistency (like the Fairy Tale or Parallel sagas) is to manage the workflow using a **finite state machine**.
 
 An orchestrator tracks the current state of the saga (e.g., `CREATED`, `ASSIGNED`, `COMPLETED`). If a step fails (e.g., the `Survey Service` is down), the orchestrator simply moves the saga to an error state (e.g., `NO_SURVEY`) and responds successfully to the user. A background process can then handle retries or manual escalation to eventually correct the issue. This decouples the user from transient system failures and improves responsiveness.
@@ -19,7 +10,3 @@ An orchestrator tracks the current state of the saga (e.g., `CREATED`, `ASSIGNED
 | START            | CREATED          | Assign ticket to expert      |
 | CREATED          | ASSIGNED         | Route ticket to assigned expert |
 | ...              | ...              | ...                          |
-
----
-## Related Concepts
-* [[Architecture]]

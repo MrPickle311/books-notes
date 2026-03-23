@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Thus far, we've discussed looking up records specifically by their Primary Key (Partition Key). This is easy because the partition key determines exactly which shard holds the data.
 
 However, the situation degrades rapidly if your application requires **Secondary Indexes** (e.g., "Find all red cars" or "Find all articles by user 123"). Secondary indexes are the backbone of relational databases and search engines, but they do not map neatly to shards because a secondary index tracks *searchable values*, not primary keys.
@@ -32,7 +23,3 @@ It gets sharded by the Search Term (e.g., Colors A-R go to Shard 0, Colors S-Z g
 *   **Writing (Slow and Error-Prone):** Because the index is global, adding a single new car might involve updating the main data on Shard 0, updating the Make index on Shard 2, and updating the Color index on Shard 4. These distributed writes are complex and very difficult to keep in perfect sync mathematically. Many databases (like DynamoDB) only update global indexes *asynchronously*, meaning a user might add a Red Car but then momentarily be unable to see it in the search results until the global index catches up (Replication Lag).
 
 *Global secondary indexes are incredibly powerful for read-heavy apps, but the complexity of keeping them synchronized during writes forces engineers to explicitly orchestrate distributed transactions or accept eventual consistency.*
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

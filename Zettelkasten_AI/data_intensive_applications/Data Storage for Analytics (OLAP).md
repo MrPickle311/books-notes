@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 OLAP involves scanning large volumes of records to calculate aggregates (sums, counts, averages) for business intelligence, rather than fetching specific individual user records.
 
 #### Data Warehouses vs. OLTP
@@ -21,6 +12,3 @@ Modern analytics has moved toward **cloud data warehouses** (like Amazon Redshif
     2. **Storage Format:** (e.g., Parquet, ORC) Determines how data bytes are physically structured in object storage.
     3. **Table Format:** (e.g., Apache Iceberg, Delta Lake) Sits on top of the immutable storage files to provide ACID transactions, schema evolution, inserts/deletes, and time travel. 
     4. **Data Catalog:** Acts as the central metadata repository mapping tables to files and providing governance.
----
-## Related Concepts
-* [[Data Intensive Applications]]

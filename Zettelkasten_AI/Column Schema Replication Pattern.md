@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 ### 2. Column Schema Replication Pattern
 
 With this pattern, specific columns are replicated from the owning service's table to the requesting service's table. The `item_desc` column is added to the `Wishlist` table.
@@ -24,6 +15,3 @@ This pattern solves the performance and availability issues of the previous patt
 | No scalability and throughput issues | Data ownership issues          |
 | No fault tolerance issues         | Data synchronization is required |
 | No service dependencies           |                                |
----
-## Related Concepts
-* [[Architecture]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### The Data Access Challenge
 
@@ -33,6 +24,3 @@ While simple, this pattern is fraught with issues.
 | No data volume issues       | Scalability and throughput issues             |
 |                             | No fault tolerance (availability issues)      |
 |                             | Requires contracts between services           |
----
-## Related Concepts
-* [[Architecture]]

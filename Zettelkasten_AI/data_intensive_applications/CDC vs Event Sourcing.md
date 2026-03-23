@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 While both CDC and Event Sourcing revolve around streaming an immutable log of events, they operate at completely different levels of abstraction.
 
 *   **Change Data Capture (Low-Level):** CDC intercepts physical database updates. The application code still acts completely normally, writing `UPDATE` and `DELETE` queries to a mutable table. The CDC stream simply extracts the low-level row diffs (e.g., "Row 42's 'status' column changed from 'active' to 'inactive'").
@@ -31,6 +22,3 @@ Instead of attaching the CDC tool to the internal `users` table, the domain serv
 4. The CDC tool (like Debezium) is attached *only* to the `outbox` table.
 
 This cleanly decouples the architectures. The application developer can freely manipulate their internal `users` table schema without breaking any downstream consumers, because the CDC stream is exclusively monitoring the standardized, strictly contracted JSON payloads placed into the `outbox` table. The obvious tradeoff is the sheer performance overhead of doubling the physical write volume on the primary database!
----
-## Related Concepts
-* [[Data Intensive Applications]]

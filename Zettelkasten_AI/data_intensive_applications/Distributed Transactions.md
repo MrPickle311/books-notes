@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Up until now, we've only discussed isolation within a single node. If a database is replicated with a single-leader, all transaction logic still executes on that single leader node perfectly fine.
 
 But what happens when a single transaction needs to touch *multiple* nodes? For example, writing to multiple different shards simultaneously, or updating a Global Secondary Index that lives on a different node than the primary record. This is a **Distributed Transaction**.
@@ -91,6 +82,3 @@ However, 3PC has a fatal flaw: it only works in a theoretical universe where you
 In the real world (as Chapter 9 will show), networks drop packets randomly and garbage-collection pauses can freeze servers for seconds at a time. In the real world of unbounded delays, 3PC falls apart and cannot guarantee atomicity. 
 
 *Conclusion:* 3PC is not practically viable. Instead of trying to fix 2PC by adding a third phase, the modern solution is to replace the single Coordinator node with an entirely different mathematical architecture: **Fault-Tolerant Consensus Algorithms** (which we will finally explore in Chapter 10).
----
-## Related Concepts
-* [[Data Intensive Applications]]

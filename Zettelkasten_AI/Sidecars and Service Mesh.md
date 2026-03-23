@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This pattern provides a solution for sharing cross-cutting **operational** concerns (logging, monitoring, security, circuit breakers) without coupling them to the domain logic.
 
@@ -27,6 +18,3 @@ The key distinction is that a sidecar is for **operational coupling**, not domai
 | Ownership can be centralized or shared           |                                              |
 
 *   **When to Use:** The ideal pattern for managing cross-cutting operational concerns in a distributed architecture, especially microservices.
----
-## Related Concepts
-* [[Architecture]]

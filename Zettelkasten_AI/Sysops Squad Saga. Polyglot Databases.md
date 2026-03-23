@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 The team decides the `Survey` data domain is a good candidate for migrating from a relational to a document database. After getting business justification (the relational model was slow to change and hindered marketing's agility), they analyze two data modeling options.
 
@@ -45,6 +36,3 @@ The team decides the `Survey` data domain is a good candidate for migrating from
     ```
 
 The team decides to go with the **single aggregate** model, trading off data duplication for improved UI performance and ease of change, and they document this decision in an ADR.
----
-## Related Concepts
-* [[Architecture]]

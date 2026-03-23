@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 To deeply understand how massive distributed batch frameworks (like Spark or BigQuery) operate, we don't need to look at supercomputers. We can start by looking at a single laptop running standard Unix command-line tools. The philosophy is exactly the same.
 
 Imagine a standard `nginx` web server appending an access log line for every user request:
@@ -64,7 +55,3 @@ The Unix Pipeline, however, does *not* use a hash table. It relies entirely on *
 *   Furthermore, GNU `sort` automatically parallelizes this work across all the local CPU cores. 
 
 Because of this, the exact same Unix pipeline can successfully process datasets immensely larger than the server's RAM without ever crashing. The only true boundary for Unix tools is the size of the single server's hard drive. When the dataset gets too massive to even fit on a single local disk, we finally have to abandon Unix tools and move to Multi-Machine Distributed Batch Frameworks!
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

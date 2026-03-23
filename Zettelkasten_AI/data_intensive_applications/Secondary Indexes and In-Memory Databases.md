@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 
 #### Secondary Indexes
 While primary key indexes enforce uniqueness, **secondary indexes** allow searching by other columns (e.g., `user_id` in an `orders` table). 
@@ -23,6 +14,3 @@ Disks are durable and cheap, but dealing with them adds overhead. As RAM becomes
 *   Some are only for caching (e.g., Memcached), while others offer durability via battery-powered RAM, write-ahead logs (WAL), or periodic disk snapshots (e.g., Redis, VoltDB, SingleStore).
 *   **Performance:** Counterintuitively, the performance advantage isn't solely because they avoid reading from disk (the OS caches disk files in RAM anyway). They are faster because they avoid the CPU overhead of encoding/serializing data structures into a format suitable for disk storage.
 *   **Capabilities:** They can easily provide data structures like sets and priority queues that are hard to implement on disk.
----
-## Related Concepts
-* [[Data Intensive Applications]]

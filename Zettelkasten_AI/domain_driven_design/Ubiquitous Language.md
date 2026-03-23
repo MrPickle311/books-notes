@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 The cornerstone of DDD for solving this communication problem is the **Ubiquitous Language**.
 
 *   **Core Idea:** A single, shared language that is developed collaboratively by all project stakeholders—domain experts, engineers, product owners, designers, etc.
@@ -28,6 +21,3 @@ To be effective, it must be:
 2.  **Precise and Consistent:**
     *   **Eliminate Ambiguity:** If a term like "Policy" can mean two different things (e.g., an insurance contract vs. a regulatory rule), the language must be refined to use two distinct terms: `Insurance Contract` and `Regulatory Rule`.
     *   **Eliminate Synonyms:** If the business uses "user," "visitor," and "customer" interchangeably, dig deeper. These often represent different concepts with different behaviors and should be named explicitly in the language (e.g., an `Unregistered Visitor` vs. a `Registered Customer`).
----
-## Related Concepts
-* [[Domain Driven Design]]

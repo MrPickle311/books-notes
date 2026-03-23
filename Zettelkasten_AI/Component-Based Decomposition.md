@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 ### Component-Based Decomposition
 
@@ -22,6 +13,3 @@ This approach often leads to a **Service-Based Architecture** first, which is a 
 *   It's primarily a technical move that doesn't immediately require reorganizing teams.
 
 > **Tip:** When migrating monolithic applications to Microservices, move to a Service-based architecture first as a stepping stone to Microservices.
----
-## Related Concepts
-* [[Architecture]]

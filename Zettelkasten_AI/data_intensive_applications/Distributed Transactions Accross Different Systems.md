@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Distributed transactions and 2PC have a very mixed reputation. They are technically essential for safety, but are heavily criticized for murdering performance (forcing extra `fsync` disk flushes) and causing catastrophic operational outages. Cloud providers often refuse to implement them entirely due to the operational headaches.
 
 However, before dismissing them, we must realize that the phrase "Distributed Transaction" actually refers to two vastly different concepts:
@@ -90,6 +81,3 @@ If the database is the only system participating in the transaction, it looks li
 *   If the worker crashes *after committing but before confirming to the broker*, the broker retries sending the duplicate. When the worker opens the new transaction, it sees the `Message ID` is already deeply persisted in the `processed_messages` table. The worker safely aborts, ignores the duplicate, and confirms to the broker. 
 
 By using unique IDs and forcing the database operation to become Idempotent, we entirely bypassed the need for catastrophic XA Heterogeneous Transactions!
----
-## Related Concepts
-* [[Data Intensive Applications]]

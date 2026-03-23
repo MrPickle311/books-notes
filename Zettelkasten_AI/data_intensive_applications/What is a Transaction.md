@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 In the harsh reality of distributed data systems, things constantly go wrong:
 *   Databases or hardware can fail mid-write.
 *   Applications can crash halfway through a complex operation.
@@ -25,6 +16,3 @@ Conceptually, all operations in a transaction are executed as *one single operat
 Because of this, the application never needs to worry about "partial failures" (where money was deducted from Account A, but the database crashed before adding it to Account B). If it fails, the application simply retries blindly, knowing the database kept things safe. 
 
 *(Note: Transactions are not laws of physics. They are simply an artificial programming model built by database engineers to provide "safety guarantees" so application developers don't have to code around hardware failures).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

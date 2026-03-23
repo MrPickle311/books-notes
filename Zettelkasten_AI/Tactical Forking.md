@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 ### Tactical Forking
 
 This approach is best suited for a "Big Ball of Mud" architecture where extracting components is nearly impossible due to high coupling. Instead of extracting what you want, you clone the monolith and **delete what you don't want**.
@@ -38,6 +29,3 @@ This approach is best suited for a "Big Ball of Mud" architecture where extracti
     *   Resulting services will likely contain dead, latent code.
     *   The internal code quality of the new services is no better than the original monolith.
     *   Can lead to inconsistencies in shared code and components across services.
----
-## Related Concepts
-* [[Architecture]]

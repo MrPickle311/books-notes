@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 Stamp coupling describes passing a large data structure between services where each service only uses a small portion of that data.
 
 ![Figure 13-6: An illustration of stamp coupling, where a large data structure is passed between four services, but each only uses a small part of it.](figure-13-6.png)
@@ -27,7 +18,3 @@ In complex **choreographed** workflows, stamp coupling can be used to manage wor
 | ------------------------------------------------ | ---------------------------------------------- |
 | Allows complex workflows within choreographed solutions | Creates (sometimes artificially) high coupling between collaborators |
 |                                                  | Can create bandwidth issues at high scale      |
-
----
-## Related Concepts
-* [[Architecture]]

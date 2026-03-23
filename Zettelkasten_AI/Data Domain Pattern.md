@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 This pattern is an extension of the one used to solve joint ownership in Chapter 9. The tables needed by multiple services are placed in a shared schema or database, forming a broader bounded context that both services can access directly.
 
 ![Figure 10-8: The Wishlist and Product tables are placed in a shared data domain, allowing both services to access them directly via SQL.](figure-10-8.png)
@@ -24,7 +15,3 @@ This pattern should be used when other patterns are not feasible (e.g., due to d
 | No fault tolerance issues         | Data access security                         |
 | No service dependency             |                                              |
 | Data remains consistent           |                                              |
-
----
-## Related Concepts
-* [[Architecture]]

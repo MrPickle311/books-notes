@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 When processes communicate over a network, the most common arrangement is **clients and servers**. The servers expose an API, known as a **service**.
 *   **Encapsulation:** Unlike databases which allow arbitrary SQL queries, services expose predetermined APIs that lock down inputs and outputs based on business logic. This allows fine-grained restriction on what clients can do.
 *   **Microservices Architecture:** A key goal is to make services independently deployable and evolvable by separate teams. This implies that old and new versions of client and server code will be running simultaneously across the network. Thus, data encodings across service APIs must be heavily backward and forward compatible.
@@ -42,7 +33,3 @@ However, trying to make a network call look like a local function is **fundament
 6.  **Data Type Translation:** Since client and server might be written in completely different languages, the RPC framework has to translate types under the hood (which breaks down on edge cases, like JS 64-bit integers and floats).
 
 *Conclusion:* A remote service is a fundamentally different beast than a local function. REST's appeal is largely that its design inherently acknowledges that network state transfer is a distinct, explicit process, rather than trying to hide it behind a fake local function call.
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

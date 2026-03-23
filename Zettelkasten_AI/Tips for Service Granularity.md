@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 > **1. Use the Disintegrator/Integrator Framework for Objective Analysis.** Replace gut feelings and subjective opinions ("micro means small") with a structured analysis of the opposing forces. This leads to better, more justifiable decisions.
 
@@ -21,6 +12,3 @@ status: pending
 > **6. Treat Shared Domain Code as a Red Flag.** Shared libraries containing common *domain* logic (not utilities) create a distributed monolith. If multiple services rely heavily on the same shared domain code, it's a strong sign they should be integrated into a single service.
 
 > **7. Formalize Granularity Decisions with ADRs.** Service granularity decisions have long-lasting consequences. Document the options considered, the final decision, and most importantly, the trade-offs that were accepted (e.g., "We accepted lower agility to guarantee transactional integrity").
----
-## Related Concepts
-* [[Architecture]]

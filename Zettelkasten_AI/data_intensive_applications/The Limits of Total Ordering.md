@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 Relying on a single Kafka partition (a single totally ordered log) to synchronize your entire architecture is an incredibly powerful paradigm—until your company gets too big. There are fundamental physical limits to maintaining a totally ordered log:
 
 1.  **Scale / Sharding:** A single leader node can only ingest so much throughput. Once you are forced to shard the log across multiple machines, the mathematical ordering of events *between* two different shards becomes fundamentally ambiguous.
@@ -30,6 +21,3 @@ This is a failure to capture causality. Solving this without a massive, slow, gl
 1.  **Logical Timestamps:** Propagating metadata (like Lamport Clocks or Vector Clocks) inside the events so downstream consumers can mathematically detect if they received something out of order.
 2.  **Referential Context:** When a user takes an action, the application explicitly logs the unique ID of the exact state the user *saw* on their screen before acting, allowing backends to reconstruct the exact causal chain.
 3.  **Conflict Resolution:** Utilizing algorithms (like CRDTs) that are mathematically designed to elegantly self-heal and merge data that arrives sequentially out-of-order. They do not help if actions have external side effects
----
-## Related Concepts
-* [[Data Intensive Applications]]

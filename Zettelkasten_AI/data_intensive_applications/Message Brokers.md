@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 To solve the severe fragility of Direct Messaging, the industry standard is to route all events through a **Message Broker** (or Message Queue). 
 
 A message broker is essentially a specialized database optimized purely for handling rapid streams of messages. It runs as a standalone server. Producers connect to it to write messages, and Consumers connect to it to read messages.
@@ -29,6 +20,3 @@ While some strict message brokers can participate in Two-Phase Commit distribute
 3.  **Point-In-Time vs Continuous Delivery:** When you `SELECT` from a database, it gives you a point-in-time snapshot. If the data changes 5 seconds later, the database doesn't magically push an update to your screen. Message brokers are the exact opposite—they have zero complex query/search capabilities, but when new data arrives, they instantly notify the client.
 
 *(Note: The above describes "Traditional" message brokers adhering to standards like JMS or AMQP, implemented by RabbitMQ, ActiveMQ, or Google Pub/Sub).*
----
-## Related Concepts
-* [[Data Intensive Applications]]

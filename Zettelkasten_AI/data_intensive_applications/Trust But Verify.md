@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 All of our discussion around Fault Tolerance inherently assumes a *System Model*: we assume the network might drop packets, machines might crash, and hard drives might fail. But we simultaneously assume that the CPU executes mathematics correctly, and that data successfully `fsync`'d to disk stays there unharmed.
 Traditionally, system models treat faults as binary: some things *can* happen, other things *never* happen. 
 But at a large enough scale, the impossible happens all the time. Cosmic rays flip bits in RAM. Unlikely network corruptions bypass CRC checksums. Silent data corruption on hard drives occurs. 
@@ -56,6 +47,3 @@ The concepts that power **Blockchains** (like Bitcoin and Ethereum) are actually
 While building a full Blockchain for a standard business application has vastly too much overhead, the underlying concepts (like Cryptographically signed Event Logs and Merkle Trees) are incredibly powerful. Tools like **Certificate Transparency** already use Merkle trees to ensure no one is secretly faking SSL certificates. 
 
 In the future, we may see these cryptographic auditing algorithms applied to standard enterprise databases, allowing us to build systems that automatically prove their own mathematical correctness without the crushing performance overhead of traditional distributed locks! 
----
-## Related Concepts
-* [[Data Intensive Applications]]

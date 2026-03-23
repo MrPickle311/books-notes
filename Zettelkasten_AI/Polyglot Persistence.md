@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 Once data is separated, architects can choose the best database for each domain. The chapter provides a trade-off analysis for various database types.
 
@@ -31,6 +22,3 @@ Once data is separated, architects can choose the best database for each domain.
 ![Figure 6-31: Star ratings for NewSQL databases.](figure-6-31.png)
 ![Figure 6-32: Star ratings for Cloud native databases.](figure-6-32.png)
 ![Figure 6-33: Star ratings for Time series databases.](figure-6-33.png)
----
-## Related Concepts
-* [[Architecture]]

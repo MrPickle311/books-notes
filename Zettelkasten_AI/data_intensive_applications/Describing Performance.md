@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 1: Foundations"
-status: pending
----
 #### Throughput vs. Response Time
 *   **Throughput:** Requests per second (RPS) or data volume per second.
 *   **Response Time:** The time between a client sending a request and receiving the full response.
@@ -35,6 +26,3 @@ Averages (means) are often misleading because they hide outliers. **Percentiles*
 
 *   **Description**: This diagram shows a single end-user request triggering multiple parallel calls to backend services. Even if most backend calls are fast, one slow call (the bottom one) delays the entire response to the user, illustrating tail latency amplification.
 ![Figure 2-6: When several backend calls are needed to serve a request, it takes just a single slow backend request to slow down the entire end-user request.](data_intensive_applications/figure-2-6.png)
----
-## Related Concepts
-* [[Data Intensive Applications]]

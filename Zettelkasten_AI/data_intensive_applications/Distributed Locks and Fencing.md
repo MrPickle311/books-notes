@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 ### Distributed Locks and Leases
 This lack of absolute knowledge is exactly why **Distributed Locks (Leases)** frequently cause horrific data corruption bugs. 
 If an application requires that only one node does a specific task (e.g., writing to a shared file), we use a Distributed Lock. However, holding a lock does not make a node immune to process pauses or network delays!
@@ -69,6 +60,3 @@ Because Client 2's token (34) is mathematically larger than Client 1's token (33
 Even if the Zombie (Client 1) successfully manages to slip a late write into Replica 3 (because Client 2's write failed to reach Replica 3), it doesn't matter. The next time the system performs a read quorum, it will compare the timestamps. Client 2's `34...` timestamp will always beat Client 1's `33...` timestamp. The zombie write is safely overwritten during Read Repair. 
 
 *Conclusion:* Never assume a distributed lock gives you exclusive access. You must *always* assume that multiple nodes believe they hold the lock at the same time. The only way to prevent data corruption is by enforcing objective reality at the storage tier using incrementing Fencing Tokens.
----
-## Related Concepts
-* [[Data Intensive Applications]]

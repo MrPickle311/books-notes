@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: processed
----
 After identifying the system's problems, the architects match them to the modularity drivers to build a solid justification. This is formalized in an Architecture Decision Record (ADR).
 
 #### ADR: Migrate Sysops Squad Application to a Distributed Architecture
@@ -25,6 +16,3 @@ After identifying the system's problems, the architects match them to the modula
     *   The effort will incur additional cost.
     *   The deployment pipeline will need to be modified.
     *   The monolithic database must be broken apart.
----
-## Related Concepts
-* [[Architecture]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 2: Internals"
-status: pending
----
 #### The Simplest Database
 Consider a simple key-value store implemented with two Bash functions:
 *   `db_set`: Appends a key-value pair to a text file (like CSV).
@@ -24,6 +15,3 @@ To efficiently find the value for a specific key, we need an **index**. An index
 *   Every index consumes additional disk space.
 *   Indexes slow down writes, because the index must be updated every time data is written.
 *   Databases generally require manual index selection based on the application's query patterns.
----
-## Related Concepts
-* [[Data Intensive Applications]]

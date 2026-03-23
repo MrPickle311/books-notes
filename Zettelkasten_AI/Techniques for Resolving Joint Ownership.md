@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 #### a. Table Split Technique
 
@@ -85,7 +76,3 @@ Combine the services that jointly own the table into a single, more coarse-grain
 | Good overall performance       | Less fault tolerance             |
 |                                | Increased deployment risk        |
 |                                | Increased testing scope          |
-
----
-## Related Concepts
-* [[Architecture]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Because of the heavy costs of consensus (especially inverse scaling), the standard algorithm is rarely used to store general-purpose, high-volume application data.
 
 Instead, Consensus is most powerfully used in specialized **Coordination Services** like **ZooKeeper, etcd, and Consul**. 
@@ -45,7 +36,3 @@ Technically, no. Service Discovery almost never requires true Linearizability (i
 For this reason, Service Discovery usually relies heavily on local caching (and TTLs) to bypass the need for strict consensus. If a node asks ZooKeeper for an IP and ZooKeeper is temporarily partitioned, it can simply use a cached, stale IP address rather than breaking. 
 
 *ZooKeeper Observers:* To scale reads linearly without destroying the core consensus algorithm's write speed, ZooKeeper introduced **Observers**. Observers are un-voting replicas that receive the log and cache the data. This allows ZooKeeper to serve millions of read requests for Service Discovery while keeping the core voting cluster small (3-5 nodes).
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

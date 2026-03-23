@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 The domain model pattern is intended to cope with complex business logic involving complicated state transitions, business rules, and invariants that must be protected at all times.
 
 *   **Purpose:** Handle complex business logic where simple CRUD operations are insufficient.
@@ -19,6 +12,3 @@ A complex example demonstrating intricate business rules:
 - Auto-closure after 7 days of customer inactivity
 - Escalated tickets can't be auto-closed
 - Customers can reopen tickets within 7 days
----
-## Related Concepts
-* [[Domain Driven Design]]

@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 Once ownership is established, transactions spanning multiple services become a key challenge.
 
 #### ACID Transactions
@@ -21,7 +12,3 @@ In a distributed architecture, a business request spanning multiple services is 
 *   **E**ventual Consistency: Given enough time, all data sources involved in the transaction will become consistent.
 
 ![Figure 9-12: An illustration of a distributed transaction. An error in the Billing service does NOT roll back the committed data in the Profile and Contract services, leaving the data in an inconsistent state that must be fixed.](figure-9-12.png)
-
----
-## Related Concepts
-* [[Architecture]]

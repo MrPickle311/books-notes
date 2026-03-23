@@ -1,10 +1,3 @@
----
-aliases:
-tags:
-  - domaindrivendesign
-source_book: "Domain-Driven Design"
-status: pending
----
 Value objects are objects identified by the composition of their values, not by an explicit ID.
 
 #### Core Characteristics
@@ -64,7 +57,3 @@ var yellow = red.MixWith(green);                    // New Color instance
 *   **Override Equality:** Implement proper value-based equality checks
 *   **Rich API:** Encapsulate all logic that manipulates the values
 *   **Thread Safety:** Immutability makes them inherently thread-safe
-
----
-## Related Concepts
-* [[Domain Driven Design]]

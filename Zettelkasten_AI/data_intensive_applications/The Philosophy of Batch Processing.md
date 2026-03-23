@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 A Batch Processing job operates on a very specific set of rules:
 1.  **Read-Only Inputs:** The job takes a massive dataset as input, but it mathematically guarantees it will *never* mutate or alter that input data.
 2.  **Generated Outputs:** The job runs its computations and writes the final results to a completely new location generated from scratch.
@@ -27,7 +18,3 @@ This principle of **minimizing irreversibility** drastically accelerates feature
 *   **Primary Metric:** Instead of measuring *Response Time* (like online systems), batch systems measure **Throughput** (how many terabytes of data they can churn through per hour).
 
 *(Note: The middle ground between Batch Processing and Online Processing is called **Stream Processing**, which we will cover in Chapter 12).*
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

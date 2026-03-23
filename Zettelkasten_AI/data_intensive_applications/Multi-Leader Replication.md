@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 The biggest flaw of a Single-Leader architecture is simple: if you cannot connect to the single Leader (due to a network glitch), you cannot write to the database *at all*.
 
 A natural extension is to allow *more than one node* to accept writes. This is called a **Multi-Leader** (or Active-Active / Bidirectional) configuration. 
@@ -156,6 +147,3 @@ Imagine deeply complex application logic for a Meeting Room Booking System. Disc
 Neither user overwrote the same record. There are no sibling records. To the database, these are perfectly valid, non-colliding `INSERT` operations. However, this is a **massive conflict** because it violates a logical business rule: *Two people cannot physical occupy the same room at the same time.*
 
 There is no quick, ready-made algorithm (like a CRDT or OT) that can automatically resolve this "Phantom" logical conflict. Properly scaling and resolving these types of deep, subtle conflicts requires vastly more complex architectural solutions (which will be heavily covered in later chapters on Transactions).
----
-## Related Concepts
-* [[Data Intensive Applications]]

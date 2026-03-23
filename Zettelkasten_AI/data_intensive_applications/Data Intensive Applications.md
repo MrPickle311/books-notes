@@ -1,11 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-status: moc
----
 
 # Data-Intensive Applications
 

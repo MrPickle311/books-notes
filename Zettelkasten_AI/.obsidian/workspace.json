@@ -15,9 +15,9 @@
               "state": {
                 "file": "Architecture.canvas",
                 "viewState": {
-                  "x": 8700.554957056105,
-                  "y": 8093.533351901988,
-                  "zoom": -4
+                  "x": 10623.541027453732,
+                  "y": 9221.411884891571,
+                  "zoom": -5.551115123125783e-16
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -107,7 +107,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "data_intensive_applications/Leaderless Replication.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Architecture"
+              "title": "Backlinks for Leaderless Replication"
             }
           },
           {
@@ -126,12 +126,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "data_intensive_applications/Leaderless Replication.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Architecture"
+              "title": "Outgoing links from Leaderless Replication"
             }
           },
           {
@@ -169,13 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Architecture.canvas",
+                "file": "data_intensive_applications/Leaderless Replication.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Architecture"
+              "title": "Outline of Leaderless Replication"
             }
           }
         ]
@@ -195,7 +195,9 @@
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
       "table-editor-obsidian:Advanced Tables Toolbar": false,
-      "obsidian-excalidraw-plugin:New drawing": false
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "obsidian-importer:Open Importer": false,
+      "remotely-save:Remotely Save": false
     }
   },
   "floating": {

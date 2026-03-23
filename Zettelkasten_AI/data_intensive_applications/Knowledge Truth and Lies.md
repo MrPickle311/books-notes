@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 So far, we've established that distributed systems are plagued by partial failures, unreliable networks, wildly inaccurate clocks, and arbitrary process pauses.
 Because of these issues, a node in a network can never actually *know* anything for sure. It can only make educated guesses based on the messages it receives.
 
@@ -20,6 +11,3 @@ Imagine an asymmetric network fault where a node can receive messages but cannot
 In a distributed system, individual nodes must surrender their autonomy to the cluster. If a **Quorum** (usually an absolute majority of nodes) votes that a node is dead, then that node is legally dead, even if it feels alive inside. The node itself must abide by the quorum's decision and step down.
 
 Voting guarantees safety because there can only ever be one absolute majority in a cluster at any given time, inherently preventing split-brain scenarios.
----
-## Related Concepts
-* [[Data Intensive Applications]]

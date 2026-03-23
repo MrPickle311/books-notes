@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 The ultimate goal of data integration is ensuring data ends up in all the right places, in the right formats. The dual engines powering this dataflow are Batch Processing and Stream Processing.
 As established in Chapters 11 and 12, Batch and Streaming are fundamentally identical paradigms. The only difference is that batch processing operates on finite, bounded datasets, while stream processing operates on infinite, unbounded datasets.
 
@@ -45,6 +36,3 @@ Historically, developers had to write one set of code for Batch (e.g. Hadoop) an
 
 With systems like Apache Flink or Google Cloud Dataflow, you write the logic once. 
 If you point the engine at a historical log on disk, it acts like a blistering fast Batch processor. If you point that exact same code at a live Kafka topic, it acts like a real-time Stream processor. Achieving this unification requires ensuring the engine natively handles **Event Time** windowing (so historical data isn't stamped with today's execution clock) and provides strict **Exactly-Once Semantics**.
----
-## Related Concepts
-* [[Data Intensive Applications]]

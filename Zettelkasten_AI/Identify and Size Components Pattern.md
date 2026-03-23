@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 This is the first step in the process. Its purpose is to catalog the application's logical components and ensure they are properly and consistently sized.
 
@@ -94,6 +85,3 @@ Addison applies this pattern and finds that the `Reporting` component (`ss.repor
 The team breaks the single `Reporting` component into four new, more granular components based on functionality: `Reporting Shared`, `Ticket Reports`, `Expert Reports`, and `Financial Reports`. This results in a much more balanced distribution of component sizes.
 
 ![Figure 5-3: A pie chart showing the component sizes after refactoring. The single large "Reporting" slice has been replaced by four smaller, more reasonably sized slices.](figure-5-3.png)
----
-## Related Concepts
-* [[Architecture]]

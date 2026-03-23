@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 Use custom annotations (Java) or attributes (C#) to programmatically document which services participate in which sagas. This provides a simple way to query the codebase to understand the scope and impact of a given transactional workflow.
 
 ```java
@@ -37,7 +28,3 @@ A simple command-line tool can then be built to query this metadata:
 `-> Ticket Service`
 `-> Assignment Service`
 `...`
-
----
-## Related Concepts
-* [[Architecture]]

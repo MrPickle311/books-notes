@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 4: Derived Data"
-status: pending
----
 In traditional database transactions, as soon as a `COMMIT` finishes, the new data is instantly visible to the next `SELECT` query. This is called *Strict Serializability*. 
 However, in asynchronous stream processing, this is lost. The sender does not wait for the downstream views to update. The user might submit a payment, quickly hit refresh on their account balance page, and successfully see the *old* un-deducted balance because the read happened before the stream updated the cache.
 
@@ -46,7 +37,3 @@ By entirely removing the need for servers to synchronously pause and talk to eac
 You can have a Multi-Leader database stretched across 10 regions around the entire globe. Each Datacenter can independently accept writes on its own without *ever* needing to synchronously check with the other 9 datacenters first. The system will inherently suffer from terrible *Timeliness* (because they only asynchronously sync logs later), but will flawlessly uphold *Integrity*. 
 
 We cannot reduce the number of apologies to zero. But by avoiding coordination, we massively increase Availability and Performance. Building modern data systems means finding the sweet spot: giving up just enough traditional transaction features to avoid outages, while establishing enough event-driven integrity to ensure you don't ruin the customer experience!
-
----
-## Related Concepts
-* [[Data Intensive Applications]]

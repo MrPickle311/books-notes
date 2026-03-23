@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 
 
 ### Pros and Cons of Sharding
@@ -18,6 +9,3 @@ status: pending
     *   **Joins and Transactions:** Relational joins become a nightmare. Furthermore, if a single transaction needs to update data living on two different shards, it requires a "Distributed Transaction", which is notoriously slow, complex, and often completely unsupported.
 
 ***Recommendation:*** Sharding introduces massive architectural complexity. Unless your data volume or write throughput is so gargantuan that it literally cannot fit into a single modern machine, you should avoid sharding and stick to a simpler, single-shard database if possible.
----
-## Related Concepts
-* [[Data Intensive Applications]]

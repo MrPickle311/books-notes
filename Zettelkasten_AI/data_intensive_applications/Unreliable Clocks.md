@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - dataintensive
-  - dataintensiveapplications
-source_book: "Designing Data-Intensive Applications"
-topic_layer: "Layer 3: Distributed"
-status: pending
----
 Clocks and time are critically important in distributed systems. We rely on them to determine if a timeout has expired, measure the 99th percentile response time, or figure out the exact date and time an article was published.
 
 However, time is a tricky business across multiple machines for two reasons:
@@ -122,6 +113,3 @@ However, 3PC has a fatal flaw: it only works in a theoretical universe where you
 In the real world (as Chapter 9 will show), networks drop packets randomly and garbage-collection pauses can freeze servers for seconds at a time. In the real world of unbounded delays, 3PC falls apart and cannot guarantee atomicity. 
 
 *Conclusion:* 3PC is not practically viable. Instead of trying to fix 2PC by adding a third phase, the modern solution is to replace the single Coordinator node with an entirely different mathematical architecture: **Fault-Tolerant Consensus Algorithms** (which we will finally explore in Chapter 10).
----
-## Related Concepts
-* [[Data Intensive Applications]]

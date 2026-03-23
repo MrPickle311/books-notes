@@ -1,12 +1,3 @@
----
-aliases:
-tags:
-  - layer4strategy
-  - architecturethehardparts
-source_book: "Architecture: The Hard Parts"
-topic_layer: "Layer 4: Strategy"
-status: pending
----
 
 > **1. Avoid the "Elephant Migration AntiPattern."** Don't just start breaking pieces off a monolith one by one without a holistic plan. This unstructured approach usually leads to a distributed big ball of mud.
 
@@ -19,6 +10,3 @@ status: pending
 > **5. Build Services from Components, Not Classes.** A single service should be formed from a group of related components that represent a domain or subdomain, not from individual classes or components.
 
 > **6. Formalize Your Decomposition Strategy in an ADR.** Document your chosen approach (Component-Based vs. Tactical Forking), the justification for your choice, and the expected trade-offs in an Architecture Decision Record. This ensures clarity and alignment for the entire team.
----
-## Related Concepts
-* [[Architecture]]
