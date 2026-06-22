@@ -33,6 +33,12 @@ Tokens are the artifacts (the "access cards") issued by the authorization server
 
 Tokens are classified by how they provide authorization data to the resource server:
 
+### Scopes
+Before discussing token formats, it is critical to understand **Scopes**. 
+A scope is a mechanism in OAuth 2 to limit an application's access to a user's account. When a client application requests a token, it asks for specific scopes (e.g., `read:emails`, `write:documents`, `admin`). 
+- **What it does**: It tells the Resource Server exactly what actions the client application is permitted to perform on behalf of the user.
+- **Important distinction**: A scope limits the *Client Application*, not the User. Even if a User has "admin" privileges in the backend system, if they grant a Client Application a token with only a `read` scope, that specific application cannot perform "admin" actions. The user's overall privileges are the ceiling, but the token's scope is the actual permitted boundary for that specific app.
+
 ### Opaque Tokens
 
 - **How it works**: Opaque tokens contain no identifiable data about the user or client. They act like a physical key to a treasure chest (Figure 13.5)—you don't know what's inside until you try it. 
