@@ -106,8 +106,18 @@ public RegisteredClientRepository registeredClientRepository() {
 - **Unique internal ID**: Identifies the client internally.
 - **Client ID**: The external client identifier (analogous to a username).
 - **Client secret**: The client password.
-- **Client authentication method**: Tells the server how the client will authenticate when requesting an access token.
-- **Authorization grant type**: The allowed grant flows for this client (e.g., `AUTHORIZATION_CODE`, `CLIENT_CREDENTIALS`). A client can support multiple grant types.
+- **Client authentication method**: Tells the server *how* the client will prove its own identity (pass its credentials) when requesting an access token. 
+  - **Examples**:
+    - `CLIENT_SECRET_BASIC`: Sending `client_id:client_secret` encoded in Base64 within the `Authorization: Basic` HTTP header.
+    - `CLIENT_SECRET_POST`: Sending `client_id` and `client_secret` as form parameters inside the HTTP POST body.
+    - `NONE`: Used for Public Clients (SPAs/Mobile) that cannot safely hold a secret, relying entirely on PKCE instead.
+- **Authorization grant type**: The logical flow/protocol steps the client uses to get the token.
+  - **Examples**:
+    - `AUTHORIZATION_CODE`: The flow involving redirecting a user to a login page (for human users).
+    - `CLIENT_CREDENTIALS`: A direct token request with no user involved (for machine-to-machine backend services).
+    - `REFRESH_TOKEN`: The flow used to swap an expiring refresh token for a new access token.
+  - *Key Difference*: The **Grant Type** is the architectural flow used to acquire the token, whereas the **Authentication Method** is just the specific HTTP mechanism the client uses to transmit its password to the server during that flow. 
+  - *Analogy*: The Grant Type is *what dance we are doing* to get the token, and the Authentication Method is *how we hand the bouncer our ID* during the dance.
 - **Redirect URI**: Allowed redirect URIs after successful authorization.
 - **Scope**: Defines the purpose for the access token request, which can later be used in authorization rules.
 
