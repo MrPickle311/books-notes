@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSE Project Ideas — Low Level & High Level</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0f;--bg2:#131316;--bg3:#1a1a1e;--bg4:#222228;
+  --border:#2a2a32;--border2:#38383f;
+  --text:#e8e6df;--text2:#9b9a94;--text3:#5c5b58;
+  --accent:#7c6dfa;--accent-bg:#1a1730;--accent-border:#3d3480;
+  --green:#4ade80;--green-bg:#052e16;--green-border:#166534;
+  --amber:#fbbf24;--amber-bg:#451a03;--amber-border:#78350f;
+  --red:#f87171;--red-bg:#450a0a;--red-border:#7f1d1d;
+  --blue:#60a5fa;--blue-bg:#0c1f35;--blue-border:#1e3a5f;
+  --teal:#2dd4bf;--teal-bg:#042f2e;--teal-border:#134e4a;
+  --coral:#fb923c;--coral-bg:#431407;--coral-border:#7c2d12;
+  --purple:#c084fc;--purple-bg:#2e0d47;--purple-border:#581c87;
+  --r:10px;--r2:14px;
+}
+@media(prefers-color-scheme:light){
+  :root{
+    --bg:#f5f4f1;--bg2:#ffffff;--bg3:#f0eeea;--bg4:#e8e6e1;
+    --border:#dddbd5;--border2:#c8c6c0;
+    --text:#1a1a18;--text2:#5f5e5a;--text3:#9b9a94;
+    --accent:#5b4ef0;--accent-bg:#eeedfe;--accent-border:#cbc8f8;
+    --green:#166534;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+    --amber:#92400e;--amber-bg:#fffbeb;--amber-border:#fde68a;
+    --red:#991b1b;--red-bg:#fef2f2;--red-border:#fecaca;
+    --blue:#1e40af;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
+    --teal:#0f766e;--teal-bg:#f0fdfa;--teal-border:#99f6e4;
+    --coral:#9a3412;--coral-bg:#fff7ed;--coral-border:#fed7aa;
+    --purple:#7e22ce;--purple-bg:#faf5ff;--purple-border:#e9d5ff;
+  }
+}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+
+/* HEADER */
+.site-header{max-width:1100px;margin:0 auto;padding:3rem 2rem 1.5rem}
+.hbadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-bg);border:1px solid var(--accent-border);padding:4px 12px;border-radius:20px;margin-bottom:1.25rem}
+.hbadge span{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+h1{font-size:clamp(24px,4vw,40px);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+h1 em{font-style:normal;color:var(--accent)}
+.hsub{font-size:14px;color:var(--text2);max-width:520px;line-height:1.7;margin-bottom:1.75rem}
+.hstats{display:flex;gap:2rem;flex-wrap:wrap;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.hs{display:flex;flex-direction:column;gap:1px}
+.hs-n{font-size:22px;font-weight:600}
+.hs-l{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em}
+
+/* TABS */
+.tab-wrap{position:sticky;top:0;z-index:50;background:rgba(13,13,15,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:.75rem 2rem}
+@media(prefers-color-scheme:light){.tab-wrap{background:rgba(245,244,241,.96)}}
+.tab-inner{max-width:1100px;margin:0 auto;display:flex;gap:6px;align-items:center}
+.tab-btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:6px 18px;border-radius:20px;border:1px solid transparent;background:transparent;color:var(--text3);cursor:pointer;transition:all .15s}
+.tab-btn:hover{color:var(--text2);background:var(--bg4)}
+.tab-btn.on{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border)}
+.tab-sep{flex:1}
+.tab-count{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:0 2rem 4rem}
+.section{display:none;padding-top:1.5rem}
+.section.on{display:block}
+
+/* FILTERS */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.fp{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s}
+.fp:hover{background:var(--bg3);color:var(--text2)}
+.fp.on{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border)}
+.fsep{width:1px;background:var(--border);margin:0 2px;align-self:stretch}
+.result-count{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:.75rem}
+
+/* GRID (low-level) */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+
+/* LIST (high-level) */
+.plist{display:flex;flex-direction:column;gap:10px}
+
+/* CARD shared */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:var(--border2)}
+.card.open{border-color:var(--accent)}
+
+/* CARD HEAD */
+.card-head{display:flex;align-items:flex-start;gap:10px;padding:14px 16px}
+.card-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.card-meta{flex:1;min-width:0}
+.card-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.3}
+.card-sub{font-size:12px;color:var(--text3);margin-top:2px;line-height:1.4}
+.badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}
+.badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:5px;letter-spacing:.04em;white-space:nowrap}
+.chevron{width:15px;height:15px;color:var(--text3);flex-shrink:0;margin-top:2px;transition:transform .2s;flex-shrink:0}
+.card.open .chevron{transform:rotate(180deg)}
+
+/* CARD BODY */
+.card-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
+.card.open .card-body{display:block;padding-top:12px}
+.cb-desc{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:12px}
+.sec-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);margin-bottom:7px;margin-top:12px}
+.learns{display:flex;flex-direction:column;gap:4px;margin-bottom:4px}
+.learn{display:flex;gap:7px;font-size:12px;color:var(--text2);line-height:1.6;align-items:flex-start}
+.learn-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px}
+
+/* ARCH grid */
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;margin-bottom:4px}
+.arch-node{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.arch-lbl{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.arch-val{font-size:11px;color:var(--text2);line-height:1.5}
+
+/* CHALLENGES */
+.challenges{display:flex;flex-direction:column;gap:5px;margin-bottom:4px}
+.chal{display:flex;gap:7px;font-size:12px;color:var(--text2);line-height:1.6;align-items:flex-start}
+.chal-dot{width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:5px}
+
+/* STACK */
+.stack-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}
+.stag{font-size:11px;font-weight:500;padding:3px 9px;border-radius:5px;background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:5px}
+.step{display:flex;gap:8px;align-items:flex-start}
+.step-n{min-width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;margin-top:1px}
+.step-t{font-size:12px;color:var(--text2);line-height:1.6}
+
+.empty{text-align:center;color:var(--text3);font-size:14px;padding:3rem 0;grid-column:1/-1}
+
+/* FOOTER */
+footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-top:1px solid var(--border)}
+
+@media(max-width:600px){
+  .site-header,.tab-wrap,.main{padding-left:1rem;padding-right:1rem}
+  .hstats{gap:1.25rem}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="hbadge"><span></span>Distributed Systems Engineering</div>
+  <h1>Project Ideas<br><em>Low Level</em> & <em>High Level</em></h1>
+  <p class="hsub">37 curated projects for becoming a distributed systems engineer — from building Raft from scratch to a real-time analytics platform at scale.</p>
+  <div class="hstats">
+    <div class="hs"><span class="hs-n">23</span><span class="hs-l">Low-level projects</span></div>
+    <div class="hs"><span class="hs-n">14</span><span class="hs-l">High-level projects</span></div>
+    <div class="hs"><span class="hs-n">6</span><span class="hs-l">Categories each</span></div>
+    <div class="hs"><span class="hs-n">37</span><span class="hs-l">Total projects</span></div>
+  </div>
+</div>
+
+<div class="tab-wrap">
+  <div class="tab-inner">
+    <button class="tab-btn on" id="tab-ll" onclick="switchTab('ll')">⚙ Low-level projects</button>
+    <button class="tab-btn" id="tab-hl" onclick="switchTab('hl')">🏗 High-level projects</button>
+    <div class="tab-sep"></div>
+    <span class="tab-count" id="tab-count">23 projects</span>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════════════ LOW LEVEL -->
+<div class="section on" id="sec-ll">
+  <div class="filters" id="ll-filters"></div>
+  <div class="result-count" id="ll-count"></div>
+  <div class="grid" id="ll-grid"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ HIGH LEVEL -->
+<div class="section" id="sec-hl">
+  <div class="filters" id="hl-filters"></div>
+  <div class="result-count" id="hl-count"></div>
+  <div class="plist" id="hl-list"></div>
+</div>
+
+</div>
+
+<footer>DSE Project Ideas &nbsp;·&nbsp; Generated for a mid Java developer on the distributed systems path</footer>
+
+<script>
+/* ─── SHARED HELPERS ─── */
+const svg_chev = `<svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 6l4 4 4-4"/></svg>`;
+
+function accentStyle(on){
+  return on ? 'background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border)' : '';
+}
+
+/* ─── TAB SWITCH ─── */
+let curTab = 'll';
+function switchTab(t){
+  curTab = t;
+  document.getElementById('sec-ll').classList.toggle('on', t==='ll');
+  document.getElementById('sec-hl').classList.toggle('on', t==='hl');
+  document.getElementById('tab-ll').classList.toggle('on', t==='ll');
+  document.getElementById('tab-hl').classList.toggle('on', t==='hl');
+  document.getElementById('tab-count').textContent =
+    t==='ll' ? '23 projects' : '14 projects';
+}
+
+/* ══════════════════════════════════════════════════════════
+   LOW-LEVEL DATA
+══════════════════════════════════════════════════════════ */
+const LL_CAT = {consensus:'Consensus & theory',storage:'Databases & storage',messaging:'Messaging & streaming',infra:'Infrastructure & K8s',observability:'Observability',full:'Full system'};
+const LL_DIFF = {beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced'};
+const LL_CC = {
+  consensus:{bg:'var(--purple-bg)',tx:'var(--purple)',border:'var(--purple-border)',icon:'🔗'},
+  storage:{bg:'var(--blue-bg)',tx:'var(--blue)',border:'var(--blue-border)',icon:'🗄'},
+  messaging:{bg:'var(--amber-bg)',tx:'var(--amber)',border:'var(--amber-border)',icon:'📨'},
+  infra:{bg:'var(--green-bg)',tx:'var(--green)',border:'var(--green-border)',icon:'🐳'},
+  observability:{bg:'var(--red-bg)',tx:'var(--red)',border:'var(--red-border)',icon:'📡'},
+  full:{bg:'var(--teal-bg)',tx:'var(--teal)',border:'var(--teal-border)',icon:'⚡'}
+};
+const LL_DC = {beginner:{bg:'var(--green-bg)',tx:'var(--green)'},intermediate:{bg:'var(--amber-bg)',tx:'var(--amber)'},advanced:{bg:'var(--red-bg)',tx:'var(--red)'}};
+
+const llProjects = [
+  {id:'ll0',cat:'consensus',diff:'intermediate',time:'3–4 wks',title:'Raft consensus from scratch',sub:'Leader election + log replication',
+   why:'The single highest-ROI distributed systems project. You will break it in ways you cannot predict. Understanding split-brain from the inside permanently changes how you reason about every distributed system.',
+   learns:['Leader election and term management','Log replication and commit rules','Handling network partitions and split-brain','Safety proofs: why Raft can never return wrong data'],
+   steps:['Read the Raft paper (Ongaro & Ousterhout, 2014) in full','Use MIT 6.824 Lab 2 test harness in Go or Java','Implement leader election — make all tests pass','Add log replication — this is the hard part','Chaos test: kill the leader randomly 100 times and verify recovery']},
+  {id:'ll1',cat:'consensus',diff:'intermediate',time:'1–2 wks',title:'Lamport & vector clocks',sub:'Visualise event ordering across nodes',
+   why:'Until you implement clocks yourself, causality feels abstract. After implementing both on 3 communicating Java processes, happens-before becomes intuitive.',
+   learns:['Lamport timestamps and their limitations','Vector clocks and causal ordering','Why two events can be concurrent','Clock drift and its consequences'],
+   steps:['Implement Lamport clock on a single Java class','Spin up 3 threads simulating 3 nodes with message passing','Add vector clocks — observe where Lamport was insufficient','Visualise the event graph: which events are concurrent?']},
+  {id:'ll2',cat:'consensus',diff:'advanced',time:'4–6 wks',title:'Distributed lock service (mini Chubby)',sub:'Paxos-based coarse-grained locking',
+   why:"Google's Chubby is the inspiration for etcd and ZooKeeper. Building a simplified version forces you to combine consensus, session management, lock leases, and fencing tokens.",
+   learns:['How etcd and ZooKeeper actually work internally','Fencing tokens to prevent split-brain on lock handover','Session expiry and lock release on crash','Lease-based leader election built on top'],
+   steps:['Start with your Raft implementation','Add a simple key-value state machine on top of Raft','Implement lock acquire/release as state machine commands','Add session TTL: auto-release lock if client dies','Test with two clients competing for the same lock']},
+  {id:'ll3',cat:'consensus',diff:'beginner',time:'3–5 days',title:'Two-phase commit coordinator',sub:'Implement 2PC with crash recovery',
+   why:'2PC is the foundation of distributed transactions. Building a toy coordinator makes DDIA chapters 7 and 9 immediately tangible.',
+   learns:['The prepare and commit phases','Why 2PC blocks on coordinator crash','The difference between 2PC and 3PC','Idempotent commit log for recovery'],
+   steps:['Build 3 participant nodes (simple Java HTTP servers)','Build a coordinator: send prepare, collect votes, send commit','Add a write-ahead log to the coordinator','Kill the coordinator after prepare but before commit','Implement recovery: coordinator reads WAL on restart']},
+  {id:'ll4',cat:'storage',diff:'intermediate',time:'2–3 wks',title:'LSM-tree key-value store',sub:'Memtable + SSTable + WAL + compaction',
+   why:'Almost every modern database uses LSM trees. Building one in Java makes the Database Internals book concrete at the implementation level.',
+   learns:['Write-ahead log for crash safety','Memtable (in-memory sorted map) management','SSTable format on disk','Leveled compaction strategy','Read path: memtable → newer SSTables → older SSTables'],
+   steps:['Implement put(key,value) and get(key) in a TreeMap','Add WAL: every write appends to a file before memory','Flush: when memtable > 4MB, write sorted SSTable to disk','Add bloom filters per SSTable to skip unnecessary disk reads','Add basic size-tiered compaction']},
+  {id:'ll5',cat:'storage',diff:'beginner',time:'1 wk',title:'Write-ahead log (WAL)',sub:'Crash-safe append-only log in Java',
+   why:'The WAL is the most important concept in database reliability. Building one from scratch gives you intuition that no amount of reading delivers.',
+   learns:['fsync vs write: when data is truly durable','Log record format: length-prefixed, CRC-checksummed','Recovery: replay from last checkpoint on crash','Why databases are often I/O bound on commits'],
+   steps:['Write a LogRecord: sequence number + CRC + payload','Implement append() with fsync after each write','Implement recover(): scan file, validate CRC, replay','Add checkpointing: truncate old log entries','Simulate a crash mid-write — verify recovery is correct']},
+  {id:'ll6',cat:'storage',diff:'advanced',time:'5–8 wks',title:'Mini distributed SQL database',sub:'Raft + SQL parser + distributed transactions',
+   why:'The capstone storage project. Combines Raft, LSM-tree, and 2PC into a distributed SQL database. You will understand CockroachDB and TiDB from the inside out.',
+   learns:['How distributed SQL layers on top of a KV store','Range-based partitioning and shard routing','Cross-shard distributed transactions with 2PC','SQL parsing and a basic query execution engine'],
+   steps:['Start with your Raft KV store','Add range partitioning: each shard is a Raft group','Implement a basic SQL parser (SELECT, INSERT, WHERE)','Route queries to the correct shard','Add cross-shard transactions using 2PC across shards']},
+  {id:'ll7',cat:'storage',diff:'intermediate',time:'1–2 wks',title:'Consistent hashing ring',sub:'Add/remove nodes with minimal key movement',
+   why:'Every distributed database and cache uses consistent hashing. Implementing it with virtual nodes is genuinely surprising — and memorable.',
+   learns:['Why naive modulo hashing breaks on node changes','Virtual nodes and their effect on load balance','Adding and removing nodes: key migration','Rendezvous hashing as an alternative'],
+   steps:['Implement basic consistent hashing ring with MD5','Observe: add one node — how many keys moved?','Add virtual nodes (150 per real node)','Compare key distribution with and without virtual nodes','Implement node removal with key re-mapping']},
+  {id:'ll8',cat:'messaging',diff:'beginner',time:'1 wk',title:'Mini message broker',sub:'Topics, partitions, consumer groups in Java',
+   why:"Build a simplified Kafka-like broker from scratch in Java. Once you've built it, every Kafka configuration setting makes immediate intuitive sense.",
+   learns:['Append-only log as a message store','Consumer offset tracking and replay','Partition assignment across consumer group members','At-least-once vs exactly-once delivery trade-offs'],
+   steps:['Build a single topic with a single partition in memory','Add disk persistence: append messages to a file','Add consumer offset tracking per consumer group','Add multiple partitions and a round-robin producer','Add consumer group rebalancing when a consumer joins/leaves']},
+  {id:'ll9',cat:'messaging',diff:'intermediate',time:'2–3 wks',title:'Real-time fraud detection pipeline',sub:'Kafka + Kafka Streams + sliding windows in Java',
+   why:'Detect if a credit card is used in two different countries within 10 minutes. Forces you to implement sliding time windows and stateful stream processing in Java.',
+   learns:['Kafka Streams stateful processing in Java','Sliding window aggregation','Joining two Kafka topics (transactions + locations)','Exactly-once semantics in Kafka Streams'],
+   steps:['Set up Kafka locally with Docker','Produce synthetic transaction events in Java','Use Kafka Streams to join transactions with a location topic','Implement a 10-min sliding window per card number','Emit a fraud alert when the same card appears in 2 countries']},
+  {id:'ll10',cat:'messaging',diff:'intermediate',time:'2 wks',title:'Change data capture (CDC) pipeline',sub:'Debezium + Kafka: stream DB changes in real time',
+   why:'CDC is how every modern data pipeline works. Setting up Debezium to stream PostgreSQL WAL changes into Kafka teaches you log-based replication and the outbox pattern.',
+   learns:['Database WAL as a replication log','Outbox pattern for dual-write prevention','Event sourcing: rebuilding state from a changelog','At-least-once delivery and idempotent consumers'],
+   steps:['Set up PostgreSQL + Debezium + Kafka with Docker Compose','Write rows to PostgreSQL — watch them appear in Kafka','Build a Java consumer that builds a read-model from events','Simulate a consumer crash — verify idempotent replay','Add schema evolution: change a column, see what happens']},
+  {id:'ll11',cat:'messaging',diff:'advanced',time:'3–4 wks',title:'Distributed rate limiter',sub:'Token bucket across nodes using Redis + Lua',
+   why:'Rate limiting is a microcosm of distributed coordination. Building it across 3 Java nodes with Redis teaches you why distributed systems are hard even for simple-sounding problems.',
+   learns:['Token bucket and sliding window log algorithms','Atomicity with Redis Lua scripts (no race conditions)','Clock skew and its effect on rate limit accuracy','Trade-offs: strict vs approximate limiting'],
+   steps:['Implement token bucket locally in a single Java class','Move state to Redis — use Lua scripts for atomic read-modify-write','Deploy 3 Java instances and load-test with k6','Introduce 200ms clock skew between instances — observe bugs','Try Redis Cluster: does your Lua script still work?']},
+  {id:'ll12',cat:'infra',diff:'beginner',time:'3–5 days',title:'Custom Kubernetes controller',sub:'Watch a CRD, reconcile desired vs actual state',
+   why:'Controllers are the programming model of Kubernetes. Building one teaches you the reconciliation loop, watch API, and how operators like Strimzi and Prometheus Operator actually work.',
+   learns:['Custom Resource Definitions (CRDs)','The reconciliation loop: observe → diff → act','K8s watch API and informers','Eventual consistency as Kubernetes\'s programming model'],
+   steps:['Define a simple CRD: e.g., "ManagedDatabase"','Use the Fabric8 Java K8s client to watch it','On create: spin up a PostgreSQL StatefulSet and Service','On delete: clean up all owned resources','Handle update: rolling restart when config changes']},
+  {id:'ll13',cat:'infra',diff:'intermediate',time:'2 wks',title:'Service mesh from first principles',sub:'mTLS + load balancing sidecar proxy in Java',
+   why:'Before using Istio blindly, build a tiny sidecar proxy in Java. You will understand exactly what Envoy does and why.',
+   learns:['mTLS handshake between services','Sidecar proxy injection pattern','Load balancing algorithms: round-robin, least-connections','Circuit breaking at the proxy layer'],
+   steps:['Build a Java proxy that forwards TCP connections','Add TLS termination with self-signed certs','Generate and rotate per-service client certificates (mTLS)','Add round-robin load balancing across 3 upstream instances','Add a circuit breaker: open after 5 consecutive failures']},
+  {id:'ll14',cat:'infra',diff:'intermediate',time:'1–2 wks',title:'Container runtime from scratch',sub:'Namespaces + cgroups + overlay FS in Go/C',
+   why:"Docker is 'just' namespaces and cgroups. Building a minimal container runtime teaches you what isolation actually means at the kernel level.",
+   learns:['Linux namespaces: PID, network, mount, UTS','cgroups: CPU and memory limits','Overlay filesystem for container layers','How Docker images are actually stored and mounted'],
+   steps:['Fork a new network namespace in Go using syscalls','Add a PID namespace: process 1 is your init','Mount an Alpine rootfs using overlay filesystem','Add cgroup CPU limit: container can\'t exceed 0.5 CPU','Add network veth pair: give the container a private IP']},
+  {id:'ll15',cat:'infra',diff:'advanced',time:'4–5 wks',title:'Distributed job scheduler',sub:'Like Kubernetes Jobs or AWS Batch — from scratch',
+   why:'Scheduling distributed jobs requires leader election, task queuing, worker health monitoring, and retry logic — almost every distributed systems concept in one project.',
+   learns:['Leader election for the scheduler master','Work queue with at-least-once delivery semantics','Worker heartbeat and failure detection','Job DAG: tasks with dependencies (like Airflow)'],
+   steps:['Build a job queue on top of your Raft KV store','Add worker registration with periodic heartbeats','Implement job assignment: scheduler assigns to healthy workers','Add retry on worker failure: re-queue after TTL','Add DAG support: task B only starts after task A succeeds']},
+  {id:'ll16',cat:'observability',diff:'beginner',time:'3–5 days',title:'Distributed tracing from scratch',sub:'Context propagation + trace collection in Java',
+   why:'Before OpenTelemetry auto-instrumentation, understand what it actually does. Implement span creation, trace context propagation over HTTP headers, and a simple collector.',
+   learns:['Trace ID and span ID propagation','Parent-child span relationships','W3C TraceContext header format','Sampling strategies: head-based vs tail-based'],
+   steps:['Create a Tracer class: start/finish spans in Java','Propagate trace context via HTTP headers between 2 services','Build a simple UDP collector that receives and stores spans','Visualise the trace: reconstruct a tree from span parent IDs','Add to your Kafka pipeline project']},
+  {id:'ll17',cat:'observability',diff:'intermediate',time:'1–2 wks',title:'SLO dashboard + burn rate alerts',sub:'Prometheus + PromQL: measure what matters',
+   why:'SLOs are how Google operates its services. Implementing error budget burn rate alerts teaches you PromQL deeply and changes how you think about reliability.',
+   learns:['SLI/SLO/SLA definitions and relationships','Error budget: 1 - availability target','Burn rate: how fast you\'re consuming the budget','Multi-window alerts: fast burn + slow burn'],
+   steps:['Deploy Prometheus + Grafana on K8s (Helm chart)','Expose a /metrics endpoint from your Java service','Define an SLO: 99.9% of requests succeed in < 500ms','Implement burn rate alert: 14x burn rate for 1h = page','Create a Grafana dashboard: error budget remaining over 30 days']},
+  {id:'ll18',cat:'observability',diff:'intermediate',time:'1 wk',title:'Chaos engineering framework',sub:'Inject failures programmatically — network, CPU, crashes',
+   why:'You cannot trust a distributed system you haven\'t deliberately broken. Build a chaos framework in Java that injects random failures and verify your system recovers.',
+   learns:['Failure injection: network partition, latency, crash-stop','Steady-state hypothesis: define what "healthy" means','Automated recovery verification after each experiment','How Netflix\'s Chaos Monkey actually works'],
+   steps:['Build a chaos agent sidecar that runs alongside your service','Implement: random network partition (block port with iptables)','Implement: CPU spike (spin a tight loop)','Implement: process kill (SIGKILL after random delay)','Run an experiment: does your Kafka consumer recover?']},
+  {id:'ll19',cat:'full',diff:'advanced',time:'8–12 wks',title:'Mini CockroachDB clone',sub:'Distributed SQL on Raft groups — full stack',
+   why:'The ultimate distributed systems capstone. Combine everything: Raft, LSM-tree, consistent hashing, 2PC, SQL parsing.',
+   learns:['Multi-Raft: one Raft group per shard','Range-based partitioning and automatic rebalancing','Distributed transactions across shards with 2PC','MVCC for snapshot isolation at the distributed level'],
+   steps:['Start from your Raft KV store','Add range partitioning: each range is an independent Raft group','Add a SQL layer: parse SELECT/INSERT/UPDATE','Route queries to the correct Raft group','Add cross-range transactions: 2PC across two Raft groups']},
+  {id:'ll20',cat:'full',diff:'advanced',time:'6–8 wks',title:'Real-time analytics platform',sub:'Kafka + Flink + ClickHouse: ingest → process → query',
+   why:'The complete data infrastructure stack: producers emit events → Kafka buffers → Flink processes → ClickHouse stores and serves analytics queries.',
+   learns:['Kafka as the event backbone','Flink stateful stream processing at scale','ClickHouse columnar storage for analytics','Backpressure from ClickHouse back through Flink to Kafka'],
+   steps:['Set up Kafka + Flink + ClickHouse with Docker Compose','Write a Java producer simulating clickstream events','Build a Flink job: count events per user per 5-min window','Sink results into ClickHouse','Build a Grafana dashboard querying ClickHouse directly']},
+  {id:'ll21',cat:'full',diff:'intermediate',time:'3–4 wks',title:'Distributed cache (mini Redis Cluster)',sub:'Consistent hashing + replication + eviction',
+   why:'Redis Cluster is a consistent hashing ring with primary-replica replication and automatic failover. Building a simplified version reveals why cache invalidation causes so many bugs.',
+   learns:['Consistent hashing slot allocation (Redis uses 16384 slots)','Primary-replica replication for cache nodes','Cache eviction policies: LRU, LFU, TTL','Cache stampede and how to prevent it'],
+   steps:['Build a single-node in-memory cache in Java (HashMap + LRU)','Add consistent hashing: 3 nodes, 16384 slots','Add replication: every write goes to primary + replica','Implement failover: promote replica if primary misses heartbeats','Add TTL and LFU eviction']},
+  {id:'ll22',cat:'full',diff:'intermediate',time:'2–3 wks',title:'Distributed config service',sub:'ZooKeeper-style watched configuration in Java',
+   why:'Services like Consul, etcd, and ZooKeeper provide watched configuration — services get notified instantly when a config value changes. Building this reveals the watch API.',
+   learns:['Watch API: long-poll vs push notifications','Consistency: read-your-writes for config updates','Session management and ephemeral keys','How Kubernetes ConfigMaps work under the hood'],
+   steps:['Build a config store on top of your Raft KV','Add a watch API: clients register interest in a key prefix','On change: push notification to all watchers via SSE','Add session TTL: ephemeral keys deleted when client disconnects','Use it to configure your Kafka consumer group dynamically']},
+];
+
+/* ── LOW-LEVEL RENDER ── */
+const llOpen = new Set();
+let llCat = 'all', llDiff = 'all';
+
+const llCatFilters = [{id:'all',label:'All'},{id:'consensus',label:'Consensus'},{id:'storage',label:'Storage'},{id:'messaging',label:'Messaging'},{id:'infra',label:'Infrastructure'},{id:'observability',label:'Observability'},{id:'full',label:'Full system'}];
+const llDiffFilters = [{id:'all',label:'Any level'},{id:'beginner',label:'Beginner'},{id:'intermediate',label:'Intermediate'},{id:'advanced',label:'Advanced'}];
+
+function renderLLFilters(){
+  document.getElementById('ll-filters').innerHTML =
+    llCatFilters.map(f=>`<button class="fp ${llCat===f.id?'on':''}" style="${accentStyle(llCat===f.id)}" onclick="setLLCat('${f.id}')">${f.label}</button>`).join('') +
+    `<div class="fsep"></div>` +
+    llDiffFilters.map(f=>`<button class="fp ${llDiff===f.id?'on':''}" style="${accentStyle(llDiff===f.id)}" onclick="setLLDiff('${f.id}')">${f.label}</button>`).join('');
+}
+
+function llFiltered(){return llProjects.filter(p=>(llCat==='all'||p.cat===llCat)&&(llDiff==='all'||p.diff===llDiff));}
+
+function renderLLGrid(){
+  const list = llFiltered();
+  document.getElementById('ll-count').textContent = `${list.length} project${list.length!==1?'s':''}`;
+  if(!list.length){document.getElementById('ll-grid').innerHTML=`<div class="empty">No projects match this filter.</div>`;return;}
+  document.getElementById('ll-grid').innerHTML = list.map(p=>{
+    const cc = LL_CC[p.cat], dc = LL_DC[p.diff], isOpen = llOpen.has(p.id);
+    return `<div class="card ${isOpen?'open':''}" id="${p.id}" onclick="togLL('${p.id}')">
+      <div class="card-head">
+        <div class="card-icon" style="background:${cc.bg};border:1px solid ${cc.border}">${cc.icon}</div>
+        <div class="card-meta">
+          <div class="card-title">${p.title}</div>
+          <div class="card-sub">${p.sub}</div>
+          <div class="badges">
+            <span class="badge" style="background:${cc.bg};color:${cc.tx}">${LL_CAT[p.cat]}</span>
+            <span class="badge" style="background:${dc.bg};color:${dc.tx}">${LL_DIFF[p.diff]}</span>
+            <span class="badge" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border)">${p.time}</span>
+          </div>
+        </div>
+        ${svg_chev}
+      </div>
+      <div class="card-body">
+        <div class="cb-desc">${p.why}</div>
+        <div class="sec-label">What you'll learn</div>
+        <div class="learns">${p.learns.map(l=>`<div class="learn"><div class="learn-dot"></div><span>${l}</span></div>`).join('')}</div>
+        <div class="sec-label">How to approach it</div>
+        <div class="steps">${p.steps.map((s,i)=>`<div class="step"><div class="step-n" style="background:${cc.bg};color:${cc.tx}">${i+1}</div><span class="step-t">${s}</span></div>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function togLL(id){llOpen.has(id)?llOpen.delete(id):llOpen.add(id);const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+function setLLCat(v){llCat=v;renderLLFilters();renderLLGrid();}
+function setLLDiff(v){llDiff=v;renderLLFilters();renderLLGrid();}
+
+renderLLFilters(); renderLLGrid();
+
+/* ══════════════════════════════════════════════════════════
+   HIGH-LEVEL DATA
+══════════════════════════════════════════════════════════ */
+const HL_DOMAINS = {data:'Data & analytics',realtime:'Real-time comms',ecommerce:'E-commerce',social:'Social & content',platform:'Platform & infra',finance:'Financial'};
+const HL_COMP = {medium:'Medium',hard:'Hard',expert:'Expert'};
+const HL_DC = {
+  data:{bg:'var(--blue-bg)',tx:'var(--blue)',border:'var(--blue-border)',icon:'📊'},
+  realtime:{bg:'var(--green-bg)',tx:'var(--green)',border:'var(--green-border)',icon:'💬'},
+  ecommerce:{bg:'var(--amber-bg)',tx:'var(--amber)',border:'var(--amber-border)',icon:'🛒'},
+  social:{bg:'var(--purple-bg)',tx:'var(--purple)',border:'var(--purple-border)',icon:'👥'},
+  platform:{bg:'var(--teal-bg)',tx:'var(--teal)',border:'var(--teal-border)',icon:'⚙️'},
+  finance:{bg:'var(--red-bg)',tx:'var(--red)',border:'var(--red-border)',icon:'💳'}
+};
+const HL_XC = {medium:{bg:'var(--green-bg)',tx:'var(--green)'},hard:{bg:'var(--amber-bg)',tx:'var(--amber)'},expert:{bg:'var(--red-bg)',tx:'var(--red)'}};
+
+const hlProjects = [
+  {id:'hl0',domain:'data',complexity:'medium',time:'6–8 wks',title:'Real-time analytics platform',sub:'Ingest millions of events/sec, aggregate in real time, serve dashboards',
+   desc:'A complete analytics backend like Mixpanel or Amplitude: events flow in from a web SDK, get buffered in Kafka, processed by Flink, and served from ClickHouse. The interesting engineering is making it fast — sub-second query latency on billions of rows.',
+   arch:[{l:'Ingestion',v:'Spring Boot API → Kafka, partitioned by user_id'},{l:'Processing',v:'Apache Flink: sessionisation, funnel computation, windowed counts'},{l:'Storage',v:'ClickHouse: columnar, MergeTree, TTL-based expiry'},{l:'Query layer',v:'Spring Boot REST API over ClickHouse with query caching'},{l:'Backfill',v:'Spark batch job to reprocess historical events on schema change'}],
+   challenges:['Late-arriving events: Flink watermarks and allowed lateness','Funnel computation across sessions: stateful Flink with RocksDB backend','ClickHouse schema design: choose the wrong sorting key and queries are 100x slower','Cardinality explosion: counting unique users at scale without full scans (HyperLogLog)','Schema evolution: Avro + Schema Registry so old consumers don\'t break'],
+   stack:['Apache Kafka','Apache Flink','ClickHouse','Spring Boot','Avro + Schema Registry','Prometheus','Grafana'],
+   steps:['Define your event schema in Avro — at least 10 event types','Build the ingest API: validate, enrich with server-side timestamp, produce to Kafka','Write a Flink job: compute page views per user per 5-min window','Sink aggregates into ClickHouse with a ReplicatedMergeTree table','Build a query API: daily active users, retention cohort, funnel conversion','Add late-data handling: Flink side outputs for events > 1hr late','Load test: 100k events/sec — where does the bottleneck appear?']},
+  {id:'hl1',domain:'data',complexity:'hard',time:'8–10 wks',title:'Distributed data lakehouse',sub:'S3 + Delta Lake + Spark + a query engine — your own mini Databricks',
+   desc:'Store raw events in S3 as Parquet (bronze), transform with Spark into clean tables (silver), and compute business metrics (gold). Add Delta Lake for ACID transactions on S3 and a thin REST query API on top.',
+   arch:[{l:'Ingestion',v:'Kafka → Spark Structured Streaming → raw Parquet on S3 (bronze)'},{l:'Transform',v:'Spark batch jobs: cleanse, deduplicate → silver Delta tables'},{l:'Aggregation',v:'Spark SQL: compute KPIs → gold Delta tables'},{l:'Metadata',v:'Apache Hive Metastore or AWS Glue: table schemas and partitions'},{l:'Query API',v:'DuckDB for ad-hoc SQL over Delta files'}],
+   challenges:['Small file problem: streaming writes create millions of tiny Parquet files','ACID on S3: Delta Lake optimistic concurrency and transaction log','Partition pruning: design partitions wrong and Spark reads everything','Schema evolution: adding columns without rewriting all historical data','Cost: S3 request costs at scale — balance frequency of compaction jobs'],
+   stack:['Apache Kafka','Apache Spark','Delta Lake','S3 or MinIO','Apache Hive Metastore','DuckDB','Spring Boot'],
+   steps:['Set up MinIO locally as a local S3 replacement','Stream events from Kafka into Parquet files on MinIO using Spark Streaming','Add Delta Lake: convert raw Parquet writes to Delta table writes','Write a Spark batch job: deduplicate and cleanse → silver layer','Add a schema evolution test: add a new column, verify old records still readable','Implement Z-ordering: speed up queries on your most common filter columns','Expose a SQL query endpoint via DuckDB reading Delta files directly from S3']},
+  {id:'hl2',domain:'realtime',complexity:'medium',time:'5–7 wks',title:'Scalable chat system',sub:'WhatsApp/Discord-style: messages, presence, delivery receipts at scale',
+   desc:'Real-time messaging is a classic distributed systems problem. Messages must be delivered exactly once, in order, with low latency, to users who may be connected to different servers. Presence is a separate hard problem at scale.',
+   arch:[{l:'Connection layer',v:'WebSocket servers (Netty/Spring WebFlux) — stateful, users pinned'},{l:'Message routing',v:'Kafka: each chat room is a topic partition'},{l:'Storage',v:'Cassandra: messages by (room_id, timestamp)'},{l:'Presence',v:'Redis pub/sub with TTL heartbeats: online = key exists'},{l:'Push notifications',v:'Kafka consumer → FCM/APNS for offline users'}],
+   challenges:['Message ordering: Kafka partition per room guarantees order within a room','Fan-out: a message in a 10k-member group needs 10k deliveries','Exactly-once delivery: idempotency key per message, dedup on consumer side','Read receipts at scale: don\'t write a DB row per read per user','Connection draining: graceful restart of a WebSocket server with 100k open connections'],
+   stack:['Spring WebFlux (WebSocket)','Apache Kafka','Apache Cassandra','Redis','Kubernetes','Prometheus'],
+   steps:['Build a WebSocket server: clients connect, send and receive messages','Add Kafka: each room is a partition, WebSocket server consumes its shard','Store messages in Cassandra: partition by room_id, cluster by timestamp DESC','Add presence: Redis key per user with 30s TTL, heartbeat every 15s','Add message fan-out for groups: single write, N reads from Kafka','Implement delivery receipts: separate Kafka topic, aggregate before writing','Scale test: 3 WebSocket server instances, 10k concurrent connections']},
+  {id:'hl3',domain:'realtime',complexity:'hard',time:'7–9 wks',title:'Live collaborative document editor',sub:'Google Docs-style: multiple users editing simultaneously',
+   desc:'Operational transformation (OT) or CRDTs allow multiple users to edit a document simultaneously without conflicts. This is one of the hardest real-time distributed problems.',
+   arch:[{l:'CRDT engine',v:'Logoot or LSEQ algorithm: each character has a unique position ID'},{l:'Sync server',v:'Spring WebSocket: broadcasts operations, stores document log'},{l:'Storage',v:'PostgreSQL: document snapshots + operation log per document'},{l:'Presence',v:'Redis: cursor positions and user colours per document'},{l:'Offline',v:'Queue ops while offline, merge on reconnect'}],
+   challenges:['Concurrent inserts: two users type at the same position — whose wins?','Tombstoning: deleted characters must persist so remote inserts stay consistent','Snapshot + delta: don\'t replay 1M operations on every open','Cursor position: another user\'s cursor shifts when you insert text before it','Undo: undoing your change after others have built on top of it'],
+   stack:['Spring WebSocket','Custom CRDT (Logoot)','PostgreSQL','Redis','React (frontend)','Kubernetes'],
+   steps:['Read the Logoot paper — implement character position IDs in Java','Build a single-user editor: operations applied locally, stored in PostgreSQL','Add WebSocket sync: broadcast every op to all connected clients','Handle concurrent inserts: two clients type simultaneously — merge correctly','Add presence: cursors, user names, and highlight colours','Add offline support: queue ops in memory, replay on reconnect','Stress test: 10 clients all typing into the same paragraph simultaneously']},
+  {id:'hl4',domain:'realtime',complexity:'medium',time:'4–5 wks',title:'Real-time notification system',sub:'Fan-out at scale: send 10M push notifications in under 30 seconds',
+   desc:'When a major sports event ends, 10M users need to be notified within seconds. This fan-out problem requires topic detection, subscriber lookup, message routing, and multi-channel delivery.',
+   arch:[{l:'Events',v:'Kafka topic: notification triggers from upstream services'},{l:'Fan-out workers',v:'Kafka consumers: look up subscribers, publish to per-user topics'},{l:'Delivery workers',v:'Push: FCM/APNS, Email: SES, SMS: Twilio, In-app: WebSocket'},{l:'Subscriber store',v:'Cassandra: user → subscriptions + device tokens'},{l:'Deduplication',v:'Redis: idempotency key with 24h TTL per notification per user'}],
+   challenges:['Celebrity problem: one user has 50M followers — fan-out takes too long','Delivery guarantees: at-least-once with dedup vs best-effort','Rate limiting per channel: FCM has throughput limits','User preferences: some users mute channels','Notification fatigue: smart batching — don\'t send 100 individual notifications'],
+   stack:['Apache Kafka','Apache Cassandra','Redis','Spring Boot','Docker','Prometheus + Grafana'],
+   steps:['Build a single-channel notifier: WebSocket push to online users','Add Kafka fan-out: one event → look up N subscribers → N delivery tasks','Add idempotency: Redis key prevents duplicate delivery on retry','Add user preferences: per-user mute settings, honour at fan-out time','Add batching: group 5+ notifications in a 30s window into one digest','Simulate 1M subscriber fan-out: measure end-to-end latency at each step']},
+  {id:'hl5',domain:'ecommerce',complexity:'hard',time:'8–10 wks',title:'Distributed inventory & order system',sub:'Prevent overselling, handle concurrent checkout, manage fulfilment',
+   desc:'The classic e-commerce distributed systems challenge: two users simultaneously buying the last item. Event sourcing with saga patterns is the production solution.',
+   arch:[{l:'Order service',v:'Spring Boot: create orders, validate items, reserve inventory'},{l:'Inventory service',v:'PostgreSQL with optimistic locking + event outbox'},{l:'Payment service',v:'Stripe webhook consumer, idempotent charge'},{l:'Saga orchestrator',v:'Temporal.io or custom: coordinate order → payment → fulfil'},{l:'Event store',v:'Kafka: every state change is an immutable event'}],
+   challenges:['Overselling: two users buy the last item simultaneously — one must fail gracefully','Saga rollback: payment succeeded but inventory failed — refund atomically','Idempotency: payment webhook delivered twice — charge exactly once','Eventual consistency: order confirmed before payment is fully settled','Flash sale: 10k concurrent users hitting checkout at T+0'],
+   stack:['Spring Boot','PostgreSQL','Apache Kafka','Redis','Temporal.io','Docker / Kubernetes'],
+   steps:['Build order and inventory services with REST APIs','Add optimistic locking: inventory version field, reject stale updates','Add the outbox pattern: write event to DB atomically with inventory change','Implement a saga: order placed → reserve inventory → charge payment → confirm','Add compensating transactions: payment failed → release inventory reservation','Load test checkout: 500 concurrent users, 1 item in stock — exactly 1 succeeds','Add Temporal.io as the saga orchestrator — compare to your manual version']},
+  {id:'hl6',domain:'ecommerce',complexity:'medium',time:'4–5 wks',title:'Distributed search service',sub:'Elasticsearch-style: index products, search with ranking at scale',
+   desc:'Power the search bar of an e-commerce site: full-text search, faceted filtering, and ranking by relevance + personalisation.',
+   arch:[{l:'Indexing',v:'Kafka consumer: listens for product changes → updates Elasticsearch'},{l:'Search engine',v:'Elasticsearch cluster: 3 nodes, each shard has 1 replica'},{l:'Query service',v:'Spring Boot: parse search query, call ES, post-process results'},{l:'Personalisation',v:'Redis: user affinity scores per category, rerank top results'},{l:'Consistency',v:'Elasticsearch near-real-time: 1s refresh interval'}],
+   challenges:['Index lag: product updated in DB but search still shows old data','Cross-shard aggregation: facet counts require scatter-gather across all shards','Relevance tuning: BM25 gives word matching, but business rules override it','Index alias with zero-downtime reindex: swap alias when reindex completes','Query latency: p99 under 50ms at 1000 QPS with 10M products indexed'],
+   stack:['Elasticsearch','Apache Kafka','Spring Boot','Redis','PostgreSQL','Kibana'],
+   steps:['Set up Elasticsearch with 3 nodes locally using Docker Compose','Index 1M synthetic products from a Kafka topic','Build search API: full-text + filters + sorting','Add faceted search: count results per category without fetching all docs','Add personalisation: boost categories the user has bought from before','Zero-downtime reindex: create new index, reindex, swap alias, delete old','Benchmark: p50/p99 latency at 500 QPS']},
+  {id:'hl7',domain:'social',complexity:'hard',time:'8–10 wks',title:'Social feed system',sub:'Twitter/Instagram-style: timelines, fan-out, ranking at 100M users',
+   desc:'Fan-out-on-write (pre-compute feeds) vs fan-out-on-read (compute at query time) is the central trade-off. The celebrity problem and feed ranking make it genuinely hard.',
+   arch:[{l:'Post service',v:'Creates posts, publishes to Kafka'},{l:'Fan-out service',v:'Kafka consumer: writes post to follower feed caches'},{l:'Feed cache',v:'Redis sorted set per user: (post_id, timestamp) — last 1000 posts'},{l:'Feed API',v:'Spring Boot: read from Redis, hydrate with post content, rank'},{l:'Celebrity path',v:'For users with >1M followers: fan-out-on-read hybrid'}],
+   challenges:['Celebrity problem: Lady Gaga posts → 100M Redis writes in < 30 seconds?','Feed freshness: new follower should see historical posts, not just future ones','Ranking: chronological is easy, ML-ranked is the real product','Feed gaps: user offline for a week, comes back — don\'t show stale cached feed','Deletion: user deletes a post → remove from all follower caches'],
+   stack:['Spring Boot','Apache Kafka','Redis','Cassandra','PostgreSQL','Kubernetes'],
+   steps:['Build follow graph store: PostgreSQL table of (follower_id, followee_id)','Build post service: create post → publish to Kafka','Build fan-out consumer: for each post, write to all follower Redis sorted sets','Build feed API: read from Redis, paginate, hydrate with post content','Handle celebrity: skip fan-out for users with >10k followers, merge on read','Handle deletion: tombstone in Redis, filter at read time','Load test: 1000 posts/sec, average 500 followers each = 500k feed writes/sec']},
+  {id:'hl8',domain:'social',complexity:'medium',time:'4–5 wks',title:'URL shortener at scale',sub:'bit.ly-style: shorten, redirect, and analytics at billions of URLs',
+   desc:'A deceptively rich system design problem. The core is trivial. At scale it becomes interesting: global low-latency redirects, click analytics, custom aliases, and abuse prevention.',
+   arch:[{l:'Shortening',v:'Spring Boot: generate base62 ID, store in PostgreSQL'},{l:'Redirect',v:'CDN-cached: Cache-Control header, 301 vs 302 trade-off'},{l:'Analytics',v:'Kafka: every click event → Flink aggregate → ClickHouse'},{l:'Cache',v:'Redis: hot URLs pre-warmed, LRU eviction for cold ones'},{l:'Abuse prevention',v:'Rate limiter + blocklist for known malicious domains'}],
+   challenges:['ID generation at scale: no centralized sequence — use Snowflake ID or hash','301 vs 302: 301 is cached by browsers (faster), but you lose analytics','Cache invalidation: user deletes short URL — CDN still serves it for hours','Hot URL problem: one URL goes viral → stampede on the same cache key','Custom aliases: conflict resolution with auto-generated IDs'],
+   stack:['Spring Boot','PostgreSQL','Redis','Apache Kafka','ClickHouse','Nginx/CDN'],
+   steps:['Build the core: POST /shorten → return short URL, GET /:id → redirect','Add base62 ID generation: no DB sequences — hash the long URL','Add Redis caching: cache the top 10% of URLs (handle 90% of traffic)','Add Kafka click events: async, never block the redirect','Build analytics API: clicks per URL per hour from ClickHouse','Add rate limiting: 10 shortens per IP per minute','Simulate a viral URL: 50k req/sec to one short URL — does Redis hold?']},
+  {id:'hl9',domain:'platform',complexity:'expert',time:'10–14 wks',title:'API gateway with distributed rate limiting',sub:'Kong/Nginx-style: routing, auth, rate limiting, circuit breaking at scale',
+   desc:'An API gateway is a distributed systems problem disguised as infra. You need to route millions of requests/sec, enforce rate limits consistently across a cluster, authenticate JWTs without a DB call, and circuit-break failing backends.',
+   arch:[{l:'Gateway nodes',v:'Spring Cloud Gateway (reactive, non-blocking) — stateless'},{l:'Rate limiting',v:'Redis Lua: sliding window log, shared across all gateway nodes'},{l:'Auth',v:'JWT verification local (no DB call) + token revocation via Redis'},{l:'Circuit breaker',v:'Resilience4j: track failure rate per downstream, open at 50%'},{l:'Config',v:'etcd or Consul: route rules pushed to gateways in < 1s'},{l:'Observability',v:'OpenTelemetry: trace every request end-to-end'}],
+   challenges:['Distributed rate limiting: 10 gateway nodes must share one rate limit counter','JWT revocation: user logs out — how to invalidate a token before expiry?','Hot reload: add a new route without restarting the gateway','WebSocket proxying: different from HTTP — connection is stateful','Graceful degradation: backend is down — serve stale cache or fallback response'],
+   stack:['Spring Cloud Gateway','Redis','etcd','Resilience4j','OpenTelemetry','Kubernetes','Prometheus + Grafana'],
+   steps:['Build a basic reverse proxy: route /service-a → http://service-a:8080','Add JWT authentication: verify RS256 signature locally, extract claims','Add Redis-backed rate limiting: 1000 req/min per API key across all nodes','Add circuit breaker: track failure rate, open after 50% failures in 10s','Add hot reload: routes stored in etcd, gateway watches for changes','Add distributed tracing: inject trace context, collect in Jaeger','Load test: 10k req/sec across 3 gateway nodes — are rate limits accurate?']},
+  {id:'hl10',domain:'platform',complexity:'hard',time:'8–10 wks',title:'Multi-tenant task queue',sub:'Celery/SQS-style: schedule, prioritise, retry, and observe jobs at scale',
+   desc:'A production task queue system where one noisy tenant cannot monopolise all workers. Multi-tenancy adds fairness scheduling, making this a genuinely interesting distributed coordination problem.',
+   arch:[{l:'Submit API',v:'Spring Boot: validate job, assign priority, publish to Kafka'},{l:'Queue store',v:'Redis sorted set: (job_id, priority_score) per tenant per queue'},{l:'Workers',v:'Java worker pool: lease a job, execute, ack or nack with retry'},{l:'Scheduler',v:'Cron-style: Kafka topic with delayed delivery using timestamps'},{l:'Dead letter',v:'Jobs that fail N times move to DLQ, alert on DLQ growth'}],
+   challenges:['Fairness: tenant A submits 10k jobs — tenant B\'s 10 jobs still run promptly','Exactly-once execution: worker crashes mid-job — job must not run twice','Job leasing: worker takes a job, crashes — lease expires and job re-queues','Priority starvation: high-priority jobs should not starve low-priority ones forever','Observability: know exactly which job is stuck and why without polling'],
+   stack:['Spring Boot','Apache Kafka','Redis','PostgreSQL','Prometheus + Grafana','Kubernetes'],
+   steps:['Build a single-tenant queue: submit job → worker polls → execute → ack','Add job leasing: worker gets a 30s lease, must heartbeat or job re-queues','Add retry with exponential backoff: fail → wait 2s, 4s, 8s → DLQ','Add multi-tenancy: each tenant has a fair-share weight in the scheduler','Add priority within a tenant: P0 (critical) always ahead of P2 (bulk)','Add the Prometheus metric: job_queue_depth by tenant and priority','Stress test: 3 tenants, 10k jobs each, 10 workers — verify fairness']},
+  {id:'hl11',domain:'platform',complexity:'medium',time:'4–5 wks',title:'Global content delivery network (mini CDN)',sub:'Edge caching, origin pull, cache invalidation, geo-routing',
+   desc:'Build a simplified CDN with 3 edge nodes in different regions, an origin server, and a cache invalidation mechanism.',
+   arch:[{l:'Edge nodes',v:'Nginx + custom cache layer — one per simulated region'},{l:'Origin',v:'Spring Boot: serves assets, generates Cache-Control headers'},{l:'Geo routing',v:'DNS with latency-based routing (simulate with hosts file)'},{l:'Invalidation',v:'Kafka topic: edge nodes subscribe, purge on event'},{l:'Reporting',v:'Every cache hit/miss logged to ClickHouse for analytics'}],
+   challenges:['Cache stampede: popular asset expires, 10k requests hit origin simultaneously','Stale-while-revalidate: serve stale content while refreshing in background','Partial invalidation: purge /images/* without purging /css/*','Consistency: two users in different regions see different versions of a file','Origin shield: only one edge node talks to origin, others pull from shield'],
+   stack:['Nginx','Spring Boot','Apache Kafka','Redis','ClickHouse','Docker Compose'],
+   steps:['Set up 3 Nginx edge nodes and 1 Spring Boot origin with Docker Compose','Implement cache-aside in Nginx: hit local cache or pull from origin','Add Kafka invalidation: origin publishes purge events, edges consume','Implement stale-while-revalidate: serve stale, revalidate async','Add origin shield: one designated edge pulls from origin, others from shield','Measure: cache hit ratio, origin request rate, p99 response time per edge']},
+  {id:'hl12',domain:'finance',complexity:'hard',time:'8–10 wks',title:'Distributed payment processing system',sub:'Idempotent payments, double-spend prevention, ledger integrity',
+   desc:'The hardest correctness requirements in software. Every payment must be processed exactly once, balances must never go negative under concurrent withdrawals, and the audit ledger must be append-only and tamper-evident.',
+   arch:[{l:'Payment API',v:'Spring Boot: idempotency key per request, stored in Redis'},{l:'Ledger',v:'PostgreSQL: append-only double-entry accounting table'},{l:'Balance check',v:'Optimistic locking on account version — reject stale writes'},{l:'Event store',v:'Kafka: every transaction is an immutable event'},{l:'Reconciliation',v:'Nightly Spark job: sum ledger entries, compare to balance table'}],
+   challenges:['Double spend: two withdrawals simultaneously — balance must not go negative','Idempotency: network timeout means client retries — charge exactly once','Atomicity across services: debit account A, credit account B — both or neither','Audit trail: immutable, cryptographically verifiable transaction history','Reconciliation: detect and alert on any discrepancy between ledger and balances'],
+   stack:['Spring Boot','PostgreSQL','Apache Kafka','Redis','Apache Spark','Kubernetes'],
+   steps:['Design double-entry ledger: every payment = debit row + credit row','Add idempotency: idempotency_key column with unique constraint in PostgreSQL','Add optimistic locking: account version column, reject stale concurrent writes','Add saga: debit source → credit destination → both or compensate','Simulate double-spend: 100 concurrent withdrawal requests, balance = 100 — exactly 1 succeeds','Add event sourcing: Kafka is the source of truth, PostgreSQL is a projection','Run reconciliation: Spark job computes expected balances, alerts on discrepancy']},
+  {id:'hl13',domain:'finance',complexity:'expert',time:'10–12 wks',title:'Time-series market data platform',sub:'Ingest tick data, compute indicators, serve low-latency queries',
+   desc:'Financial market data is the hardest time-series problem: millions of ticks per second, microsecond latency requirements, complex indicator computation (VWAP, RSI, MACD), and regulatory data integrity requirements.',
+   arch:[{l:'Ingest',v:'Kafka: tick data from exchange simulators, partitioned by symbol'},{l:'Processing',v:'Apache Flink: compute rolling indicators (VWAP, RSI, EMA)'},{l:'Storage',v:'TimescaleDB (PostgreSQL extension) for tick storage'},{l:'Query API',v:'Spring Boot: OHLCV bars, indicator values, historical replay'},{l:'Low-latency path',v:'Redis: last-price cache per symbol, < 1ms read latency'}],
+   challenges:['Out-of-order ticks: exchanges send data with reordering — watermarks required','VWAP computation: volume-weighted average needs the full window, not just recent','p99 latency: last-price query must be < 1ms — Redis with careful key design','Data integrity: tick data must never be lost or duplicated','Replay: re-run yesterday\'s indicators on corrected historical data'],
+   stack:['Apache Kafka','Apache Flink','TimescaleDB','Redis','Spring Boot','Grafana'],
+   steps:['Build a tick data simulator: produces realistic OHLCV data at 100k ticks/sec','Stream ticks through Kafka — partition by symbol for ordering guarantees','Write Flink job: compute 1-minute VWAP rolling window per symbol','Store computed bars in TimescaleDB with automatic time-based partitioning','Build last-price cache in Redis: update on every tick, read in < 1ms','Add replay: consume historical Kafka topic to recompute indicators','Benchmark: p50/p99/p999 for last-price reads at 10k QPS']},
+];
+
+/* ── HIGH-LEVEL RENDER ── */
+const hlOpen = new Set();
+let hlDom = 'all', hlComp = 'all';
+
+const hlDomFilters = [{id:'all',label:'All'},{id:'data',label:'Data & analytics'},{id:'realtime',label:'Real-time'},{id:'ecommerce',label:'E-commerce'},{id:'social',label:'Social'},{id:'platform',label:'Platform'},{id:'finance',label:'Financial'}];
+const hlCompFilters = [{id:'all',label:'Any'},{id:'medium',label:'Medium'},{id:'hard',label:'Hard'},{id:'expert',label:'Expert'}];
+
+function renderHLFilters(){
+  document.getElementById('hl-filters').innerHTML =
+    hlDomFilters.map(f=>`<button class="fp ${hlDom===f.id?'on':''}" style="${accentStyle(hlDom===f.id)}" onclick="setHLDom('${f.id}')">${f.label}</button>`).join('') +
+    `<div class="fsep"></div>` +
+    hlCompFilters.map(f=>`<button class="fp ${hlComp===f.id?'on':''}" style="${accentStyle(hlComp===f.id)}" onclick="setHLComp('${f.id}')">${f.label}</button>`).join('');
+}
+
+function hlFiltered(){return hlProjects.filter(p=>(hlDom==='all'||p.domain===hlDom)&&(hlComp==='all'||p.complexity===hlComp));}
+
+function renderHLList(){
+  const list = hlFiltered();
+  document.getElementById('hl-count').textContent = `${list.length} project${list.length!==1?'s':''}`;
+  if(!list.length){document.getElementById('hl-list').innerHTML=`<div class="empty">No projects match this filter.</div>`;return;}
+  document.getElementById('hl-list').innerHTML = list.map(p=>{
+    const dc = HL_DC[p.domain], xc = HL_XC[p.complexity], isOpen = hlOpen.has(p.id);
+    return `<div class="card ${isOpen?'open':''}" id="${p.id}" onclick="togHL('${p.id}')">
+      <div class="card-head">
+        <div class="card-icon" style="background:${dc.bg};border:1px solid ${dc.border};font-size:18px">${dc.icon}</div>
+        <div class="card-meta">
+          <div class="card-title">${p.title}</div>
+          <div class="card-sub">${p.sub}</div>
+          <div class="badges">
+            <span class="badge" style="background:${dc.bg};color:${dc.tx}">${HL_DOMAINS[p.domain]}</span>
+            <span class="badge" style="background:${xc.bg};color:${xc.tx}">${HL_COMP[p.complexity]}</span>
+            <span class="badge" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border)">${p.time}</span>
+          </div>
+        </div>
+        ${svg_chev}
+      </div>
+      <div class="card-body">
+        <div class="cb-desc">${p.desc}</div>
+        <div class="sec-label">Architecture</div>
+        <div class="arch-grid">${p.arch.map(a=>`<div class="arch-node"><div class="arch-lbl">${a.l}</div><div class="arch-val">${a.v}</div></div>`).join('')}</div>
+        <div class="sec-label">Key distributed systems challenges</div>
+        <div class="challenges">${p.challenges.map(c=>`<div class="chal"><div class="chal-dot"></div><span>${c}</span></div>`).join('')}</div>
+        <div class="sec-label">Tech stack</div>
+        <div class="stack-row">${p.stack.map(s=>`<span class="stag">${s}</span>`).join('')}</div>
+        <div class="sec-label">How to build it</div>
+        <div class="steps">${p.steps.map((s,i)=>`<div class="step"><div class="step-n" style="background:${dc.bg};color:${dc.tx}">${i+1}</div><span class="step-t">${s}</span></div>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function togHL(id){hlOpen.has(id)?hlOpen.delete(id):hlOpen.add(id);const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+function setHLDom(v){hlDom=v;renderHLFilters();renderHLList();}
+function setHLComp(v){hlComp=v;renderHLFilters();renderHLList();}
+
+renderHLFilters(); renderHLList();
+</script>
+</body>
+</html>

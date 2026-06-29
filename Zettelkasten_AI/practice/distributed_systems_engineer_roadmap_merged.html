@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distributed Systems Engineer — Complete Roadmap</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0f;--bg2:#131316;--bg3:#1a1a1e;--bg4:#222228;
+  --border:#2a2a32;--border2:#38383f;
+  --text:#e8e6df;--text2:#9b9a94;--text3:#5c5b58;
+  --accent:#7c6dfa;--accent2:#a99fff;--accent3:#3d3480;
+  --green:#4ade80;--green2:#166534;--green3:#052e16;
+  --amber:#fbbf24;--amber2:#78350f;--amber3:#451a03;
+  --red:#f87171;--red2:#7f1d1d;--red3:#450a0a;
+  --blue:#60a5fa;--blue2:#1e3a5f;--blue3:#0c1f35;
+  --teal:#2dd4bf;--teal2:#134e4a;--teal3:#042f2e;
+  --coral:#fb923c;--coral2:#7c2d12;--coral3:#431407;
+  --purple:#c084fc;--purple2:#581c87;--purple3:#2e0d47;
+  --r:10px;--r2:14px;
+  --font:'DM Sans',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+
+/* HEADER */
+.site-header{padding:3rem 2rem 2rem;max-width:1100px;margin:0 auto}
+.header-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);background:var(--accent3);border:1px solid var(--accent);padding:4px 12px;border-radius:20px;margin-bottom:1.5rem}
+.header-badge span{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
+h1{font-size:clamp(28px,5vw,48px);font-weight:600;line-height:1.15;color:var(--text);letter-spacing:-.02em;margin-bottom:.75rem}
+h1 em{font-style:normal;color:var(--accent2)}
+.header-sub{font-size:15px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:2rem}
+.header-stats{display:flex;gap:2rem;flex-wrap:wrap}
+.hstat{display:flex;flex-direction:column;gap:2px}
+.hstat-n{font-size:22px;font-weight:600;color:var(--text)}
+.hstat-l{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+
+/* PHASE NAV */
+.phase-nav-wrap{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem}
+.phase-nav{max-width:1100px;margin:0 auto;display:flex;gap:4px;flex-wrap:wrap}
+.pnav-btn{font-family:var(--font);font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid transparent;background:transparent;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap}
+.pnav-btn:hover{color:var(--text2);background:var(--bg4)}
+.pnav-btn.active{background:var(--accent3);color:var(--accent2);border-color:var(--accent)}
+
+/* MAIN LAYOUT */
+.main{max-width:1100px;margin:0 auto;padding:0 2rem 4rem}
+
+/* PHASE SECTION */
+.phase-section{display:none;padding-top:2rem}
+.phase-section.active{display:block}
+.phase-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.phase-number{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--accent2);background:var(--accent3);border:1px solid var(--accent);padding:3px 10px;border-radius:6px;flex-shrink:0;margin-top:4px}
+.phase-meta{flex:1;min-width:200px}
+.phase-title{font-size:clamp(20px,3vw,28px);font-weight:600;color:var(--text);letter-spacing:-.01em;line-height:1.2}
+.phase-duration{font-size:12px;color:var(--text3);margin-top:4px;font-family:var(--mono)}
+.phase-desc{font-size:14px;color:var(--text2);line-height:1.75;max-width:700px;margin-bottom:1.5rem;padding:1rem 1.25rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);border-left:3px solid var(--accent)}
+
+/* TOPIC GRID */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-bottom:1.5rem}
+.tcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:border-color .15s,background .15s}
+.tcard:hover{border-color:var(--border2);background:var(--bg3)}
+.tcard.open{border-color:var(--accent);background:var(--bg3)}
+.tcard-head{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.tcard-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.tcard-name{font-size:14px;font-weight:500;color:var(--text);flex:1;line-height:1.3}
+.tcard-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:6px;flex-shrink:0;letter-spacing:.04em;text-transform:uppercase}
+.tcard-chevron{width:16px;height:16px;color:var(--text3);flex-shrink:0;transition:transform .2s}
+.tcard.open .tcard-chevron{transform:rotate(180deg)}
+.tcard-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border)}
+.tcard.open .tcard-body{display:block;padding-top:12px}
+.titem{font-size:13px;color:var(--text2);line-height:1.85;padding-left:14px;position:relative}
+.titem::before{content:'·';position:absolute;left:4px;color:var(--text3)}
+.titem.new-item{color:var(--amber)}
+.titem.new-item::before{content:'+';color:var(--amber);font-weight:600}
+.res-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
+.res-chip{font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid var(--border2);color:var(--text3);background:var(--bg);font-family:var(--mono)}
+
+/* NEW BADGE */
+.new-badge{font-size:9px;font-weight:600;padding:1px 6px;border-radius:4px;background:rgba(251,191,36,.15);color:var(--amber);border:1px solid rgba(251,191,36,.3);margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+
+/* MILESTONES */
+.milestones-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.ms-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.75rem}
+.ms-list{display:flex;flex-direction:column;gap:8px}
+.ms-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text2);line-height:1.5}
+.ms-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+
+/* PHASE FOOTER NAV */
+.phase-foot{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--border)}
+.foot-btn{font-family:var(--font);font-size:13px;padding:8px 18px;border-radius:var(--r);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.foot-btn:hover{background:var(--bg4);color:var(--text)}
+.foot-btn.pri{background:var(--accent3);color:var(--accent2);border-color:var(--accent)}
+.foot-btn:disabled{opacity:.3;cursor:default;pointer-events:none}
+.prog{display:flex;gap:5px;align-items:center}
+.prog-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .2s}
+.prog-dot.on{background:var(--accent)}
+
+/* TAG COLORS */
+.tag-essential{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+.tag-critical{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.25)}
+.tag-core{background:rgba(251,191,36,.12);color:var(--amber);border:1px solid rgba(251,191,36,.25)}
+.tag-advanced{background:rgba(192,132,252,.12);color:var(--purple);border:1px solid rgba(192,132,252,.25)}
+.tag-mastery{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.25)}
+.tag-leadership{background:rgba(45,212,191,.12);color:var(--teal);border:1px solid rgba(45,212,191,.25)}
+
+/* ICON BG */
+.icon-green{background:var(--green3)}
+.icon-red{background:var(--red3)}
+.icon-amber{background:var(--amber3)}
+.icon-blue{background:var(--blue3)}
+.icon-teal{background:var(--teal3)}
+.icon-coral{background:var(--coral3)}
+.icon-purple{background:var(--purple3)}
+
+/* SECTION DIVIDER */
+.section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin:1.25rem 0 .6rem;padding-bottom:6px;border-bottom:1px solid var(--border)}
+
+@media(max-width:600px){
+  .site-header,.phase-nav-wrap,.main{padding-left:1rem;padding-right:1rem}
+  .topic-grid{grid-template-columns:1fr}
+  .header-stats{gap:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="header-badge"><span></span>Complete Merged Roadmap</div>
+  <h1>Distributed Systems<br><em>Engineer</em> Roadmap</h1>
+  <p class="header-sub">A unified, comprehensive learning path merging two roadmaps — covering theory, infrastructure, databases, reliability, and mastery. Items marked <span style="color:var(--amber);font-weight:500">+ NEW</span> were added from the second roadmap.</p>
+  <div class="header-stats">
+    <div class="hstat"><span class="hstat-n">6</span><span class="hstat-l">Phases</span></div>
+    <div class="hstat"><span class="hstat-n">30+</span><span class="hstat-l">Topic areas</span></div>
+    <div class="hstat"><span class="hstat-n">23</span><span class="hstat-l">Items added</span></div>
+    <div class="hstat"><span class="hstat-n">18–30</span><span class="hstat-l">Months total</span></div>
+  </div>
+</div>
+
+<div class="phase-nav-wrap">
+  <div class="phase-nav" id="phaseNav"></div>
+</div>
+
+<div class="main" id="main"></div>
+
+<script>
+const svg_chevron = `<svg class="tcard-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg>`;
+
+const phases = [
+  {
+    id:'p1', label:'Phase 1', title:'Core Foundations', duration:'3–6 months',
+    accentColor:'#60a5fa',
+    desc:'Rock-solid fundamentals in OS, networking, and data structures are non-negotiable before touching distributed systems. These form the mental models you will apply every day.',
+    sections:[
+      {
+        label:'Networking',
+        topics:[
+          {
+            name:'OSI model — all 7 layers', icon:'🌐', iconClass:'icon-blue', tag:'Essential', tagClass:'tag-essential', isNew:true,
+            items:[
+              {t:'Physical layer: signals, encoding, transmission media', isNew:true},
+              {t:'Data link layer: framing, MAC addressing, error detection', isNew:true},
+              {t:'Network layer: routing, IP, ICMP, ARP', isNew:false},
+              {t:'Transport layer: TCP, UDP, SCTP — ports and delivery guarantees', isNew:false},
+              {t:'Session layer: session establishment and management', isNew:true},
+              {t:'Presentation layer: encoding, encryption, compression', isNew:true},
+              {t:'Application layer: HTTP, DNS, gRPC, FTP interfaces', isNew:false},
+            ],
+            resources:['Computer Networking: A Top-Down Approach – Kurose & Ross','Beej\'s Guide to Network Programming','CS144 Stanford (YouTube)']
+          },
+          {
+            name:'TCP / UDP deep dive', icon:'🔗', iconClass:'icon-teal', tag:'Essential', tagClass:'tag-essential', isNew:false,
+            items:[
+              {t:'Three-way handshake: SYN, SYN-ACK, ACK and teardown', isNew:false},
+              {t:'Flow control: receive window and sliding window protocol', isNew:false},
+              {t:'Congestion control: slow start, AIMD, CUBIC, BBR', isNew:false},
+              {t:'TCP fast retransmit and selective acknowledgment (SACK)', isNew:false},
+              {t:'UDP datagram structure and why it matters for low-latency', isNew:false},
+              {t:'Port mapping, ephemeral ports, TIME_WAIT state', isNew:false},
+            ],
+            resources:['Wireshark labs — capture real handshakes','TCP/IP Illustrated – Stevens']
+          },
+          {
+            name:'SCTP — stream control transmission', icon:'📡', iconClass:'icon-coral', tag:'Core', tagClass:'tag-core', isNew:true,
+            items:[
+              {t:'Multi-homing: one association across multiple IP addresses', isNew:true},
+              {t:'Multi-streaming: independent streams in one connection', isNew:true},
+              {t:'Four-way handshake: INIT, INIT-ACK, COOKIE-ECHO, COOKIE-ACK', isNew:true},
+              {t:'Ordered vs unordered delivery per stream', isNew:true},
+              {t:'Used in telecom (SS7 over IP), WebRTC signaling, DIAMETER', isNew:true},
+            ],
+            resources:['RFC 4960 – SCTP spec','SCTP vs TCP comparison papers']
+          },
+          {
+            name:'Network addressing', icon:'🗺️', iconClass:'icon-blue', tag:'Essential', tagClass:'tag-essential', isNew:false,
+            items:[
+              {t:'IPv4 address space, IPv6 architecture and dual-stack', isNew:false},
+              {t:'Subnet mask calculation and CIDR notation', isNew:false},
+              {t:'NAT: static, dynamic, PAT — how port reuse works', isNew:false},
+              {t:'DHCP: DORA process (Discover, Offer, Request, Ack)', isNew:false},
+              {t:'DNS resolution: recursive vs iterative, TTL, caching hierarchy', isNew:false},
+            ],
+            resources:['Computer Networking: A Top-Down Approach','Julia Evans DNS comics (jvns.ca)']
+          },
+        ]
+      },
+      {
+        label:'Operating Systems',
+        topics:[
+          {
+            name:'Kernel internals', icon:'⚙️', iconClass:'icon-amber', tag:'Essential', tagClass:'tag-essential', isNew:false,
+            items:[
+              {t:'Process scheduling: CFS, real-time schedulers, priority inversion', isNew:false},
+              {t:'Context switching overhead: registers saved, TLB flush cost', isNew:false},
+              {t:'Interrupt handling routines: IRQ, softirq, tasklets', isNew:false},
+              {t:'Memory page faulting and demand paging', isNew:false},
+              {t:'System call interface: trap into kernel mode', isNew:false},
+              {t:'Virtual memory management: page tables, huge pages, NUMA', isNew:false},
+            ],
+            resources:['OSTEP (free online)','Linux Kernel Development – Love','CS162 Berkeley (YouTube)']
+          },
+          {
+            name:'Concurrency primitives — all 7', icon:'🔒', iconClass:'icon-red', tag:'Essential', tagClass:'tag-essential', isNew:true,
+            items:[
+              {t:'Mutex: ownership semantics, priority inheritance, recursive mutexes', isNew:false},
+              {t:'Semaphore: counting semaphores, producer-consumer pattern', isNew:false},
+              {t:'Spinlock: busy-wait, cache-line thrashing, when to prefer over mutex', isNew:true},
+              {t:'Atomic operations: CAS, fetch-and-add, memory ordering (acquire/release)', isNew:false},
+              {t:'Condition variables: spurious wakeups, wait morphing', isNew:false},
+              {t:'Read-write locks: shared readers, exclusive writers, starvation', isNew:true},
+              {t:'Barrier synchronization: all-threads-must-arrive pattern', isNew:true},
+            ],
+            resources:['The Little Book of Semaphores – Downey (free)','Linux futex documentation']
+          },
+          {
+            name:'File systems & storage', icon:'💾', iconClass:'icon-teal', tag:'Core', tagClass:'tag-core', isNew:true,
+            items:[
+              {t:'Block storage management: extents, free space bitmaps', isNew:false},
+              {t:'Journaling file systems: ext4, XFS — ordered vs writeback mode', isNew:false},
+              {t:'File inode structures: direct, indirect, double-indirect blocks', isNew:true},
+              {t:'Virtual file system (VFS) abstraction layer', isNew:true},
+              {t:'Network file system protocols: NFS v4, CIFS/SMB, FUSE', isNew:true},
+              {t:'Disk caching strategies: page cache, write-back vs write-through', isNew:true},
+              {t:'Distributed file system design: GFS, HDFS architecture', isNew:false},
+            ],
+            resources:['OSTEP – file systems chapters','The Design and Implementation of the FreeBSD OS']
+          },
+          {
+            name:'Systems programming', icon:'🔧', iconClass:'icon-amber', tag:'Core', tagClass:'tag-core', isNew:false,
+            items:[
+              {t:'Go or Rust: ownership, lifetimes, channels, async runtimes', isNew:false},
+              {t:'Lock-free programming and memory models (C++ / Rust atomics)', isNew:false},
+              {t:'Performance profiling: perf, pprof, flamegraphs, eBPF', isNew:false},
+              {t:'Writing efficient, cache-friendly, NUMA-aware code', isNew:false},
+            ],
+            resources:['The Go Programming Language – Donovan & Kernighan','Programming Rust – Blandy']
+          },
+          {
+            name:'Data structures for systems', icon:'🧮', iconClass:'icon-purple', tag:'Essential', tagClass:'tag-essential', isNew:false,
+            items:[
+              {t:'Hash maps, B-trees, LSM trees — when each is appropriate', isNew:false},
+              {t:'Consistent hashing and rendezvous hashing', isNew:false},
+              {t:'Skip lists and their use in databases (LevelDB, Redis)', isNew:false},
+              {t:'Bloom filters and probabilistic data structures', isNew:false},
+              {t:'Graphs: BFS, DFS, topological sort — for dependency resolution', isNew:false},
+            ],
+            resources:['Introduction to Algorithms (CLRS)','DDIA Ch.3 – Kleppmann','LeetCode: graphs & trees focus']
+          },
+        ]
+      }
+    ],
+    milestones:[
+      {t:'Implement a TCP chat server from scratch in Go or Rust', c:'#60a5fa'},
+      {t:'Write an in-memory key-value store with concurrent access and all 7 primitives', c:'#60a5fa'},
+      {t:'Capture and analyze a full TCP handshake with Wireshark', c:'#60a5fa'},
+      {t:'Explain Linux process scheduling and VFS layer to a non-engineer', c:'#60a5fa'},
+    ]
+  },
+
+  {
+    id:'p2', label:'Phase 2', title:'Distributed Systems Theory', duration:'3–5 months',
+    accentColor:'#4ade80',
+    desc:'The core intellectual foundation. Master the theoretical problems, impossibility results, and mathematical frameworks every distributed system is built on.',
+    sections:[
+      {
+        label:'Fundamental problems',
+        topics:[
+          {
+            name:'Impossibility results', icon:'🧩', iconClass:'icon-red', tag:'Critical', tagClass:'tag-critical', isNew:false,
+            items:[
+              {t:'FLP impossibility: consensus is impossible in async systems', isNew:false},
+              {t:'The two generals problem and its implications', isNew:false},
+              {t:'Byzantine fault tolerance: Lamport\'s generals problem', isNew:false},
+              {t:'The 8 fallacies of distributed computing', isNew:false},
+            ],
+            resources:['Fischer, Lynch, Paterson 1985 paper','Lamport\'s writings on BFT']
+          },
+          {
+            name:'Time, clocks & ordering', icon:'⏱️', iconClass:'icon-amber', tag:'Critical', tagClass:'tag-critical', isNew:false,
+            items:[
+              {t:'Lamport timestamps and logical clocks', isNew:false},
+              {t:'Vector clocks: causality and happens-before relationship', isNew:false},
+              {t:'Hybrid logical clocks (HLC)', isNew:false},
+              {t:'TrueTime: Google Spanner\'s clock API and bounded uncertainty', isNew:false},
+              {t:'NTP vs PTP and clock drift in practice', isNew:false},
+              {t:'Clock synchronization: Cristian\'s algorithm, Berkeley algorithm', isNew:true},
+            ],
+            resources:['Lamport\'s 1978 paper: Time, Clocks, and Ordering','DDIA Ch.8 – Kleppmann','Spanner paper (2012, Google)']
+          },
+        ]
+      },
+      {
+        label:'Consistency & consensus',
+        topics:[
+          {
+            name:'Consistency models', icon:'⚖️', iconClass:'icon-teal', tag:'Critical', tagClass:'tag-critical', isNew:false,
+            items:[
+              {t:'CAP theorem: consistency, availability, partition tolerance', isNew:false},
+              {t:'PACELC theorem: latency vs consistency even without partition', isNew:true},
+              {t:'Linearizability: real-time ordering constraint', isNew:false},
+              {t:'Sequential consistency: program order respected globally', isNew:false},
+              {t:'Causal consistency: causally related ops in order', isNew:false},
+              {t:'Eventual consistency and convergence guarantees', isNew:false},
+              {t:'Strong eventual consistency and CRDT merge semantics', isNew:false},
+            ],
+            resources:['Jepsen.io – real database consistency analysis','Peter Bailis blog: Consistency Models','Kyle Kingsbury\'s talks']
+          },
+          {
+            name:'Consensus algorithms', icon:'🗳️', iconClass:'icon-blue', tag:'Critical', tagClass:'tag-critical', isNew:false,
+            items:[
+              {t:'Paxos: single-decree and multi-Paxos, leader leases', isNew:false},
+              {t:'Raft: leader election, log replication, safety proofs', isNew:false},
+              {t:'Zab: ZooKeeper atomic broadcast, epoch-based leadership', isNew:false},
+              {t:'Viewstamped Replication (VR): view changes and recovery', isNew:false},
+              {t:'Quorum-based voting: quorum intersection property', isNew:false},
+              {t:'BFT consensus: PBFT and modern variants', isNew:false},
+              {t:'Implementing Raft from scratch — the real test', isNew:false},
+            ],
+            resources:['Raft paper (Ongaro & Ousterhout, 2014)','Paxos Made Simple – Lamport','MIT 6.824 Lab 2: Raft']
+          },
+          {
+            name:'Coordination algorithms', icon:'🎛️', iconClass:'icon-coral', tag:'Critical', tagClass:'tag-critical', isNew:true,
+            items:[
+              {t:'Distributed mutual exclusion: Lamport, Ricart-Agrawala', isNew:true},
+              {t:'Token ring algorithm for mutual exclusion', isNew:true},
+              {t:'Chandy-Lamport snapshot algorithm for consistent global state', isNew:true},
+              {t:'Barrier synchronization patterns across distributed nodes', isNew:true},
+              {t:'Distributed deadlock detection: edge-chasing, probe algorithms', isNew:false},
+              {t:'Leader election algorithms: bully, ring-based', isNew:false},
+            ],
+            resources:['Chandy-Lamport 1985 paper','Distributed Systems – van Steen & Tanenbaum','MIT 6.824 lectures']
+          },
+          {
+            name:'Replication & fault tolerance', icon:'🔄', iconClass:'icon-green', tag:'Core', tagClass:'tag-core', isNew:false,
+            items:[
+              {t:'Single-leader, multi-leader, and leaderless replication', isNew:false},
+              {t:'Replication lag and stale reads in async replication', isNew:false},
+              {t:'Quorum reads/writes: R + W > N for strong consistency', isNew:false},
+              {t:'Sloppy quorums and hinted handoffs', isNew:false},
+              {t:'Chain replication: throughput and latency trade-offs', isNew:false},
+              {t:'Log-based vs state machine replication', isNew:false},
+            ],
+            resources:['DDIA Ch.5 – Kleppmann','Chain Replication paper','Dynamo paper (DeCandia et al., 2007)']
+          },
+        ]
+      }
+    ],
+    milestones:[
+      {t:'Complete all labs in MIT 6.824: MapReduce, Raft, sharded KV, ZooKeeper', c:'#4ade80'},
+      {t:'Implement Raft from the paper without looking at reference code', c:'#4ade80'},
+      {t:'Implement the Chandy-Lamport snapshot algorithm for a toy system', c:'#4ade80'},
+      {t:'Read and summarize 5 classic distributed systems papers', c:'#4ade80'},
+    ]
+  },
+
+  {
+    id:'p3', label:'Phase 3', title:'Databases & Storage Systems', duration:'3–4 months',
+    accentColor:'#c084fc',
+    desc:'Storage is at the heart of every distributed system. Deep knowledge of database internals separates senior engineers from the rest.',
+    sections:[
+      {
+        label:'Storage engines',
+        topics:[
+          {
+            name:'Storage engine internals', icon:'🗄️', iconClass:'icon-purple', tag:'Essential', tagClass:'tag-essential', isNew:false,
+            items:[
+              {t:'B-tree index structures: node splits, fill factor, clustered vs secondary', isNew:false},
+              {t:'LSM-tree: memtable, SSTables, compaction — leveled vs size-tiered', isNew:false},
+              {t:'Write-ahead logging: physical vs logical logging, checkpoints', isNew:false},
+              {t:'Buffer pool management: replacement policies (LRU-K, clock)', isNew:false},
+              {t:'Page cache policies: dirty page eviction, fsync guarantees', isNew:true},
+              {t:'Bloom filter optimizations: false positive rate tuning', isNew:false},
+              {t:'Data compression techniques: Snappy, LZ4, Zstd trade-offs', isNew:true},
+            ],
+            resources:['Database Internals – Alex Petrov','CMU 15-445 Intro to Databases (YouTube)','RocksDB wiki']
+          },
+          {
+            name:'Database concurrency', icon:'🔀', iconClass:'icon-blue', tag:'Critical', tagClass:'tag-critical', isNew:false,
+            items:[
+              {t:'MVCC: multi-version concurrency control mechanics', isNew:false},
+              {t:'Isolation levels: read uncommitted → serializable', isNew:false},
+              {t:'Lock-based vs MVCC concurrency trade-offs', isNew:false},
+              {t:'Query execution: volcano model, vectorized execution', isNew:false},
+              {t:'Optimistic vs pessimistic concurrency control', isNew:false},
+              {t:'Timestamp ordering and serialization graphs', isNew:false},
+            ],
+            resources:['DDIA Ch.7 – Kleppmann','PostgreSQL documentation – MVCC','CMU 15-721 Advanced Databases']
+          },
+        ]
+      },
+      {
+        label:'Distributed databases',
+        topics:[
+          {
+            name:'Distributed transactions', icon:'💳', iconClass:'icon-red', tag:'Critical', tagClass:'tag-critical', isNew:false,
+            items:[
+              {t:'Two-phase commit (2PC): prepare, commit/abort, failure recovery', isNew:false},
+              {t:'Three-phase commit: adds pre-commit to reduce blocking', isNew:false},
+              {t:'Saga pattern: compensating transactions for long workflows', isNew:false},
+              {t:'Read repair: fixing stale replicas during the read path', isNew:true},
+              {t:'CRDTs: G-counter, PN-counter, OR-set, RGA for text', isNew:false},
+              {t:'Anti-entropy: Merkle trees for replica synchronization', isNew:false},
+            ],
+            resources:['DDIA Ch.9 – Kleppmann','Percolator, Spanner, and Calvin papers','Bailis: Serializability, Linearizability, and Local Transactions']
+          },
+          {
+            name:'NoSQL & NewSQL systems', icon:'📊', iconClass:'icon-amber', tag:'Core', tagClass:'tag-core', isNew:false,
+            items:[
+              {t:'Bigtable: SSTable, memtable, compaction strategies', isNew:false},
+              {t:'Cassandra: ring architecture, token partitioning, gossip protocol', isNew:false},
+              {t:'DynamoDB: consistent hashing, eventual consistency, DAX', isNew:false},
+              {t:'MongoDB replication sets and sharding', isNew:false},
+              {t:'CockroachDB and TiDB: distributed SQL internals', isNew:false},
+              {t:'FoundationDB: multi-model with strict ACID guarantees', isNew:false},
+            ],
+            resources:['Bigtable paper (Chang et al., 2006)','DynamoDB paper (DeCandia et al., 2007)','Cassandra: A Decentralized Structured Storage System']
+          },
+          {
+            name:'Sharding & partitioning', icon:'🧱', iconClass:'icon-teal', tag:'Core', tagClass:'tag-core', isNew:false,
+            items:[
+              {t:'Range partitioning vs hash partitioning trade-offs', isNew:false},
+              {t:'Consistent hashing: virtual nodes and hotspot mitigation', isNew:false},
+              {t:'Rebalancing strategies: fixed partitions, dynamic splitting', isNew:false},
+              {t:'Cross-shard queries and distributed joins', isNew:false},
+              {t:'Hot partition detection and mitigation strategies', isNew:false},
+              {t:'Resharding without downtime: online schema changes', isNew:false},
+            ],
+            resources:['DDIA Ch.6 – Kleppmann','Vitess architecture docs','YouTube Engineering: MySQL sharding at scale']
+          },
+        ]
+      }
+    ],
+    milestones:[
+      {t:'Build a simple LSM-tree key-value store with WAL, memtable and compaction', c:'#c084fc'},
+      {t:'Set up a distributed PostgreSQL cluster, test replication failover', c:'#c084fc'},
+      {t:'Implement a 2PC transaction coordinator with crash recovery', c:'#c084fc'},
+      {t:'Run Jepsen-style consistency tests on a real database', c:'#c084fc'},
+    ]
+  },
+
+  {
+    id:'p4', label:'Phase 4', title:'Infrastructure & Reliability', duration:'3–4 months',
+    accentColor:'#fbbf24',
+    desc:'Real distributed systems run on infrastructure that must tolerate hardware failures, network partitions, and human error. This phase covers the operational dimension.',
+    sections:[
+      {
+        label:'Messaging & communication',
+        topics:[
+          {
+            name:'Distributed messaging systems', icon:'📨', iconClass:'icon-amber', tag:'Essential', tagClass:'tag-essential', isNew:false,
+            items:[
+              {t:'Apache Kafka: partitions, consumer groups, offsets, ISR', isNew:false},
+              {t:'Kafka internals: log compaction, exactly-once semantics, transactions', isNew:false},
+              {t:'Apache Pulsar vs Kafka: segment-based architecture', isNew:false},
+              {t:'RabbitMQ: AMQP, exchanges, routing keys, dead-letter queues', isNew:false},
+              {t:'At-least-once vs at-most-once vs exactly-once delivery', isNew:false},
+              {t:'Backpressure and flow control strategies', isNew:false},
+            ],
+            resources:['Kafka: The Definitive Guide – Shapira et al.','Confluent engineering blog','Apache Kafka internals YouTube series']
+          },
+          {
+            name:'Service meshes & RPC', icon:'🕸️', iconClass:'icon-blue', tag:'Core', tagClass:'tag-core', isNew:false,
+            items:[
+              {t:'gRPC: Protocol Buffers, bidirectional streaming, deadlines, retries', isNew:false},
+              {t:'REST vs gRPC vs GraphQL trade-offs at scale', isNew:false},
+              {t:'Service discovery: Consul, etcd, ZooKeeper', isNew:false},
+              {t:'Envoy proxy: xDS API, circuit breaking, load balancing algorithms', isNew:false},
+              {t:'Istio / Linkerd service mesh architecture', isNew:false},
+              {t:'Mutual TLS between services: certificate rotation, SPIFFE', isNew:false},
+            ],
+            resources:['gRPC documentation + examples','Envoy Proxy documentation','SRE Book – Google (free)']
+          },
+        ]
+      },
+      {
+        label:'Infrastructure & operations',
+        topics:[
+          {
+            name:'Containers & orchestration', icon:'🐳', iconClass:'icon-teal', tag:'Essential', tagClass:'tag-essential', isNew:false,
+            items:[
+              {t:'Docker internals: namespaces, cgroups, overlay filesystem', isNew:false},
+              {t:'Kubernetes architecture: etcd, scheduler, controller manager, API server', isNew:false},
+              {t:'Pod scheduling: resource limits, affinity, taints & tolerations', isNew:false},
+              {t:'Kubernetes networking: CNI, kube-proxy, service types, ingress', isNew:false},
+              {t:'StatefulSets for distributed databases and ordered deployments', isNew:false},
+              {t:'Custom Resource Definitions (CRDs) and operator pattern', isNew:false},
+            ],
+            resources:['Kubernetes in Action – Lukša','CNCF landscape documentation','Kubernetes source code walkthrough']
+          },
+          {
+            name:'Observability & reliability', icon:'📡', iconClass:'icon-green', tag:'Core', tagClass:'tag-core', isNew:false,
+            items:[
+              {t:'The three pillars: logs, metrics, distributed traces', isNew:false},
+              {t:'Prometheus: data model, PromQL, alerting rules and recording rules', isNew:false},
+              {t:'Distributed tracing: OpenTelemetry, Jaeger, Zipkin, sampling strategies', isNew:false},
+              {t:'SLI/SLO/SLA: defining, measuring, and budgeting error rates', isNew:false},
+              {t:'Incident management: runbooks, on-call rotations, post-mortems', isNew:false},
+              {t:'Chaos engineering: Chaos Monkey, Gremlin, Litmus, game days', isNew:false},
+            ],
+            resources:['Site Reliability Engineering – Google (free)','Observability Engineering – Majors et al.','OpenTelemetry documentation']
+          },
+          {
+            name:'Failure modes & resilience', icon:'🛡️', iconClass:'icon-red', tag:'Critical', tagClass:'tag-critical', isNew:false,
+            items:[
+              {t:'Failure taxonomy: crash-stop, crash-recovery, Byzantine', isNew:false},
+              {t:'Circuit breakers: Hystrix / resilience4j — closed, open, half-open', isNew:false},
+              {t:'Bulkhead pattern and thread pool isolation strategies', isNew:false},
+              {t:'Retry with exponential backoff and full jitter', isNew:false},
+              {t:'Timeout strategies: deadline propagation through call chains', isNew:false},
+              {t:'Graceful degradation, fallback caches, and feature flags', isNew:false},
+            ],
+            resources:['Release It! – Nygard','Building Microservices – Newman','Netflix Tech Blog: Chaos Engineering']
+          },
+        ]
+      }
+    ],
+    milestones:[
+      {t:'Deploy a multi-service Kafka pipeline on Kubernetes with observability', c:'#fbbf24'},
+      {t:'Implement circuit breakers, retries, and deadline propagation in a real service', c:'#fbbf24'},
+      {t:'Write a detailed post-mortem for a self-inflicted outage in a test environment', c:'#fbbf24'},
+      {t:'Set up Prometheus + Grafana with meaningful SLO burn-rate alerts', c:'#fbbf24'},
+    ]
+  },
+
+  {
+    id:'p5', label:'Phase 5', title:'Advanced Systems Design', duration:'4–6 months',
+    accentColor:'#fb923c',
+    desc:'Design systems end-to-end at Google / Meta / Amazon scale. Practice architectural thinking, stream processing, performance engineering, and security.',
+    sections:[
+      {
+        label:'Design & architecture',
+        topics:[
+          {
+            name:'Large-scale system design', icon:'🏗️', iconClass:'icon-coral', tag:'Advanced', tagClass:'tag-advanced', isNew:false,
+            items:[
+              {t:'Design a distributed URL shortener at Twitter scale', isNew:false},
+              {t:'Design a global CDN with edge cache invalidation', isNew:false},
+              {t:'Design YouTube\'s video ingestion and serving pipeline', isNew:false},
+              {t:'Design a real-time multiplayer game server', isNew:false},
+              {t:'Design a distributed job scheduler (like AWS Batch)', isNew:false},
+              {t:'Design a globally distributed SQL database with ACID', isNew:false},
+            ],
+            resources:['System Design Interview – Alex Xu (Vol 1 & 2)','High Scalability blog','Uber, Stripe, Discord, Cloudflare engineering blogs']
+          },
+          {
+            name:'Distributed coordination patterns', icon:'🎯', iconClass:'icon-amber', tag:'Advanced', tagClass:'tag-advanced', isNew:false,
+            items:[
+              {t:'Leader election patterns beyond Raft: lease-based, external', isNew:false},
+              {t:'Distributed locking: Redlock analysis, fencing tokens', isNew:false},
+              {t:'Distributed rate limiting: token bucket, sliding window log', isNew:false},
+              {t:'Distributed caching: consistent hashing with Redis Cluster', isNew:false},
+              {t:'ZooKeeper recipes: barriers, queues, configuration service', isNew:false},
+              {t:'etcd: watch API, optimistic concurrency, lease TTLs', isNew:false},
+            ],
+            resources:['ZooKeeper: Wait-free Coordination paper','Kleppmann: How to do distributed locking','Is Redlock Safe? debate']
+          },
+        ]
+      },
+      {
+        label:'Processing & performance',
+        topics:[
+          {
+            name:'Stream & batch processing', icon:'🌊', iconClass:'icon-blue', tag:'Advanced', tagClass:'tag-advanced', isNew:false,
+            items:[
+              {t:'MapReduce: the original big data paradigm and its limitations', isNew:false},
+              {t:'Apache Spark: RDDs, DataFrames, Spark Streaming', isNew:false},
+              {t:'Apache Flink: event time, watermarks, stateful streaming, checkpoints', isNew:false},
+              {t:'Lambda vs Kappa architecture trade-offs', isNew:false},
+              {t:'Dataflow model: windows, triggers, accumulation modes', isNew:false},
+              {t:'Exactly-once processing in streaming systems', isNew:false},
+            ],
+            resources:['The Dataflow Model paper (Akidau et al., 2015)','Streaming Systems – Akidau, Chernyak, Lax','Apache Flink documentation']
+          },
+          {
+            name:'Performance engineering', icon:'🚀', iconClass:'icon-green', tag:'Advanced', tagClass:'tag-advanced', isNew:false,
+            items:[
+              {t:'Profiling distributed systems: latency percentiles (p99, p999)', isNew:false},
+              {t:'Little\'s Law and queuing theory fundamentals', isNew:false},
+              {t:'Load testing: designing realistic traffic models with variance', isNew:false},
+              {t:'Capacity planning: forecasting growth, headroom, rightsizing', isNew:false},
+              {t:'Cache hierarchy: L1/L2/L3, TLB, NUMA-aware memory access', isNew:false},
+              {t:'Zero-copy I/O: sendfile, io_uring, DPDK for line-rate networking', isNew:false},
+            ],
+            resources:['Systems Performance – Brendan Gregg','Latency Numbers Every Engineer Should Know','LMAX Disruptor technical paper']
+          },
+          {
+            name:'Security in distributed systems', icon:'🔐', iconClass:'icon-purple', tag:'Core', tagClass:'tag-core', isNew:false,
+            items:[
+              {t:'Zero-trust networking: no implicit trust between services', isNew:false},
+              {t:'mTLS between microservices: SPIFFE/SPIRE, certificate rotation', isNew:false},
+              {t:'OAuth 2.0 / OIDC in distributed environments', isNew:false},
+              {t:'Secrets management: HashiCorp Vault, AWS Secrets Manager', isNew:false},
+              {t:'Supply chain security: SBOMs, container signing (Sigstore)', isNew:false},
+              {t:'Distributed audit logging and tamper-evident append-only logs', isNew:false},
+            ],
+            resources:['BeyondCorp – Google zero-trust paper','HashiCorp Vault documentation','CNCF Security Whitepaper']
+          },
+        ]
+      }
+    ],
+    milestones:[
+      {t:'Design and implement a mini distributed job scheduler end-to-end', c:'#fb923c'},
+      {t:'Complete 20+ system design mock interviews across different domains', c:'#fb923c'},
+      {t:'Contribute to an open-source distributed system (Kafka, TiKV, etcd, etc.)', c:'#fb923c'},
+      {t:'Write a production design document for a real system you\'ve built at scale', c:'#fb923c'},
+    ]
+  },
+
+  {
+    id:'p6', label:'Phase 6', title:'Specialization & Mastery', duration:'Ongoing',
+    accentColor:'#a99fff',
+    desc:'Pick a deep specialization and start contributing to the field. The goal shifts from learning to building, publishing, and leading.',
+    sections:[
+      {
+        label:'Research & community',
+        topics:[
+          {
+            name:'Research & papers', icon:'📚', iconClass:'icon-blue', tag:'Mastery', tagClass:'tag-mastery', isNew:false,
+            items:[
+              {t:'Read 2–3 systems papers per month: OSDI, SOSP, NSDI, VLDB, EuroSys', isNew:false},
+              {t:'Write public summaries and critiques to cement understanding', isNew:false},
+              {t:'Reproduce experiments from important papers', isNew:false},
+              {t:'Follow researchers: Kleppmann, Kingsbury, Bailis, Lamport', isNew:false},
+              {t:'Engage in communities: lobste.rs, HN, Papers We Love', isNew:false},
+              {t:'Track emerging areas: disaggregated storage, serverless, ML systems', isNew:false},
+            ],
+            resources:['OSDI / SOSP / NSDI proceedings (free)','The Morning Paper (adriancolyer.org)','Papers We Love – distributed systems chapter']
+          },
+          {
+            name:'Open source contribution', icon:'🌱', iconClass:'icon-green', tag:'Mastery', tagClass:'tag-mastery', isNew:false,
+            items:[
+              {t:'Contribute to etcd, TiKV, CockroachDB, or FoundationDB', isNew:false},
+              {t:'Fix real bugs in consensus or replication layers', isNew:false},
+              {t:'Review pull requests in major distributed systems projects', isNew:false},
+              {t:'Write RFC proposals for protocol changes', isNew:false},
+              {t:'Present at KubeCon, OSDI, local SRE / distributed systems meetups', isNew:false},
+            ],
+            resources:['TiKV Contributor Guide','etcd Contributing docs','CockroachDB internals wiki']
+          },
+        ]
+      },
+      {
+        label:'Specialization paths',
+        topics:[
+          {
+            name:'Deep specialization options', icon:'🎯', iconClass:'icon-coral', tag:'Advanced', tagClass:'tag-advanced', isNew:false,
+            items:[
+              {t:'Database internals: build your own OLTP or OLAP engine', isNew:false},
+              {t:'Consensus & coordination: CRDT research, novel algorithms', isNew:false},
+              {t:'ML systems: Ray, parameter servers, distributed training (NCCL)', isNew:false},
+              {t:'Edge computing: CDN internals, latency optimization at the edge', isNew:false},
+              {t:'Cloud infrastructure: hyperscaler storage and custom networking', isNew:false},
+              {t:'Formal verification: TLA+ for distributed protocol correctness', isNew:false},
+            ],
+            resources:['TLA+ Video Course – Leslie Lamport','Database Internals – Petrov','Ray documentation and architecture docs']
+          },
+          {
+            name:'Staff+ engineering skills', icon:'🧭', iconClass:'icon-teal', tag:'Leadership', tagClass:'tag-leadership', isNew:false,
+            items:[
+              {t:'Writing technical design documents: RFCs, ADRs, PRFAQs', isNew:false},
+              {t:'Leading incident response and blameless post-mortems', isNew:false},
+              {t:'Capacity planning and cost optimization at scale', isNew:false},
+              {t:'Mentoring junior engineers on distributed systems thinking', isNew:false},
+              {t:'Communicating trade-offs to product and non-technical stakeholders', isNew:false},
+              {t:'Setting engineering strategy for reliability and scalability', isNew:false},
+            ],
+            resources:['Staff Engineer – Will Larson','An Elegant Puzzle – Will Larson','Google Engineering Practices documentation']
+          },
+        ]
+      }
+    ],
+    milestones:[
+      {t:'Merge a non-trivial PR into a top-tier open source distributed system', c:'#a99fff'},
+      {t:'Give a technical talk at a conference or meetup', c:'#a99fff'},
+      {t:'Write a design document or post-mortem that becomes a team reference', c:'#a99fff'},
+      {t:'Verify a distributed protocol you designed using TLA+', c:'#a99fff'},
+    ]
+  }
+];
+
+let cur = 0;
+
+function tagColor(phase) {
+  const map = {p1:'#60a5fa',p2:'#4ade80',p3:'#c084fc',p4:'#fbbf24',p5:'#fb923c',p6:'#a99fff'};
+  return map[phase] || '#60a5fa';
+}
+
+function renderNav() {
+  document.getElementById('phaseNav').innerHTML = phases.map((p,i) =>
+    `<button class="pnav-btn ${i===cur?'active':''}" onclick="goTo(${i})">${p.label}: ${p.title}</button>`
+  ).join('');
+}
+
+function renderMain() {
+  const p = phases[cur];
+  let html = `
+    <div class="phase-section active">
+      <div class="phase-header">
+        <span class="phase-number">${p.label}</span>
+        <div class="phase-meta">
+          <div class="phase-title">${p.title}</div>
+          <div class="phase-duration">${p.duration}</div>
+        </div>
+      </div>
+      <div class="phase-desc">${p.desc}</div>
+  `;
+
+  p.sections.forEach(sec => {
+    html += `<div class="section-label">${sec.label}</div>`;
+    html += `<div class="topic-grid">`;
+    sec.topics.forEach((t, ti) => {
+      const hasNew = t.isNew || t.items.some(i => i.isNew);
+      html += `
+        <div class="tcard" id="tc${cur}_${ti}" onclick="tog(${cur},${ti})">
+          <div class="tcard-head">
+            <div class="tcard-icon ${t.iconClass}">${t.icon}</div>
+            <span class="tcard-name">${t.name}${hasNew ? '<span class="new-badge">+new</span>' : ''}</span>
+            <span class="tcard-tag ${t.tagClass}">${t.tag}</span>
+            ${svg_chevron}
+          </div>
+          <div class="tcard-body">
+            ${t.items.map(it => `<div class="titem${it.isNew?' new-item':''}">${it.t}</div>`).join('')}
+            ${t.resources ? `<div class="res-row">${t.resources.map(r=>`<span class="res-chip">${r}</span>`).join('')}</div>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  });
+
+  html += `
+    <div class="milestones-section">
+      <div class="ms-title">Phase milestones</div>
+      <div class="ms-list">
+        ${p.milestones.map(m=>`<div class="ms-item"><div class="ms-dot" style="background:${m.c}"></div><span>${m.t}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="phase-foot">
+      <button class="foot-btn" onclick="goTo(${cur-1})" ${cur===0?'disabled':''}>← Previous</button>
+      <div class="prog">${phases.map((_,i)=>`<div class="prog-dot ${i<=cur?'on':''}"></div>`).join('')}</div>
+      <button class="foot-btn pri" onclick="goTo(${cur+1})" ${cur===phases.length-1?'disabled':''}>Next →</button>
+    </div>
+  </div>`;
+
+  document.getElementById('main').innerHTML = html;
+}
+
+function tog(pi, ti) {
+  const el = document.getElementById(`tc${pi}_${ti}`);
+  if (el) el.classList.toggle('open');
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= phases.length) return;
+  cur = idx;
+  renderNav();
+  renderMain();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+renderNav();
+renderMain();
+</script>
+</body>
+</html>
