@@ -10,10 +10,10 @@ Maintainability is the ease of adding, changing, or removing features. It is inv
     ![Figure 3-4: A layered architecture diagram where a single change impacts all layers, illustrating an application-level change scope.](figure-3-4.png)
 
 *   **Service-Based (Domain-Level Scope):** In a service-based architecture, change is isolated to a single, coarse-grained domain service, making it easier to manage.
-    ![Figure 3-5: A service-based architecture where a change is contained within a single "Wishlist Service."](figure-3-5.png)
+    ![Figure 3-5: A service-based architecture where a change is contained within a single "Wishlist Service."](architecture_the_hard_parts/figure-3-5.png)
 
 *   **Microservices (Function-Level Scope):** In a microservices architecture, the change is isolated to a single, fine-grained service, offering the highest maintainability.
-    ![Figure 3-6: A microservices architecture where a change is contained within a tiny, single-purpose "Wishlist Expiry Service."](figure-3-6.png)
+    ![Figure 3-6: A microservices architecture where a change is contained within a tiny, single-purpose "Wishlist Expiry Service."](architecture_the_hard_parts/figure-3-6.png)
 
 #### 2. Testability
 
@@ -22,7 +22,7 @@ Testability is the ease and completeness of testing.
 *   **Impact of Modularity:** Modularity drastically reduces the testing scope. Instead of running thousands of tests for a small change in a monolith, you only need to run the small, targeted test suite for the specific service that was changed.
 *   **Warning:** High inter-service communication destroys this benefit. If Service A's functionality requires calls to Service B and C, a change in A now requires testing all three, pushing you back towards monolithic testing complexity.
 
-    ![Figure 3-7: A diagram showing three services. Initially decoupled, testing is isolated. After adding communication between them, the testing scope expands to include all three.](figure-3-7.png)
+    ![Figure 3-7: A diagram showing three services. Initially decoupled, testing is isolated. After adding communication between them, the testing scope expands to include all three.](architecture_the_hard_parts/figure-3-7.png)
 
 #### 3. Deployability
 
@@ -36,7 +36,7 @@ Deployability is the ease, frequency, and risk of deployment.
 *   **Scalability:** The ability to handle a gradual increase in user load over time.
 *   **Elasticity:** The ability to handle sudden, instantaneous spikes in user load.
 
-    ![Figure 3-8: A graph showing the difference between scalability (a smooth, upward-sloping line) and elasticity (a line with sharp, erratic peaks and valleys).](figure-3-8.png)
+    ![Figure 3-8: A graph showing the difference between scalability (a smooth, upward-sloping line) and elasticity (a line with sharp, erratic peaks and valleys).](architecture_the_hard_parts/figure-3-8.png)
 
 *   **Modularity vs. Granularity:** Modularity (breaking the app apart) primarily improves **scalability**. Granularity (making the pieces small) primarily improves **elasticity**, because smaller services have a lower Mean Time To Startup (MTTS) and can be spun up quickly to handle a spike.
 

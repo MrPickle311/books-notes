@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Concurrency in Practice: Rozdział 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f5; /* neutral-100 */
+            color: #27272a; /* neutral-800 */
+            line-height: 1.7;
+        }
+        h2 { scroll-margin-top: 2rem; }
+        h3 { scroll-margin-top: 2rem; }
+        .code-block {
+            background-color: #18181b; /* neutral-900 */
+            color: #e4e4e7; /* neutral-200 */
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .ann { color: #a1a1aa; font-style: italic; } /* annotation */
+        .kw { color: #c084fc; font-weight: 500; } /* keyword */
+        .typ { color: #facc15; } /* type */
+        .str { color: #86efac; } /* string */
+        .err { color: #f87171; font-weight: bold; } /* error */
+        .com { color: #6b7280; font-style: italic; } /* comment */
+        
+        .section-title { font-size: 1.875rem; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-top: 3rem; margin-bottom: 1.5rem; color: #111827; }
+        .subsection-title { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; color: #1f2937; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <header class="mb-14 text-center">
+            <h1 class="text-5xl font-extrabold tracking-tight text-neutral-900 mb-4">Java Concurrency in Practice</h1>
+            <h2 class="text-2xl text-neutral-600 font-medium">Dogłębna analiza: Rozdział 3 - Współdzielenie Obiektów</h2>
+            <div class="w-32 h-1.5 bg-indigo-500 mx-auto mt-8 rounded-full"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+
+            <!-- 3.1 Visibility -->
+            <h2 class="section-title">3.1. Widoczność (Visibility)</h2>
+            <p class="mb-4">W jednowątkowym środowisku zapis i odczyt zmiennej jest przewidywalny. W środowisku wielowątkowym brak synchronizacji sprawia, że wątek czytający może nie zobaczyć zmian wprowadzonych przez wątek piszący. Dowodzi tego klasyczny przykład <code>NoVisibility</code>.</p>
+
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.1. Sharing Variables without Synchronization. Don't Do this.</span>
+<span class="kw">public class</span> <span class="typ">NoVisibility</span> {
+    <span class="kw">private static boolean</span> ready;
+    <span class="kw">private static int</span> number;
+
+    <span class="kw">private static class</span> <span class="typ">ReaderThread</span> <span class="kw">extends</span> <span class="typ">Thread</span> {
+        <span class="kw">public void</span> run() {
+            <span class="kw">while</span> (!ready)
+                Thread.yield();
+            System.out.println(number);
+        }
+    }
+
+    <span class="kw">public static void</span> main(String[] args) {
+        <span class="kw">new</span> ReaderThread().start();
+        number = <span class="str">42</span>;
+        ready = <span class="kw">true</span>;
+    }
+}</code></pre>
+</div>
+            <p class="mb-4 text-neutral-700">Program z Listingu 3.1 może wydrukować 42, może działać w nieskończoność (nie widząc zmiany <code>ready</code>), a z powodu <strong>zmiany kolejności (reordering)</strong> instrukcji przez kompilator/procesor, może wydrukować 0.</p>
+
+
+            <h3 class="subsection-title">3.1.1. Nieświeże dane (Stale Data)</h3>
+            <p class="mb-4">Kiedy wątek czyta zmienną bez synchronizacji, może otrzymać przestarzałą wartość. Listing 3.2 pokazuje klasę nienależącą do bezpiecznych, a Listing 3.3 to jej naprawiona wersja.</p>
+
+<div class="grid md:grid-cols-2 gap-4">
+<div class="code-block mt-0 mb-0">
+<pre><code><span class="com">// Listing 3.2. Non-thread-safe</span>
+<span class="com">// Mutable Integer Holder.</span>
+<span class="ann">@NotThreadSafe</span>
+<span class="kw">public class</span> <span class="typ">MutableInteger</span> {
+    <span class="kw">private int</span> value;
+
+    <span class="kw">public int</span> get() { 
+        <span class="kw">return</span> value; 
+    }
+    <span class="kw">public void</span> set(<span class="kw">int</span> value) { 
+        <span class="kw">this</span>.value = value; 
+    }
+}</code></pre>
+</div>
+<div class="code-block mt-0 mb-0">
+<pre><code><span class="com">// Listing 3.3. Thread-safe </span>
+<span class="com">// Mutable Integer Holder.</span>
+<span class="ann">@ThreadSafe</span>
+<span class="kw">public class</span> <span class="typ">SynchronizedInteger</span> {
+    <span class="ann">@GuardedBy</span>(<span class="str">"this"</span>) 
+    <span class="kw">private int</span> value;
+
+    <span class="kw">public synchronized int</span> get() { 
+        <span class="kw">return</span> value; 
+    }
+    <span class="kw">public synchronized void</span> set(<span class="kw">int</span> v) { 
+        <span class="kw">this</span>.value = v; 
+    }
+}</code></pre>
+</div>
+</div>
+            <p class="mt-4 mb-4 text-sm text-neutral-600"><strong>Uwaga:</strong> Samo dodanie <code>synchronized</code> do metody <code>set</code> w Listingu 3.2 to za mało! Metoda <code>get</code> również musi być zsynchronizowana, aby zablokować odczyt "nieświeżych" danych z cache.</p>
+
+
+            <h3 class="subsection-title">3.1.2. Nieatomowe operacje 64-bitowe</h3>
+            <p class="mb-4 text-neutral-700">Dla zmiennych 32-bitowych Java gwarantuje, że odczytamy chociaż jakąś spójną (nawet jeśli nieświeżą) wartość. Zmienne 64-bitowe (<code>long</code> i <code>double</code>) nie mają tej gwarancji, jeśli nie są <code>volatile</code>. Maszyna wirtualna może zapisać je w <strong>dwóch 32-bitowych operacjach</strong>, prowadząc do "rozerwania" (tearing) - wątek czytający otrzyma połowę nowej i połowę starej wartości.</p>
+
+
+            <h3 class="subsection-title">3.1.3. Blokowanie i widoczność (Locking and Visibility)</h3>
+            <p class="mb-4 text-neutral-700">Blokady nie służą tylko do wzajemnego wykluczania (mutual exclusion). Zapewniają one także widoczność pamięci. Zobrazowano to na słynnym Rysunku 3.1.</p>
+            <div class="bg-white p-8 rounded-xl border border-neutral-200 shadow-sm overflow-x-auto flex justify-center">
+                <svg viewBox="0 0 700 550" class="w-full h-auto max-w-2xl" style="min-width: 600px;">
+                    <defs>
+                        <linearGradient id="gradA" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#e0e7ff;stop-opacity:0.8" /><stop offset="100%" style="stop-color:#818cf8;stop-opacity:0.9" /></linearGradient>
+                        <linearGradient id="gradB" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#818cf8;stop-opacity:0.9" /><stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:0.8" /></linearGradient>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#475569" /></marker>
+                        <marker id="thinarrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748b" /></marker>
+                    </defs>
+                    <polygon points="50,60 350,60 275,260 125,260" fill="url(#gradA)" />
+                    <polygon points="425,280 575,280 650,520 350,520" fill="url(#gradB)" />
+                    <g text-anchor="middle" font-family="sans-serif">
+                        <text x="200" y="40" font-size="16" font-weight="bold" fill="#334155">Thread A</text>
+                        <rect x="125" y="80" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="200" y="105" font-size="14" fill="#1e293b">y = 1</text>
+                        <rect x="125" y="140" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="200" y="165" font-size="14" fill="#1e293b">lock M</text>
+                        <rect x="125" y="200" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="200" y="225" font-size="14" fill="#1e293b">x = 1</text>
+                        <rect x="125" y="260" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="200" y="285" font-size="14" fill="#1e293b">unlock M</text>
+                        <line x1="200" y1="120" x2="200" y2="135" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                        <line x1="200" y1="180" x2="200" y2="195" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                        <line x1="200" y1="240" x2="200" y2="255" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                        <line x1="200" y1="300" x2="200" y2="320" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                    </g>
+                    <g text-anchor="middle" font-family="sans-serif">
+                        <text x="500" y="240" font-size="16" font-weight="bold" fill="#334155">Thread B</text>
+                        <line x1="500" y1="250" x2="500" y2="275" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                        <rect x="425" y="280" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="500" y="305" font-size="14" fill="#1e293b">lock M</text>
+                        <rect x="425" y="340" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="500" y="365" font-size="14" fill="#1e293b">i = x</text>
+                        <rect x="425" y="400" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="500" y="425" font-size="14" fill="#1e293b">unlock M</text>
+                        <rect x="425" y="460" width="150" height="40" fill="white" stroke="#6366f1" stroke-width="1.5" />
+                        <text x="500" y="485" font-size="14" fill="#1e293b">j = y</text>
+                        <line x1="500" y1="320" x2="500" y2="335" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                        <line x1="500" y1="380" x2="500" y2="395" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                        <line x1="500" y1="440" x2="500" y2="455" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                        <line x1="500" y1="500" x2="500" y2="520" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                    </g>
+                    <g font-family="sans-serif" font-size="13" fill="#475569">
+                        <text x="290" y="210">Wszystko przed</text>
+                        <text x="290" y="225">zwolnieniem</text>
+                        <text x="290" y="240">blokady M...</text>
+                        <line x1="285" y1="290" x2="415" y2="290" stroke="#64748b" stroke-width="1.2" marker-end="url(#thinarrow)"/>
+                        <text x="360" y="335">... jest widoczne</text>
+                        <text x="360" y="350">po uzyskaniu</text>
+                        <text x="360" y="365">tej samej</text>
+                        <text x="360" y="380">blokady M</text>
+                    </g>
+                </svg>
+            </div>
+            <p class="mt-4 text-sm text-neutral-600">Schemat pokazujący, że wątek B, wchodząc do tego samego bloku <code>synchronized</code>, gwarantuje sobie widoczność nie tylko zmiennej <code>x</code>, ale też <code>y</code>, które zostało przypisane jeszcze przed blokadą przez wątek A.</p>
+
+
+            <h3 class="subsection-title">3.1.4. Zmienne Volatile</h3>
+            <p class="mb-4 text-neutral-700">Słowo <code>volatile</code> jest słabszą formą synchronizacji. Wymusza pobieranie i zapisywanie zmiennej bezpośrednio w pamięci głównej.</p>
+
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.4. Counting Sheep.</span>
+<span class="kw">volatile boolean</span> asleep;
+
+<span class="kw">while</span> (!asleep)
+    countSomeSheep();</code></pre>
+</div>
+            <p class="mb-4 text-neutral-700"><code>volatile</code> nadaje się świetnie do flag (jak wyżej), ale nie gwarantuje atomowości (np. inkrementacji). Należy go używać, gdy stan zmiennej nie zależy od jej poprzedniej wartości.</p>
+
+
+            <!-- 3.2 Publikacja i Ucieczka -->
+            <h2 class="section-title">3.2. Publikacja i Ucieczka (Publication and Escape)</h2>
+            <p class="mb-4 text-neutral-700">Publikacja to udostępnienie obiektu na zewnątrz. Ucieczka (escape) ma miejsce wtedy, gdy obiekt staje się publiczny przedwcześnie.</p>
+
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.5. Publishing an Object.</span>
+<span class="kw">public static</span> Set&lt;Secret&gt; knownSecrets;
+
+<span class="kw">public void</span> initialize() {
+    knownSecrets = <span class="kw">new</span> HashSet&lt;Secret&gt;();
+}</code></pre>
+</div>
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.6. Allowing Internal Mutable State to Escape. Don't Do this.</span>
+<span class="kw">class</span> <span class="typ">UnsafeStates</span> {
+    <span class="kw">private</span> String[] states = <span class="kw">new</span> String[] { <span class="str">"AK"</span>, <span class="str">"AL"</span> };
+    <span class="kw">public</span> String[] getStates() { <span class="kw">return</span> states; } <span class="com">// Zła praktyka: tablice są modyfikowalne!</span>
+}</code></pre>
+</div>
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.7. Implicitly Allowing the this Reference to Escape. Don't Do this.</span>
+<span class="kw">public class</span> <span class="typ">ThisEscape</span> {
+    <span class="kw">public</span> ThisEscape(EventSource source) {
+        source.registerListener(
+            <span class="kw">new</span> EventListener() {
+                <span class="kw">public void</span> onEvent(Event e) {
+                    doSomething(e); <span class="com">// Wątek zewnętrzny może wywołać to przed końcem konstruktora!</span>
+                }
+            }
+        ); 
+    }
+}</code></pre>
+</div>
+
+            <h3 class="subsection-title">3.2.1. Praktyki bezpiecznej konstrukcji</h3>
+            <p class="mb-4 text-neutral-700">Obejściem problemu z Listingu 3.7 jest ukrycie wywołania startującego w statycznej metodzie fabrykującej, by nie pozwolić na ucieczkę <code>this</code> przed pełną inicjalizacją.</p>
+
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.8. Using a Factory Method to Prevent the this Reference from Escaping.</span>
+<span class="kw">public class</span> <span class="typ">SafeListener</span> {
+    <span class="kw">private final</span> EventListener listener;
+
+    <span class="kw">private</span> SafeListener() {
+        listener = <span class="kw">new</span> EventListener() {
+            <span class="kw">public void</span> onEvent(Event e) { doSomething(e); }
+        };
+    }
+
+    <span class="kw">public static</span> SafeListener newInstance(EventSource source) {
+        SafeListener safe = <span class="kw">new</span> SafeListener();
+        source.registerListener(safe.listener); <span class="com">// Pełne bezpieczeństwo</span>
+        <span class="kw">return</span> safe;
+    }
+}</code></pre>
+</div>
+
+            <!-- 3.3 Thread Confinement -->
+            <h2 class="section-title">3.3. Ograniczenie do wątku (Thread Confinement)</h2>
+            <p class="mb-4 text-neutral-700">Dostęp do modyfikowalnych danych z jednego wątku to prosty sposób na zapewnienie bezpieczeństwa (tzw. zamykanie w wątku).</p>
+
+            <h3 class="subsection-title">3.3.1. Ad-hoc Thread Confinement</h3>
+            <p class="mb-4 text-neutral-700">Podejście nieformalne, opierające się tylko na założeniach programisty (kruche, niepolecane).</p>
+
+            <h3 class="subsection-title">3.3.2. Ograniczenie do stosu (Stack Confinement)</h3>
+            <p class="mb-4 text-neutral-700">Korzystanie z lokalnych zmiennych metody, z których obiekty referencyjne nigdy nie "uciekają".</p>
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.9. Thread Confinement of Local Primitive and Reference Variables.</span>
+<span class="kw">public int</span> loadTheArk(Collection&lt;Animal&gt; candidates) {
+    SortedSet&lt;Animal&gt; animals;
+    <span class="kw">int</span> numPairs = <span class="str">0</span>;
+    Animal candidate = <span class="kw">null</span>;
+
+    <span class="com">// Zmienna animals zablokowana do lokalnego stosu wywołań.</span>
+    animals = <span class="kw">new</span> TreeSet&lt;Animal&gt;(<span class="kw">new</span> SpeciesGenderComparator());
+    animals.addAll(candidates);
+    <span class="com">// ... pętla for, która nie upublicznia 'animals'</span>
+    <span class="kw">return</span> numPairs;
+}</code></pre>
+</div>
+
+            <h3 class="subsection-title">3.3.3. ThreadLocal</h3>
+            <p class="mb-4 text-neutral-700">Mechanizm dający wątkowi odrębną, własną kopię danej zmiennej (często po to, aby zapobiec konieczności stosowania blokad).</p>
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.10. Using ThreadLocal to Ensure thread Confinement.</span>
+<span class="kw">private static</span> ThreadLocal&lt;Connection&gt; connectionHolder
+    = <span class="kw">new</span> ThreadLocal&lt;Connection&gt;() {
+        <span class="kw">public</span> Connection initialValue() {
+            <span class="kw">return</span> DriverManager.getConnection(DB_URL);
+        }
+};
+
+<span class="kw">public static</span> Connection getConnection() {
+    <span class="kw">return</span> connectionHolder.get();
+}</code></pre>
+</div>
+
+            <!-- 3.4 Immutability -->
+            <h2 class="section-title">3.4. Niezmienność (Immutability)</h2>
+            <p class="mb-4 text-neutral-700">Obiekty całkowicie niezmienne są bezpieczne i niewrażliwe na błędy współbieżności.</p>
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.11. Immutable Class Built Out of Mutable Underlying Objects.</span>
+<span class="ann">@Immutable</span>
+<span class="kw">public final class</span> <span class="typ">ThreeStooges</span> {
+    <span class="kw">private final</span> Set&lt;String&gt; stooges = <span class="kw">new</span> HashSet&lt;String&gt;();
+
+    <span class="kw">public</span> ThreeStooges() {
+        stooges.add(<span class="str">"Moe"</span>);
+        stooges.add(<span class="str">"Larry"</span>);
+        stooges.add(<span class="str">"Curly"</span>);
+    }
+    <span class="kw">public boolean</span> isStooge(String name) {
+        <span class="kw">return</span> stooges.contains(name);
+    }
+}</code></pre>
+</div>
+
+            <h3 class="subsection-title">3.4.1. Pola Finalne (Final Fields)</h3>
+            <p class="mb-4 text-neutral-700">Użycie słowa kluczowego <code>final</code> jest fundamentalne, ponieważ nadaje tzw. bezpieczeństwo inicjalizacji (Initialization Safety). Programy powinny maksymalizować wykorzystanie <code>final</code> tam, gdzie zmienność nie jest wymagana.</p>
+
+            <h3 class="subsection-title">3.4.2. Użycie Volatile do publikacji niezmiennych obiektów</h3>
+            <p class="mb-4 text-neutral-700">Często chcemy zmienić zbiór powiązanych wartości atomowo bez użycia rygorystycznych blokad. Możemy wtedy zbudować niezmienny kontener i udostępnić go używając zmiennej <code>volatile</code>.</p>
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.12. Immutable Holder for Caching a Number and its Factors.</span>
+<span class="ann">@Immutable</span>
+<span class="kw">class</span> <span class="typ">OneValueCache</span> {
+    <span class="kw">private final</span> BigInteger lastNumber;
+    <span class="kw">private final</span> BigInteger[] lastFactors;
+
+    <span class="kw">public</span> OneValueCache(BigInteger i, BigInteger[] factors) {
+        lastNumber = i;
+        lastFactors = Arrays.copyOf(factors, factors.length);
+    }
+
+    <span class="kw">public</span> BigInteger[] getFactors(BigInteger i) {
+        <span class="kw">if</span> (lastNumber == <span class="kw">null</span> || !lastNumber.equals(i))
+            <span class="kw">return null</span>;
+        <span class="kw">else</span>
+            <span class="kw">return</span> Arrays.copyOf(lastFactors, lastFactors.length);
+    }
+}</code></pre>
+</div>
+
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.13. Caching the Last Result Using a Volatile Reference to an Immutable Holder Object.</span>
+<span class="ann">@ThreadSafe</span>
+<span class="kw">public class</span> <span class="typ">VolatileCachedFactorizer</span> <span class="kw">implements</span> <span class="typ">Servlet</span> {
+    <span class="kw">private volatile</span> OneValueCache cache = <span class="kw">new</span> OneValueCache(<span class="kw">null</span>, <span class="kw">null</span>);
+
+    <span class="kw">public void</span> service(ServletRequest req, ServletResponse resp) {
+        BigInteger i = extractFromRequest(req);
+        BigInteger[] factors = cache.getFactors(i);
+        <span class="kw">if</span> (factors == <span class="kw">null</span>) {
+            factors = factor(i);
+            cache = <span class="kw">new</span> OneValueCache(i, factors); <span class="com">// Publikacja nowego obiektu</span>
+            encodeIntoResponse(resp, factors);
+        }
+    }
+}</code></pre>
+</div>
+
+            <!-- 3.5 Safe Publication -->
+            <h2 class="section-title">3.5. Bezpieczna Publikacja (Safe Publication)</h2>
+            <p class="mb-4 text-neutral-700">Kiedy zechcesz opublikować stan modyfikowalny, standardowa publikacja (jak poniżej) całkowicie narusza bezpieczeństwo.</p>
+
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.14. Publishing an Object without Adequate Synchronization. Don't Do this.</span>
+<span class="com">// Niewłaściwa (niebezpieczna) publikacja</span>
+<span class="kw">public</span> Holder holder;
+
+<span class="kw">public void</span> initialize() {
+    holder = <span class="kw">new</span> Holder(<span class="str">42</span>);
+}</code></pre>
+</div>
+
+            <h3 class="subsection-title">3.5.1. Niewłaściwa publikacja (Improper Publication: When Good Objects Go Bad)</h3>
+            <p class="mb-4 text-neutral-700">W wyniku optymalizacji pamięci iny wątek może zobaczyć, że obiekt <code>holder</code> ma przypisaną referencję, ale jego wewnętrzne pola mogą być niewidoczne w pełni zainicjowane! Ten błąd z Listingu 3.14 spowodowałby katastrofę w poniższej klasie:</p>
+<div class="code-block">
+<pre><code><span class="com">// Listing 3.15. Class at Risk of Failure if Not Properly Published.</span>
+<span class="kw">public class</span> <span class="typ">Holder</span> {
+    <span class="kw">private int</span> n;
+
+    <span class="kw">public</span> Holder(<span class="kw">int</span> n) { <span class="kw">this</span>.n = n; }
+
+    <span class="kw">public void</span> assertSanity() {
+        <span class="kw">if</span> (n != n)
+            <span class="kw">throw new</span> AssertionError(<span class="str">"This statement is false."</span>);
+    }
+}</code></pre>
+</div>
+
+            <h3 class="subsection-title">3.5.2. Niezmienne obiekty i bezpieczeństwo inicjalizacji</h3>
+            <p class="mb-4 text-neutral-700">Gdyby pola w obiekcie <code>Holder</code> były oznaczone jako <code>final</code> (obiekt byłby <em>immutable</em>), mechanizm modelu pamięci Javy (Initialization Safety) zagwarantowałby prawidłowe odczytanie stanu po konstrukcji, nawet gdy sam proces publikacji w 3.14 odbyłby się w wyniku wyścigu danych (data race).</p>
+
+            <h3 class="subsection-title">3.5.3. Idiomy bezpiecznej publikacji (Safe Publication Idioms)</h3>
+            <p class="mb-4 text-neutral-700">Dla obiektów modyfikowalnych, aby zapewnić współbieżne bezpieczeństwo podczas ich udostępniania innym wątkom, publikacja i stan obiektu muszą być widoczne dla obserwatora równocześnie. Należy to zrealizować poprzez:</p>
+            <ul class="list-disc pl-5 space-y-2 text-neutral-700 mb-6 bg-white p-4 border border-neutral-200 rounded-lg">
+                <li>Inicjalizację referencji wewnątrz bloków statycznych.</li>
+                <li>Przechowanie referencji w polu klasy zdefiniowanym jako <code>volatile</code> lub <code>AtomicReference</code>.</li>
+                <li>Przechowanie referencji jako pole <code>final</code>.</li>
+                <li>Użycie wewnętrznego zabezpieczenia przy zapisie (np. umieszczenie obiektu w zsynchronizowanej kolekcji czy `ConcurrentHashMap`).</li>
+            </ul>
+
+            <h3 class="subsection-title">3.5.4. Obiekty efektywnie niezmienne (Effectively Immutable Objects)</h3>
+            <p class="mb-4 text-neutral-700">Jeśli opublikujesz obiekt bezpiecznie za pomocą powyższych idiomów, ale <strong>nie planujesz go później modyfikować</strong> w kodzie (np. wrzucasz obiekt <code>Date</code> do kolekcji bez zamiaru jego modyfikacji po publikacji), obiekt taki nazywamy <em>efektywnie niezmiennym</em>. Traktujemy go jak immutable i nie wymaga on dalszej synchronizacji po fazie bezpiecznej publikacji.</p>
+
+            <h3 class="subsection-title">3.5.5. Obiekty modyfikowalne (Mutable Objects)</h3>
+            <p class="mb-4 text-neutral-700">Jeśli opublikowany obiekt na pewno będzie zmieniany w przyszłości, to bezpieczna publikacja 3.5.3 chroni nas tylko i wyłącznie na moment przekazania tego obiektu (aby nikt nie odczytał w połowie zainicjalizowanego bytu). Każdą następną operację modyfikowania czy odczytu należy dodatkowo osłonić poprzez synchronizację np. przy pomocy słowa kluczowego <code>synchronized</code> lub własnej blokady <code>Lock</code>.</p>
+
+            <h3 class="subsection-title">3.5.6. Bezpieczne współdzielenie obiektów (Sharing Objects Safely) - Reguły</h3>
+            <p class="mb-4 text-neutral-700">Autorzy zamykają rozdział, porządkując wszystkie te metody w 4 fundamentalnych wytycznych projektowych (złotych zasadach JCiP):</p>
+            <div class="grid sm:grid-cols-2 gap-4 mt-6">
+                <div class="bg-indigo-50 p-4 rounded border border-indigo-100">
+                    <strong class="text-sm block mb-1 text-indigo-900">1. Ograniczone do wątku (Thread-confined)</strong>
+                    <span class="text-sm text-indigo-800">Obiekt w całości znajduje się we władaniu wyłącznego dla siebie wątku.</span>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded border border-indigo-100">
+                    <strong class="text-sm block mb-1 text-indigo-900">2. Współdzielone, tylko do odczytu (Shared read-only)</strong>
+                    <span class="text-sm text-indigo-800">Obejmuje obiekty w pełni niezmienne oraz efektywnie niezmienne. Wolne od blokad.</span>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded border border-indigo-100">
+                    <strong class="text-sm block mb-1 text-indigo-900">3. Współdzielone, bezpieczne (Shared thread-safe)</strong>
+                    <span class="text-sm text-indigo-800">Obiekty realizujące w sobie odpowiednie założenia synchronizacyjne (np. <code>java.util.concurrent</code>).</span>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded border border-indigo-100">
+                    <strong class="text-sm block mb-1 text-indigo-900">4. Chronione (Guarded)</strong>
+                    <span class="text-sm text-indigo-800">Dostęp osłonięty jest poprzez konkretną blokadę narzuconą na kod kliencki lub klasę bazową.</span>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>

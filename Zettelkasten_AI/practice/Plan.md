@@ -1,3 +1,18 @@
+~~Dokończ projekty:~~
+- ~~batch + artykuł jakiś na ten temat~~
+
+Przeczytaj książki pod kątem visy:
+- security
+- web network performance
+- ~~spring security~~
+
+Dokończ projekty:
+- book course converter
+
+Dokończ integrację Twoich notatek i ich synchronizację na obsidianie
+
+Binzesiwo
+
 Memorize:
 - DDIA
 - postgres books

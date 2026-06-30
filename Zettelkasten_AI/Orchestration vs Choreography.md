@@ -1,7 +1,7 @@
 
 These are the two fundamental patterns for coordinating workflows.
 
-![Figure 11-2: A side-by-side comparison. Orchestration shows services communicating through a central "Orchestrator." Choreography shows services communicating directly with each other.](figure-11-2.png)
+![Figure 11-2: A side-by-side comparison. Orchestration shows services communicating through a central "Orchestrator." Choreography shows services communicating directly with each other.](architecture_the_hard_parts/figure-11-2.png)
 
 ### Orchestration Communication Style
 

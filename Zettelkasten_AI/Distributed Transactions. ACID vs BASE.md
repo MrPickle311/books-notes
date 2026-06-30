@@ -3,7 +3,7 @@ Once ownership is established, transactions spanning multiple services become a 
 #### ACID Transactions
 ACID (Atomicity, Consistency, Isolation, Durability) properties define a traditional, single-database transaction. All operations succeed or all fail as a single unit of work.
 
-![Figure 9-11: An illustration of an ACID transaction. An error inserting billing data causes the prior inserts to the profile and contract tables to be rolled back automatically.](figure-9-11.png)
+![Figure 9-11: An illustration of an ACID transaction. An error inserting billing data causes the prior inserts to the profile and contract tables to be rolled back automatically.](architecture_the_hard_parts/figure-9-11.png)
 
 #### BASE Transactions (Distributed)
 In a distributed architecture, a business request spanning multiple services is a **distributed transaction** and **cannot be ACID**. Instead, it has **BASE** properties:
