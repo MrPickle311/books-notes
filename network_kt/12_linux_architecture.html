@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompendium Sieci - Rozdział 12: Wirtualizacja w Linuksie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#d946ef', /* fuchsia-500 */
+                        secondary: '#10b981', /* emerald-500 */
+                        dark: '#0f172a', /* slate-900 */
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-2xl;
+            }
+            .diagram-box {
+                @apply bg-white border-2 border-slate-200 rounded-xl p-4 shadow-sm relative;
+            }
+            .cable-flow {
+                stroke-dasharray: 10;
+                animation: dashFlow 1s linear infinite;
+            }
+            @keyframes dashFlow {
+                to { stroke-dashoffset: -20; }
+            }
+            .ebpf-pulse {
+                animation: bpfPulse 2s infinite;
+            }
+            @keyframes bpfPulse {
+                0% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0.6); }
+                70% { box-shadow: 0 0 0 15px rgba(217, 70, 239, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0); }
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-fuchsia-200 selection:text-fuchsia-900">
+
+    <!-- Nawigacja boczna -->
+    <nav class="fixed hidden lg:block w-64 h-screen border-r border-slate-200 bg-white pt-8 px-6 overflow-y-auto z-50">
+        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <i class="fa-brands fa-linux text-fuchsia-500"></i>
+            Sieci dla DSE
+        </h2>
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Rozdział 12</div>
+        <ul class="space-y-4 text-sm font-medium text-slate-600">
+            <li><a href="#intro" class="hover:text-fuchsia-600 transition-colors">Wprowadzenie (Magia Linuksa)</a></li>
+            <li><a href="#netns" class="hover:text-fuchsia-600 transition-colors">12.1. Network Namespaces (netns)</a></li>
+            <li><a href="#veth" class="hover:text-fuchsia-600 transition-colors">12.2. Virtual Ethernet (veth)</a></li>
+            <li><a href="#bridge" class="hover:text-fuchsia-600 transition-colors">12.3. Linux Bridge (docker0)</a></li>
+            <li><a href="#netfilter" class="hover:text-fuchsia-600 transition-colors">12.4. iptables i Netfilter</a></li>
+            <li><a href="#tuntap" class="hover:text-fuchsia-600 transition-colors">12.5. Interfejsy TUN/TAP</a></li>
+            <li><a href="#ebpf" class="hover:text-fuchsia-600 transition-colors">12.6. eBPF (Super-prędkość)</a></li>
+        </ul>
+        <div class="mt-10 p-4 bg-fuchsia-50 rounded-xl border border-fuchsia-100">
+            <p class="text-xs text-fuchsia-800 font-semibold"><i class="fa-solid fa-cube mr-1"></i> Kontenery</p>
+            <p class="text-xs text-fuchsia-700 mt-2">Pamiętaj: Kontenery to iluzja. Nie są to maszyny wirtualne (VM). To po prostu zwykłe procesy linuksowe zamknięte w "klatkach" za pomocą m.in. <i>Namespaces</i>.</p>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="lg:ml-64 p-6 lg:p-12 max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header id="intro" class="mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-100 text-fuchsia-800 text-sm font-semibold mb-4">
+                <i class="fa-solid fa-microchip"></i> Rozdział 12
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Architektura Sieciowa Linuksa
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                Aby zrozumieć jak tysiące kontenerów Docker czy Kubernetes komunikują się na jednym serwerze, musimy zajrzeć pod maskę jądra (kernela) Linuksa. System operacyjny potrafi z wirtualnych "klocków" w pamięci RAM zbudować kable, przełączniki (switche) oraz routery.
+            </p>
+        </header>
+
+        <!-- Sekcja 12.1 & 12.2 & 12.3: Netns, Veth i Bridge (Kombinowany schemat) -->
+        <section id="netns" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-box text-blue-500"></i> 12.1-12.3. Fundament Kontenerów: Netns, Veth i Bridge
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                Połączmy trzy najważniejsze koncepcje Linuksa w jeden duży schemat obrazujący, jak Docker daje dostęp do internetu Twojej aplikacji.
+            </p>
+
+            <div class="bg-slate-800 p-8 rounded-2xl shadow-xl relative overflow-hidden mb-6 border border-slate-700">
+                <span class="absolute top-2 left-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Fizyczny Serwer (Host Linux) - "Root Namespace"</span>
+                
+                <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 relative">
+                    
+                    <!-- Kontener A (Namespace 1) -->
+                    <div class="bg-slate-100 border-4 border-dashed border-blue-400 p-4 rounded-xl w-full md:w-1/3 relative z-10 text-center">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-300">12.1. Network Namespace</span>
+                        <i class="fa-brands fa-docker text-4xl text-blue-500 mb-2"></i>
+                        <h4 class="font-bold text-slate-800 text-sm">Kontener A</h4>
+                        <p class="text-[9px] text-slate-500 mb-2">Myśli, że ma własną kartę sieciową i własną tablicę routingu (izolacja).</p>
+                        <div class="bg-white border-2 border-emerald-400 text-emerald-800 font-mono text-xs p-1 rounded">
+                            <i class="fa-solid fa-plug text-emerald-500 mr-1"></i>eth0 (172.17.0.2)
+                        </div>
+                    </div>
+
+                    <!-- Kable (VETH) -->
+                    <div class="flex-grow flex items-center justify-center relative min-h-[60px] w-full z-0">
+                        <svg class="absolute inset-0 w-full h-full">
+                            <!-- Kabel A -> Bridge -->
+                            <line x1="0" y1="50%" x2="40%" y2="50%" stroke="#10b981" stroke-width="4" class="cable-flow" />
+                            <!-- Kabel B -> Bridge -->
+                            <line x1="100%" y1="50%" x2="60%" y2="50%" stroke="#10b981" stroke-width="4" class="cable-flow" />
+                        </svg>
+                        <div class="bg-slate-900 border border-emerald-500 text-emerald-400 text-[9px] font-bold px-2 py-1 rounded-full absolute -top-4 shadow-sm text-center">
+                            12.2. Veth Pair<br>(Wirtualny kabel)
+                        </div>
+                    </div>
+
+                    <!-- Linux Bridge -->
+                    <div class="bg-white border-2 border-indigo-500 p-4 rounded-xl w-32 relative z-10 text-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded border border-indigo-300 whitespace-nowrap">12.3. Linux Bridge</span>
+                        <i class="fa-solid fa-network-wired text-3xl text-indigo-500 mb-2"></i>
+                        <h4 class="font-bold text-slate-800 text-xs">docker0<br>(br0)</h4>
+                        <div class="text-[9px] text-slate-500 mt-1 leading-tight">Wirtualny switch L2 w jądrze.</div>
+                        <div class="flex justify-between mt-2 gap-1">
+                            <div class="bg-slate-200 text-slate-600 text-[8px] px-1 rounded border">veth-a</div>
+                            <div class="bg-slate-200 text-slate-600 text-[8px] px-1 rounded border">veth-b</div>
+                        </div>
+                    </div>
+
+                    <!-- Kable B -->
+                    <div class="hidden md:flex flex-grow items-center justify-center relative min-h-[60px] w-full z-0"></div>
+
+                    <!-- Kontener B (Namespace 2) -->
+                    <div class="bg-slate-100 border-4 border-dashed border-blue-400 p-4 rounded-xl w-full md:w-1/3 relative z-10 text-center">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-300">12.1. Network Namespace</span>
+                        <i class="fa-brands fa-docker text-4xl text-blue-500 mb-2"></i>
+                        <h4 class="font-bold text-slate-800 text-sm">Kontener B</h4>
+                        <div class="bg-white border-2 border-emerald-400 text-emerald-800 font-mono text-xs p-1 rounded mt-2">
+                            <i class="fa-solid fa-plug text-emerald-500 mr-1"></i>eth0 (172.17.0.3)
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tłumaczenie koncepcji -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
+                    <div class="bg-slate-900 border border-slate-600 p-3 rounded">
+                        <strong class="text-blue-400 text-[11px] uppercase block mb-1">1. Namespace (Klatka)</strong>
+                        <p class="text-xs text-slate-300 leading-relaxed">System zamyka proces w "Klatce" sieciowej. Kod w Kontenerze A wywołujący <code>ip addr</code> zobaczy tylko <code>eth0</code>, nie widząc fizycznej karty Wi-Fi ani kontenera B.</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-600 p-3 rounded">
+                        <strong class="text-emerald-400 text-[11px] uppercase block mb-1">2. Veth Pair (Wirtualny Kabel)</strong>
+                        <p class="text-xs text-slate-300 leading-relaxed">Interfejsy veth zawsze powstają w parach. Jeden koniec "wkładamy" przez ścianę do klatki (jako <code>eth0</code>), a drugi zostaje u gospodarza (hosta) jako np. <code>veth123abcd</code>.</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-600 p-3 rounded">
+                        <strong class="text-indigo-400 text-[11px] uppercase block mb-1">3. Bridge (Wirtualny Switch)</strong>
+                        <p class="text-xs text-slate-300 leading-relaxed">Samo wystawienie 10 końcówek kabli u gospodarza nic nie da. Wpinamy je wszystkie do wirtualnego switcha (<code>docker0</code>), dzięki czemu kontenery mogą rozmawiać na warstwie L2 (wymieniać ARP).</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sekcja 12.4: Netfilter & iptables -->
+        <section id="netfilter" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-filter text-orange-500"></i> 12.4. Netfilter, iptables (i magia -p 8080:80)
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                Skoro kontener jest odizolowany, to jak ruch z Internetu w ogóle do niego dociera? Linux posiada wbudowany w jądro system przetwarzania pakietów: <strong>Netfilter</strong> (zarządzany komendą <code>iptables</code> lub nowszym <code>nftables</code>). Potrafi on przechwytywać pakiety i modyfikować je w locie (NAT).
+            </p>
+
+            <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden mb-6">
+                
+                <h4 class="font-bold text-center text-slate-800 mb-6">Co robi w jądrze polecenie: <code class="bg-slate-100 px-2 py-1 rounded text-orange-600 border border-slate-300">docker run -p 8080:80 nginx</code> ?</h4>
+                
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    
+                    <!-- Fizyczna Karta (Zewnątrz) -->
+                    <div class="w-32 text-center shrink-0">
+                        <div class="bg-slate-100 border border-slate-300 p-2 rounded-lg">
+                            <i class="fa-solid fa-globe text-3xl text-slate-500 mb-1"></i>
+                            <div class="text-[10px] font-bold">Fizyczna Karta (eth0)</div>
+                            <div class="bg-white text-orange-600 font-mono text-[9px] mt-1 p-1 border rounded">IP: 192.168.1.100<br>Port: 8080</div>
+                        </div>
+                    </div>
+
+                    <!-- Ścieżka Netfilter (iptables) -->
+                    <div class="flex-grow w-full relative h-32 flex flex-col items-center justify-center">
+                        <!-- Rura -->
+                        <div class="w-full h-4 bg-slate-200 relative overflow-hidden rounded-full">
+                            <div class="w-4 h-4 bg-orange-500 rounded-full absolute left-0" style="animation: movePacket 4s linear infinite;"></div>
+                        </div>
+                        
+                        <!-- Hook PREROUTING (NAT) -->
+                        <div class="absolute top-2 bg-orange-100 border-2 border-orange-500 text-orange-900 p-2 rounded-lg shadow-lg text-center w-48 z-10">
+                            <div class="text-[9px] font-bold uppercase text-orange-600 mb-1"><i class="fa-solid fa-gears"></i> iptables (PREROUTING)</div>
+                            <div class="text-[10px] leading-tight">
+                                <span class="line-through text-slate-500">Dst: 192.168.1.100:8080</span><br>
+                                <i class="fa-solid fa-arrow-down text-orange-500 my-0.5"></i> DNAT (Podmiana Celu)<br>
+                                <span class="font-bold text-emerald-600">Dst: 172.17.0.2:80</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wirtualny Bridge / Kontener -->
+                    <div class="w-32 text-center shrink-0">
+                        <div class="bg-emerald-50 border border-emerald-300 p-2 rounded-lg">
+                            <i class="fa-brands fa-docker text-3xl text-emerald-500 mb-1"></i>
+                            <div class="text-[10px] font-bold">Kontener Nginx</div>
+                            <div class="bg-white text-emerald-600 font-mono text-[9px] mt-1 p-1 border rounded">IP: 172.17.0.2<br>Port: 80</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm text-sm">
+                <strong class="text-red-800 block mb-1">Dlaczego K8s iptables to problem przy wielkiej skali?</strong>
+                <p class="text-xs text-slate-700 leading-relaxed">
+                    W Kubernetesie agent <code>kube-proxy</code> odpowiada za mapowanie usług (Services). Domyślnie używa do tego właśnie <code>iptables</code>. Jeśli masz w klastrze 10,000 usług, kube-proxy musi stworzyć 10,000 reguł iptables na <strong>każdym serwerze</strong>. Ponieważ iptables przetwarza reguły liniowo (od góry do dołu, jak lista if-else), przy tysiącach reguł kernel Linuksa zaczyna się dławić i zjada ogromne ilości CPU przy analizie każdego pojedynczego pakietu. (Dlatego wymyślono IPVS, a ostatnio eBPF).
+                </p>
+            </div>
+            
+            <style>
+                @keyframes movePacket {
+                    0% { left: 0; opacity: 1;}
+                    45% { left: 45%; }
+                    55% { left: 55%; background-color: #10b981; } /* Zmiana koloru po NAT */
+                    100% { left: 100%; opacity: 0; background-color: #10b981; }
+                }
+            </style>
+        </section>
+
+        <!-- Sekcja 12.5: TUN/TAP -->
+        <section id="tuntap" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-tunnel-water text-slate-700"></i> 12.5. Interfejsy TUN i TAP (Jak działają VPN-y)
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                Normalnie to system operacyjny buduje pakiety i wysyła je na fizyczną kartę. A co, jeśli chcemy napisać zwykły program w Pythonie czy C++, który otrzyma nagie pakiety IP od systemu i będzie mógł w nich "grzebać" przed wysłaniem? Do tego służą wirtualne interfejsy <strong>TUN (L3 - Pakiety IP)</strong> oraz <strong>TAP (L2 - Ramki Ethernet)</strong>.
+            </p>
+
+            <div class="bg-slate-100 p-6 rounded-2xl border border-slate-300 shadow-sm flex flex-col md:flex-row gap-6 items-center">
+                
+                <!-- Wyjaśnienie -->
+                <div class="w-full md:w-1/2">
+                    <p class="text-xs text-slate-700 leading-relaxed mb-4">
+                        Tak działa np. <strong>OpenVPN</strong> (lub dowolny Custom VPN napisany przez Ciebie). <br><br>
+                        1. System operacyjny wysyła pakiet (np. żądanie do firmowej bazy danych) nie do fizycznej karty, ale do pliku wirtualnego <code>/dev/net/tun</code>.<br>
+                        2. Aplikacja w przestrzeni użytkownika (OpenVPN) nasłuchuje na tym pliku, bierze ten pakiet, szyfruje go i pakuje do własnego, nowego pakietu UDP.<br>
+                        3. Zszyfrowany, nowy pakiet leci do internetu.
+                    </p>
+                </div>
+
+                <!-- Schemat TUN -->
+                <div class="w-full md:w-1/2 bg-white p-4 rounded-xl border border-slate-200 shadow flex flex-col items-center">
+                    
+                    <div class="bg-slate-200 p-2 text-center text-[10px] w-full border-b-2 border-slate-400 font-bold mb-2">Przestrzeń Jądra (Kernel)</div>
+                    <div class="bg-slate-800 text-white font-mono text-[9px] p-1 px-4 rounded mb-2 border-2 border-dashed border-emerald-400">
+                        Wirtualna Karta: <strong>tun0</strong>
+                    </div>
+                    
+                    <i class="fa-solid fa-arrows-up-down text-slate-400 text-xl my-1"></i>
+                    
+                    <div class="bg-indigo-50 border-2 border-indigo-500 p-3 rounded text-center w-full shadow">
+                        <div class="text-[9px] font-bold text-slate-500 uppercase mb-1">Przestrzeń Użytkownika (Userspace)</div>
+                        <i class="fa-solid fa-lock text-2xl text-indigo-600 mb-1"></i>
+                        <h4 class="font-bold text-slate-800 text-xs">Program VPN (np. OpenVPN)</h4>
+                        <div class="text-[8px] bg-white p-1 rounded mt-1 text-slate-600 border border-slate-200">Czyta z pliku -> Szyfruje (AES) -> Śle z powrotem</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sekcja 12.6: eBPF -->
+        <section id="ebpf" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-brands fa-linux text-fuchsia-600"></i> 12.6. eBPF (Przyszłość sieci w Linuksie)
+            </h2>
+            <p class="text-slate-600 mb-4 text-lg font-bold">
+                Jeśli masz zapamiętać tylko jedną rzecz o nowoczesnych chmurach z tego rozdziału, niech to będzie eBPF (Extended Berkeley Packet Filter). To technologia, która zrewolucjonizowała całą inżynierię sieciową i bezpieczeństwo.
+            </p>
+            <p class="text-slate-600 mb-6 text-sm">
+                Przetwarzanie piosenki w formacie mp3 czy pakietu IP przez skomplikowane warstwy systemu operacyjnego (Netfilter, iptables, gniazda) jest <strong>powolne</strong> (często wymaga kopiowania pamięci między jądrem a przestrzenią użytkownika). A co gdybyśmy mogli wrzucić nasz własny kod C/Rust i odpalić go <strong>bezpośrednio na karcie sieciowej lub w najniższej warstwie jądra</strong>, zanim system w ogóle zorientuje się, że dostał pakiet?
+            </p>
+
+            <div class="bg-gradient-to-br from-fuchsia-900 to-indigo-900 text-white p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden mb-8">
+                
+                <!-- Błyskawice w tle -->
+                <i class="fa-solid fa-bolt absolute right-10 top-10 text-9xl text-fuchsia-500 opacity-20"></i>
+                
+                <h3 class="font-bold text-center text-fuchsia-300 mb-8 uppercase tracking-widest text-sm">Przewaga eBPF / XDP nad klasycznym stosem</h3>
+
+                <div class="flex flex-col md:flex-row gap-6 relative z-10">
+                    
+                    <!-- Klasyczna Ścieżka -->
+                    <div class="w-full md:w-1/2 bg-slate-800/80 border border-slate-600 p-4 rounded-xl backdrop-blur">
+                        <div class="text-xs font-bold text-slate-400 mb-3 flex items-center justify-between">
+                            <span>Klasyczna Ścieżka (Powolna)</span>
+                            <i class="fa-solid fa-person-walking text-slate-500"></i>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <div class="bg-slate-700 p-2 text-[10px] text-center rounded text-slate-300 border border-slate-600">Karta Sieciowa (NIC)</div>
+                            <div class="flex justify-center"><i class="fa-solid fa-arrow-down text-slate-500 text-xs"></i></div>
+                            <div class="bg-slate-700 p-2 text-[10px] text-center rounded text-slate-300 border border-slate-600">Alokacja bufora skb (Kosztowne)</div>
+                            <div class="flex justify-center"><i class="fa-solid fa-arrow-down text-slate-500 text-xs"></i></div>
+                            <div class="bg-slate-700 p-2 text-[10px] text-center rounded text-slate-300 border border-slate-600">iptables / Netfilter (Setki reguł)</div>
+                            <div class="flex justify-center"><i class="fa-solid fa-arrow-down text-slate-500 text-xs"></i></div>
+                            <div class="bg-red-900/50 border border-red-500 p-2 text-[10px] font-bold text-red-300 text-center rounded">
+                                DROP (Odrzucenie DDoS)
+                            </div>
+                        </div>
+                        <p class="text-[9px] text-slate-400 mt-2 text-center">Spaliłeś zasoby CPU na obrobienie pakietu, który i tak finalnie odrzuciłeś.</p>
+                    </div>
+
+                    <!-- Ścieżka eBPF -->
+                    <div class="w-full md:w-1/2 bg-fuchsia-950/80 border-2 border-fuchsia-500 p-4 rounded-xl backdrop-blur relative shadow-[0_0_20px_rgba(217,70,239,0.3)]">
+                        <div class="text-xs font-bold text-fuchsia-300 mb-3 flex items-center justify-between">
+                            <span>Ścieżka XDP/eBPF (Błyskawiczna)</span>
+                            <i class="fa-solid fa-rocket text-fuchsia-400"></i>
+                        </div>
+                        
+                        <div class="space-y-1 relative">
+                            <div class="bg-slate-800 p-2 text-[10px] text-center rounded text-slate-300 border border-slate-600 relative overflow-hidden">
+                                Fizyczna Karta Sieciowa (NIC)
+                                <!-- Podczepiony kod eBPF -->
+                                <div class="absolute right-0 top-0 h-full bg-fuchsia-600 px-2 flex items-center text-[9px] font-bold shadow-lg ebpf-pulse border-l border-fuchsia-400">
+                                    <i class="fa-solid fa-code mr-1"></i> Twój Kod eBPF (XDP)
+                                </div>
+                            </div>
+                            
+                            <!-- Błyskawiczna decyzja -->
+                            <div class="flex ml-[80%] pt-2">
+                                <i class="fa-solid fa-arrow-turn-up text-red-500 text-xl transform rotate-90 mt-1 mr-2"></i>
+                                <div class="bg-red-600 border border-red-400 p-1 px-2 text-[9px] font-bold text-white text-center rounded shadow-lg">
+                                    DROP! (w 0.0001 ms)
+                                </div>
+                            </div>
+                            
+                            <!-- Omijanie systemu -->
+                            <div class="opacity-30 mt-4 space-y-1">
+                                <div class="flex justify-center"><i class="fa-solid fa-xmark text-slate-500 text-xs"></i></div>
+                                <div class="bg-slate-800 p-2 text-[10px] text-center rounded text-slate-500 border border-slate-700 border-dashed">Ominięta alokacja pamięci</div>
+                                <div class="bg-slate-800 p-2 text-[10px] text-center rounded text-slate-500 border border-slate-700 border-dashed">Ominięte powolne iptables</div>
+                            </div>
+                        </div>
+                        <p class="text-[9px] text-fuchsia-200 mt-2 text-center">Decyzja zapada <strong>na sterowniku karty sieciowej</strong>. Odrzucasz 10 milionów pakietów na sekundę bez zmęczenia CPU.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-white border-l-4 border-fuchsia-500 p-5 rounded shadow-sm">
+                <h4 class="font-bold text-slate-800 text-sm mb-2">Zastosowania eBPF w nowoczesnej chmurze (DSE)</h4>
+                <ul class="list-disc list-inside text-xs text-slate-600 space-y-2">
+                    <li><strong>Zastąpienie Kube-proxy (Cilium):</strong> Sieci w Kubernetesie oparte na Cilium (który działa całkowicie na eBPF) całkowicie pozbywają się przestarzałych <code>iptables</code>. Ruch między kontenerami nie przechodzi przez stos L3/L4, tylko jest "przesyłany skrótem" z jednego gniazda do drugiego przez kernela, dając kolosalne przyspieszenie wydajności (szczególnie dla gRPC).</li>
+                    <li><strong>Load Balancing:</strong> Facebook i Cloudflare zrzucają ataki DDoS i balansują biliony zapytań HTTP na sekundę używając eBPF/XDP na zwykłych maszynach z Linuksem, zamiast kupować sprzętowe, drogie Load Balancery za miliony dolarów.</li>
+                    <li><strong>Obserwowalność ostateczna (Tracing bez kodu):</strong> EBPF może śledzić każdy pakiet sieciowy, zapytanie do bazy czy otwarcie pliku na poziomie systemu operacyjnego. Narzędzia takie jak <i>Hubble</i> generują piękne mapy ruchu L7 między mikroserwisami w K8s <strong>bez konieczności zmieniania 1 linijki kodu w Twojej aplikacji i bez dodawania ciężkich Sidecarów proxy (jak Envoy)</strong>.</li>
+                </ul>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 mt-12 py-8 text-center text-slate-500 text-sm">
+        <p>Stworzono dla Inżynierów Systemów Rozproszonych.</p>
+    </footer>
+
+</body>
+</html>

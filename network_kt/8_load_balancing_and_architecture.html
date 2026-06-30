@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompendium Sieci - Rozdział 8: Równoważenie Ruchu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-2xl;
+            }
+            .diagram-box {
+                @apply bg-white border-2 border-slate-200 rounded-xl p-4 shadow-sm relative;
+            }
+            .anim-l4-packet {
+                animation: fastPass 2s infinite linear;
+            }
+            .anim-l7-packet {
+                animation: inspectPass 3s infinite ease-in-out;
+            }
+            @keyframes fastPass {
+                0% { transform: translateX(0); opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; transform: translateX(200px); }
+                100% { opacity: 0; transform: translateX(200px); }
+            }
+            @keyframes inspectPass {
+                0% { transform: translateX(0) scale(1); opacity: 0; }
+                15% { opacity: 1; }
+                30% { transform: translateX(80px) scale(1.2); opacity: 1; } /* Zatrzymanie na inspekcję */
+                50% { transform: translateX(80px) scale(1.2); opacity: 1; } /* Czytanie nagłówków */
+                70% { transform: translateX(180px) translateY(-30px) scale(1); opacity: 1; } /* Routing do serwisu A */
+                90% { opacity: 0; }
+                100% { transform: translateX(180px) translateY(-30px) scale(1); opacity: 0; }
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-teal-200 selection:text-teal-900">
+
+    <!-- Nawigacja boczna -->
+    <nav class="fixed hidden lg:block w-64 h-screen border-r border-slate-200 bg-white pt-8 px-6 overflow-y-auto z-50">
+        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired text-teal-500"></i>
+            Sieci dla DSE
+        </h2>
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Rozdział 8</div>
+        <ul class="space-y-4 text-sm font-medium text-slate-600">
+            <li><a href="#intro" class="hover:text-teal-600 transition-colors">Wprowadzenie</a></li>
+            <li><a href="#l4-vs-l7" class="hover:text-teal-600 transition-colors">8.1. L4 vs L7 Load Balancing</a></li>
+            <li><a href="#algorithms" class="hover:text-teal-600 transition-colors">8.2. Algorytmy Balansowania</a></li>
+            <li><a href="#gateways" class="hover:text-teal-600 transition-colors">8.3. Reverse Proxies i X-F-F</a></li>
+            <li><a href="#servicemesh" class="hover:text-teal-600 transition-colors">8.4. Service Mesh (Sidecar)</a></li>
+        </ul>
+        <div class="mt-10 p-4 bg-teal-50 rounded-xl border border-teal-100">
+            <p class="text-xs text-teal-800 font-semibold"><i class="fa-solid fa-scale-balanced mr-1"></i> Skalowanie</p>
+            <p class="text-xs text-teal-700 mt-2">Dzięki Load Balancerom omijamy limity pionowego skalowania (Vertical Scaling) i możemy dokładać tanie maszyny w nieskończoność (Horizontal Scaling).</p>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="lg:ml-64 p-6 lg:p-12 max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header id="intro" class="mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-100 text-teal-700 text-sm font-semibold mb-4">
+                <i class="fa-solid fa-sitemap"></i> Rozdział 8
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Równoważenie Ruchu i Architektura
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                Nikt nie buduje systemów rozproszonych na jednym serwerze. Musimy rozkładać ruch na dziesiątki węzłów. Load Balancery (LB) to "policjanci" kierujący ruchem, ale robią to na bardzo różnych poziomach abstrakcji. Zły wybór LB potrafi zabić wydajność klastra lub uniemożliwić działanie nowoczesnych protokołów (jak gRPC).
+            </p>
+        </header>
+
+        <!-- Sekcja 8.1: L4 vs L7 -->
+        <section id="l4-vs-l7" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-layer-group text-blue-500"></i> 8.1. Różnice: L4 vs L7 Load Balancing
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                To podstawowe pytanie na rekrutacjach dla Architektów i DevOpsów. Wybór warstwy, na której analizujemy pakiety, definiuje kompromis między <strong>szybkością a inteligencją routingu</strong>.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                
+                <!-- L4 Load Balancing -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-2 right-4 text-4xl text-slate-100"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 class="font-bold text-slate-800 mb-2 text-blue-600">L4 Load Balancer (Warstwa Transportowa)</h3>
+                    <ul class="text-xs text-slate-600 space-y-2 mb-6">
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Operuje tylko na <strong>IP i Portach (TCP/UDP)</strong>.</li>
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Nie czyta nagłówków HTTP, nie wie co to ciasteczka. Jest "ślepy" na payload.</li>
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Nie terminując TLS (nie deszyfruje ruchu), jest obłędnie szybki i oszczędza CPU.</li>
+                        <li><i class="fa-solid fa-xmark text-red-500 mr-1"></i> Nie poradzi sobie z gRPC (bo nie potrafi podzielić długiego połączenia HTTP/2 na strumienie).</li>
+                    </ul>
+                    
+                    <div class="relative w-full h-16 bg-slate-50 border border-slate-200 rounded flex items-center">
+                        <div class="w-12 text-center text-[10px] font-bold text-slate-500 z-10 bg-white p-1 ml-2 border rounded">Klient</div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-16 anim-l4-packet shadow z-20"></div>
+                        <div class="absolute left-1/2 -translate-x-1/2 w-12 h-full bg-slate-200 border-x border-slate-300 flex items-center justify-center text-[10px] font-bold opacity-80 z-10">L4 LB</div>
+                        <div class="absolute right-2 top-2 bg-emerald-100 text-emerald-800 text-[10px] font-mono p-1 rounded z-10 border border-emerald-300">Serwer 1</div>
+                    </div>
+                </div>
+
+                <!-- L7 Load Balancing -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-2 right-4 text-4xl text-slate-100"><i class="fa-solid fa-brain"></i></div>
+                    <h3 class="font-bold text-slate-800 mb-2 text-purple-600">L7 Load Balancer (Warstwa Aplikacji)</h3>
+                    <ul class="text-xs text-slate-600 space-y-2 mb-6">
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Zagląda do wnętrza żądania (HTTP, gRPC, WebSocket).</li>
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> <strong>Inteligentny Routing:</strong> Ruch do <code>/api</code> leci do Serwera A, a <code>/images</code> do Serwera B.</li>
+                        <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Potrafi modyfikować nagłówki i realizować uwierzytelnianie (np. sprawdzanie JWT).</li>
+                        <li><i class="fa-solid fa-xmark text-red-500 mr-1"></i> Wymaga deszyfrowania TLS (TLS Termination), co zużywa dużo więcej procesora (CPU).</li>
+                    </ul>
+                    
+                    <div class="relative w-full h-24 bg-slate-50 border border-slate-200 rounded flex items-center">
+                        <div class="w-12 text-center text-[10px] font-bold text-slate-500 z-10 bg-white p-1 ml-2 border rounded">Klient</div>
+                        <div class="w-6 h-4 bg-purple-500 rounded absolute left-16 anim-l7-packet shadow z-20 flex items-center justify-center text-[8px] text-white font-bold">GET</div>
+                        
+                        <div class="absolute left-[80px] w-12 h-full bg-purple-100 border-x border-purple-300 flex flex-col items-center justify-center text-[10px] font-bold text-purple-800 z-10">
+                            <i class="fa-solid fa-magnifying-glass mb-1"></i>L7 LB
+                        </div>
+                        
+                        <div class="absolute right-2 top-2 bg-emerald-100 text-emerald-800 text-[10px] font-mono p-1 rounded z-10 border border-emerald-300">API (/api)</div>
+                        <div class="absolute right-2 bottom-2 bg-orange-100 text-orange-800 text-[10px] font-mono p-1 rounded z-10 border border-orange-300">Img (/img)</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sekcja 8.2: Algorytmy -->
+        <section id="algorithms" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-scale-unbalanced text-orange-500"></i> 8.2. Algorytmy Balansowania Ruchu
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                Skąd Load Balancer wie, do którego z 10 serwerów wysłać Twoje żądanie? Istnieje kilka standardowych algorytmów podejmowania tej decyzji.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <!-- Round Robin -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm text-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-3 text-xl"><i class="fa-solid fa-arrows-spin"></i></div>
+                    <h4 class="font-bold text-slate-800 text-sm mb-2">Round Robin</h4>
+                    <p class="text-[11px] text-slate-600">Rozdaje żądania po kolei: Serwer 1, Serwer 2, Serwer 3 i od nowa. Proste i skuteczne, gdy wszystkie serwery mają taką samą moc obliczeniową, a żądania ważą tyle samo.</p>
+                </div>
+                
+                <!-- Least Connections -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm text-center">
+                    <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-xl"><i class="fa-solid fa-weight-scale"></i></div>
+                    <h4 class="font-bold text-slate-800 text-sm mb-2">Least Connections</h4>
+                    <p class="text-[11px] text-slate-600">Kieruje nowy ruch do serwera, który aktualnie obsługuje <strong>najmniej aktywnych połączeń</strong>. Idealne, gdy niektóre żądania (np. generowanie PDF) trwają bardzo długo i zatykają jeden węzeł.</p>
+                </div>
+
+                <!-- IP Hashing -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm text-center">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mx-auto mb-3 text-xl"><i class="fa-solid fa-fingerprint"></i></div>
+                    <h4 class="font-bold text-slate-800 text-sm mb-2">IP Hashing (Sticky Sessions)</h4>
+                    <p class="text-[11px] text-slate-600">Oblicza hash z IP klienta (lub ciasteczka). Dzięki temu dany użytkownik zawsze trafia na <strong>ten sam serwer</strong>. Wymagane w przestarzałych aplikacjach trzymających stan w pamięci RAM.</p>
+                </div>
+            </div>
+
+            <!-- Warning: Sticky Sessions -->
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm">
+                <h4 class="font-bold text-red-800 text-sm mb-1"><i class="fa-solid fa-triangle-exclamation"></i> Antywzorzec w Chmurze: Sticky Sessions</h4>
+                <p class="text-sm text-slate-700">
+                    Większość chmur promuje podejście <strong>Stateless (Bezstanowe)</strong>. Jeśli używasz Sticky Sessions (wymuszania, by user trafiał na jeden konkretny serwer), tracisz możliwość łatwego ubijania i skalowania węzłów w Kubernetesie. Jeśli serwer A padnie, użytkownik traci zalogowaną sesję! <br>
+                    <strong>Rozwiązanie:</strong> Trzymaj stan (np. sesję koszyka w sklepie) w centralnej bazie <strong>Redis</strong> lub Memcached, tak by każde zapytanie mogło zostać bezproblemowo obsłużone przez dowolny serwer (Round Robin).
+                </p>
+            </div>
+        </section>
+
+        <!-- Sekcja 8.3: Reverse Proxies -->
+        <section id="gateways" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-indigo-500"></i> 8.3. Reverse Proxies, API Gateways i X-Forwarded-For
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                Zwykłe Proxy (Forward Proxy, np. firmowe) ukrywa klienta przed Internetem. <strong>Reverse Proxy (np. Nginx, HAProxy, Envoy) ukrywa Twoje serwery wewnętrzne przed Internetem.</strong> API Gateway to po prostu rozbudowane Reverse Proxy z logiką autoryzacji i limitowaniem zapytań (Rate Limiting).
+            </p>
+
+            <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-xl relative overflow-hidden mb-6 text-white">
+                <h3 class="font-bold text-emerald-400 mb-4 border-b border-slate-700 pb-2">Zagadka: Skąd wziąć IP prawdziwego użytkownika?</h3>
+                
+                <div class="flex flex-col md:flex-row items-center gap-4 text-sm font-mono">
+                    
+                    <!-- Klient -->
+                    <div class="text-center shrink-0">
+                        <i class="fa-solid fa-user text-3xl text-blue-400 mb-2"></i>
+                        <div class="bg-blue-900 border border-blue-500 px-2 py-1 rounded text-[10px]">IP Klienta:<br><strong>203.0.113.5</strong></div>
+                    </div>
+
+                    <div class="hidden md:flex text-slate-500 items-center px-2">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+
+                    <!-- Reverse Proxy -->
+                    <div class="bg-slate-700 border border-slate-500 p-4 rounded-xl text-center flex-grow shadow-lg">
+                        <i class="fa-solid fa-server text-indigo-400 text-2xl mb-2"></i>
+                        <h4 class="font-bold text-slate-200 text-xs uppercase tracking-wider mb-2">Nginx (Reverse Proxy)</h4>
+                        <div class="bg-slate-900 p-2 rounded text-left text-[10px] border border-slate-600 text-slate-300">
+                            1. Przerywam oryginalne TCP.<br>
+                            2. Szyfruję TLS.<br>
+                            3. Tworzę <strong>NOWE połączenie TCP</strong> z backendem.
+                        </div>
+                    </div>
+
+                    <div class="hidden md:flex text-slate-500 items-center px-2">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+
+                    <!-- Backend Service -->
+                    <div class="text-center shrink-0">
+                        <i class="fa-brands fa-node-js text-3xl text-emerald-500 mb-2"></i>
+                        <div class="bg-emerald-900 border border-emerald-500 px-2 py-1 rounded text-[10px]">Twój Serwis<br>(Loguje IP)</div>
+                    </div>
+
+                </div>
+
+                <!-- Problem and Solution block -->
+                <div class="mt-6 bg-slate-900 border-2 border-red-500/50 p-4 rounded-xl">
+                    <p class="text-xs text-slate-300 mb-3">
+                        Gdy Nginx nawiązuje nowe połączenie z Twoim serwisem (Node.js/Java), Twój kod na zapytanie o adres IP klienta dostanie... <strong>wewnętrzne IP Nginxa!</strong> Jeśli użyjesz tego do Rate Limitingu lub ochrony przed DDoS, zablokujesz własny Load Balancer!
+                    </p>
+                    <div class="bg-slate-800 border-l-4 border-emerald-500 p-3 rounded shadow-inner">
+                        <strong class="text-emerald-400 text-xs block mb-1">Rozwiązanie: Nagłówek L7</strong>
+                        <p class="text-[11px] text-slate-400">
+                            Nginx, zanim prześle HTTP dalej, wstrzykuje specjalny nagłówek tekstowy:<br>
+                            <code class="text-emerald-300 font-bold block mt-1 bg-slate-900 p-1 rounded inline-block">X-Forwarded-For: 203.0.113.5</code><br>
+                            Twój kod <strong>musi</strong> szukać tego nagłówka, aby zalogować poprawny adres audytowy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 8.4: Service Mesh -->
+        <section id="servicemesh" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-network-wired text-teal-500"></i> 8.4. Service Mesh i Wzorzec Sidecar
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                W klasycznym mikroserwisie, Twój kod w Javie lub Go musiał implementować biblioteki do Retries (np. z Jitterem), Circuit Breakingu, sprawdzania certyfikatów mTLS oraz eksportu metryk dla Prometheus'a. To koszmar utrzymania. <strong>Service Mesh (np. Istio, Linkerd)</strong> przenosi te obowiązki poza Twój kod, bezpośrednio do infrastruktury sieciowej.
+            </p>
+
+            <div class="bg-slate-100 p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                <h3 class="font-bold text-slate-800 text-center mb-6">Architektura: Wzorzec Sidecar (Wózek Boczny)</h3>
+                
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    
+                    <!-- Pod Kubernetesowy -->
+                    <div class="border-4 border-dashed border-slate-400 rounded-2xl p-6 bg-slate-50 relative w-full max-w-sm">
+                        <span class="absolute -top-3 left-6 bg-slate-50 px-2 font-bold text-slate-500 text-xs uppercase tracking-widest border border-slate-300 rounded">Kubernetes Pod</span>
+                        
+                        <div class="flex gap-4">
+                            <!-- Aplikacja -->
+                            <div class="w-1/2 bg-white border-2 border-blue-400 rounded-xl p-4 text-center shadow-sm">
+                                <i class="fa-brands fa-python text-3xl text-blue-500 mb-2"></i>
+                                <h4 class="font-bold text-slate-700 text-xs mb-2">App Container</h4>
+                                <p class="text-[9px] text-slate-500">Logika biznesowa. Nie wie nic o sieci, mTLS czy awariach. Wysyła po prostu czyste "HTTP GET".</p>
+                            </div>
+                            
+                            <!-- Sidecar Proxy -->
+                            <div class="w-1/2 bg-teal-800 text-white border-2 border-teal-500 rounded-xl p-4 text-center shadow-lg relative">
+                                <i class="fa-solid fa-shield-halved text-3xl text-teal-300 mb-2"></i>
+                                <h4 class="font-bold text-teal-100 text-xs mb-2">Sidecar (Envoy)</h4>
+                                <p class="text-[9px] text-teal-200">Przechwytuje każdy pakiet z App. Szyfruje (mTLS), robi retries, limituje rate'y.</p>
+                            </div>
+                        </div>
+
+                        <!-- Przepływ wewnątrz poda (Localhost) -->
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <i class="fa-solid fa-arrows-left-right text-slate-400 text-2xl mx-auto"></i>
+                        </div>
+                    </div>
+
+                    <!-- Ruch na zewnątrz -->
+                    <div class="flex flex-col items-center">
+                        <div class="flex gap-1 mb-2">
+                            <i class="fa-solid fa-lock text-emerald-500"></i>
+                            <span class="text-[10px] font-bold text-emerald-700 border-b-2 border-emerald-500">mTLS (Szyfrowane)</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-right-arrow-left text-3xl text-slate-400"></i>
+                    </div>
+
+                    <!-- Inny Mikroserwis -->
+                    <div class="border-2 border-slate-300 rounded-xl p-4 bg-white text-center w-32 shadow-sm">
+                        <i class="fa-solid fa-server text-2xl text-slate-500 mb-1"></i>
+                        <h4 class="font-bold text-slate-700 text-xs">Serwis B<br>(Sidecar)</h4>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-white border-l-4 border-teal-500 p-4 rounded shadow-sm text-sm">
+                    <strong class="text-teal-800 block mb-1">Czym jest Service Mesh? (Data Plane + Control Plane)</strong>
+                    <p class="text-xs text-slate-600">
+                        Każdy mikroserwis na klastrze dostaje takiego "Envoy Sidecara" wstrzykniętego do swojego Poda. Wszystkie te Sidecary to <strong>Data Plane</strong>. Centralny system (np. Istio Pilot - <strong>Control Plane</strong>) wysyła do nich reguły: <i>"Kieruj 10% ruchu na nową wersję v2 (Canary Release)"</i> lub <i>"Jeśli serwis koszyka odpowiada 500, ponów żądanie 3 razy"</i>. Deweloper pisze czysty kod biznesowy, a infrastruktura leczy się sama!
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 mt-12 py-8 text-center text-slate-500 text-sm">
+        <p>Stworzono dla Inżynierów Systemów Rozproszonych.</p>
+    </footer>
+
+</body>
+</html>

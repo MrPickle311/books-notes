@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompendium Sieci - Rozdział 7: Warstwa L7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-2xl;
+            }
+            .diagram-box {
+                @apply bg-white border-2 border-slate-200 rounded-xl p-4 shadow-sm relative;
+            }
+            .frame-move {
+                animation: frameSlide 3s infinite linear;
+            }
+            @keyframes frameSlide {
+                0% { transform: translateX(0); opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: translateX(200px); opacity: 0; }
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-200 selection:text-indigo-900">
+
+    <!-- Nawigacja boczna -->
+    <nav class="fixed hidden lg:block w-64 h-screen border-r border-slate-200 bg-white pt-8 px-6 overflow-y-auto z-50">
+        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired text-indigo-500"></i>
+            Sieci dla DSE
+        </h2>
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Rozdział 7</div>
+        <ul class="space-y-4 text-sm font-medium text-slate-600">
+            <li><a href="#intro" class="hover:text-indigo-600 transition-colors">Wprowadzenie (L7)</a></li>
+            <li><a href="#dns" class="hover:text-indigo-600 transition-colors">7.1. DNS i pułapki Cache'u</a></li>
+            <li><a href="#http" class="hover:text-indigo-600 transition-colors">7.2. Ewolucja HTTP (1.1 vs 2.0)</a></li>
+            <li><a href="#grpc" class="hover:text-indigo-600 transition-colors">7.3. gRPC i Protobuf</a></li>
+            <li><a href="#async" class="hover:text-indigo-600 transition-colors">7.4. WebSockets i SSE</a></li>
+        </ul>
+        <div class="mt-10 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+            <p class="text-xs text-indigo-800 font-semibold"><i class="fa-solid fa-code mr-1"></i> Strefa Dewelopera</p>
+            <p class="text-xs text-indigo-700 mt-2">To jest warstwa, w której żyje Twój kod. Wybór odpowiedniego protokołu ma drastyczny wpływ na zużycie CPU i pamięci RAM Twoich usług.</p>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="lg:ml-64 p-6 lg:p-12 max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header id="intro" class="mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold mb-4">
+                <i class="fa-solid fa-browser"></i> Rozdział 7
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Protokoły Aplikacyjne (L7)
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                Warstwa 7 to miejsce, gdzie abstrakcyjne pakiety zmieniają się w logiczne obiekty JSON, strumienie wideo i wywołania funkcji. Dowiesz się tutaj, jak zoptymalizować komunikację między serwerami, by nie marnować zasobów na zbędny narzut (overhead).
+            </p>
+        </header>
+
+        <!-- Sekcja 7.1: DNS -->
+        <section id="dns" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-address-book text-emerald-500"></i> 7.1. DNS w chmurze (Zabójczy Cache)
+            </h2>
+            <p class="text-slate-600 mb-6">
+                DNS (Domain Name System) tłumaczy przyjazne nazwy (np. <code>api.users.local</code>) na adresy IP. W systemach rozproszonych serwery bez przerwy wstają i padają, więc adresy IP przypisane do danej domeny <strong>zmieniają się bardzo często</strong>.
+            </p>
+
+            <div class="bg-red-50 p-6 rounded-2xl border border-red-200 shadow-sm relative overflow-hidden mb-6">
+                <h3 class="text-lg font-bold text-red-800 mb-4"><i class="fa-solid fa-skull"></i> Pułapka DSE: Nieskończony Cache DNS w JVM</h3>
+                
+                <div class="flex flex-col lg:flex-row items-center gap-6">
+                    
+                    <!-- Diagram problemu -->
+                    <div class="w-full lg:w-3/5 relative">
+                        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow border border-slate-200 mb-2 relative z-10">
+                            <div class="text-center">
+                                <i class="fa-brands fa-java text-4xl text-red-500 mb-1"></i>
+                                <div class="text-xs font-bold">Mikroserwis A</div>
+                            </div>
+                            <div class="flex-grow text-center relative px-2">
+                                <div class="text-[10px] text-slate-500 mb-1">Pytanie: "Jakie IP ma db.local?"</div>
+                                <div class="w-full h-0.5 bg-slate-300"></div>
+                                <div class="text-[10px] font-bold text-emerald-600 mt-1">Odp: 10.0.0.5 (TTL: 60s)</div>
+                            </div>
+                            <div class="text-center">
+                                <i class="fa-solid fa-server text-4xl text-slate-500 mb-1"></i>
+                                <div class="text-xs font-bold">Serwer DNS</div>
+                            </div>
+                        </div>
+
+                        <!-- Co robi Java -->
+                        <div class="bg-red-100 border-2 border-red-400 p-4 rounded-xl relative z-10 mt-4 text-sm">
+                            <strong class="text-red-900 block mb-2">Reakcja starej maszyny wirtualnej (np. Java 8):</strong>
+                            <p class="text-red-800 text-xs">
+                                "O, adres to 10.0.0.5! Zapiszę go sobie w pamięci RAM <strong>NA ZAWSZE</strong>, żeby więcej nie pytać serwera DNS i być szybszym. Zignoruję parametr TTL (Time To Live)."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Skutek -->
+                    <div class="w-full lg:w-2/5 bg-white border-l-4 border-l-red-500 p-4 rounded shadow-sm">
+                        <h4 class="font-bold text-slate-800 text-sm mb-2">Efekt na produkcji:</h4>
+                        <p class="text-xs text-slate-600">
+                            Baza danych na IP <code>10.0.0.5</code> ulega awarii. System Failover stawia nową bazę pod IP <code>10.0.0.8</code> i aktualizuje rekord DNS. <br><br>
+                            Wszystkie aplikacje Node.js czy Go łączą się z nową bazą. Twój mikroserwis w Javie dalej uparcie wysyła ruch na martwe <code>10.0.0.5</code>, aż do ręcznego restartu kontenera.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-emerald-50 text-emerald-800 p-4 rounded-lg border border-emerald-200 text-sm flex gap-3 shadow-sm">
+                <i class="fa-solid fa-wrench text-xl mt-0.5"></i>
+                <div>
+                    <strong>Rozwiązanie:</strong> Zawsze weryfikuj ustawienia <i>DNS Cache TTL</i> w swoim języku programowania (w Javie jest to flaga <code>networkaddress.cache.ttl</code> w <code>java.security</code>). W środowisku Kubernetes / AWS ustaw tę wartość na max 10-30 sekund!
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 7.2: HTTP/1.1 vs HTTP/2 -->
+        <section id="http" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-brands fa-html5 text-orange-500"></i> 7.2. Ewolucja HTTP (Dlaczego REST bywa wolny)
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                Tradycyjne API RESTowe opierają się na protokole HTTP/1.1. Przez lata próbowano go "łatać" dodając nagłówki `Connection: Keep-Alive` (by nie robić Handshake'u TCP co request). Niestety, HTTP/1.1 ma fundamentalną wadę architektury.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                <!-- HTTP/1.1 -->
+                <div class="bg-slate-100 p-6 rounded-2xl border border-slate-300 shadow-sm">
+                    <h3 class="font-bold text-slate-700 text-center mb-4">HTTP/1.1 (Tekstowy i Sekwencyjny)</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="text-[10px] bg-white p-2 rounded border border-slate-200 font-mono text-slate-500 overflow-hidden">
+                            GET /api/users HTTP/1.1<br>
+                            Host: example.com<br>
+                            <span class="text-red-400">... to wszystko czysty tekst!</span>
+                        </div>
+                        
+                        <div class="relative w-full h-12 bg-white rounded border border-slate-200 flex items-center px-2 overflow-hidden shadow-inner">
+                            <span class="absolute text-[10px] top-1 left-2 text-slate-400 font-bold">Połączenie TCP 1</span>
+                            
+                            <div class="flex gap-2 mt-2 w-full">
+                                <div class="bg-orange-200 text-orange-800 text-[10px] font-bold p-1 border border-orange-300 rounded shrink-0 w-1/3 text-center">
+                                    Żądanie 1
+                                </div>
+                                <div class="bg-slate-200 text-slate-500 text-[10px] font-bold p-1 border border-slate-300 rounded shrink-0 w-1/3 text-center animate-pulse">
+                                    Czeka na Odp 1
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-[11px] text-slate-600 mt-4 leading-relaxed">
+                        W HTTP/1.1 przez jedno połączenie TCP w danym momencie może przechodzić <strong>tylko jedno żądanie</strong>. Jeśli serwer przetwarza <i>Żądanie 1</i> przez 2 sekundy, <i>Żądanie 2</i> musi grzecznie czekać w kolejce, blokując przepustowość.
+                    </p>
+                </div>
+
+                <!-- HTTP/2 -->
+                <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-200 shadow-sm">
+                    <h3 class="font-bold text-indigo-900 text-center mb-4">HTTP/2 (Binarny i Multipleksowany)</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="text-[10px] bg-white p-2 rounded border border-indigo-100 font-mono text-indigo-600 overflow-hidden flex gap-1">
+                            <div class="bg-indigo-200 p-1 rounded">01001</div>
+                            <div class="bg-indigo-200 p-1 rounded">11010</div>
+                            <span class="ml-2 text-indigo-400 mt-1">Nagłówki są kompresowane (HPACK) i binarne!</span>
+                        </div>
+                        
+                        <div class="relative w-full h-16 bg-white rounded border border-indigo-200 flex flex-col justify-end px-2 pb-2 overflow-hidden shadow-inner">
+                            <span class="absolute text-[10px] top-1 left-2 text-indigo-400 font-bold">Połączenie TCP 1 (Strumienie)</span>
+                            
+                            <!-- Animowane Ramki H2 -->
+                            <div class="relative w-full h-6 mt-2">
+                                <div class="absolute left-0 bg-blue-500 text-white text-[9px] font-bold px-2 py-0.5 rounded shadow frame-move" style="animation-delay: 0s;">Strumień A (Req1)</div>
+                                <div class="absolute left-0 bg-emerald-500 text-white text-[9px] font-bold px-2 py-0.5 rounded shadow frame-move" style="animation-delay: 0.5s;">Strumień B (Req2)</div>
+                                <div class="absolute left-0 bg-blue-400 text-white text-[9px] font-bold px-2 py-0.5 rounded shadow frame-move" style="animation-delay: 1.2s;">Strumień A (Ciąg dalszy)</div>
+                                <div class="absolute left-0 bg-purple-500 text-white text-[9px] font-bold px-2 py-0.5 rounded shadow frame-move" style="animation-delay: 1.8s;">Strumień C (Req3)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-[11px] text-slate-700 mt-4 leading-relaxed">
+                        Protokół kroi żądania na małe, binarne <strong>Ramki (Frames)</strong> przypisane do ID Strumienia. Ramki z różnych żądań mogą przeplatać się w locie przez <strong>to samo połączenie TCP</strong>. Koniec z blokowaniem kolejki!
+                    </p>
+                </div>
+            </div>
+            
+            <!-- HTTP/3 Mention -->
+            <div class="bg-slate-800 text-slate-300 p-4 rounded-xl text-sm flex items-center justify-between border border-slate-700 shadow-lg">
+                <div>
+                    <strong class="text-white">A co z HTTP/3?</strong> Rozwiązuje problem gubienia pakietów przez TCP (HoL Blocking w warstwie L4), wykorzystując transport <strong>QUIC (UDP)</strong>, o czym uczyliśmy się w rozdziale 6.
+                </div>
+                <i class="fa-brands fa-space-awesome text-3xl text-purple-400 opacity-50 ml-4"></i>
+            </div>
+        </section>
+
+        <!-- Sekcja 7.3: gRPC -->
+        <section id="grpc" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-bolt text-yellow-500"></i> 7.3. Protokoły RPC (Dlaczego gRPC wygrywa z REST)
+            </h2>
+            <p class="text-slate-600 mb-6">
+                W komunikacji między mikroserwisami wewnątrz klastra (Backend-to-Backend), REST over HTTP/1.1 z payloadem JSON to najgorszy możliwy wybór pod kątem wydajności. Standardem branżowym jest obecnie <strong>gRPC</strong> od Google.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                
+                <!-- JSON vs Protobuf -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative">
+                    <h4 class="font-bold text-slate-800 text-sm mb-4">Problem z JSONem (Serializacja)</h4>
+                    
+                    <div class="flex flex-col md:flex-row gap-4 h-full">
+                        <div class="w-full md:w-1/2">
+                            <div class="bg-slate-50 border border-slate-200 rounded p-3 text-[10px] font-mono text-slate-600 h-28">
+                                <span class="text-slate-400">// JSON (REST) - Duży, Tekstowy</span><br>
+                                {<br>
+                                &nbsp;&nbsp;"id": <span class="text-blue-500">12345</span>,<br>
+                                &nbsp;&nbsp;"name": <span class="text-green-600">"Alice"</span>,<br>
+                                &nbsp;&nbsp;"isActive": <span class="text-orange-500">true</span><br>
+                                }
+                            </div>
+                            <div class="text-[9px] text-center text-slate-400 mt-1">~50 bajtów + powolne parsowanie tekstu przez CPU</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-center">
+                            <i class="fa-solid fa-vs text-xl text-slate-300"></i>
+                        </div>
+
+                        <div class="w-full md:w-1/2">
+                            <div class="bg-slate-800 border border-slate-700 rounded p-3 text-[10px] font-mono text-slate-300 h-28 relative overflow-hidden">
+                                <span class="text-emerald-400">// Protobuf (gRPC) - Skompresowany, Binarny</span><br>
+                                <div class="mt-2 text-center text-xs tracking-[0.2em] opacity-80 break-words text-white">
+                                    08 39 12 05 41 6C 69 63 65 18 01
+                                </div>
+                                <div class="absolute bottom-2 left-0 w-full text-center text-[8px] text-slate-500">Klucze ("id", "name") są ukryte w schemacie (.proto), nie przesyłamy ich siecią!</div>
+                            </div>
+                            <div class="text-[9px] text-center text-slate-400 mt-1">~11 bajtów + natychmiastowe czytanie binarne</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dlaczego L4 psuje gRPC -->
+                <div class="bg-orange-50 border-2 border-orange-200 p-4 rounded-2xl shadow-sm">
+                    <h4 class="font-bold text-orange-900 text-sm mb-2"><i class="fa-solid fa-triangle-exclamation"></i> Pułapka na DSE: Load Balancing</h4>
+                    <p class="text-xs text-slate-700 leading-relaxed mb-3">
+                        gRPC <strong>wymaga</strong> protokołu HTTP/2 pod spodem. Zawsze. <br><br>
+                        Ponieważ HTTP/2 używa jednego, długiego połączenia TCP do przesyłania setek zapytań (Multipleksowanie), klasyczny <strong>L4 Load Balancer (np. w AWS / K8s Service) zawiedzie!</strong> L4 wyśle to jedno połączenie TCP do pierwszego Poda z brzegu, który przyjmie na siebie 100% ruchu, ignorując pozostałe 9 serwerów.
+                    </p>
+                    <div class="bg-white p-2 text-[10px] text-emerald-700 font-bold rounded border border-emerald-200">
+                        Aby gRPC dobrze się skalowało, musisz używać <strong>L7 Load Balancera</strong> (np. Envoy, Ingress, Istio), który otwiera pakiet, odczytuje ramki H2 i rozdziela pojedyncze żądania (strumienie) na różne Pody.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sekcja 7.4: WebSockets vs SSE -->
+        <section id="async" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-arrows-rotate text-teal-500"></i> 7.4. Komunikacja Asynchroniczna i Push
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                HTTP z założenia to protokół typu Żądanie-Odpowiedź. Co jednak, gdy potrzebujesz "wypychać" (Push) dane z serwera do klienta na żywo (np. powiadomienia, czat, giełda)? Mamy 3 główne podejścia.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Short Polling -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-center">
+                    <h4 class="font-bold text-slate-700 mb-1">1. Short Polling</h4>
+                    <p class="text-[10px] text-slate-500 mb-4 h-8">Pytasz co 2 sekundy: "Są nowe dane?"</p>
+                    
+                    <div class="space-y-1 relative h-24 bg-slate-50 border border-slate-100 rounded flex flex-col justify-center items-center">
+                        <div class="text-[10px] font-mono text-slate-400">&rarr; Req (Nie)</div>
+                        <div class="text-[10px] font-mono text-slate-400">&rarr; Req (Nie)</div>
+                        <div class="text-[10px] font-mono text-emerald-600 font-bold">&rarr; Req (TAK!)</div>
+                        <div class="absolute inset-0 bg-red-500/10 rounded pointer-events-none"></div>
+                    </div>
+                    <p class="text-[10px] text-red-600 font-bold mt-2">Marnuje CPU i pożera porty ulotne (zły wybór).</p>
+                </div>
+
+                <!-- Server-Sent Events (SSE) -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-center border-t-4 border-t-blue-500">
+                    <h4 class="font-bold text-slate-700 mb-1">2. Server-Sent Events (SSE)</h4>
+                    <p class="text-[10px] text-slate-500 mb-4 h-8">Zwykłe HTTP. Serwer trzyma otwartą odpowiedź i "strzela" danymi.</p>
+                    
+                    <div class="space-y-1 relative h-24 bg-blue-50 border border-blue-100 rounded flex flex-col justify-center items-center">
+                        <div class="text-[10px] font-mono text-blue-800 w-full px-2 text-left">&rarr; Zwykły GET HTTP</div>
+                        <div class="w-4/5 h-px bg-blue-300 my-1"></div>
+                        <div class="text-[10px] font-mono text-emerald-600 font-bold w-full px-2 text-right">&larr; Dane (Event 1)</div>
+                        <div class="text-[10px] font-mono text-emerald-600 font-bold w-full px-2 text-right">&larr; Dane (Event 2)</div>
+                    </div>
+                    <p class="text-[10px] text-blue-700 font-bold mt-2">Świetne do powiadomień i giełdy (One-way).</p>
+                </div>
+
+                <!-- WebSockets -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-center border-t-4 border-t-purple-500">
+                    <h4 class="font-bold text-slate-700 mb-1">3. WebSockets</h4>
+                    <p class="text-[10px] text-slate-500 mb-4 h-8">Pełny dupleks TCP. Obie strony wysyłają ramki kiedy chcą.</p>
+                    
+                    <div class="space-y-1 relative h-24 bg-purple-50 border border-purple-100 rounded flex flex-col justify-center items-center">
+                        <div class="text-[10px] font-mono text-purple-800">&harr; Handshake (Upgrade to WSS)</div>
+                        <div class="w-4/5 h-px bg-purple-300 my-1"></div>
+                        <div class="text-[10px] font-mono text-emerald-600 font-bold w-full px-2 text-right">&larr; Ramka (Serwer)</div>
+                        <div class="text-[10px] font-mono text-blue-600 font-bold w-full px-2 text-left">&rarr; Ramka (Klient)</div>
+                    </div>
+                    <p class="text-[10px] text-purple-700 font-bold mt-2">Najlepsze dla Czatów i Gier Multiplayer (Two-way).</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 mt-12 py-8 text-center text-slate-500 text-sm">
+        <p>Stworzono dla Inżynierów Systemów Rozproszonych.</p>
+    </footer>
+
+</body>
+</html>

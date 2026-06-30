@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompendium Sieci - Rozdział 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-2xl;
+            }
+            .stack-layer {
+                @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Nawigacja boczna (Spis treści rozdziału) -->
+    <nav class="fixed hidden lg:block w-64 h-screen border-r border-slate-200 bg-white pt-8 px-6 overflow-y-auto">
+        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired text-blue-500"></i>
+            Sieci dla DSE
+        </h2>
+        <ul class="space-y-4 text-sm font-medium text-slate-600">
+            <li>
+                <a href="#intro" class="hover:text-blue-600 transition-colors">Wprowadzenie</a>
+            </li>
+            <li>
+                <a href="#mity" class="hover:text-blue-600 transition-colors">1.1. 8 Mitów Systemów Rozproszonych</a>
+            </li>
+            <li>
+                <a href="#modele" class="hover:text-blue-600 transition-colors">1.2. Modele i Protokoły</a>
+            </li>
+            <li>
+                <a href="#planes" class="hover:text-blue-600 transition-colors">1.3. Data Plane vs Control Plane</a>
+            </li>
+        </ul>
+        <div class="mt-10 p-4 bg-blue-50 rounded-xl border border-blue-100">
+            <p class="text-xs text-blue-800 font-semibold"><i class="fa-solid fa-circle-info mr-1"></i> Wskazówka</p>
+            <p class="text-xs text-blue-600 mt-2">Jako programista DSE, skup się najbardziej na punkcie 1.3 - to fundament nowoczesnej chmury.</p>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="lg:ml-64 p-6 lg:p-12 max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header id="intro" class="mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold mb-4">
+                <i class="fa-solid fa-book"></i> Rozdział 1
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Fundamenty i Modele Sieciowe
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                Zanim zaczniemy konfigurować load balancery i analizować pakiety TCP, musimy ustalić wspólny język. Ten rozdział wyjaśnia, dlaczego sieć jest trudna, jak dzielimy ją na warstwy i czym różni się "mózg" routera od jego "mięśni".
+            </p>
+        </header>
+
+        <!-- Sekcja 1.1 -->
+        <section id="mity" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2">
+                1.1. 8 Mitów Systemów Rozproszonych
+            </h2>
+            <p class="text-slate-600 mb-8">
+                W 1994 roku Peter Deutsch z Sun Microsystems spisał listę 8 fałszywych założeń, które programiści naiwnie przyjmują, pisząc aplikacje rozproszone. Zignorowanie któregokolwiek z nich to gwarancja awarii na produkcji lub ogromnych rachunków w chmurze.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Mit 1 -->
+                <div class="glass-panel p-6 border-l-4 border-l-red-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-red-100 text-red-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-plug-circle-xmark"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">1. Sieć jest niezawodna</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Kable są przecinane (tzw. <i>backhoe fade</i>), switche się restartują, a firewalle po cichu ubijają połączenia. Nigdy nie zakładaj, że pakiet dotrze do celu.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Timeouts, Retries z backoffem, Circuit Breakers.
+                    </div>
+                </div>
+
+                <!-- Mit 2 -->
+                <div class="glass-panel p-6 border-l-4 border-l-orange-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">2. Opóźnienie (Latency) wynosi 0</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Światło w światłowodzie ma swoją prędkość (ok. 200,000 km/s). Podróż z Europy do USA to zawsze dziesiątki milisekund fizycznego ograniczenia.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Pule połączeń (omijanie TCP handshake), CDNy, batching żądań.
+                    </div>
+                </div>
+
+                <!-- Mit 3 -->
+                <div class="glass-panel p-6 border-l-4 border-l-yellow-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">3. Przepustowość jest nieskończona</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Przesyłanie wielkich payloadów JSON powoduje kolejkowanie pakietów na routerach (Bufferbloat), co drastycznie spowalnia wszystkie inne usługi.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Kompresja (Gzip/Brotli), binarne formaty (Protobuf/gRPC), paginacja.
+                    </div>
+                </div>
+
+                <!-- Mit 4 -->
+                <div class="glass-panel p-6 border-l-4 border-l-purple-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">4. Topologia się nie zmienia</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        W erze Kubernetesa serwery (kontenery) żyją czasami tylko kilka minut. Adresy IP ciągle znikają i pojawiają się nowe.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Dynamiczne Service Discovery (Consul, etcd), wewnętrzny DNS.
+                    </div>
+                </div>
+
+                <!-- Mit 5 -->
+                <div class="glass-panel p-6 border-l-4 border-l-emerald-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">5. Sieć jest bezpieczna</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Pakiety mogą być podsłuchiwane lub modyfikowane po drodze. W środowiskach chmurowych nawet sieć wewnętrzna (VPC) nie powinna być traktowana jako w 100% zaufana.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Szyfrowanie w locie (TLS/mTLS), architektura Zero Trust, JWT.
+                    </div>
+                </div>
+
+                <!-- Mit 6 -->
+                <div class="glass-panel p-6 border-l-4 border-l-blue-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">6. Jest jeden administrator</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Twoja aplikacja zależy od infrastruktury zarządzanej przez różne zespoły lub firmy (np. dostawca chmury, operator API). Koordynacja zmian "ręcznie" to koszmar.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Infrastructure as Code (Terraform), niezależne i wstecznie kompatybilne API.
+                    </div>
+                </div>
+
+                <!-- Mit 7 -->
+                <div class="glass-panel p-6 border-l-4 border-l-pink-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 text-pink-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">7. Koszt transportu to zero</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Serializacja i deserializacja pożera ogromną ilość czasu CPU. Dodatkowo chmury (np. AWS) słono liczą sobie za ruch opuszczający serwerownię (tzw. Egress).
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Formaty binarne (gRPC), kompresja danych, lokalne cache'owanie.
+                    </div>
+                </div>
+
+                <!-- Mit 8 -->
+                <div class="glass-panel p-6 border-l-4 border-l-teal-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-teal-100 text-teal-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">8. Sieć jest jednorodna</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Twoje serwisy będą komunikować się z Windowsami, Linuxami, apkami mobilnymi i starymi systemami Mainframe. Każdy inaczej interpretuje pakiety i pule.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm border border-slate-100">
+                        <strong class="text-slate-700">Obrona DSE:</strong> Używanie otwartych standardów komunikacji (np. REST, GraphQL) zamiast zamkniętych protokołów.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 1.2 -->
+        <section id="modele" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2">
+                1.2. Modele referencyjne: Stos TCP/IP w praktyce
+            </h2>
+            <p class="text-slate-600 mb-8">
+                Klasyczny model OSI ma 7 warstw. W nowoczesnych systemach chmurowych stosujemy uproszczony model 5-warstwowy. Z perspektywy inżyniera oprogramowania interesują nas przede wszystkim warstwy od L3 wzwyż. Warstwy niższe to dla nas abstrakcja dostarczana przez dostawcę chmury (AWS, GCP).
+            </p>
+
+            <!-- Interaktywny Diagram Stosu Sieciowego -->
+            <div class="bg-slate-100 p-8 rounded-2xl border border-slate-200 relative overflow-hidden">
+                <div class="max-w-2xl mx-auto relative z-10 space-y-3">
+                    
+                    <!-- L7 -->
+                    <div class="stack-layer bg-emerald-500 text-white p-4 rounded-xl flex items-center shadow-md relative group">
+                        <div class="w-16 font-black text-2xl opacity-50">L7</div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-lg">Warstwa Aplikacji</h4>
+                            <p class="text-emerald-100 text-sm">HTTP/2, gRPC, DNS, TLS, WebSocket</p>
+                        </div>
+                        <div class="hidden group-hover:block absolute right-4 bg-white text-slate-800 text-xs py-1 px-3 rounded shadow font-bold">
+                            Tu piszesz swój kod.
+                        </div>
+                    </div>
+
+                    <!-- L4 -->
+                    <div class="stack-layer bg-blue-500 text-white p-4 rounded-xl flex items-center shadow-md relative group">
+                        <div class="w-16 font-black text-2xl opacity-50">L4</div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-lg">Warstwa Transportowa</h4>
+                            <p class="text-blue-100 text-sm">TCP, UDP, QUIC (Porty, Retransmisje, Flow Control)</p>
+                        </div>
+                        <div class="hidden group-hover:block absolute right-4 bg-white text-slate-800 text-xs py-1 px-3 rounded shadow font-bold">
+                            Odpowiada za stabilność (Connection Pooling).
+                        </div>
+                    </div>
+
+                    <!-- L3 -->
+                    <div class="stack-layer bg-orange-500 text-white p-4 rounded-xl flex items-center shadow-md relative group">
+                        <div class="w-16 font-black text-2xl opacity-50">L3</div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-lg">Warstwa Sieciowa (Internetu)</h4>
+                            <p class="text-orange-100 text-sm">IPv4, IPv6, ICMP, Routing (BGP, OSPF)</p>
+                        </div>
+                        <div class="hidden group-hover:block absolute right-4 bg-white text-slate-800 text-xs py-1 px-3 rounded shadow font-bold">
+                            Pakiety i adresy IP. Tu działa router.
+                        </div>
+                    </div>
+
+                    <!-- L2 -->
+                    <div class="stack-layer bg-slate-400 text-white p-4 rounded-xl flex items-center shadow-md relative group">
+                        <div class="w-16 font-black text-2xl opacity-50">L2</div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-lg">Warstwa Łącza Danych</h4>
+                            <p class="text-slate-100 text-sm">Ethernet, MAC Adresy, VLAN, ARP</p>
+                        </div>
+                        <div class="hidden group-hover:block absolute right-4 bg-white text-slate-800 text-xs py-1 px-3 rounded shadow font-bold">
+                            Logika lokalnego switcha.
+                        </div>
+                    </div>
+
+                    <!-- L1 -->
+                    <div class="stack-layer bg-slate-800 text-slate-300 p-4 rounded-xl flex items-center shadow-md relative group opacity-75">
+                        <div class="w-16 font-black text-2xl opacity-30">L1</div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-lg">Warstwa Fizyczna</h4>
+                            <p class="text-slate-400 text-sm">Kable światłowodowe, sygnały elektryczne</p>
+                        </div>
+                        <div class="hidden group-hover:block absolute right-4 bg-white text-slate-800 text-xs py-1 px-3 rounded shadow font-bold">
+                            Poza zainteresowaniem DSE.
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Tło dekoracyjne -->
+                <i class="fa-solid fa-server absolute -right-10 -bottom-10 text-9xl text-slate-200 opacity-50"></i>
+            </div>
+            
+            <p class="text-sm text-slate-500 mt-4 italic">Schemat: Enkapsulacja w dół. Aplikacja generuje wiadomość HTTP (L7), która jest pakowana w segment TCP (L4), następnie w pakiet IP (L3) i w końcu w ramkę Ethernet (L2).</p>
+
+            <!-- NOWA SEKCJA: Proces Enkapsulacji z obrazkami -->
+            <div class="mt-12 mb-8">
+                <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-blue-500"></i>
+                    Jak warstwy działają w praktyce? (Proces Enkapsulacji)
+                </h3>
+                <p class="text-slate-600 mb-8">
+                    Wyobraź sobie, że wysyłasz list. Najpierw piszesz treść (L7), potem wkładasz do koperty i podajesz odbiorcę (L4), następnie urząd pocztowy dopisuje kody pocztowe do sortowni (L3), a na końcu kurier ładuje to do konkretnej ciężarówki (L2). W sieciach komputerowych ten proces nazywamy <strong>enkapsulacją</strong> (pakowaniem danych w kolejne "matrioszki").
+                </p>
+
+                <!-- Oś czasu enkapsulacji -->
+                <div class="relative space-y-8 before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-emerald-400 before:via-blue-400 before:to-slate-800">
+                    
+                    <!-- Krok L7 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500 text-white font-bold border-4 border-white shadow shadow-emerald-200 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            L7
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-4 rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:shadow-md">
+                            <h4 class="font-bold text-emerald-600 mb-1">Warstwa Aplikacji (Dane)</h4>
+                            <p class="text-xs text-slate-600 mb-3">Twój kod generuje wiadomość HTTP lub obiekt JSON. Na tym etapie to po prostu "czysty" payload aplikacji.</p>
+                            <!-- Wizualizacja danych -->
+                            <div class="p-2 bg-emerald-50 border border-emerald-200 rounded text-center text-xs font-mono text-emerald-800 font-semibold shadow-inner">
+                                {"action": "login", "user": "admin"}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok L4 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white font-bold border-4 border-white shadow shadow-blue-200 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            L4
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-4 rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:shadow-md">
+                            <h4 class="font-bold text-blue-600 mb-1">Warstwa Transportowa (Segment)</h4>
+                            <p class="text-xs text-slate-600 mb-3">System operacyjny kroi duże dane na mniejsze kawałki (Segmenty) i dokleja <strong>Nagłówek TCP</strong> zawierający m m.in. <i>Porty</i> (np. 443 do 8443).</p>
+                            <!-- Wizualizacja Segmentu -->
+                            <div class="flex rounded overflow-hidden text-xs font-mono font-semibold text-center border border-slate-300 shadow-inner">
+                                <div class="bg-blue-100 text-blue-800 p-2 border-r border-blue-200 flex-shrink-0">
+                                    [H. TCP]<br><span class="text-[10px] font-normal">Src:1234, Dst:443</span>
+                                </div>
+                                <div class="bg-emerald-50 text-emerald-800 p-2 flex-grow truncate flex items-center justify-center">
+                                    {"action": "login"...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok L3 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-orange-500 text-white font-bold border-4 border-white shadow shadow-orange-200 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            L3
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-4 rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:shadow-md">
+                            <h4 class="font-bold text-orange-600 mb-1">Warstwa Sieciowa (Pakiet)</h4>
+                            <p class="text-xs text-slate-600 mb-3">Router musi wiedzieć, gdzie to wysłać. Do segmentu TCP doklejany jest <strong>Nagłówek IP</strong> z adresami nadawcy i odbiorcy. Powstaje <i>Pakiet IP</i>.</p>
+                            <!-- Wizualizacja Pakietu -->
+                            <div class="flex rounded overflow-hidden text-xs font-mono font-semibold text-center border border-slate-300 shadow-inner">
+                                <div class="bg-orange-100 text-orange-800 p-2 border-r border-orange-200 flex-shrink-0">
+                                    [H. IP]<br><span class="text-[10px] font-normal">10.0.0.5 -> 8.8.8.8</span>
+                                </div>
+                                <div class="bg-blue-100 text-blue-800 p-2 border-r border-blue-200 hidden sm:flex items-center">
+                                    [H. TCP]
+                                </div>
+                                <div class="bg-emerald-50 text-emerald-800 p-2 flex-grow truncate flex items-center justify-center">
+                                    Dane L7...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok L2 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-slate-500 text-white font-bold border-4 border-white shadow shadow-slate-200 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            L2
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-4 rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:shadow-md">
+                            <h4 class="font-bold text-slate-600 mb-1">Warstwa Łącza Danych (Ramka)</h4>
+                            <p class="text-xs text-slate-600 mb-3">Zanim pakiet opuści serwer, karta sieciowa dokleja <strong>Nagłówek MAC</strong> (adresy sprzętowe switcha) i <strong>FCS</strong> na końcu (suma kontrolna). Powstaje <i>Ramka Ethernet</i>.</p>
+                            <!-- Wizualizacja Ramki -->
+                            <div class="flex rounded overflow-hidden text-[10px] font-mono font-semibold text-center border border-slate-300 shadow-inner">
+                                <div class="bg-slate-200 text-slate-800 p-2 border-r border-slate-300">
+                                    [MAC]
+                                </div>
+                                <div class="bg-orange-100 text-orange-800 p-2 border-r border-orange-200 hidden sm:block">
+                                    [IP]
+                                </div>
+                                <div class="bg-blue-100 text-blue-800 p-2 border-r border-blue-200 hidden md:block">
+                                    [TCP]
+                                </div>
+                                <div class="bg-emerald-50 text-emerald-800 p-2 flex-grow truncate flex items-center justify-center">
+                                    Dane...
+                                </div>
+                                <div class="bg-slate-200 text-slate-800 p-2 border-l border-slate-300">
+                                    [CRC]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok L1 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-slate-800 text-white font-bold border-4 border-white shadow shadow-slate-800 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            L1
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-4 rounded-xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:shadow-md">
+                            <h4 class="font-bold text-slate-800 mb-1">Warstwa Fizyczna (Bity)</h4>
+                            <p class="text-xs text-slate-600 mb-3">Kompletna ramka jest zamieniana na ciąg zer i jedynek, a następnie wysyłana jako impulsy elektryczne (kabel) lub światło (światłowód).</p>
+                            <!-- Wizualizacja Bitów -->
+                            <div class="w-full h-8 bg-slate-900 rounded overflow-hidden flex items-center justify-center text-green-400 font-mono text-xs tracking-[0.2em] relative">
+                                <div class="absolute inset-0 bg-[linear-gradient(90deg,transparent_50%,rgba(255,255,255,0.1)_50%)] bg-[length:20px_100%] animate-[pulse_1s_infinite]"></div>
+                                01101001 01110000...
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Dodatek: Warstwa Prezentacji i Sesji -->
+            <div class="mt-8 bg-amber-50 p-6 rounded-2xl border border-amber-200">
+                <h3 class="text-lg font-bold text-amber-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-amber-500"></i>
+                    A co z warstwą Prezentacji (L6) i Sesji (L5)?
+                </h3>
+                <p class="text-sm text-amber-800 mb-4">
+                    W klasycznym, akademickim modelu OSI znajduje się aż 7 warstw. W praktyce inżynieryjnej korzystamy ze zoptymalizowanego modelu, gdzie warstwy L5 i L6 zostały połączone i wchłonięte przez funkcjonalności Warstwy Aplikacji (L7) i kod naszych programów:
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm">
+                        <h4 class="font-bold text-slate-800 border-b border-slate-100 pb-2 mb-2">Warstwa Prezentacji (L6)</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Miała odpowiadać za tłumaczenie, kompresję i szyfrowanie danych, aby oba końce się "zrozumiały". Dzisiaj to po prostu biblioteki wewnątrz Twojej aplikacji. <br><br>
+                            <strong>Przykłady implementacji L6 w kodzie DSE:</strong> 
+                            Szyfrowanie <strong>TLS/SSL</strong>, serializacja obiektów do formatu <strong>JSON</strong> lub <strong>Protobuf</strong>, czy kodowanie Base64.
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm">
+                        <h4 class="font-bold text-slate-800 border-b border-slate-100 pb-2 mb-2">Warstwa Sesji (L5)</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Miała zarządzać dialogiem i utrzymywać "stan" sesji. Ponieważ L4 (TCP) dba o fizyczne połączenie, L5 miało dbać o logiczne.<br><br>
+                            <strong>Przykłady implementacji L5:</strong> 
+                            Ciasteczka sesyjne (<strong>Cookies</strong>), tokeny uwierzytelniające <strong>JWT</strong> (JSON Web Token), czy mechanizmy podtrzymywania dwukierunkowych strumieni w gRPC.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 1.3 -->
+        <section id="planes" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2">
+                1.3. Architektura: Data Plane vs Control Plane
+            </h2>
+            <p class="text-slate-600 mb-8">
+                To najważniejszy koncept wprowadzony do współczesnych sieci. Kiedyś router był zamkniętym pudełkiem, które robiło wszystko naraz. Dziś, dzięki koncepcji **SDN (Software-Defined Networking)**, rozdzielono "mózg" podejmujący decyzje od "mięśni" przepychających dane. 
+                Ten sam wzorzec jest używany w Service Meshach (np. Istio) dla mikrousług.
+            </p>
+
+            <!-- Schemat Data/Control Plane -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                
+                <!-- Tekst wyjaśniający -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-indigo-700 flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-brain"></i> Control Plane (Płaszczyzna Sterowania)
+                        </h3>
+                        <p class="text-sm text-slate-600">
+                            Centralny system decyzyjny. Oblicza trasy routingu, przechowuje konfigurację, generuje certyfikaty TLS i wysyła te instrukcje do węzłów roboczych.
+                        </p>
+                        <ul class="text-sm text-slate-500 list-disc list-inside mt-2">
+                            <li><strong>Przykłady:</strong> Kubernetes API Server, Istio Pilot, serwer BGP.</li>
+                            <li><strong>Szybkość:</strong> Wolniejszy (milisekundy/sekundy).</li>
+                            <li><strong>Awaria:</strong> Jeśli padnie, sieć nadal działa, ale nie można jej aktualizować (np. nie dodasz nowego serwera).</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-6">
+                        <h3 class="text-lg font-bold text-teal-600 flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-random"></i> Data Plane (Płaszczyzna Danych)
+                        </h3>
+                        <p class="text-sm text-slate-600">
+                            Lekkie, rozproszone agenty lub sprzęt. Ich jedynym zadaniem jest odebranie pakietu i, bazując na prostych regułach otrzymanych z Control Plane, natychmiastowe przesłanie go dalej.
+                        </p>
+                        <ul class="text-sm text-slate-500 list-disc list-inside mt-2">
+                            <li><strong>Przykłady:</strong> Envoy Proxy, iptables, nginx, sprzętowy układ ASIC switcha.</li>
+                            <li><strong>Szybkość:</strong> Ultarszybki (nanosekundy/mikrosekundy).</li>
+                            <li><strong>Awaria:</strong> Jeśli padnie węzeł Data Plane, tracisz część ruchu w aplikacji.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Wizualizacja -->
+                <div class="relative w-full aspect-square md:aspect-auto h-[400px] bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 flex flex-col p-4 justify-between items-center">
+                    
+                    <!-- Control Plane Node -->
+                    <div class="w-full bg-indigo-100 border border-indigo-300 rounded-lg p-4 text-center relative z-10 shadow-md">
+                        <i class="fa-solid fa-brain text-3xl text-indigo-500 mb-2"></i>
+                        <h4 class="font-bold text-indigo-900">Control Plane</h4>
+                        <p class="text-xs text-indigo-700">Wysyła zasady (Routing Rules)</p>
+                    </div>
+
+                    <!-- Strzałki (Animowane w CSS, ale użyjemy ikon) -->
+                    <div class="flex justify-around w-full relative h-full py-4 text-indigo-300">
+                        <div class="border-l-2 border-dashed border-indigo-300 h-full absolute left-1/4"></div>
+                        <div class="border-l-2 border-dashed border-indigo-300 h-full absolute left-1/2"></div>
+                        <div class="border-l-2 border-dashed border-indigo-300 h-full absolute right-1/4"></div>
+                        
+                        <div class="absolute top-1/3 left-[23%] text-indigo-500 animate-bounce"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="absolute top-1/2 left-[48%] text-indigo-500 animate-bounce" style="animation-delay: 200ms;"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="absolute top-1/4 right-[23%] text-indigo-500 animate-bounce" style="animation-delay: 400ms;"><i class="fa-solid fa-arrow-down"></i></div>
+                    </div>
+
+                    <!-- Data Plane Nodes -->
+                    <div class="w-full grid grid-cols-3 gap-2 relative z-10">
+                        <div class="bg-teal-100 border border-teal-300 rounded p-2 text-center shadow-sm">
+                            <i class="fa-solid fa-server text-teal-600"></i>
+                            <div class="text-[10px] font-bold text-teal-800 mt-1">Data Plane</div>
+                        </div>
+                        <div class="bg-teal-100 border border-teal-300 rounded p-2 text-center shadow-sm">
+                            <i class="fa-solid fa-server text-teal-600"></i>
+                            <div class="text-[10px] font-bold text-teal-800 mt-1">Data Plane</div>
+                        </div>
+                        <div class="bg-teal-100 border border-teal-300 rounded p-2 text-center shadow-sm">
+                            <i class="fa-solid fa-server text-teal-600"></i>
+                            <div class="text-[10px] font-bold text-teal-800 mt-1">Data Plane</div>
+                        </div>
+                    </div>
+
+                    <!-- Ruch użytkownika na dole -->
+                    <div class="w-full mt-4 flex items-center justify-between text-slate-400 text-sm px-4">
+                        <i class="fa-solid fa-users"></i>
+                        <div class="flex-grow border-t-2 border-slate-300 mx-2 relative">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-slate-50 px-2 text-xs">User Traffic (L4/L7)</div>
+                        </div>
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100 flex gap-4">
+                <i class="fa-solid fa-lightbulb text-blue-500 text-xl mt-1"></i>
+                <p class="text-sm text-blue-900">
+                    <strong>Praktyczny przykład w Kubernetesie:</strong> Kiedy wpisujesz komendę <code>kubectl apply -f deployment.yaml</code>, komunikujesz się z <strong>Control Plane</strong> (API Server). API Server informuje węzły robocze, a lokalny agent <i>kube-proxy</i> programuje <i>iptables</i> w jądrze Linuxa. Od tego momentu pakiety od użytkowników płyną przez te reguły (to jest <strong>Data Plane</strong>) prosto do kontenerów, całkowicie omijając API Server.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 mt-12 py-8 text-center text-slate-500 text-sm">
+        <p>Stworzono dla Inżynierów Systemów Rozproszonych.</p>
+    </footer>
+
+</body>
+</html>

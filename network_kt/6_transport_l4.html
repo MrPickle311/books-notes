@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompendium Sieci - Rozdział 6: Warstwa L4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-2xl;
+            }
+            .diagram-box {
+                @apply bg-white border-2 border-slate-200 rounded-xl p-4 shadow-sm relative;
+            }
+            .animate-packet-syn {
+                animation: moveSyn 3s infinite;
+            }
+            .animate-packet-synack {
+                animation: moveSynAck 3s infinite;
+            }
+            .animate-packet-ack {
+                animation: moveAck 3s infinite;
+            }
+            @keyframes moveSyn {
+                0% { transform: translate(0, 0); opacity: 1; }
+                20% { transform: translate(250px, 40px); opacity: 1; }
+                21% { opacity: 0; }
+                100% { opacity: 0; transform: translate(250px, 40px); }
+            }
+            @keyframes moveSynAck {
+                0% { opacity: 0; transform: translate(250px, 40px); }
+                21% { opacity: 0; transform: translate(250px, 40px); }
+                22% { opacity: 1; }
+                42% { transform: translate(0px, 80px); opacity: 1; }
+                43% { opacity: 0; }
+                100% { opacity: 0; transform: translate(0px, 80px); }
+            }
+            @keyframes moveAck {
+                0% { opacity: 0; transform: translate(0px, 80px); }
+                43% { opacity: 0; transform: translate(0px, 80px); }
+                44% { opacity: 1; }
+                64% { transform: translate(250px, 120px); opacity: 1; }
+                65% { opacity: 0; }
+                100% { opacity: 0; transform: translate(250px, 120px); }
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Nawigacja boczna -->
+    <nav class="fixed hidden lg:block w-64 h-screen border-r border-slate-200 bg-white pt-8 px-6 overflow-y-auto z-50">
+        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired text-blue-500"></i>
+            Sieci dla DSE
+        </h2>
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Rozdział 6</div>
+        <ul class="space-y-4 text-sm font-medium text-slate-600">
+            <li><a href="#intro" class="hover:text-blue-600 transition-colors">Wprowadzenie (L4)</a></li>
+            <li><a href="#sockets" class="hover:text-blue-600 transition-colors">6.1. Gniazda i Port Exhaustion</a></li>
+            <li><a href="#tcp-basics" class="hover:text-blue-600 transition-colors">6.2. TCP: Handshake i HoL</a></li>
+            <li><a href="#tcp-control" class="hover:text-blue-600 transition-colors">6.3. TCP: Backpressure i Slow Start</a></li>
+            <li><a href="#udp" class="hover:text-blue-600 transition-colors">6.4. UDP (Zaufanie na słowo)</a></li>
+            <li><a href="#quic" class="hover:text-blue-600 transition-colors">6.5. QUIC (Przyszłość to HTTP/3)</a></li>
+        </ul>
+        <div class="mt-10 p-4 bg-blue-50 rounded-xl border border-blue-100">
+            <p class="text-xs text-blue-800 font-semibold"><i class="fa-solid fa-lightbulb mr-1"></i> Dlaczego to ważne?</p>
+            <p class="text-xs text-blue-700 mt-2">Rozdział 6 wyjaśnia, dlaczego Twoja aplikacja potrzebuje <strong>Connection Poolingu</strong> oraz dlaczego mikroserwisy zawieszają się pod dużym ruchem.</p>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="lg:ml-64 p-6 lg:p-12 max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header id="intro" class="mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold mb-4">
+                <i class="fa-solid fa-layer-group"></i> Rozdział 6
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Komunikacja Transportowa (L4)
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                Opuściliśmy warstwę fizyczną i IP. W warstwie 4 rozmawiają ze sobą nie maszyny, a <strong>konkretne procesy (aplikacje)</strong> działające na tych maszynach. To tutaj system operacyjny buforuje dane, gwarantuje ich dostarczenie (lub nie) oraz zapobiega wysyceniu przepustowości Internetu.
+            </p>
+        </header>
+
+        <!-- Sekcja 6.1: Gniazda i Porty -->
+        <section id="sockets" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-door-open text-emerald-500"></i> 6.1. Gniazda (Sockets) i Port Exhaustion
+            </h2>
+            <p class="text-slate-600 mb-6">
+                Gniazdo sieciowe to logiczny punkt końcowy (IP + Port). Portów mamy <strong>65,535</strong>. Pierwsze 1024 są zarezerwowane (np. 80 dla HTTP, 443 dla HTTPS). Porty powyżej tej wartości (tzw. <strong>Ephemeral Ports / Porty Ulotne</strong>) są przydzielane dynamicznie przez system operacyjny, gdy Twoja aplikacja nawiązuje połączenie jako klient.
+            </p>
+
+            <div class="bg-red-50 p-6 rounded-2xl border border-red-200 shadow-sm relative overflow-hidden mb-6">
+                <div class="absolute -right-4 -top-4 text-9xl text-red-100 opacity-50"><i class="fa-solid fa-fire"></i></div>
+                <h3 class="text-lg font-bold text-red-800 mb-4 relative z-10"><i class="fa-solid fa-bomb"></i> Zjawisko: Port Exhaustion (Wyczerpanie portów)</h3>
+                
+                <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+                    <div class="w-full md:w-1/2">
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Jeśli Twój mikroserwis wykonuje 10,000 zapytań HTTP na sekundę do innego serwisu (bez reużywania połączeń), zużyje całą pulę portów ulotnych (zwykle ok. 28,000 portów w Linuksie) w zaledwie 3 sekundy!
+                        </p>
+                        <p class="text-sm text-slate-700 leading-relaxed mt-3">
+                            Nawet jeśli szybko zamkniesz połączenie z poziomu kodu, system operacyjny przetrzymuje taki port przez ok. 60 sekund w stanie <strong>TIME_WAIT</strong> (na wypadek zabłąkanych pakietów w sieci). W efekcie, zanim system zwolni port, Tobie brakuje już nowych. Aplikacja "wybucha" błędem <code>Cannot assign requested address</code>.
+                        </p>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2 bg-white border border-red-300 p-4 rounded-xl shadow-inner text-center font-mono text-xs text-slate-600">
+                        <div class="border-b border-slate-200 pb-2 mb-2 font-bold text-slate-800">Tabela Połączeń (netstat / ss)</div>
+                        <div class="flex justify-between bg-red-100 text-red-800 p-1 rounded mb-1">
+                            <span>10.0.0.5:<strong>32001</strong></span> &rarr; <span>10.0.0.6:443</span> <span>[TIME_WAIT]</span>
+                        </div>
+                        <div class="flex justify-between bg-red-100 text-red-800 p-1 rounded mb-1">
+                            <span>10.0.0.5:<strong>32002</strong></span> &rarr; <span>10.0.0.6:443</span> <span>[TIME_WAIT]</span>
+                        </div>
+                        <div class="text-center text-slate-400 my-1">... 28 tysięcy wpisów ...</div>
+                        <div class="flex justify-between bg-slate-800 text-white p-1 rounded font-bold">
+                            <span>10.0.0.5:<strong>60999</strong></span> &rarr; <span>10.0.0.6:443</span> <span>[ERROR]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-emerald-50 text-emerald-800 p-4 rounded-lg border border-emerald-200 text-sm flex gap-3 shadow-sm">
+                <i class="fa-solid fa-wrench text-xl mt-0.5"></i>
+                <div>
+                    <strong>Rozwiązanie:</strong> ZAWSZE używaj w kodzie <strong>Connection Poolingu</strong> (np. <code>HttpClient</code> w C# z pule połączeń, <code>Keep-Alive</code> w HTTP/1.1, albo domyślnego multipleksowania w HTTP/2 gRPC). Wtedy przez jeden port lokalny przepychasz setki zapytań!
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 6.2: TCP Handshake & HoL -->
+        <section id="tcp-basics" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-handshake text-blue-500"></i> 6.2. TCP: Koszt Handshake'u i HoL Blocking
+            </h2>
+            
+            <p class="text-slate-600 mb-6">
+                TCP (Transmission Control Protocol) jest niezawodne i dba o kolejność pakietów. Niestety, "niezawodność" kosztuje. I to dużo. Przed wysłaniem jakichkolwiek użytecznych danych, TCP musi zestawić sesję.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                
+                <!-- 3-way handshake -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-800 mb-4 text-center">3-way Handshake (Podatek od TCP)</h3>
+                    
+                    <div class="relative w-full h-40 border border-slate-200 bg-slate-50 rounded flex justify-between px-8 py-4 overflow-hidden">
+                        <!-- Hosty -->
+                        <div class="flex flex-col justify-between items-center h-full z-10">
+                            <span class="font-bold text-sm text-blue-600">Klient</span>
+                            <div class="w-1 bg-slate-300 h-full"></div>
+                        </div>
+                        <div class="flex flex-col justify-between items-center h-full z-10">
+                            <span class="font-bold text-sm text-emerald-600">Serwer</span>
+                            <div class="w-1 bg-slate-300 h-full"></div>
+                        </div>
+
+                        <!-- Pakiety (Animowane) -->
+                        <div class="absolute left-10 top-8 text-xs font-bold text-blue-600 animate-packet-syn bg-white px-1 border border-blue-200 rounded">
+                            SYN (Chcę gadać)
+                        </div>
+                        <div class="absolute left-10 top-8 text-xs font-bold text-emerald-600 animate-packet-synack bg-white px-1 border border-emerald-200 rounded" style="left: auto; right: 10px;">
+                            SYN-ACK (Ok, ja też)
+                        </div>
+                        <div class="absolute left-10 top-8 text-xs font-bold text-blue-600 animate-packet-ack bg-white px-1 border border-blue-200 rounded">
+                            ACK (Świetnie)
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-xs text-slate-600 text-center">
+                        Zanim poleci pierwszy bajt Twojego HTTP Requestu, mija <strong>1.5 RTT</strong> (Round Trip Time). Jeśli serwer jest w USA (RTT = 150ms), tracisz 225ms na samo "dzień dobry" (+ kolejne RTT na TLS Handshake!).
+                    </div>
+                </div>
+
+                <!-- Head of Line Blocking -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl text-red-500"><i class="fa-solid fa-traffic-light"></i></div>
+                    <h3 class="font-bold text-slate-800 mb-4 text-center text-red-600">Head-of-Line (HoL) Blocking</h3>
+                    
+                    <p class="text-xs text-slate-600 mb-4">
+                        TCP <strong>gwarantuje kolejność</strong>. Jeśli wyślesz pakiety 1, 2 i 3, a pakiet 1 zgubi się w sieci, pakiety 2 i 3 dotrą do serwera, ale kernel Linuxa <strong>ukryje je przed Twoją aplikacją</strong> w buforze!
+                    </p>
+
+                    <div class="flex items-center gap-2 font-mono text-xs mt-6">
+                        <div class="w-1/4 text-center text-slate-400">Sieć (Przychodzące)</div>
+                        <div class="w-3/4 flex gap-1 border-l-2 border-slate-400 pl-2">
+                            <div class="bg-emerald-100 border border-emerald-400 p-2 text-center rounded text-emerald-800 opacity-50">#3 dotarł</div>
+                            <div class="bg-emerald-100 border border-emerald-400 p-2 text-center rounded text-emerald-800 opacity-50">#2 dotarł</div>
+                            <div class="bg-red-500 border border-red-700 p-2 text-center rounded text-white font-bold animate-pulse shadow-md relative">
+                                <span class="absolute -top-5 text-[10px] text-red-500 whitespace-nowrap">Zgubiony! Retransmisja...</span>
+                                #1 czeka
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-[11px] bg-red-50 border border-red-100 text-red-800 p-2 rounded">
+                        <strong>Dla programisty:</strong> Zjawisko to masakruje wydajność protokołu HTTP/2 w wolnych/mobilnych sieciach. Zgubienie jednego pakietu blokuje <strong>wszystkie inne żądania HTTP</strong> lecące tym samym gniazdem TCP!
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sekcja 6.3: TCP Control -->
+        <section id="tcp-control" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-gauge-high text-purple-500"></i> 6.3. TCP: Flow Control i Congestion Control
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm font-bold">
+                TCP to protokół inteligentny. Posiada dwa potężne mechanizmy ochrony: jeden chroni odbiorcę przed zadeptaniem (Flow Control), a drugi chroni całą sieć przed zapchaniem (Congestion Control).
+            </p>
+
+            <!-- Flow Control -->
+            <div class="bg-slate-800 text-slate-200 p-6 rounded-2xl shadow-lg mb-8 relative">
+                <h3 class="text-lg font-bold text-emerald-400 mb-2"><i class="fa-solid fa-water"></i> Flow Control (Backpressure)</h3>
+                <p class="text-sm text-slate-400 mb-6">
+                    Aplikacja czyta dane z bufora sieciowego systemu operacyjnego. Jeśli Twoja aplikacja zablokuje się (np. pisze powoli na dysk, albo Java robi GC Pause), bufor zacznie się wypełniać. Odbiorca wysyła do nadawcy parametr <strong>Receive Window (rwnd)</strong>. Gdy bufor jest pełny, <code>rwnd=0</code>.
+                </p>
+
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <!-- Nadawca -->
+                    <div class="w-24 text-center">
+                        <i class="fa-solid fa-server text-3xl text-slate-500"></i><br>Nadawca
+                    </div>
+                    
+                    <!-- Rura -->
+                    <div class="flex-grow w-full relative h-12 flex items-center justify-center">
+                        <div class="w-full h-2 bg-slate-600 relative overflow-hidden rounded">
+                            <div class="absolute left-0 top-0 h-full w-1/3 bg-emerald-500"></div>
+                        </div>
+                        <div class="absolute -top-3 bg-red-500 text-white font-mono text-[10px] px-2 py-1 rounded-full animate-bounce shadow-[0_0_10px_rgba(239,68,68,0.8)]">
+                            TCP ACK: rwnd = 0! (STOP!)
+                        </div>
+                    </div>
+
+                    <!-- Odbiorca -->
+                    <div class="w-40 border-2 border-slate-500 rounded-lg p-2 bg-slate-900 text-center relative">
+                        <span class="text-[10px] font-bold uppercase text-slate-500 absolute -top-3 bg-slate-800 px-1 left-4">Bufor Jądra OS</span>
+                        <!-- Plik wypełniony -->
+                        <div class="w-full bg-slate-700 h-16 mt-2 rounded relative flex items-end overflow-hidden border border-slate-600">
+                            <div class="w-full bg-blue-500 h-full opacity-80 border-t border-blue-400"></div>
+                        </div>
+                        <p class="text-[9px] mt-2 text-red-400 font-bold leading-tight">App wisi (GC Pause).<br>Bufor 100% zajęty.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Congestion Control (Slow Start) -->
+            <div class="bg-white border-2 border-purple-200 p-6 rounded-2xl shadow-sm">
+                <h3 class="text-lg font-bold text-purple-800 mb-2"><i class="fa-solid fa-chart-line"></i> Congestion Control (TCP Slow Start)</h3>
+                <p class="text-sm text-slate-600 mb-4">
+                    Kiedy otwierasz nowe połączenie TCP, system nie wie, jak przepustowa jest sieć pod spodem. Zamiast od razu wysyłać z pełną prędkością 1Gbps, TCP wysyła małą paczkę, potem dwa razy większą, potem znowu dwa razy większą (wykładniczo), "badając" sieć. To mechanizm <strong>Slow Start</strong>.
+                </p>
+
+                <!-- Wykres Slow Start -->
+                <div class="relative h-40 bg-slate-50 border-l-2 border-b-2 border-slate-400 p-4 text-xs font-mono mb-4 mt-6 ml-6">
+                    <span class="absolute -left-6 top-0 transform -rotate-90 origin-bottom text-slate-500">Przepustowość (cwnd)</span>
+                    <span class="absolute -bottom-6 left-1/2 text-slate-500">Czas (Kolejne RTT)</span>
+                    
+                    <!-- Krzywa (SVG) -->
+                    <svg class="absolute inset-0 w-full h-full p-2" preserveAspectRatio="none">
+                        <path d="M 0 100 Q 20 90, 30 70 T 50 20 L 100 20" fill="none" stroke="#a855f7" stroke-width="3" />
+                        <circle cx="10" cy="95" r="4" fill="#a855f7" />
+                        <circle cx="20" cy="85" r="4" fill="#a855f7" />
+                        <circle cx="30" cy="65" r="4" fill="#a855f7" />
+                        <circle cx="40" cy="35" r="4" fill="#a855f7" />
+                        <circle cx="50" cy="20" r="4" fill="#a855f7" />
+                        <circle cx="60" cy="20" r="4" fill="#a855f7" />
+                    </svg>
+
+                    <!-- Etykieta -->
+                    <div class="absolute top-4 left-1/3 bg-purple-100 border border-purple-300 text-purple-800 px-2 rounded shadow-sm">
+                        Max przepustowość osiągnięta dopiero po np. 5 RTT
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-3 text-sm text-amber-900 rounded shadow-sm">
+                    <strong>Kluczowy wniosek dla inżyniera:</strong> Świeżo otwarte połączenie TCP jest potwornie WOLNE! To najważniejszy argument za używaniem <strong>długotrwałych puli połączeń</strong> (Connection Pooling) do baz danych czy API. Przekazując cały ruch przez jedną, "rozgrzaną" już rurę TCP, omijasz cały koszt Slow Startu.
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 6.4: UDP -->
+        <section id="udp" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-paper-plane text-orange-500"></i> 6.4. UDP (User Datagram Protocol)
+            </h2>
+            <p class="text-slate-600 mb-6">
+                UDP to przeciwieństwo TCP. Nie ma handshake'u, nie ma potwierdzeń (ACK), nie zachowuje kolejności pakietów, nie reaguje na zatłoczenie sieci (brak flow/congestion control). Po prostu bierze dane z aplikacji i wstrzykuje je w sieć najszybciej jak to możliwe.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center h-full min-h-[150px]">
+                    <div class="text-center w-full">
+                        <i class="fa-solid fa-fire text-orange-500 text-3xl mb-2"></i>
+                        <h4 class="font-bold text-slate-700">Fire and Forget!</h4>
+                        <div class="mt-4 flex gap-2 justify-center w-full overflow-hidden">
+                            <div class="bg-orange-200 text-orange-800 text-[10px] px-2 py-1 rounded shadow-sm shrink-0">Datagram 1</div>
+                            <div class="bg-orange-200 text-orange-800 text-[10px] px-2 py-1 rounded shadow-sm shrink-0">Datagram 2</div>
+                            <div class="bg-slate-300 text-slate-500 text-[10px] px-2 py-1 rounded shadow-sm shrink-0 opacity-30 border border-slate-400">Datagram 3 (Zgubiony)</div>
+                            <div class="bg-orange-200 text-orange-800 text-[10px] px-2 py-1 rounded shadow-sm shrink-0">Datagram 4</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-full">
+                    <h4 class="font-bold text-slate-800 text-sm mb-3">Zastosowania w architekturze:</h4>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-2">
+                        <li><strong>Streaming i Gry:</strong> Jeśli gubisz jedną klatkę z 60 na sekundę, po prostu wyświetlasz kolejną. Retransmisja starej klatki (jak w TCP) nie ma sensu.</li>
+                        <li><strong>Statystyki i Telemetria (StatsD):</strong> Jeśli serwer odrzuci jeden metryczny punkt CPU, nic się nie stanie. Ważne by wysyłanie statystyk nigdy nie zablokowało działania samej aplikacji (UDP nie blokuje przy wysyłaniu).</li>
+                        <li><strong>DNS:</strong> Pojedyncze zapytanie i odpowiedź mieszczą się w jednym małym pakiecie. Szkoda czasu na TCP Handshake.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 6.5: QUIC -->
+        <section id="quic" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-rocket text-indigo-500"></i> 6.5. QUIC (Nowa Era Sieci i HTTP/3)
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                TCP jest wbudowane głęboko w system operacyjny (kernel) i nikt nie odważy się go zmienić ze strachu o zepsucie Internetu. Dlatego inżynierowie z Google stworzyli protokół <strong>QUIC</strong>. Działa on <i>na bazie powierzchownego UDP</i>, ale cała skomplikowana logika kontroli (retransmisje, okna) jest zaimplementowana wyżej (często w przestrzeni użytkownika, w bibliotece).
+            </p>
+
+            <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-8 rounded-2xl shadow-xl flex flex-col md:flex-row gap-8 items-center">
+                
+                <div class="w-full md:w-1/2">
+                    <h3 class="text-xl font-bold text-indigo-300 mb-4">Co QUIC zmienia dla nas?</h3>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                            <div>
+                                <strong class="text-emerald-300 block">Koniec z TCP HoL Blocking</strong>
+                                QUIC obsługuje wiele niezależnych <i>strumieni</i>. Zgubienie pakietu w strumieniu HTTP A wstrzymuje tylko to jedno zdjęcie. Reszta strony WWW ładuje się płynnie!
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                            <div>
+                                <strong class="text-emerald-300 block">Zero RTT Handshake</strong>
+                                QUIC ma wbudowane szyfrowanie TLS 1.3 od razu (zamiast TCP potem TLS). Jeśli rozmawiałeś już z tym serwerem, odnowienie bezpiecznej sesji to okrągłe <strong>0 milisekund</strong>!
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                            <div>
+                                <strong class="text-emerald-300 block">Connection Migration</strong>
+                                Kiedy wychodzisz z domu z telefonu (zmiana IP z WiFi na 5G), TCP natychmiast zrywa połączenie. QUIC utrzymuje połączenie na podstawie ukrytego "ID", więc wideo na YouTube ani pobieranie pliku nawet nie zająknie!
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="w-full md:w-1/2 bg-slate-800 border-2 border-slate-700 p-4 rounded-xl">
+                    <h4 class="text-center font-bold text-slate-400 mb-4 uppercase text-xs tracking-wider">Multipleksowanie bez blokowania</h4>
+                    
+                    <div class="space-y-3 font-mono text-xs font-bold relative">
+                        <!-- Zgubiony strumień (Red) -->
+                        <div class="flex gap-1 relative">
+                            <div class="w-16 text-right pr-2 text-slate-400 leading-6">Zdj 1</div>
+                            <div class="bg-indigo-500/20 border border-indigo-500/50 p-1 w-12 text-center rounded opacity-50">P1</div>
+                            <div class="bg-red-500 border border-red-400 p-1 w-12 text-center rounded shadow-[0_0_10px_red] text-white">X</div>
+                            <div class="bg-slate-700 border border-slate-600 p-1 w-12 text-center rounded text-slate-500">Czeka</div>
+                            <div class="absolute right-0 text-[10px] text-red-400 italic">Retransmisja...</div>
+                        </div>
+                        
+                        <!-- Działające strumienie omijające korek (Green) -->
+                        <div class="flex gap-1 relative">
+                            <div class="w-16 text-right pr-2 text-slate-400 leading-6">Zdj 2</div>
+                            <div class="bg-indigo-500 border border-indigo-400 p-1 w-12 text-center rounded text-indigo-100 shadow-sm">P1</div>
+                            <div class="bg-indigo-500 border border-indigo-400 p-1 w-12 text-center rounded text-indigo-100 shadow-sm">P2</div>
+                            <div class="bg-indigo-500 border border-indigo-400 p-1 w-12 text-center rounded text-indigo-100 shadow-sm">P3</div>
+                            <div class="absolute right-0 text-[10px] text-emerald-400 italic font-bold">Ładuje się płynnie!</div>
+                        </div>
+
+                        <!-- Divider line to show logic split -->
+                        <div class="absolute left-16 top-0 bottom-0 w-px bg-slate-700"></div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <p class="text-sm text-slate-500 italic text-center mt-6">QUIC jest standardowym transportem dla najnowszego protokołu <strong>HTTP/3</strong>, używanego powszechnie przez przeglądarki Chrome oraz CDNy (Cloudflare, Fastly).</p>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 mt-12 py-8 text-center text-slate-500 text-sm">
+        <p>Stworzono dla Inżynierów Systemów Rozproszonych.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompendium Sieci - Rozdział 3: Warstwa L3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-2xl;
+            }
+            .diagram-box {
+                @apply bg-white border-2 border-slate-200 rounded-xl p-4 shadow-sm relative;
+            }
+            .pulse-ring {
+                animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            @keyframes pulseRing {
+                0% { transform: scale(0.8); opacity: 0.5; }
+                100% { transform: scale(1.5); opacity: 0; }
+            }
+            .animate-dash {
+                stroke-dasharray: 5;
+                animation: dash 10s linear infinite;
+            }
+            @keyframes dash {
+                to { stroke-dashoffset: -100; }
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Nawigacja boczna -->
+    <nav class="fixed hidden lg:block w-64 h-screen border-r border-slate-200 bg-white pt-8 px-6 overflow-y-auto z-50">
+        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired text-blue-500"></i>
+            Sieci dla DSE
+        </h2>
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Rozdział 3</div>
+        <ul class="space-y-4 text-sm font-medium text-slate-600">
+            <li><a href="#intro" class="hover:text-blue-600 transition-colors">Wprowadzenie (Warstwa 3)</a></li>
+            <li><a href="#ip-cidr" class="hover:text-blue-600 transition-colors">3.1. Adresacja IP i CIDR</a></li>
+            <li><a href="#sdn" class="hover:text-blue-600 transition-colors">3.2. SDN i VPC</a></li>
+            <li><a href="#routing" class="hover:text-blue-600 transition-colors">3.3. BGP i IP-Anycast</a></li>
+            <li><a href="#bfd" class="hover:text-blue-600 transition-colors">3.4. BFD (Szybkie awarie)</a></li>
+            <li><a href="#vrf" class="hover:text-blue-600 transition-colors">3.5. VRF (Wirtualizacja routingu)</a></li>
+            <li><a href="#nat" class="hover:text-blue-600 transition-colors">3.6. NAT i problemy z gRPC</a></li>
+        </ul>
+        <div class="mt-10 p-4 bg-purple-50 rounded-xl border border-purple-100">
+            <p class="text-xs text-purple-800 font-semibold"><i class="fa-solid fa-bolt mr-1"></i> Kluczowe!</p>
+            <p class="text-xs text-purple-700 mt-2">Dla architekta systemów rozproszonych punkt <strong>3.3 (IP-Anycast)</strong> to fundament budowy globalnych systemów o niskich opóźnieniach.</p>
+        </div>
+    </nav>
+
+    <!-- Główna zawartość -->
+    <main class="lg:ml-64 p-6 lg:p-12 max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header id="intro" class="mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold mb-4">
+                <i class="fa-solid fa-route"></i> Rozdział 3
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Infrastruktura: L3, Routing i SDN
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                Warstwa 2 (Switche) pozwalała komputerom rozmawiać w jednym biurze. <strong>Warstwa 3 (L3) łączy te biura w globalny Internet.</strong> To tutaj pakiety otrzymują adresy IP, a routery decydują, którą ścieżką w gąszczu światłowodów przesłać dane, by najszybciej dotarły do celu. Poznamy też zasady działania chmurowych VPC.
+            </p>
+        </header>
+
+        <!-- Sekcja 3.1: CIDR -->
+        <section id="ip-cidr" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-sitemap text-emerald-500"></i> 3.1. Adresacja IP i CIDR
+            </h2>
+            <p class="text-slate-600 mb-6">
+                Zapis CIDR (Classless Inter-Domain Routing), np. <code>10.0.0.0/24</code>, określa rozmiar podsieci. Liczba po ukośniku to ilość bitów (z 32) zarezerwowanych na "część sieciową". Im wyższa liczba, tym mniejsza pula dostępnych adresów. Zrozumienie tego jest krytyczne przy projektowaniu klastrów.
+            </p>
+
+            <!-- Diagram CIDR -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-6 text-white shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-bold text-emerald-400 mb-2">RFC 1918 (Pule Prywatne)</h4>
+                        <ul class="text-sm font-mono text-slate-300 space-y-2 mb-4">
+                            <li><span class="text-orange-400">10.0.0.0/8</span> - (16.7 mln IP) Gigantyczne sieci korporacyjne.</li>
+                            <li><span class="text-orange-400">172.16.0.0/12</span> - (1 mln IP) Często domyślna pula w Dockerze.</li>
+                            <li><span class="text-orange-400">192.168.0.0/16</span> - (65 tys. IP) Typowe sieci domowe / małe biura.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2 bg-slate-900 p-4 rounded-xl border border-slate-700">
+                        <h4 class="font-bold text-red-400 text-sm mb-2"><i class="fa-solid fa-battery-quarter"></i> Wyczerpanie puli IP w Kubernetes</h4>
+                        <p class="text-xs text-slate-400 mb-3">
+                            K8s przydziela odrębne IP każdemu Podowi. Jeśli przydzielisz Node'owi pulę <code>/24</code> (254 adresy), na tym serwerze uruchomisz max ~250 kontenerów. Jeśli ustawisz za małą pulę VPC, nagle nie będziesz mógł zeskalować aplikacji w chmurze!
+                        </p>
+                        <!-- Pasek postępu -->
+                        <div class="w-full bg-slate-700 rounded-full h-3 mb-1">
+                            <div class="bg-red-500 h-3 rounded-full" style="width: 95%"></div>
+                        </div>
+                        <div class="text-[10px] text-right text-red-300 font-bold">Zajęte: 242/254 IP (VPC Subnet /24)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 3.2: SDN -->
+        <section id="sdn" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-cloud text-blue-500"></i> 3.2. SDN i Wirtualne Sieci Chmurowe (VPC)
+            </h2>
+            <p class="text-slate-600 mb-6">
+                W AWS (VPC) czy GCP, nie masz dostępu do fizycznych switchy i routerów. Wszystko to <strong>SDN (Software-Defined Networking)</strong>. Kernel hypervisora używa reguł <i>Match-and-Action</i> (Dopasuj i Wykonaj), by "udawać" sprzęt sieciowy w pamięci RAM. Zmiana routingu to tylko aktualizacja rekordu w bazie danych chmury.
+            </p>
+
+            <div class="bg-blue-50 p-6 rounded-2xl border border-blue-200 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-9xl text-blue-100 opacity-50"><i class="fa-brands fa-aws"></i></div>
+                
+                <h4 class="font-bold text-blue-900 mb-4 relative z-10">Logika Match-and-Action w SDN</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10 text-sm">
+                    <div class="bg-white p-3 rounded shadow-sm border-l-4 border-emerald-500">
+                        <span class="block text-[10px] text-slate-400 font-bold uppercase mb-1">Reguła 1</span>
+                        <strong>Match:</strong> Dst IP <code>10.0.1.0/24</code><br>
+                        <strong>Action:</strong> Przekaż do <code>Subnet-A</code>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-l-4 border-orange-500">
+                        <span class="block text-[10px] text-slate-400 font-bold uppercase mb-1">Reguła 2</span>
+                        <strong>Match:</strong> Dst IP <code>0.0.0.0/0</code> (Internet)<br>
+                        <strong>Action:</strong> Przekaż do <code>Internet Gateway (IGW)</code>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow-sm border-l-4 border-red-500">
+                        <span class="block text-[10px] text-slate-400 font-bold uppercase mb-1">Reguła 3 (Security Group)</span>
+                        <strong>Match:</strong> Port <code>22</code> (SSH)<br>
+                        <strong>Action:</strong> <code>DROP</code> (Odrzuć)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja 3.3: BGP i Anycast -->
+        <section id="routing" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-earth-americas text-purple-500"></i> 3.3. BGP i Magia IP-Anycast
+            </h2>
+            <p class="text-slate-600 mb-6">
+                <strong>BGP (Border Gateway Protocol)</strong> to system nerwowy internetu. Routery BGP wymieniają się informacjami typu "Mój system potrafi dowieźć ruch do sieci 1.0.0.0/8". Dzięki BGP możemy zbudować najpotężniejszy wzorzec systemów globalnych: <strong>IP-Anycast</strong>.
+            </p>
+
+            <!-- Diagram IP-Anycast -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6 overflow-hidden relative">
+                <h4 class="font-bold text-slate-800 text-center mb-6">Jak działa Anycast (np. Cloudflare 1.1.1.1)?</h4>
+                
+                <div class="relative w-full h-64 md:h-80 bg-slate-50 rounded-xl border border-slate-200">
+                    
+                    <!-- Klienci -->
+                    <div class="absolute top-10 left-10 text-center group">
+                        <i class="fa-solid fa-user text-2xl text-blue-600 relative z-10"></i>
+                        <div class="text-[10px] font-bold mt-1">User (EU)</div>
+                    </div>
+                    <div class="absolute top-10 right-10 text-center group">
+                        <i class="fa-solid fa-user text-2xl text-orange-600 relative z-10"></i>
+                        <div class="text-[10px] font-bold mt-1">User (USA)</div>
+                    </div>
+
+                    <!-- Serwery (Anycast) -->
+                    <div class="absolute bottom-10 left-10 md:left-1/4 text-center">
+                        <div class="bg-white border-2 border-purple-400 p-2 rounded shadow-lg relative z-10">
+                            <i class="fa-solid fa-server text-purple-600 text-xl"></i>
+                            <div class="text-xs font-bold text-slate-700">Data Center (EU)</div>
+                            <div class="bg-purple-100 text-purple-800 text-[10px] font-mono px-1 rounded mt-1">IP: 1.1.1.1</div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-10 right-10 md:right-1/4 text-center">
+                        <div class="bg-white border-2 border-purple-400 p-2 rounded shadow-lg relative z-10">
+                            <i class="fa-solid fa-server text-purple-600 text-xl"></i>
+                            <div class="text-xs font-bold text-slate-700">Data Center (USA)</div>
+                            <div class="bg-purple-100 text-purple-800 text-[10px] font-mono px-1 rounded mt-1">IP: 1.1.1.1</div>
+                        </div>
+                    </div>
+
+                    <!-- SVG Lines (BGP Routing) -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 5;">
+                        <!-- Trasa EU -->
+                        <path d="M 50 60 C 50 150, 100 200, 25% 200" fill="none" stroke="#3b82f6" stroke-width="2" class="animate-dash" />
+                        <text x="20%" y="140" fill="#3b82f6" font-size="10" font-weight="bold">BGP Route (Krótsza)</text>
+                        <!-- Trasa USA -->
+                        <path d="M calc(100% - 50px) 60 C calc(100% - 50px) 150, calc(100% - 100px) 200, 75% 200" fill="none" stroke="#f97316" stroke-width="2" class="animate-dash" />
+                    </svg>
+
+                </div>
+            </div>
+
+            <div class="bg-white border-l-4 border-purple-500 p-4 rounded shadow-sm">
+                <h4 class="font-bold text-purple-900 text-sm mb-1">Dlaczego to jest Game Changer?</h4>
+                <p class="text-sm text-slate-600">
+                    Wielu serwerom na świecie przypisujesz <strong>dokładnie ten sam adres IP</strong>. BGP automatycznie ogłasza te trasy do internetu. Gdy użytkownik z Europy wpisuje ten adres IP, routery szkieletowe wybiorą najkrótszą drogę – czyli do serwera w Europie. Gdy serwer w Europie padnie, BGP to wykryje i automatycznie przekieruje ruch z Europy do USA. Tak buduje się globalne CDN-y, serwery DNS i systemy o zerowym czasie przestoju (Zero Downtime).
+                </p>
+            </div>
+        </section>
+
+        <!-- Sekcja 3.4 & 3.5: BFD i VRF -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            
+            <!-- BFD -->
+            <section id="bfd" class="scroll-mt-10">
+                <h2 class="text-xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-stopwatch text-red-500"></i> 3.4. BFD (Szybkie Awarie)
+                </h2>
+                <p class="text-sm text-slate-600 mb-4">
+                    Protokoły routingu (jak BGP czy OSPF) są dość powolne. Jeśli zgasimy serwer "twardo", BGP może potrzebować od kilkunastu sekund do kilku minut (tzw. <i>Hold Timer</i>), żeby zorientować się, że serwer nie żyje.
+                </p>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200 h-full relative overflow-hidden">
+                    <i class="fa-solid fa-truck-fast absolute -right-2 -bottom-2 text-6xl text-red-100"></i>
+                    <h4 class="font-bold text-red-800 text-sm mb-2 relative z-10">Rozwiązanie: BFD (Bidirectional Forwarding Detection)</h4>
+                    <p class="text-xs text-slate-700 relative z-10">
+                        BFD to ultraszybki, "chudy" protokół. Wysyła pakiety kontrolne (hello) co np. <strong>50 milisekund</strong>! Gdy zgubi 3 takie pakiety pod rząd (150ms), krzyczy do powolnego BGP: "Ten link nie żyje, natychmiast przelicz trasę!". <br><br>Dzięki temu, awaria światłowodu jest obsługiwana w czasie niezauważalnym dla większości połączeń TCP (gra multiplayer nawet nie zerwie sesji).
+                    </p>
+                </div>
+            </section>
+
+            <!-- VRF -->
+            <section id="vrf" class="scroll-mt-10">
+                <h2 class="text-xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-indigo-500"></i> 3.5. VRF (Wirtualny Routing)
+                </h2>
+                <p class="text-sm text-slate-600 mb-4">
+                    VRF (Virtual Routing and Forwarding) to dla routerów (L3) tym, czym VLAN-y dla switchy (L2). Pozwala on na stworzenie wielu, całkowicie odizolowanych tablic routingu wewnątrz jednego fizycznego routera.
+                </p>
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 h-full">
+                    <h4 class="font-bold text-indigo-800 text-sm mb-2 text-center">Jeden Hardware, Dwie Firmy</h4>
+                    <div class="grid grid-cols-2 gap-2 mt-4 text-center text-xs">
+                        <div class="bg-white p-2 rounded shadow-sm border border-indigo-100">
+                            <strong>VRF: Tenant A</strong><br>
+                            <span class="text-slate-500 font-mono">Sieć: 10.0.0.0/16</span><br>
+                            Brama: 10.0.0.1
+                        </div>
+                        <div class="bg-white p-2 rounded shadow-sm border border-indigo-100">
+                            <strong>VRF: Tenant B</strong><br>
+                            <span class="text-slate-500 font-mono">Sieć: 10.0.0.0/16</span><br>
+                            Brama: 10.0.0.1
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-3 text-center">Dzięki VRF, różni klienci chmury (Tenants) mogą używać dokładnie tych samych adresów IP, a ruch nigdy się nie pomiesza.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Sekcja 3.6: NAT i gRPC -->
+        <section id="nat" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-mask text-orange-500"></i> 3.6. NAT, Middleboxy i Timeouty gRPC
+            </h2>
+            <p class="text-slate-600 mb-6">
+                NAT (Network Address Translation) pozwala ukryć całą prywatną sieć pod jednym publicznym adresem IP. Kiedy wysyłasz zapytanie z AWS w internet, <strong>NAT Gateway (Middlebox)</strong> modyfikuje Twój nagłówek IP w locie, zapamiętując to w swojej wewnętrznej tabeli (ang. <i>Connection Tracking / conntrack</i>).
+            </p>
+
+            <!-- Diagram NAT -->
+            <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 mb-8 flex flex-col md:flex-row items-center justify-around text-sm relative">
+                <div class="text-center w-32">
+                    <i class="fa-solid fa-server text-3xl text-emerald-500 mb-2"></i>
+                    <div class="font-bold text-slate-700">App</div>
+                    <div class="bg-white border rounded px-1 font-mono text-xs">10.0.0.5:1234</div>
+                </div>
+                
+                <div class="text-center w-48 relative flex flex-col items-center">
+                    <i class="fa-solid fa-arrow-right-long text-slate-400 my-2"></i>
+                    <div class="bg-orange-100 border-2 border-orange-400 p-3 rounded-lg shadow-md z-10 text-center w-full">
+                        <i class="fa-solid fa-router text-orange-600 text-xl mb-1"></i><br>
+                        <span class="font-bold text-orange-900 text-xs">NAT Gateway</span>
+                        <div class="text-[10px] bg-white p-1 rounded mt-1 border border-orange-200 text-left font-mono">
+                            Tablica (Conntrack):<br>
+                            10.0.0.5:1234 &rarr;<br><span class="text-blue-600">8.8.8.8:40500</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right-long text-slate-400 my-2"></i>
+                </div>
+                
+                <div class="text-center w-32">
+                    <i class="fa-solid fa-globe text-3xl text-blue-500 mb-2"></i>
+                    <div class="font-bold text-slate-700">Internet API</div>
+                    <div class="bg-white border rounded px-1 font-mono text-xs">Widzi ruch od:<br>8.8.8.8:40500</div>
+                </div>
+            </div>
+
+            <!-- Problem dla DSE -->
+            <div class="bg-red-50 p-6 border border-red-200 rounded-xl shadow-sm">
+                <h3 class="text-lg font-bold text-red-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-bug text-red-600"></i>
+                    Pułapka DSE: NAT Idle Timeout
+                </h3>
+                <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                    Routery NAT mają ograniczoną pamięć RAM na tablicę połączeń (Conntrack). Jeśli przez dane połączenie TCP nic nie przepłynie przez np. 5-10 minut (zależy od chmury/routera), <strong>NAT cicho usunie ten wpis (NAT Drop)</strong>.
+                </p>
+                <div class="bg-white p-4 rounded border border-red-100 shadow-inner">
+                    <strong class="text-red-600 block mb-1">Dlaczego gRPC i bazy danych "zawisają"?</strong>
+                    <p class="text-sm text-slate-600 mb-3">
+                        Protokoły takie jak gRPC czy połączenia z bazą SQL (Connection Pooling) utrzymują długie, trwałe połączenia TCP. Jeśli system jest bezczynny w nocy i nic nie wysyła, <strong>NAT ucina połączenie w połowie drogi</strong>. Twój mikroserwis i Baza Danych nadal myślą, że połączenie żyje. Gdy rano przychodzi zapytanie klienta, aplikacja próbuje wysłać dane w martwy kanał – i wisi, aż nastąpi 15-minutowy Timeout TCP poziomu jądra.
+                    </p>
+                    <div class="bg-emerald-50 text-emerald-800 p-2 text-xs font-bold rounded border border-emerald-200">
+                        <i class="fa-solid fa-wrench mr-1"></i> Rozwiązanie: Włączenie mechanizmów <code>KeepAlive</code> na poziomie aplikacji (gRPC KeepAlive, TCP KeepAlive w sterowniku bazy). Sztuczne wysyłanie "pustego" pingu co 1-2 minuty, by odświeżyć czas życia (TTL) w tablicy routera NAT!
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 mt-12 py-8 text-center text-slate-500 text-sm">
+        <p>Stworzono dla Inżynierów Systemów Rozproszonych.</p>
+    </footer>
+
+</body>
+</html>
