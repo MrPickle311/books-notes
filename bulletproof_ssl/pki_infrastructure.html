@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozdział 3: PKI i Certyfikaty (Deep Dive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        /* Używamy visibility zamiast display: none, aby Mermaid.js poprawnie przeliczał rozmiary przy starcie */
+        .tab-content { position: absolute; visibility: hidden; opacity: 0; pointer-events: none; width: 100%; height: 0; overflow: hidden; }
+        .tab-content.active { position: relative; visibility: visible; opacity: 1; pointer-events: auto; height: auto; overflow: visible; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .active-tab-btn { background-color: #1e293b; border-left: 4px solid #3b82f6; color: #38bdf8; font-weight: 600; }
+        .code-block { font-family: 'Fira Code', monospace; font-size: 0.85rem; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- Sidebar Navigation -->
+<nav class="w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col h-full z-10 relative shadow-xl">
+    <div class="p-6 border-b border-slate-800 shrink-0">
+        <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+            <i data-lucide="shield" class="text-blue-500"></i>
+            Bulletproof TLS
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">Rozdział 3: PKI i Certyfikaty</p>
+    </div>
+    <ul class="flex-1 overflow-y-auto py-4 space-y-1" id="tabs-nav">
+        <li>
+            <button onclick="switchTab('pki-basics')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors active-tab-btn flex items-center gap-3" data-tab="pki-basics">
+                <i data-lucide="file-badge" class="w-5 h-5 shrink-0"></i> 1. Certyfikaty i Standardy
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('chains')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="chains">
+                <i data-lucide="link" class="w-5 h-5 shrink-0"></i> 2. Łańcuchy i Urzędy (CA)
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('lifecycle-revocation')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="lifecycle-revocation">
+                <i data-lucide="refresh-ccw" class="w-5 h-5 shrink-0"></i> 3. Cykl Życia i Odwoływanie
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('weaknesses')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="weaknesses">
+                <i data-lucide="shield-alert" class="w-5 h-5 shrink-0"></i> 4. Słabości PKI i Poprawki
+            </button>
+        </li>
+    </ul>
+</nav>
+
+<!-- Main Content Area -->
+<main class="w-3/4 bg-slate-950 p-8 overflow-y-auto h-full scroll-smooth">
+
+    <!-- Tab: PKI Basics -->
+    <div id="pki-basics" class="tab-content active max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">PKI: Infrastruktura Klucza Publicznego</h2>
+        <p class="text-slate-300 mb-6">Klucze asymetryczne są świetne, ale mają jedną wadę: skąd wiesz, że klucz publiczny, który dostałeś, faktycznie należy do <code>twoj-bank.pl</code>, a nie do atakującego MITM? PKI to rozwiązanie tego problemu oparte na zaufanej Trzeciej Stronie (CA).</p>
+
+        <div class="space-y-6">
+            <!-- X.509 and Standards -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-blue-400 mb-3">Standard X.509 v3</h3>
+                <p class="text-sm text-slate-300 mb-3">To format struktury danych, w którym wydawane są certyfikaty. Dokument oparty na standardzie ASN.1. To taki "paszport" kryptograficzny.</p>
+                <div class="grid grid-cols-2 gap-4 text-sm text-slate-400">
+                    <div class="p-3 bg-slate-950 rounded border-l-4 border-blue-500">
+                        <strong class="text-white block mb-1">Główne Pola (Fields):</strong>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li><strong>Issuer:</strong> Kto wydał certyfikat (np. Let's Encrypt).</li>
+                            <li><strong>Validity:</strong> Daty <i>Not Before</i> i <i>Not After</i>.</li>
+                            <li><strong>Subject:</strong> Podmiot, dla którego wydano certyfikat. ⚠️ Historycznie używano tu pola <b>CN (Common Name)</b> dla domeny. Obecnie jest to mocno odradzane/zdeprecjonowane.</li>
+                            <li><strong>Public Key:</strong> Właściwy klucz (np. RSA 2048).</li>
+                        </ul>
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded border-l-4 border-purple-500">
+                        <strong class="text-white block mb-1">Krytyczne Rozszerzenia (Extensions):</strong>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li><strong>SAN (Subject Alternative Name):</strong> ✅ Złoty standard. Lista domen/IP, na które wystawiono certyfikat. Przeglądarki ufają dziś tylko SAN, ignorując CN!</li>
+                            <li><strong>Key Usage:</strong> Do czego służy klucz (np. Podpis cyfrowy, Encypherment).</li>
+                            <li><strong>Extended Key Usage:</strong> Np. <i>Server Authentication</i> lub <i>Client Authentication</i>.</li>
+                            <li><strong>Basic Constraints:</strong> Definiuje, czy ten certyfikat to Urząd (CA), który może wydawać kolejne certyfikaty, czy zwykły certyfikat końcowy (End-Entity).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Tab: Certificate Chains -->
+    <div id="chains" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Urzędy Certyfikacji (CA) i Łańcuchy Zaufania</h2>
+
+        <p class="text-slate-300 mb-6">Infrastruktura PKI opiera się na łańcuchach zaufania. Zamiast ufać każdemu z osobna, ufamy głównym urzędom, które z kolei ręczą za tożsamość serwerów docelowych.</p>
+
+        <!-- Certification Authorities -->
+        <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg mb-8">
+            <h3 class="text-xl font-semibold text-blue-400 mb-4 flex items-center gap-2">
+                <i data-lucide="landmark" class="w-5 h-5"></i> Certification Authorities (Urzędy CA)
+            </h3>
+            <p class="text-sm text-slate-300 mb-4">Urzędy Certyfikacji (CA) to Zaufane Trzecie Strony (TTP). Ich głównym zadaniem jest weryfikacja tożsamości podmiotu i kryptograficzne powiązanie jej z kluczem publicznym poprzez złożenie cyfrowego podpisu. Urzędy te dzielą się na dwie kluczowe kategorie pod kątem bezpieczeństwa:</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-400">
+                <div class="p-4 bg-slate-950 rounded border-l-4 border-red-500 shadow-inner">
+                    <strong class="text-white block mb-1">Root CA (Offline)</strong>
+                    Najwyższy punkt zaufania (Trust Anchor). Ich certyfikaty podpisują same siebie (Self-Signed) i są fabrycznie wbudowane w Twój system (Windows, Linux, Java TrustStore). Jeśli haker wykradnie klucz prywatny Roota, może wydać lewy certyfikat dla <em>każdej domeny na świecie</em>. Dlatego fizyczne klucze Root CA są trzymane w sejfach w modułach HSM, całkowicie odcięte od internetu (Offline). Uruchamia się je rzadko, tylko po to, by podpisać klucz Intermediate CA.
+                </div>
+                <div class="p-4 bg-slate-950 rounded border-l-4 border-orange-500 shadow-inner">
+                    <strong class="text-white block mb-1">Intermediate CA (Online)</strong>
+                    Sub-urzędy, z którymi Twój serwer faktycznie wchodzi w interakcję. Ponieważ Root CA jest offline, to Intermediate CA operują na co dzień podpięte do sieci i nasłuchują żądań (CSR) od serwerów takich jak Twój. Ich ewentualna kompromitacja jest groźna, ale pozwala Root CA na szybkie odwołanie podrzędnego, skradzionego certyfikatu.
+                </div>
+            </div>
+        </div>
+
+        <!-- Architektura Łańcucha -->
+        <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg mb-8">
+            <h3 class="text-xl font-semibold text-yellow-400 mb-4 flex items-center gap-2">
+                <i data-lucide="git-merge" class="w-5 h-5"></i> Architektura Łańcucha Certyfikatów
+            </h3>
+
+            <!-- Diagram struktury certyfikatów zastępujący obrazek 3.2 -->
+            <div class="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-inner mb-6 overflow-x-auto">
+                <div class="min-w-[600px] flex flex-col md:flex-row items-center justify-between gap-4 relative">
+                    <!-- End-entity -->
+                    <div class="flex flex-col items-center w-1/3">
+                        <div class="bg-slate-800 border-2 border-blue-500/50 p-4 rounded-lg w-40 h-52 flex flex-col relative shadow-md">
+                            <div class="space-y-3 mt-2">
+                                <div class="h-2 w-full bg-slate-600 rounded"></div>
+                                <div class="h-2 w-3/4 bg-slate-600 rounded"></div>
+                                <div class="h-2 w-5/6 bg-slate-600 rounded"></div>
+                            </div>
+                            <i data-lucide="award" class="absolute bottom-3 right-3 w-12 h-12 text-blue-400"></i>
+                        </div>
+                        <span class="mt-4 font-bold text-sm text-white text-center">End-entity<br>certificate</span>
+                        <span class="text-xs text-slate-500 mt-6 border-t border-slate-700 pt-2 w-full text-center block">Provided by the server</span>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="flex flex-col items-center justify-center text-slate-500 w-12 hidden md:flex">
+                        <i data-lucide="arrow-left" class="w-10 h-10"></i>
+                    </div>
+
+                    <!-- Intermediate CA -->
+                    <div class="flex flex-col items-center w-1/3">
+                        <div class="bg-slate-800 border-2 border-orange-500/50 p-4 rounded-lg w-40 h-52 flex flex-col relative shadow-md">
+                            <div class="space-y-3 mt-2 mb-auto">
+                                <div class="h-2 w-full bg-slate-600 rounded"></div>
+                                <div class="h-2 w-3/4 bg-slate-600 rounded"></div>
+                            </div>
+                            <div class="text-xs text-orange-300 font-mono font-bold mt-4 leading-tight mb-8">CA: Yes<br>Path length: 0</div>
+                            <i data-lucide="award" class="absolute bottom-3 right-3 w-12 h-12 text-orange-400"></i>
+                        </div>
+                        <span class="mt-4 font-bold text-sm text-white text-center">Intermediate CA<br>certificate</span>
+                        <span class="text-xs text-slate-500 mt-6 border-t border-slate-700 pt-2 w-full text-center block">Provided by the server</span>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="flex flex-col items-center justify-center text-slate-500 w-12 hidden md:flex">
+                        <i data-lucide="arrow-left" class="w-10 h-10"></i>
+                    </div>
+
+                    <!-- Root CA -->
+                    <div class="flex flex-col items-center w-1/3">
+                        <div class="bg-slate-800 border-2 border-red-500/50 p-4 rounded-lg w-40 h-52 flex flex-col relative shadow-md">
+                            <div class="space-y-3 mt-2 mb-auto">
+                                <div class="h-2 w-full bg-slate-600 rounded"></div>
+                                <div class="h-2 w-3/4 bg-slate-600 rounded"></div>
+                            </div>
+                            <div class="text-xs text-red-300 font-mono font-bold mt-4 leading-tight mb-8">CA: Yes<br>Path length: unlimited</div>
+                            <i data-lucide="award" class="absolute bottom-3 right-3 w-12 h-12 text-red-400"></i>
+                        </div>
+                        <span class="mt-4 font-bold text-sm text-white text-center">Root CA certificate<br><span class="font-normal text-xs text-slate-400">(self-signed)</span></span>
+                        <span class="text-xs text-slate-500 mt-2 border-t border-slate-700 pt-2 w-full text-center block">Embedded in browser<br>or operating system</span>
+                    </div>
+                </div>
+                <p class="text-center text-xs text-slate-500 mt-8 font-semibold">Figure 3.2. Struktura łańcucha certyfikatów i delegacja zaufania (Własny diagram)</p>
+            </div>
+
+            <p class="text-sm text-slate-300 mb-4">Schemat powyżej (Figure 3.2) doskonale ilustruje proces delegacji. Twój serwer backendowy dostarcza klientowi certyfikat końcowy (End-entity) oraz certyfikat pośredni (Intermediate CA). Przeglądarka zamyka obwód zaufania, opierając się na wbudowanym Root CA.</p>
+
+            <div class="p-4 bg-slate-950 border border-slate-700 rounded mb-4">
+                <h4 class="text-purple-400 font-semibold mb-2">Rozszerzenie Basic Constraints (Limit Ścieżki)</h4>
+                <p class="text-sm text-slate-400 mb-2">Zwróć uwagę na adnotacje <code>CA: Yes</code> oraz <code>Path length</code> na schemacie. Rozszerzenie <em>Basic Constraints</em> to mechanizm obronny przed tworzeniem nieautoryzowanych urzędów:</p>
+                <ul class="list-disc pl-5 text-sm text-slate-400 space-y-1">
+                    <li><strong class="text-slate-200">Path length: unlimited:</strong> Root CA nie ma narzuconych limitów w głąb struktury.</li>
+                    <li><strong class="text-slate-200">Path length: 0:</strong> Jak widać na Intermediate CA. Oznacza to, że ten konkretny sub-urząd ma prawo wystawiać certyfikaty <strong>wyłącznie</strong> dla końcowych podmiotów (serwerów API/Web). Jakakolwiek próba wystawienia przez niego kolejnego certyfikatu z flagą <code>CA: Yes</code> zakończy się odrzuceniem takiego certyfikatu przez klientów!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Path Validation -->
+        <div class="bg-indigo-900/20 rounded-xl p-6 border border-indigo-800/50 shadow-lg">
+            <h3 class="text-xl font-semibold text-indigo-400 mb-3 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-5 h-5"></i> Weryfikacja i Budowanie Ścieżki (Relying Party)
+            </h3>
+            <p class="text-sm text-slate-300 mb-3">Gdy Twój kod np. w Javie (HttpClient) odpytuje serwer z API banku, Twój system operuje jako tzw. <strong>Relying Party</strong> (Strona Ufająca). Otrzymuje on stertę certyfikatów z serwera i przeprowadza tzw. <em>Path Validation</em> (Złożony proces weryfikacji ścieżki):</p>
+            <ol class="list-decimal pl-5 text-sm text-slate-400 space-y-2 mb-4">
+                <li><strong class="text-white">Budowanie Grafu:</strong> Łączy issuerów z subjectami aż "trafi" w jakiegoś Root CA wbudowanego w Twój systemowy <em>TrustStore (np. cacerts w Javie)</em>.</li>
+                <li><strong class="text-white">Weryfikacja Podpisów:</strong> Kryptograficznie sprawdza, czy klucz publiczny nadrzędnego urzędu CA poprawnie deszyfruje hash podpisu certyfikatu podrzędnego.</li>
+                <li><strong class="text-white">Ograniczenia dat i uprawnień:</strong> Weryfikuje daty ważności <code>Not Before / Not After</code> każdego certyfikatu w górę oraz poprawność flag <code>Key Usage</code>.</li>
+                <li><strong class="text-white">Weryfikacja Statusu Odwołania:</strong> Korzysta z CRL lub OCSP, aby upewnić się, że certyfikat nie został unieważniony (skradziony klucz).</li>
+            </ol>
+
+            <div class="p-3 bg-red-950/30 border-l-4 border-red-500 rounded text-sm text-slate-300">
+                <strong class="text-red-400">Główny grzech Backendowca: Ucinanie Łańcucha!</strong>
+                Nginx i serwery aplikacyjne <strong>muszą</strong> skonfigurować pełen łańcuch zaufania. Jeśli podłączysz tylko plik certyfikatu własnej domeny, popularne przeglądarki mogą same (dzięki cachingowi AIA) dobudować łańcuch pobierając brakujące certyfikaty z sieci. Jednak "głupie" skrypty CLI (np. cURL) lub programy w Javie i Pythonie twardo odrzucą połączenie błędem <code class="text-red-300">PKIX path building failed: unable to find valid certification path to requested target</code>! Pamiętaj, zawsze serwuj <code>fullchain.pem</code>.
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Lifecycle & Revocation -->
+    <div id="lifecycle-revocation" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Cykl Życia i Odwoływanie Certyfikatów</h2>
+
+        <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg mb-8">
+            <h3 class="text-xl font-semibold text-blue-400 mb-4 flex items-center gap-2">
+                <i data-lucide="activity" class="w-5 h-5"></i> Cykl Życia Certyfikatu (Internet PKI Lifecycle)
+            </h3>
+
+            <!-- Diagram cyklu życia zastępujący obrazek użytkownika -->
+            <div class="bg-slate-950 rounded-xl p-4 mb-6 border border-slate-800 shadow-inner overflow-x-auto flex flex-col items-center">
+                <div class="mermaid">
+                    graph TD
+                    N_SUB[Subscriber]
+                    N_RA[RA]
+                    N_CA[CA]
+                    N_WS[Web Server]
+                    N_CRL[CRL Server]
+                    N_OCSP[OCSP Responder]
+                    N_RP[Relying Party]
+
+                    N_SUB -->|Request CSR| N_RA
+                    N_RA -->|Validate identity| N_SUB
+                    N_RA -->|CSR| N_CA
+                    N_CA -->|Issue certificate| N_RA
+                    N_CA -->|Update| N_CRL
+                    N_CA -->|Update| N_OCSP
+                    N_SUB -->|Publish certificate| N_WS
+                    N_RP -->|1. Request certificate| N_WS
+                    N_WS -->|2. Verify signature| N_RP
+                    N_RP -->|3. Check for revocation| N_CRL
+                    N_RP -->|3. Check for revocation| N_OCSP
+                </div>
+                <p class="text-center text-xs text-slate-500 mt-4 font-semibold">Figure 3.1. Internet PKI certificate lifecycle (Diagram wygenerowany przez Mermaid.js)</p>
+            </div>
+
+            <p class="text-sm text-slate-300 mb-4">Powyższy schemat idealnie obrazuje ekosystem z perspektywy architektury. Zobaczmy, kto pełni jaką rolę:</p>
+            <ul class="list-disc pl-5 text-sm text-slate-400 space-y-3">
+                <li><strong class="text-white">Subscriber (Twój serwer):</strong> Inicjuje proces. Jako programista generujesz klucz prywatny (np. plik <code>.key</code>) oraz plik żądania <strong>CSR</strong> (Certificate Signing Request), który zawiera Twój klucz publiczny i nazwę domeny. Wysyłasz to do urzędu.</li>
+                <li><strong class="text-white">RA (Registration Authority):</strong> To wydział weryfikacji. Zanim urząd podpisze Twój klucz, RA musi sprawdzić, czy faktycznie masz prawo do żądanej domeny (np. prosząc o wrzucenie pliku na serwer WWW lub rekordu do DNS).</li>
+                <li><strong class="text-white">CA (Certification Authority):</strong> Główne centrum urzędu certyfikacji. Podpisuje przygotowany CSR używając swojego klucza prywatnego (Root lub Intermediate) i "produkuje" z niego gotowy Certyfikat, który odsyła Tobie.</li>
+                <li><strong class="text-white">Relying Party (Klient/Przeglądarka):</strong> Nawiązując połączenie TLS (Kroki 1 i 2), klient otrzymuje od serwera certyfikat i matematycznie weryfikuje podpis CA.</li>
+                <li><strong class="text-white">Krok 3 (Revocation Check):</strong> ⚠️ Krytyczny moment. Przeglądarka musi upewnić się, odpytując serwery <strong>CRL Server</strong> lub <strong>OCSP Responder</strong>, czy od czasu wydania certyfikatu, właściciel nie zgłosił np. kradzieży klucza prywatnego.</li>
+            </ul>
+        </div>
+
+        <h3 class="text-2xl font-bold text-white mb-4">Odwoływanie (Revocation): Achillesowa pięta PKI</h3>
+        <p class="text-slate-300 mb-6">Wspomniany "Krok 3" ze schematu jest w praktyce największym wyzwaniem inżynieryjnym w infrastrukturze PKI. Dlaczego?</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- CRL -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-lg font-semibold text-yellow-400 mb-2">1. CRL (Certificate Revocation List)</h3>
+                <p class="text-sm text-slate-300 mb-3">Podejście "offline". CA cyklicznie publikuje gigantyczną listę numerów seryjnych odwołanych certyfikatów. Klient pobiera tę listę.</p>
+                <ul class="list-disc pl-5 text-sm text-slate-400 space-y-1">
+                    <li class="text-red-400">Wady: Tragedia dla wydajności (pliki CRL bywają ogromne). Listy są odświeżane rzadko (np. co 7 dni), co tworzy potężne "okno podatności", w którym klient ufa już skradzionemu certyfikatowi.</li>
+                </ul>
+            </div>
+
+            <!-- OCSP -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-lg font-semibold text-blue-400 mb-2">2. OCSP (Online Cert Status Protocol)</h3>
+                <p class="text-sm text-slate-300 mb-3">Podejście "online". Zamiast pobierać całą listę, klient uderza prosto do bazy danych CA z pytaniem: "Czy certyfikat X jest w porządku?".</p>
+                <ul class="list-disc pl-5 text-sm text-slate-400 space-y-1">
+                    <li class="text-red-400">Wady wydajnościowe: Dodatkowe opóźnienie (RTT) do serwera CA blokujące TLS Handshake.</li>
+                    <li class="text-red-400">Wady prywatności: CA wie dokładnie, kto i kiedy wchodzi na Twoją domenę (bo dostaje requesty OCSP na żywo z IP klientów)!</li>
+                </ul>
+            </div>
+
+            <!-- OCSP Stapling -->
+            <div class="md:col-span-2 bg-gradient-to-r from-slate-900 to-slate-800 rounded-xl p-6 border border-green-500/30 shadow-lg mt-2">
+                <h3 class="text-xl font-semibold text-green-400 mb-2">Rozwiązanie dla Backendowców: OCSP Stapling</h3>
+                <p class="text-sm text-slate-300 mb-3">
+                    Optymalizacja rozwiązująca problemy OCSP. Zamiast obciążać klienta zapytaniami do CA, <strong>Twój serwer Nginx/Apache samodzielnie</strong> raz na jakiś czas odpytuje CA o status własnego certyfikatu.
+                    CA odsyła odpowiedź (np. "Ważny do jutra") podpisaną cyfrowo. Twój serwer WWW "zszywa" (staple) ten bezpieczny dowód i doczepia go do wiadomości <code>Certificate</code> w trakcie TLS Handshake.
+                </p>
+                <div class="p-4 bg-slate-950 border border-slate-700 rounded-lg code-block text-slate-300">
+                    <span class="text-blue-400"># Konfiguracja Nginx:</span><br>
+                    ssl_stapling on;<br>
+                    ssl_stapling_verify on;<br>
+                    ssl_trusted_certificate /path/to/fullchain.pem; <span class="text-slate-500 text-xs"># Wymagane, by Nginx zweryfikował podpis odpowiedzi OCSP</span>
+                </div>
+                <p class="text-xs text-green-300 mt-2 font-semibold">Efekt: Błyskawiczny Handshake bez blokowania, zachowana pełna prywatność użytkowników.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Weaknesses & Improvements -->
+    <div id="weaknesses" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Słabości Ekosystemu i Nowe Standardy</h2>
+
+        <div class="bg-red-900/20 rounded-xl p-6 border border-red-800/50 shadow-lg mb-6">
+            <h3 class="text-xl font-semibold text-red-400 mb-2 flex items-center gap-2">
+                <i data-lucide="skull" class="w-5 h-5"></i> Najsłabsze ogniwo: Root Key Compromise
+            </h3>
+            <p class="text-sm text-slate-300 mb-3">Model zaufania w internecie jest płaski. Każde z setek Root CA wbudowanych w Twój system operacyjny (nawet mały urząd certyfikacji na drugim końcu świata) ma teoretyczne uprawnienia by wystawić ważny certyfikat dla <code>google.com</code> lub <code>twoj-bank.pl</code>.</p>
+            <p class="text-sm text-slate-400">Gdy w 2011 roku skompromitowano urząd DigiNotar, hakerzy wydali fałszywe certyfikaty dla Google, Yahoo i Skype, umożliwiając masowe ataki MITM w Iranie. Cały system PKI musiał wymyślić lepsze mechanizmy obronne (Improvements).</p>
+        </div>
+
+        <h3 class="text-xl font-semibold text-white mb-4">Lekarstwa (Ecosystem Improvements)</h3>
+
+        <div class="space-y-4">
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow">
+                <h4 class="text-blue-400 font-semibold mb-1">CAA (Certification Authority Authorization)</h4>
+                <p class="text-sm text-slate-400">Specjalny rekord DNS, w którym Ty jako właściciel domeny oświadczasz publicznie: "Zezwalam na wydawanie certyfikatów dla mojej domeny <strong>tylko</strong> przez Let's Encrypt". Zanim jakikolwiek inny urząd (np. Comodo czy DigiCert) wystawi dla Ciebie certyfikat, ma obowiązek sprawdzić rekord CAA. Chroni to przed wydaniem "lewego" certyfikatu przez inny, słabiej zabezpieczony urząd.</p>
+            </div>
+
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow">
+                <h4 class="text-purple-400 font-semibold mb-1">Certificate Transparency (CT)</h4>
+                <p class="text-sm text-slate-400">Rewolucja w weryfikacji wprowadzona m.in. przez Google. Każdy urząd CA po wydaniu certyfikatu <strong>musi</strong> zapisać ten fakt w publicznych, niemożliwych do sfałszowania logach (Append-Only Cryptographic Logs).</p>
+                <p class="text-sm text-slate-400 mt-2">Dzięki temu każda firma może na żywo monitorować logi CT. Jeśli ktoś obcy z sukcesem wyda certyfikat dla Twojej domeny, natychmiast o tym wiesz. Nowoczesne przeglądarki z definicji odrzucą certyfikat (z błędem braku SCT - Signed Certificate Timestamp), jeśli nie ma on kryptograficznego dowodu na to, że został opublikowany w logach CT.</p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    lucide.createIcons();
+
+    // Inicjalizacja Mermaid.js dla diagramu
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('#tabs-nav button').forEach(el => {
+            el.classList.remove('active-tab-btn');
+            el.classList.add('hover:bg-slate-800');
+        });
+
+        document.getElementById(tabId).classList.add('active');
+
+        const activeBtn = document.querySelector(`button[data-tab="${tabId}"]`);
+        activeBtn.classList.add('active-tab-btn');
+        activeBtn.classList.remove('hover:bg-slate-800');
+    }
+</script>
+</body>
+</html>

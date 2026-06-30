@@ -220,6 +220,22 @@
             <div class="bg-blue-50 border border-blue-200 p-4 rounded text-sm text-blue-900">
                 <i class="fa-solid fa-code mr-1"></i> Wzór na bezpieczne ponawianie: <code>sleep = min(max_delay, base * 2^attempt) + random(jitter)</code>
             </div>
+
+            <!-- Retry Storms i Retry Budgets -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm text-sm mt-6">
+                <strong class="text-amber-800 block mb-1"><i class="fa-solid fa-cloud-showers-water"></i> Burza Ponowień (Retry Storms) i Budżet Ponowień (Retry Budgets)</strong>
+                <p class="text-xs text-slate-700 leading-relaxed mb-3">
+                    Nawet jeśli zastosujesz <i>Exponential Backoff</i> z <i>Jitterem</i>, w skali gigantycznego klastra wciąż istnieje ryzyko wywołania **Burzy Ponowień (Retry Storm)**. Kiedy usługa A leży, usługa nadrzędna B stale próbuje wysyłać zapytania ponownie. Jeśli każde zapytanie jest ponawiane 3 razy, a łańcuch mikrousług jest długi (A &rarr; B &rarr; C &rarr; D), ruch w klastrze rośnie wykładniczo. To ostatecznie dobija leżący serwer i uniemożliwia mu powrót do zdrowia.
+                </p>
+                <div class="bg-white p-3 rounded border border-amber-200 text-xs text-slate-600">
+                    <strong class="text-slate-800 text-[11px] block mb-1">Jak temu zapobiec? Budżety Ponowień (Retry Budgets)</strong>
+                    Zamiast stałej liczby prób dla każdego zapytania, nowoczesne klienty sieciowe i service meshe (np. Envoy) implementują <strong>Retry Budgets</strong>. Klient śledzi statystyki zapytań i pozwala na ponawianie tylko wtedy, gdy stanowią one znikomy procent całkowitego ruchu.
+                    <ul class="list-disc list-inside text-[11px] text-slate-500 space-y-1 mt-2">
+                        <li><strong>Reguła budżetu:</strong> Ponowienia mogą stanowić maksymalnie np. <strong>10% wszystkich udanych zapytań</strong> w ostatnim oknie 10 sekund.</li>
+                        <li><strong>Efekt:</strong> Jeśli nastąpi awaria i wskaźnik błędów skoczy, klient szybko wyczerpie swój budżet i <strong>przestanie ponawiać zapytania</strong> (będzie zwracać błędy natychmiast), oszczędzając CPU i pasmo sieciowe.</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
         <!-- Sekcja 9.3: Circuit Breaker -->

@@ -139,6 +139,42 @@
                 </div>
             </div>
 
+            <!-- CLOSE_WAIT vs TIME_WAIT -->
+            <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 shadow-sm relative overflow-hidden mb-6">
+                <div class="absolute -right-4 -top-4 text-9xl text-amber-100 opacity-50"><i class="fa-solid fa-circle-question"></i></div>
+                <h3 class="text-lg font-bold text-amber-800 mb-4 relative z-10"><i class="fa-solid fa-triangle-exclamation"></i> TIME_WAIT vs CLOSE_WAIT: Wycieki zasobów</h3>
+                
+                <p class="text-xs text-slate-700 leading-relaxed mb-4">
+                    Gdy połączenie TCP jest zamykane, system operacyjny przechodzi przez serię stanów. Dwa z nich są najczęstszą przyczyną wyczerpania deskryptorów plików (File Descriptors) w aplikacjach:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 text-xs">
+                    <div class="bg-white p-4 rounded-xl border border-amber-300">
+                        <strong class="text-amber-800 block mb-1">TIME_WAIT (Aktywne Zamknięcie)</strong>
+                        <p class="text-slate-600 leading-relaxed mb-2">
+                            To strona, która <strong>zainicjowała</strong> zamknięcie (Active Close), wpada w ten stan na ok. 60-240s (2 &times; MSL). 
+                        </p>
+                        <ul class="list-disc list-inside text-slate-500 space-y-1">
+                            <li><strong>Powód:</strong> Ochrona przed zabłąkanymi pakietami z sieci.</li>
+                            <li><strong>Narzut:</strong> Blokuje port lokalny i deskryptor.</li>
+                            <li><strong>Rozwiązanie:</strong> Poolowanie połączeń lub <code>SO_REUSEADDR</code>.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-red-300">
+                        <strong class="text-red-800 block mb-1">CLOSE_WAIT (Pasywne Zamknięcie - BUG w kodzie)</strong>
+                        <p class="text-slate-600 leading-relaxed mb-2">
+                            To strona, która <strong>otrzymała</strong> żądanie zamknięcia (FIN) od partnera, ale <strong>jej aplikacja nie zamknęła socketu</strong>.
+                        </p>
+                        <ul class="list-disc list-inside text-slate-500 space-y-1">
+                            <li><strong>Powód:</strong> Wyciek w kodzie (nie wywołano <code>close()</code>).</li>
+                            <li><strong>Narzut:</strong> Socket wisi w tym stanie <strong>bez końca</strong> (aż do restartu procesu), blokując deskryptor.</li>
+                            <li><strong>Rozwiązanie:</strong> Poprawienie kodu aplikacji, dodanie odpowiednich bloków <code>try-finally</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="bg-emerald-50 text-emerald-800 p-4 rounded-lg border border-emerald-200 text-sm flex gap-3 shadow-sm">
                 <i class="fa-solid fa-wrench text-xl mt-0.5"></i>
                 <div>
@@ -295,6 +331,57 @@
 
                 <div class="bg-amber-50 border-l-4 border-amber-500 p-3 text-sm text-amber-900 rounded shadow-sm">
                     <strong>Kluczowy wniosek dla inżyniera:</strong> Świeżo otwarte połączenie TCP jest potwornie WOLNE! To najważniejszy argument za używaniem <strong>długotrwałych puli połączeń</strong> (Connection Pooling) do baz danych czy API. Przekazując cały ruch przez jedną, "rozgrzaną" już rurę TCP, omijasz cały koszt Slow Startu.
+                </div>
+            </div>
+
+            <!-- Algorytmy Kontroli Przeciążeń -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm mt-6 text-sm">
+                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-route text-purple-600 mr-1"></i> Ewolucja Algorytmów: CUBIC vs Google BBR</h4>
+                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                    Kontrola przeciążeń decyduje o tym, jak szybko nadawca może zwiększać okno zatłoczenia (<code>cwnd</code>). Wyróżniamy dwie generacje algorytmów:
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-3 rounded border">
+                        <strong class="text-slate-800 text-xs block mb-1">CUBIC (Klasyczny - Oparty na stratach)</strong>
+                        <p class="text-[11px] text-slate-600 leading-relaxed">
+                            Domyślny w Linuksie. Zwiększa prędkość aż do momentu, gdy routery po drodze przepełnią swoje bufory i zaczną <strong>gubić pakiety</strong>. Dopiero wtedy gwałtownie zmniejsza prędkość (halving cwnd). Zjawisko to potęguje problem <strong>Bufferbloat</strong> (ogromne bufory na routerach zwiększają RTT, a pakiety i tak giną).
+                        </p>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded border border-purple-200">
+                        <strong class="text-purple-800 text-xs block mb-1">Google BBR (Nowoczesny - Oparty na modelu)</strong>
+                        <p class="text-[11px] text-purple-700 leading-relaxed">
+                            <i>Bottleneck Bandwidth and RTT</i>. Zamiast czekać na zgubienie pakietu, stale mierzy rzeczywistą przepustowość i najniższy czas RTT. Wysyła dokładnie tyle danych, ile jest w stanie obsłużyć najwęższe gardło ścieżki, eliminując kolejkowanie na routerach. Daje kolosalne przyspieszenie w sieciach o wysokim BDP.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gotchas: Nagle's i Keepalive -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <!-- Nagle vs Delayed ACK -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-sm">
+                    <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-hourglass-half text-orange-500 mr-1"></i> Kolizja Nagle & Delayed ACK (Opóźnienia 40ms-200ms)</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-2">
+                        To klasyczna pułapka w systemach RPC:
+                    </p>
+                    <ul class="list-disc list-inside text-[11px] text-slate-600 space-y-1">
+                        <li><strong>Algorytm Nagle'a (nadawca):</strong> Grupuje małe paczki danych i wysyła je dopiero, gdy zbierze pełny pakiet MTU lub otrzyma ACK dla poprzedniego.</li>
+                        <li><strong>Delayed ACK (odbiorca):</strong> Odkłada wysłanie potwierdzenia ACK o 40-200ms, czekając, aż będzie mógł je podpiąć pod pakiet zwrotny.</li>
+                        <li><strong>Efekt:</strong> Nadawca czeka na ACK, a odbiorca czeka na dane. Połączenie wisi bezczynnie przez np. 40ms na każdym małym zapytaniu.</li>
+                        <li><strong>Rozwiązanie:</strong> Włączenie flagi <code>TCP_NODELAY</code> na socketach (wyłącza algorytm Nagle'a).</li>
+                    </ul>
+                </div>
+
+                <!-- TCP Keepalive vs HTTP Keepalive -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-sm">
+                    <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-arrows-spin text-blue-500 mr-1"></i> TCP Keepalive vs HTTP Keep-Alive</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-2">
+                        Mylenie tych pojęć to częsty błąd. Działają na zupełnie innych warstwach:
+                    </p>
+                    <ul class="list-disc list-inside text-[11px] text-slate-600 space-y-1">
+                        <li><strong>TCP Keepalive (Warstwa L4):</strong> Funkcja jądra OS. Wysyła puste sondy (probe packets) co np. 2 godziny w celu wykrycia, czy drugi komputer nie uległ awarii (lub by odświeżyć tablicę NAT).</li>
+                        <li><strong>HTTP Keep-Alive (Warstwa L7):</strong> Funkcja serwera web/aplikacji. Nagłówek informujący klienta: "Będę trzymał to połączenie TCP otwarte przez 5 sekund, nie zamykaj go, możesz wysłać nim kolejne zapytania".</li>
+                    </ul>
                 </div>
             </div>
         </section>

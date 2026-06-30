@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozdział 1: Podstawy SSL, TLS i Kryptografii</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .active-tab-btn { background-color: #1e293b; border-left: 4px solid #3b82f6; color: #38bdf8; font-weight: 600; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- Sidebar Navigation -->
+<nav class="w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col">
+    <div class="p-6 border-b border-slate-800">
+        <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+            <i data-lucide="shield-check" class="text-blue-500"></i>
+            Bulletproof TLS
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">Rozdział 1: Pigułka Wiedzy</p>
+    </div>
+    <ul class="flex-1 overflow-y-auto py-4" id="tabs-nav">
+        <li>
+            <button onclick="switchTab('intro')" class="w-full text-left px-6 py-4 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors active-tab-btn flex items-center gap-3" data-tab="intro">
+                <i data-lucide="network" class="w-5 h-5"></i> 1. TLS w Modelu Sieci
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('crypto')" class="w-full text-left px-6 py-4 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="crypto">
+                <i data-lucide="key" class="w-5 h-5"></i> 2. Symetryczne vs Asymetryczne
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('blocks')" class="w-full text-left px-6 py-4 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="blocks">
+                <i data-lucide="layers" class="w-5 h-5"></i> 3. Hash, MAC i Tryby Blokowe
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('attacks')" class="w-full text-left px-6 py-4 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="attacks">
+                <i data-lucide="skull" class="w-5 h-5"></i> 4. MITM i Prawa Bezpieczeństwa
+            </button>
+        </li>
+    </ul>
+</nav>
+
+<!-- Main Content Area -->
+<main class="w-3/4 bg-slate-950 p-8 overflow-y-auto">
+
+    <!-- Tab: Intro -->
+    <div id="intro" class="tab-content active max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Czym jest TLS i gdzie operuje?</h2>
+
+        <div class="bg-slate-900 rounded-xl p-6 mb-6 border border-slate-800 shadow-lg">
+            <h3 class="text-xl font-semibold text-blue-400 mb-3 flex items-center gap-2">
+                <i data-lucide="target" class="w-5 h-5"></i> Główne cele protokołu TLS
+            </h3>
+            <ul class="list-disc pl-6 space-y-2 text-slate-300">
+                <li><strong class="text-white">Bezpieczeństwo kryptograficzne:</strong> Poufność (nikt nie podsłucha), Integralność (nikt nie zmieni danych w locie), Autentykacja (rozmawiasz z tym, z kim myślisz).</li>
+                <li><strong class="text-white">Interoperacyjność:</strong> Standard, który pozwala aplikacjom różnych dostawców dogadać się bez problemu.</li>
+                <li><strong class="text-white">Rozszerzalność:</strong> Framework, do którego można podpinać nowe algorytmy szyfrowania bez tworzenia protokołu od nowa.</li>
+                <li><strong class="text-white">Wydajność:</strong> Sprytne ograniczanie ciężkich operacji (np. cachowanie sesji).</li>
+            </ul>
+        </div>
+
+        <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+            <h3 class="text-xl font-semibold text-blue-400 mb-3 flex items-center gap-2">
+                <i data-lucide="layers" class="w-5 h-5"></i> Kontekst - Model OSI
+            </h3>
+            <p class="text-slate-300 mb-4">
+                Protokoły sieciowe (IP, TCP, routing) <strong>zakładają uczciwość</strong> wszystkich węzłów. Są z natury niezabezpieczone.
+                Dlatego TLS wchodzi do gry "pomiędzy" warstwy.
+            </p>
+            <div class="bg-slate-950 rounded-lg p-4 border border-slate-800 text-sm">
+                <div class="flex justify-between py-2 border-b border-slate-800">
+                    <span class="text-slate-400">Warstwa 7 (Aplikacji)</span>
+                    <span class="text-white font-mono">HTTP, SMTP, IMAP</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-blue-900/50 bg-blue-900/10 -mx-4 px-4">
+                    <span class="text-blue-400 font-semibold">Warstwa 6 (Prezentacji)</span>
+                    <span class="text-blue-400 font-mono font-bold">SSL / TLS</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-slate-400">Warstwa 4 (Transportu)</span>
+                    <span class="text-white font-mono">TCP, UDP</span>
+                </div>
+            </div>
+            <p class="mt-4 text-sm text-slate-400 italic">Analogia: Wyobraź sobie TCP jako niezabezpieczoną rurę. TLS to wkładka do tej rury, która szyfruje wszystko, co przez nią przepływa, zanim dotrze to do Twojej aplikacji (HTTP).</p>
+        </div>
+    </div>
+
+    <!-- Tab: Crypto -->
+    <div id="crypto" class="tab-content max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Narzędzia pracy: Symetryczne vs Asymetryczne</h2>
+
+        <div class="grid grid-cols-2 gap-6 mb-6">
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-green-400 mb-3 flex items-center gap-2">
+                    <i data-lucide="lock" class="w-5 h-5"></i> Szyfrowanie Symetryczne
+                </h3>
+                <p class="text-slate-300 text-sm mb-4">Ten sam klucz szyfruje i deszyfruje dane. Działa bardzo szybko.</p>
+                <ul class="list-disc pl-5 space-y-2 text-sm text-slate-300">
+                    <li><strong>Cechy:</strong> Szyfry strumieniowe (np. RC4 - dziś złamane) lub blokowe (AES).</li>
+                    <li><strong>Zaleta:</strong> Przystosowane do przesyłania dużych wolumenów danych w czasie rzeczywistym.</li>
+                    <li><strong>Wada:</strong> Problem skalowalności kluczy. Jak bezpiecznie przekazać klucz komuś, kogo nigdy nie spotkałeś?</li>
+                </ul>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-purple-400 mb-3 flex items-center gap-2">
+                    <i data-lucide="key-round" class="w-5 h-5"></i> Szyfrowanie Asymetryczne
+                </h3>
+                <p class="text-slate-300 text-sm mb-4">Klucz publiczny szyfruje, klucz prywatny deszyfruje. Ekstremalnie wolne.</p>
+                <ul class="list-disc pl-5 space-y-2 text-sm text-slate-300">
+                    <li><strong>Zaleta:</strong> Rozwiązuje problem dystrybucji klucza. Swój klucz publiczny możesz ogłosić całemu światu.</li>
+                    <li><strong>Zastosowanie:</strong> Używane głównie do bezpiecznej wymiany klucza symetrycznego oraz do <strong>Podpisów Cyfrowych</strong>.</li>
+                    <li><strong>Algorytmy:</strong> RSA, ECC (Krzywe Eliptyczne).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 rounded-xl p-6 border border-blue-900 shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10"><i data-lucide="zap" class="w-24 h-24 text-blue-500"></i></div>
+            <h3 class="text-xl font-semibold text-white mb-3">Jak to działa razem w TLS? (Hybryda)</h3>
+            <p class="text-slate-300 mb-4">Zamiast wybierać, łączymy oba podejścia:</p>
+            <ol class="list-decimal pl-6 space-y-2 text-slate-300">
+                <li>Serwer wylegitymuje się certyfikatem (klucz asymetryczny - RSA/ECDSA).</li>
+                <li>Klient i serwer dogadują się co do tymczasowego "klucza sesji" (symetrycznego - AES).</li>
+                <li>Wszelka komunikacja w trakcie sesji idzie szybkim AESem.</li>
+            </ol>
+            <div class="mt-4 p-3 bg-blue-950 border border-blue-800 rounded text-sm text-blue-300">
+                <strong>Zasada Kerckhoffsa:</strong> Bezpieczeństwo systemu musi opierać się wyłącznie na tajności klucza, a nie algorytmu. Używaj tylko sprawdzonych, otwartych standardów!
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Blocks -->
+    <div id="blocks" class="tab-content max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Integralność i Tryby Blokowe</h2>
+
+        <div class="space-y-6">
+            <!-- Hashes & MAC -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-yellow-400 mb-3">Funkcje Skrótu (Hash) i MAC</h3>
+                <p class="text-slate-300 text-sm mb-3">Samo zaszyfrowanie danych nie chroni przed ich modyfikacją w locie przez atakującego.</p>
+                <ul class="list-disc pl-5 space-y-2 text-sm text-slate-300">
+                    <li><strong>Hash (np. SHA256):</strong> Jednokierunkowa funkcja konwertująca dane o dowolnej długości do stałego ciągu znaków. Jeśli plik zmieni się o 1 bit, hash będzie zupełnie inny.</li>
+                    <li><strong>MAC (Message Authentication Code):</strong> Hash + współdzielony klucz symetryczny. Gwarantuje, że tylko ktoś posiadający klucz (autentykacja) mógł wygenerować ten hash (integralność).</li>
+                </ul>
+            </div>
+
+            <!-- Padding -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-blue-400 mb-3">Padding (Wyrównywanie w szyfrach blokowych)</h3>
+                <p class="text-slate-300 text-sm mb-3">Szyfry blokowe operują na sztywnych blokach (np. 16 bajtów). Co, jeśli nasz payload ma 12 bajtów? Musimy go wyrównać dodając 4 bajty "paddingu". W TLS ostatni bajt paddingu określa jego długość.</p>
+                <p class="text-slate-400 text-sm italic">Haczyk: Atakujący mogą manipulować kryptogramem w locie i na podstawie odpowiedzi z serwera (np. różnic w czasie odrzucenia nieprawidłowego paddingu) odgadywać całe zaszyfrowane porcje (ataki "Padding Oracle" np. Lucky 13).</p>
+            </div>
+
+            <!-- Block Cipher Modes -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-rose-400 mb-3">Tryby działania szyfrów blokowych (np. AES)</h3>
+
+                <div class="space-y-4 mt-4">
+                    <div class="p-4 bg-slate-950 border-l-4 border-red-500 rounded">
+                        <h4 class="text-white font-semibold">ECB (Electronic Codebook) - ⚠️ Absolutnie unikaj</h4>
+                        <p class="text-sm text-slate-400 mt-1">Każdy blok szyfrowany osobno. Identyczne bloki wejściowe dają identyczne bloki wyjściowe. Otwiera drogę do rozpoznania schematów przesyłanych danych.</p>
+                    </div>
+                    <div class="p-4 bg-slate-950 border-l-4 border-yellow-500 rounded">
+                        <h4 class="text-white font-semibold">CBC (Cipher Block Chaining) - ⚠️ Przestarzałe</h4>
+                        <p class="text-sm text-slate-400 mt-1">Każdy blok jest XORowany z poprzednim zaszyfrowanym blokiem. Wymaga Wektora Inicjującego (IV). Oddziela MAC i szyfrowanie, co generuje liczne luki w implementacjach (np. BEAST).</p>
+                    </div>
+                    <div class="p-4 bg-slate-950 border-l-4 border-green-500 rounded">
+                        <h4 class="text-white font-semibold">AEAD (np. GCM) - ✅ Złoty standard</h4>
+                        <p class="text-sm text-slate-400 mt-1">Authenticated Encryption with Associated Data. Zastępuje ręczne doklejanie MACa wbudowaną w jeden algorytm funkcją autentykacji. Jest szybszy i eliminuje problemy paddingowe. <strong>Dostępny od TLS 1.2</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Attacks -->
+    <div id="attacks" class="tab-content max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Anatomia Ataków i MITM</h2>
+
+        <div class="bg-slate-900 rounded-xl p-6 mb-6 border border-slate-800 shadow-lg">
+            <h3 class="text-xl font-semibold text-red-400 mb-3 flex items-center gap-2">
+                <i data-lucide="alert-triangle" class="w-5 h-5"></i> Man-in-the-Middle (MITM)
+            </h3>
+            <p class="text-slate-300 text-sm mb-4">Klasyczny wektor ataku na TLS. Atakujący musi kontrolować infrastrukturę pośredniczącą.</p>
+
+            <div class="mb-4 p-3 bg-slate-950 border border-slate-800 rounded">
+                <h4 class="text-white font-semibold mb-2">Jak zdobywa się pozycję MITM?</h4>
+                <ul class="list-disc pl-5 text-sm text-slate-400 space-y-1">
+                    <li><strong>ARP Spoofing:</strong> Zatruta tablica ARP w sieci lokalnej (LAN), przez co ruch ofiary trafia do atakującego.</li>
+                    <li><strong>WPAD Hijacking:</strong> Przechwycenie protokołu Web Proxy Auto-Discovery używanego w firmach do konfiguracji proxy.</li>
+                    <li><strong>DNS Hijacking/Poisoning:</strong> Zwracanie ofierze fałszywego IP serwera na etapie rozwiązywania domen (np. przez router lub u operatora).</li>
+                    <li><strong>BGP Route Hijacking:</strong> Atak na poziomie core'owych routerów internetowych, modyfikujący globalne trasy IP.</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded">
+                    <h4 class="text-white font-semibold mb-2">Ataki Pasywne</h4>
+                    <p class="text-sm text-slate-400">Atakujący tylko nagrywa zaszyfrowany ruch. Czeka, aż ukradnie klucz serwera i odszyfruje całą nagraną dziś sesję wstecznie.</p>
+                    <p class="text-sm text-blue-400 mt-2 font-semibold">Obrona: Forward Secrecy (np. klucze efemeryczne ECDHE)</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded">
+                    <h4 class="text-white font-semibold mb-2">Ataki Aktywne</h4>
+                    <p class="text-sm text-slate-400">Atakujący aktywnie podmienia pakiety (wymusza słabe protokoły, żongluje paddingiem lub ucieka się do exploitów by ominąć autentykację serwera).</p>
+                    <p class="text-sm text-blue-400 mt-2 font-semibold">Obrona: Surowe PKI (sprawdzanie Certyfikatów), bezpieczne szyfry AEAD.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg mb-6">
+            <h3 class="text-xl font-semibold text-white mb-3">Generatory liczb losowych (PRNG)</h3>
+            <p class="text-slate-300 text-sm mb-2">Kryptografia wymaga doskonałej losowości. Niestety, komputery są z definicji przewidywalne (działają algorytmicznie). Szyfr jest bezużyteczny, jeśli wejście do generatora można odgadnąć.</p>
+            <p class="text-slate-400 text-sm">Jeśli twój system zaraz po starcie nie ma tz. "prawdziwej entropii" (np. szumu sprzętowego z TRNG) - PRNG wygeneruje słaby, przewidywalny klucz (np. słynna wpadka w paczce Debiana z 2006 r., która doprowadziła do ucięcia puli entropii do zaledwie 16 bitów!).</p>
+        </div>
+
+        <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-3">Siła klucza szyfrującego</h3>
+            <p class="text-slate-300 text-sm">Siła klucza jest mierzona jako liczba operacji kryptograficznych potrzebnych na odgadnięcie go ($2^n$). Dążymy dziś do ugruntowanego standardu <strong>128 bitów bezpieczeństwa</strong> (lub 256 dla superkrytycznych danych wieloletnich).</p>
+            <div class="mt-3 text-sm text-slate-400">
+                <p>Konwersja na realne rozmiary kluczy (dla siły 128 bitów bezpieczeństwa):</p>
+                <ul class="list-disc pl-5 mt-1 text-slate-300">
+                    <li>Symetryczne (AES): Klucz 128 bitów.</li>
+                    <li>Asymetryczne (RSA/DH): Klucz ok. 3072 bitów.</li>
+                    <li>Krzywe Eliptyczne (ECC): Klucz 256 bitów.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    // Inicjalizacja ikon
+    lucide.createIcons();
+
+    function switchTab(tabId) {
+        // Ukryj wszystkie sekcje
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        // Odznacz wszystkie przyciski
+        document.querySelectorAll('#tabs-nav button').forEach(el => {
+            el.classList.remove('active-tab-btn');
+            el.classList.add('hover:bg-slate-800');
+        });
+
+        // Pokaż wybraną sekcję
+        document.getElementById(tabId).classList.add('active');
+
+        // Zaznacz przycisk
+        const activeBtn = document.querySelector(`button[data-tab="${tabId}"]`);
+        activeBtn.classList.add('active-tab-btn');
+        activeBtn.classList.remove('hover:bg-slate-800');
+    }
+</script>
+</body>
+</html>

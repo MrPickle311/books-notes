@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozdział 2: TLS Handshake i Protokół (Deep Dive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .active-tab-btn { background-color: #1e293b; border-left: 4px solid #3b82f6; color: #38bdf8; font-weight: 600; }
+
+        /* Styl dla bloków kodu */
+        .code-block { font-family: 'Fira Code', monospace; font-size: 0.85rem; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- Sidebar Navigation -->
+<nav class="w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col h-full z-10 relative shadow-xl">
+    <div class="p-6 border-b border-slate-800 shrink-0">
+        <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+            <i data-lucide="zap" class="text-blue-500"></i>
+            Bulletproof TLS
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">Rozdział 2: Pełna Specyfikacja</p>
+    </div>
+    <ul class="flex-1 overflow-y-auto py-4 space-y-1" id="tabs-nav">
+        <li>
+            <button onclick="switchTab('architecture')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors active-tab-btn flex items-center gap-3" data-tab="architecture">
+                <i data-lucide="layers" class="w-5 h-5 shrink-0"></i> 1. Architektura i Limity
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('handshake')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="handshake">
+                <i data-lucide="handshake" class="w-5 h-5 shrink-0"></i> 2. Full Handshake & mTLS
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('keyexchange')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="keyexchange">
+                <i data-lucide="key" class="w-5 h-5 shrink-0"></i> 3. Wymiana Kluczy (RSA/DH)
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('crypto')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="crypto">
+                <i data-lucide="fingerprint" class="w-5 h-5 shrink-0"></i> 4. Operacje Krypto i PRF
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('encryption')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="encryption">
+                <i data-lucide="lock" class="w-5 h-5 shrink-0"></i> 5. Tryby Szyfrowania
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('extensions')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="extensions">
+                <i data-lucide="blocks" class="w-5 h-5 shrink-0"></i> 6. Rozszerzenia (Extensions)
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('optimizations')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="optimizations">
+                <i data-lucide="fast-forward" class="w-5 h-5 shrink-0"></i> 7. Optymalizacje i Renegocjacja
+            </button>
+        </li>
+        <li>
+            <button onclick="switchTab('versions')" class="w-full text-left px-6 py-3 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-3" data-tab="versions">
+                <i data-lucide="history" class="w-5 h-5 shrink-0"></i> 8. Ewolucja Wersji
+            </button>
+        </li>
+    </ul>
+</nav>
+
+<!-- Main Content Area -->
+<main class="w-3/4 bg-slate-950 p-8 overflow-y-auto h-full scroll-smooth">
+
+    <!-- Tab: Architecture -->
+    <div id="architecture" class="tab-content active max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Anatomia Protokołu i Jego Limity</h2>
+        <p class="text-slate-300 mb-6">TLS składa się z czterech warstw zorganizowanych wokół nośnika bazowego (Record Protocol). Jako inżynier musisz też znać jego ograniczenia.</p>
+
+        <div class="space-y-4 mb-8">
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-blue-400 mb-3">1. Record Protocol (Nośnik Danych)</h3>
+                <p class="text-sm text-slate-300 mb-3">Odpowiada za pakowanie wszystkich danych. Przyjmuje wiadomości, dzieli je na bloki (fragmentacja, max <code class="bg-slate-800 px-1 rounded">2^14 = 16384 bajtów</code>), opcjonalnie kompresuje, oblicza MAC i szyfruje.</p>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-purple-400 mb-3">2. Alert Protocol i Connection Closure</h3>
+                <p class="text-sm text-slate-300 mb-2">Przesyła powiadomienia (Warning/Fatal). Szczególnie ważne jest bezpieczne zamykanie połączeń.</p>
+                <div class="p-3 bg-slate-950 border border-slate-800 rounded">
+                    <strong class="text-red-400">Obrona przed Truncation Attacks:</strong>
+                    <p class="text-sm text-slate-400 mt-1">Bez alertu <code class="text-white">close_notify</code> atakujący MITM mógłby wstrzyknąć pakiet FIN (koniec TCP), ucinając pobieranie pliku w połowie. TLS wymaga kryptograficznego zamknięcia strumienia, by aplikacja wiedziała, że plik jest w 100% kompletny.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 shadow-lg">
+                    <h3 class="text-lg font-semibold text-green-400 mb-2">3. Handshake Protocol</h3>
+                    <p class="text-sm text-slate-400">Ustalanie parametrów krypto. Jego wiadomości przesyłane są przez Record Protocol.</p>
+                </div>
+                <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 shadow-lg">
+                    <h3 class="text-lg font-semibold text-yellow-400 mb-2">4. Application Data Protocol</h3>
+                    <p class="text-sm text-slate-400">Pojawia się po Handshake'u. Traktuje ruch API (np. HTTP) jako nieprzezroczysty ładunek.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-red-900/20 rounded-xl p-6 border border-red-800/50 shadow-lg">
+            <h3 class="text-xl font-semibold text-red-400 mb-4 flex items-center gap-2">
+                <i data-lucide="shield-alert" class="w-6 h-6"></i> Protocol Limitations (Czego TLS NIE ukrywa?)
+            </h3>
+            <ul class="list-disc pl-5 text-sm text-slate-300 space-y-2">
+                <li><strong>Metadane połączenia:</strong> TLS działa nad TCP/IP. Atakujący widzi adresy IP oraz porty źródła i celu.</li>
+                <li><strong>Wyciek nazwy domeny:</strong> Rozszerzenie SNI (Server Name Indication) jest wysyłane jawnym tekstem (plaintext) w ClientHello. Każdy na kablu wie, czy łączysz się z bankiem czy z netflixem.</li>
+                <li><strong>Analiza ruchu (Traffic Analysis):</strong> Szyfrowanie nie ukrywa rozmiaru ani czasu (timingu) pakietów. Analizując wzorce długości odpowiedzi, można odgadnąć z dużą pewnością z jakiej aplikacji wewnątrz strony np. korzysta użytkownik.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tab: Handshake -->
+    <div id="handshake" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Anatomia Pełnego Handshake'a i mTLS</h2>
+
+        <p class="text-slate-300 mb-4 text-sm">Full Handshake ustanawia stan krypto i tożsamość. Angażuje asymetryczne szyfrowanie (bardzo kosztowne dla CPU) i wymaga dwóch pełnych okrążeń (2 RTT) przed przesłaniem danych.</p>
+
+        <div class="space-y-4 mb-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+
+            <!-- Krok 1 -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full border border-blue-500 bg-slate-900 text-blue-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold">1</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-slate-800 shadow">
+                    <h4 class="text-white font-bold text-lg mb-1 text-blue-400">Klient <i data-lucide="arrow-right" class="inline w-4 h-4"></i> Serwer</h4>
+                    <ul class="text-sm text-slate-400 list-disc pl-4 space-y-1">
+                        <li><strong class="text-slate-200">ClientHello:</strong> Inicjuje sesję.</li>
+                        <li><strong class="text-slate-200">Zawiera:</strong> <code class="bg-slate-950 px-1 text-xs">ClientRandom</code> (32 bajty z czego 4 to timestamp), Obsługiwane Cipher Suites, Wersję TLS, Session ID (jeśli wznawia), Rozszerzenia (SNI, ALPN).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Krok 2 -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full border border-purple-500 bg-slate-900 text-purple-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold">2</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-slate-800 shadow">
+                    <h4 class="text-white font-bold text-lg mb-1 text-purple-400">Serwer <i data-lucide="arrow-right" class="inline w-4 h-4"></i> Klient</h4>
+                    <ul class="text-sm text-slate-400 list-disc pl-4 space-y-1">
+                        <li><strong class="text-slate-200">ServerHello:</strong> Wybiera protokół i jeden Cipher Suite z listy klienta. Wysyła <code class="bg-slate-950 px-1 text-xs">ServerRandom</code>.</li>
+                        <li><strong class="text-slate-200">Certificate:</strong> Wysyła łańcuch certyfikatów.</li>
+                        <li><strong class="text-slate-200">ServerKeyExchange:</strong> Parametry dla DH/ECDH podpisane kluczem prywatnym serwera.</li>
+                        <li><strong class="text-slate-200">ServerHelloDone:</strong> Koniec tury serwera.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Krok 3 -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full border border-blue-500 bg-slate-900 text-blue-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold">3</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-slate-800 shadow">
+                    <h4 class="text-white font-bold text-lg mb-1 text-blue-400">Klient <i data-lucide="arrow-right" class="inline w-4 h-4"></i> Serwer</h4>
+                    <ul class="text-sm text-slate-400 list-disc pl-4 space-y-1">
+                        <li><strong class="text-slate-200">ClientKeyExchange:</strong> Wysyła swoją część równania dla DH, lub szyfruje Pre-Master Secret kluczem publicznym RSA z certyfikatu.</li>
+                        <li><strong class="text-slate-200">ChangeCipherSpec:</strong> (Technicznie poza handshake). "Od teraz szyfrujemy".</li>
+                        <li><strong class="text-slate-200">Finished:</strong> Pierwsza w pełni zaszyfrowana i uwierzytelniona (MAC) wiadomość. Zawiera weryfikację całego dotychczasowego transkryptu (by chronić przed downgrade attack).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Krok 4 -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full border border-purple-500 bg-slate-900 text-purple-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold">4</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-slate-800 shadow">
+                    <h4 class="text-white font-bold text-lg mb-1 text-purple-400">Serwer <i data-lucide="arrow-right" class="inline w-4 h-4"></i> Klient</h4>
+                    <ul class="text-sm text-slate-400 list-disc pl-4 space-y-1">
+                        <li><strong class="text-slate-200">ChangeCipherSpec:</strong> Potwierdzenie gotowości do szyfrowania.</li>
+                        <li><strong class="text-slate-200">Finished:</strong> Zaszyfrowane potwierdzenie całego transkryptu ze strony serwera.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-indigo-900/20 rounded-xl p-6 border border-indigo-800/50 shadow-lg">
+            <h3 class="text-xl font-semibold text-indigo-400 mb-3 flex items-center gap-2">
+                <i data-lucide="fingerprint" class="w-5 h-5"></i> Client Authentication (Mutual TLS / mTLS)
+            </h3>
+            <p class="text-sm text-slate-300 mb-3">W systemach B2B (np. API do banku) sam dowód serwera nie wystarczy. Wymagana jest autentykacja klienta certyfikatem.</p>
+            <p class="text-sm text-slate-400 mb-2">Jak modyfikuje to Handshake? Serwer wysyła <code class="text-white bg-slate-800 px-1">CertificateRequest</code>. Klient odpowiada własnym <code class="text-white bg-slate-800 px-1">Certificate</code>, a kluczową rolę gra nowa wiadomość:</p>
+            <div class="p-3 bg-slate-900 border-l-4 border-indigo-500 text-sm text-slate-300">
+                <strong>CertificateVerify:</strong> Klient musi matematycznie udowodnić posiadanie klucza prywatnego dla pokazanego certyfikatu. Robi to, podpisując swoim kluczem prywatnym hash <em>wszystkich dotychczasowych wiadomości</em> Handshake'a.
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Key Exchange -->
+    <div id="keyexchange" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Wymiana Kluczy (Key Exchange)</h2>
+        <p class="text-slate-300 mb-6">Sercem TLS jest bezpieczne ustalenie wspólnego sekretu (Pre-Master Secret). Mamy trzy historyczne podejścia:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-lg font-semibold text-rose-400 mb-2">1. RSA Key Exchange ⚠️</h3>
+                <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Przestarzałe i groźne</p>
+                <p class="text-sm text-slate-300 mb-3">Klient generuje losowy, 48-bajtowy Pre-Master Secret, szyfruje go kluczem publicznym z certyfikatu serwera i wysyła. Serwer go deszyfruje swoim długoterminowym kluczem prywatnym.</p>
+                <p class="text-sm text-red-400 bg-red-950/30 p-2 rounded"><strong>Problem:</strong> Brak Forward Secrecy (PFS). Kompromitacja klucza serwera w przyszłości pozwala odszyfrować cały ruch sieciowy z przeszłości.</p>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-lg font-semibold text-blue-400 mb-2">2. Diffie-Hellman (DHE)</h3>
+                <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Bezpieczne, ale wolne</p>
+                <p class="text-sm text-slate-300 mb-3">Opiera się na problemie logarytmu dyskretnego. Klient i Serwer ustalają liczby bazowe. Wymieniają się wynikami podniesionymi do swoich "tajnych" potęg. Obie strony wyliczają ten sam wynik, ale nikt podsłuchujący nie może go odtworzyć.</p>
+                <p class="text-sm text-blue-300 bg-blue-950/30 p-2 rounded"><strong>Efemeryczność (DHE):</strong> Do każdej sesji generowane są <em>nowe</em>, ulotne klucze (PFS). Klucz serwera (RSA) służy tylko do podpisywania parametrów DH w celach autentykacji.</p>
+            </div>
+
+            <div class="md:col-span-2 bg-gradient-to-r from-slate-900 to-slate-800 rounded-xl p-6 border border-green-500/30 shadow-lg relative overflow-hidden">
+                <i data-lucide="zap" class="absolute -right-4 -top-4 w-32 h-32 text-green-500/10"></i>
+                <h3 class="text-xl font-semibold text-green-400 mb-2">3. Elliptic Curve DH (ECDHE) ✅</h3>
+                <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Złoty Standard Branżowy</p>
+                <div class="text-sm text-slate-300 space-y-3 relative z-10">
+                    <p>Zamiast ciężkiego mnożenia modulo z dużymi liczbami pierwszymi, używa punktów na krzywych eliptycznych. Zapewnia to identyczny poziom bezpieczeństwa przy drastycznie krótszych kluczach.</p>
+                    <ul class="list-disc pl-5 text-slate-400 space-y-1">
+                        <li>RSA klucz = 3072 bity. Bezpieczeństwo = 128 bitów.</li>
+                        <li><strong>ECDHE klucz = 256 bitów. Bezpieczeństwo = 128 bitów!</strong></li>
+                    </ul>
+                    <p>Dzięki temu serwery (Nginx/API) oszczędzają ogromne ilości CPU na cyklach handshake'a. <strong>Jako inżynier zawsze upewniaj się, że ciągi "ECDHE" są najwyżej w preferencjach Twojej konfiguracji!</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Crypto & PRF -->
+    <div id="crypto" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Operacje Kryptograficzne: Jak powstają klucze?</h2>
+
+        <p class="text-slate-300 mb-6">Mamy już uzgodniony "Pre-Master Secret". Ale co robimy z nim dalej, aby wygenerować faktyczne klucze dla algorytmu np. AES?</p>
+
+        <div class="space-y-6">
+            <!-- PRF -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-yellow-400 mb-3">Pseudorandom Function (PRF)</h3>
+                <p class="text-sm text-slate-300 mb-4">PRF to bezpieczna funkcja skrótu (zbudowana w oparciu o HMAC z wielokrotnym hashowaniem P_hash). Jej zadaniem jest "rozciągnięcie" i wymieszanie danych początkowych w bezpieczny, pseudolosowy ciąg bajtów o pożądanej długości.</p>
+
+                <div class="p-4 bg-slate-950 border border-slate-700 rounded-lg code-block text-slate-300">
+                    PRF(secret, label, seed) = P_hash(secret, label + seed)
+                </div>
+            </div>
+
+            <!-- Master Secret -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-green-400 mb-3">Krok 1: Master Secret (Zawsze 48 bajtów)</h3>
+                <p class="text-sm text-slate-300 mb-3">Pre-Master Secret to tylko surowy wynik wymiany (np. ECDHE). Musimy zaszczepić go losowością (Random), aby uniemożliwić ataki powtórzeniowe (Replay Attacks).</p>
+                <div class="p-4 bg-slate-950 border-l-4 border-green-500 rounded-lg text-sm text-slate-300 font-mono">
+                    master_secret = PRF(pre_master_secret, "master secret",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ClientHello.random + ServerHello.random)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[zwraca 48 bajtów]
+                </div>
+            </div>
+
+            <!-- Key Generation -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-blue-400 mb-3">Krok 2: Key Generation (Key Block)</h3>
+                <p class="text-sm text-slate-300 mb-3">Z 48-bajtowego Master Secret wyprowadzamy długi ciąg bajtów (Key Block), który jest cięty na właściwe klucze symetryczne używane w sesji. Bierzemy pod uwagę m.in., że klient potrzebuje innego klucza do szyfrowania niż serwer (pełen dupleks).</p>
+
+                <div class="p-4 bg-slate-950 border-l-4 border-blue-500 rounded-lg text-sm text-slate-400 mb-4">
+                    key_block = PRF(master_secret, "key expansion", ServerRandom + ClientRandom)
+                </div>
+
+                <p class="text-sm text-slate-300 mb-2">Ten ciąg jest następnie dzielony na (w zależności od Cipher Suite):</p>
+                <ul class="list-disc pl-5 text-sm text-slate-400 space-y-1">
+                    <li><strong class="text-yellow-400">client_write_MAC_key</strong> / <strong class="text-yellow-400">server_write_MAC_key</strong> (klucze do uwierzytelniania wiadomości)</li>
+                    <li><strong class="text-red-400">client_write_key</strong> / <strong class="text-red-400">server_write_key</strong> (klucze do faktycznego szyfrowania np. AES)</li>
+                    <li><strong class="text-purple-400">client_write_IV</strong> / <strong class="text-purple-400">server_write_IV</strong> (Wektory Inicjujące - Initialization Vectors)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Encryption -->
+    <div id="encryption" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Cipher Suites i Szyfrowanie (Encryption)</h2>
+
+        <p class="text-slate-300 text-sm mb-4">Zestaw szyfrów (Cipher Suite) definiuje dokładnie, jakich algorytmów użyjemy. Np. <code class="bg-slate-800 text-white px-1 rounded">TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</code> mówi nam o key-exchange, autentykacji, algorytmie szyfrującym (AES-128 GCM) i MAC/PRF (SHA256).</p>
+
+        <div class="space-y-6">
+            <!-- MAC then Encrypt issue -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-red-900/50 shadow-lg">
+                <h3 class="text-xl font-semibold text-red-400 mb-3">Historyczny defekt: Stream & Block Encryption (MAC-then-Encrypt)</h3>
+                <p class="text-sm text-slate-300 mb-3">Wczesne wersje TLS szyfrowały dane i dołączały MAC w sposób, który okazał się bardzo podatny na błędy implementacji.</p>
+                <div class="grid grid-cols-2 gap-4 text-sm text-slate-400">
+                    <div class="p-3 bg-slate-950 rounded">
+                        <strong class="text-white block mb-1">Stream Encryption (np. RC4):</strong>
+                        Szyfruje bajt po bajcie. Okazało się, że początkowe bajty RC4 były przewidywalne. Ostatecznie całkowicie zdeprecjonowane.
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded border border-red-500/30">
+                        <strong class="text-red-300 block mb-1">Block Encryption (CBC):</strong>
+                        Szyfruje w blokach (np. 16 bajtów). TLS używał schematu <strong>MAC-then-Encrypt</strong> (najpierw dodaj MAC do danych, dodaj <em>Padding</em>, a potem zaszyfruj całość). Spowodowało to wysyp ataków (BEAST, Lucky 13, POODLE) wymierzonych w to, jak serwery sprawdzały błędy paddingu względem błędów MAC.
+                    </div>
+                </div>
+            </div>
+
+            <!-- AEAD -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-green-500/30 shadow-lg">
+                <h3 class="text-xl font-semibold text-green-400 mb-3">Authenticated Encryption (AEAD) ✅</h3>
+                <p class="text-sm text-slate-300 mb-3">Wprowadzone w TLS 1.2 jako złoty standard (i jedyne dozwolone w TLS 1.3). AEAD rozwiązuje problemy z MAC-then-Encrypt poprzez łączenie procesu szyfrowania i zapewniania integralności w jednym, nierozerwalnym algorytmie kryptograficznym.</p>
+                <ul class="list-disc pl-5 text-sm text-slate-400 space-y-2">
+                    <li>Nie ma oddzielnego klucza MAC do wyliczania na zewnątrz.</li>
+                    <li>Nie ma dodawania bezsensownego "paddingu" dla wyrównania.</li>
+                    <li>Najpopularniejsze: <strong>AES-GCM</strong> (Galois/Counter Mode) i <strong>ChaCha20-Poly1305</strong> (szybszy na procesorach mobilnych bez wsparcia sprzętowego dla AES).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Extensions -->
+    <div id="extensions" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Rozszerzenia (Extensions)</h2>
+        <p class="text-slate-300 text-sm mb-6">Rozszerzenia dodawane na końcu ClientHello i ServerHello pozwalają na dodawanie nowych funkcji bez łamania parserów starszych wersji protokołu. Oto kluczowe dla inżynierów:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
+                <h4 class="text-blue-400 font-semibold mb-1">SNI (Server Name Indication)</h4>
+                <p class="text-sm text-slate-400">Rozwiązuje problem hostowania 100 domen z 100 certyfikatami na jednym IP. Podaje nazwę hosta w ClientHello (niestety w jawnym tekście).</p>
+            </div>
+
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
+                <h4 class="text-green-400 font-semibold mb-1">ALPN / NPN (Application Layer Protocol)</h4>
+                <p class="text-sm text-slate-400">NPN to wczesny draft od Google (dla SPDY). Zastąpiony przez <strong>ALPN</strong>. Zanim zestawimy połączenie, klient i serwer dogadują się, czy wewnątrz TLS poleci "http/1.1" czy "h2" (HTTP/2). Niezbędne dla gRPC.</p>
+            </div>
+
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
+                <h4 class="text-purple-400 font-semibold mb-1">Elliptic Curve Capabilities & Signature Algorithms</h4>
+                <p class="text-sm text-slate-400">Wraz z pojawieniem się wielu krzywych i hashy, klient wysyła te 2 rozszerzenia, mówiąc: "Wspieram krzywe secp256r1 i x25519 oraz algorytmy podpisu RSA-PSS-SHA256". Serwer musi to uwzględnić wybierając certyfikat do wylegitymowania się.</p>
+            </div>
+
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
+                <h4 class="text-yellow-400 font-semibold mb-1">OCSP Stapling</h4>
+                <p class="text-sm text-slate-400">Weryfikacja czy certyfikat nie został unieważniony przez urząd (CA). "Stapling" oznacza, że serwer sam pobiera i "zszywa" odpowiedź z CA do swojego Handshake'a, oszczędzając klientowi ekstra zapytania sieciowego do urzędu i chroniąc prywatność usera.</p>
+            </div>
+
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
+                <h4 class="text-rose-400 font-semibold mb-1">Certificate Transparency (CT)</h4>
+                <p class="text-sm text-slate-400">Publiczne logi wydanych certyfikatów. Rozszerzenie CT pozwala serwerowi wysłać tzw. SCT (Signed Certificate Timestamp), by udowodnić w Handshake'u, że jego certyfikat jest prawidłowo zaksięgowany w rejestrze.</p>
+            </div>
+
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl shadow-lg">
+                <h4 class="text-indigo-400 font-semibold mb-1">Heartbeat</h4>
+                <p class="text-sm text-slate-400">Pozwala na wysyłanie pulsujących pakietów "keep-alive" w obrębie TLS bez używania logiki z HTTP. Błędna implementacja długości bufora doprowadziła do katastrofy Heartbleed (czytanie pamięci RAM serwera na żywo).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Optimizations -->
+    <div id="optimizations" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Optymalizacje i Renegocjacja</h2>
+
+        <div class="space-y-6">
+            <!-- Session Resumption -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-blue-400 mb-3">Session Resumption (Wznawianie sesji)</h3>
+                <p class="text-sm text-slate-300 mb-3">Asymetryczne krypto (np. certyfikaty RSA) mocno pożera CPU. Jeśli klient zaraz wraca (np. nowe API req), omijamy ten krok, korzystając z tzw. <em>Abbreviated Handshake (1 RTT)</em>.</p>
+
+                <div class="grid grid-cols-2 gap-4 text-sm text-slate-400 mt-4">
+                    <div class="p-3 bg-slate-950 rounded">
+                        <strong class="text-white block mb-1">Session ID (Stanowe):</strong> Serwer buforuje parametry krypto w pamięci podręcznej i wysyła klientowi 32-bajtowe ID. Klient wznawia podając ID. Wymaga to jednak udostępniania tego cache'a (np. Redisem) między maszynami w klastrze, bo load balancer może rzucić ruch na inny backend.
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded border-l-4 border-blue-500">
+                        <strong class="text-blue-300 block mb-1">Session Tickets (Bezstanowe rozszerzenie):</strong> Serwer szyfruje cały stan sesji specjalnym kluczem "STEK" (Session Ticket Encryption Key) i wrzuca do biletu, który przechowuje i odsyła klient! Totalnie bezstanowe (stateless) serwery API.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Renegotiation -->
+            <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 shadow-lg">
+                <h3 class="text-xl font-semibold text-red-400 mb-3">Renegotiation (Renegocjacja) i jej mroczna strona</h3>
+                <p class="text-sm text-slate-300 mb-4">Zdolność do "zrestartowania" Handshake'a wewnątrz już zestawionego, bezpiecznego kanału TLS (np. by nagle zażądać od klienta certyfikatu w mTLS przy wejściu na bezpieczną ścieżkę <code>/admin</code>). W praktyce okazała się ona ogromnym wektorem ataków.</p>
+
+                <div class="space-y-4">
+                    <div class="p-3 border-l-4 border-rose-500 bg-rose-950/20 rounded">
+                        <strong class="text-rose-400 block mb-1">1. Atak DoS (Asymetria CPU):</strong>
+                        <p class="text-sm text-slate-400">Handshake jest "tani" dla klienta, ale niezwykle "drogi" (żerny pod kątem CPU) dla serwera z powodu kryptografii asymetrycznej. Atakujący otwierał tunel i wysyłał zapytania o renegocjację w pętli. Serwer zużywał 15-20x więcej procesora na odpowiedzi, co prowadziło do natychmiastowego wyczerpania zasobów. <br><strong>Praktyka:</strong> Większość load balancerów ma dziś wyłączoną funkcję <em>Client-Initiated Renegotiation</em>.</p>
+                    </div>
+
+                    <div class="p-3 border-l-4 border-orange-500 bg-orange-950/20 rounded">
+                        <strong class="text-orange-400 block mb-1">2. Atak Authentication Gap (Luka autentykacji):</strong>
+                        <p class="text-sm text-slate-400">Atakujący zestawiał własne połączenie TLS z serwerem, wstrzykiwał "zatruty" nagłówek HTTP (np. <code>GET / HTTP/1.1\nHost: ofiara.pl\n\n</code>), a następnie w locie nakazywał renegocjację i przekazywał połączenie (na poziomie TCP) ofierze. Serwer sklejał wstrzyknięty nagłówek z requestem ofiary, wykonując autoryzowaną akcję na konto atakującego.</p>
+                    </div>
+
+                    <div class="p-3 border-l-4 border-green-500 bg-green-950/20 rounded">
+                        <strong class="text-green-400 block mb-1">Rozwiązanie: Secure Renegotiation (SCSV)</strong>
+                        <p class="text-sm text-slate-400">Rozszerzenie łatające tę lukę. Wymaga, aby w wiadomości <em>ClientHello</em> renegocjowanego połączenia dołączyć kryptograficzny hash z wiadomości <em>Finished</em> z poprzedniego handshake'a (wartość <code>client_verify_data</code>). Gwarantuje to serwerowi, że tunel od samego początku do momentu renegocjacji kontroluje ta sama osoba. <br><em>Uwaga: W TLS 1.3 renegocjację usunięto całkowicie!</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Versions -->
+    <div id="versions" class="tab-content max-w-4xl mx-auto pb-12">
+        <h2 class="text-3xl font-bold text-white mb-6 border-b border-slate-800 pb-4">Ewolucja Wersji Protokołu i Limity</h2>
+
+        <div class="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-12 h-6 rounded border border-red-500 bg-slate-900 text-red-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold text-xs uppercase tracking-widest">SSL 3</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-red-900/50 shadow">
+                    <p class="text-sm text-slate-300">Wydany przez Netscape w 1996. Pełen wad projektowych, jak zależność od starych funkcji skrótu i słabe procesy MAC. Całkowicie zabity w 2014 przez atak <strong>POODLE</strong> (wymuszenie fallbacku na SSL3 by wyciągnąć np. ciastko sesyjne).</p>
+                </div>
+            </div>
+
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-12 h-6 rounded border border-orange-500 bg-slate-900 text-orange-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold text-xs uppercase tracking-widest">TLS 1.0</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-slate-800 shadow">
+                    <p class="text-sm text-slate-300">Zmiana nazwy przyciągnęła standard IETF. Zamiast dedykowanego algorytmu, oparto generowanie kluczy na standardowym PRF i funkcji HMAC. Nadal korzystał jednak z niejawnych, przewidywalnych Wektorów Inicjujących (IV) dla trybu CBC, co doprowadziło do ataku <strong>BEAST</strong> w 2011.</p>
+                </div>
+            </div>
+
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-12 h-6 rounded border border-yellow-500 bg-slate-900 text-yellow-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold text-xs uppercase tracking-widest">TLS 1.1</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-slate-800 shadow">
+                    <p class="text-sm text-slate-300">Główną poprawką było wprowadzenie <strong>Explicit IV</strong> (jawnych Wektorów Inicjujących generowanych osobno dla każdego rekordu w trybie blokowym CBC), co uodporniło architekturę przed atakami w stylu BEAST.</p>
+                </div>
+            </div>
+
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div class="flex items-center justify-center w-12 h-6 rounded border border-green-500 bg-slate-900 text-green-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-bold text-xs uppercase tracking-widest">TLS 1.2</div>
+                <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-4 rounded-xl border border-green-900/30 shadow">
+                    <p class="text-sm text-slate-300">Wprowadzony w 2008, ale masowo przyjęty znacznie później. Wielkie czyszczenie:</p>
+                    <ul class="list-disc pl-4 mt-2 text-sm text-slate-400 space-y-1">
+                        <li>Możliwość wyboru SHA-256 (lub lepszego) w funkcji PRF (koniec wpisanych na twardo hybryd MD5+SHA1).</li>
+                        <li>Wprowadzenie i wsparcie dla bezpiecznych trybów <strong>AEAD</strong> (np. GCM) rozwiązujących ostatecznie ataki na padding MAC-then-Encrypt (jak Lucky 13).</li>
+                        <li>Większa kontrola klienta i serwera w doborze algorytmów (Signature Algorithms i Elliptic Curve Capabilities).</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<script>
+    // Inicjalizacja ikon
+    lucide.createIcons();
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('#tabs-nav button').forEach(el => {
+            el.classList.remove('active-tab-btn');
+            el.classList.add('hover:bg-slate-800');
+        });
+
+        document.getElementById(tabId).classList.add('active');
+
+        const activeBtn = document.querySelector(`button[data-tab="${tabId}"]`);
+        activeBtn.classList.add('active-tab-btn');
+        activeBtn.classList.remove('hover:bg-slate-800');
+    }
+</script>
+</body>
+</html>

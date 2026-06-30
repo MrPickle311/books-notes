@@ -54,6 +54,7 @@
             <li><a href="#http" class="hover:text-indigo-600 transition-colors">7.2. Ewolucja HTTP (1.1 vs 2.0)</a></li>
             <li><a href="#grpc" class="hover:text-indigo-600 transition-colors">7.3. gRPC i Protobuf</a></li>
             <li><a href="#async" class="hover:text-indigo-600 transition-colors">7.4. WebSockets i SSE</a></li>
+            <li><a href="#cdn-cache" class="hover:text-indigo-600 transition-colors">7.5. CDN i Nagłówki Cache</a></li>
         </ul>
         <div class="mt-10 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
             <p class="text-xs text-indigo-800 font-semibold"><i class="fa-solid fa-code mr-1"></i> Strefa Dewelopera</p>
@@ -207,8 +208,19 @@
                 </div>
             </div>
             
+            <!-- HTTP/2 Stream Limits Gotcha -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm text-sm mt-6">
+                <strong class="text-amber-800 block mb-1"><i class="fa-solid fa-triangle-exclamation"></i> Pułapka HTTP/2: Limit max_concurrent_streams</strong>
+                <p class="text-xs text-slate-700 leading-relaxed mb-2">
+                    Mimo że HTTP/2 pozwala na multipleksowanie zapytań przez jedno połączenie TCP, serwery aplikacyjne i reverse proxies (np. Nginx, Envoy) nakładają limit **maksymalnej liczby współbieżnych strumieni** (zwykle <code>max_concurrent_streams = 100</code>).
+                </p>
+                <p class="text-xs text-slate-700 leading-relaxed">
+                    Jeśli Twoja aplikacja wyśle w tym samym ułamku sekundy 200 zapytań przez jednego klienta HTTP/2, 100 z nich zostanie przetworzonych natychmiast, a pozostałe 100 będzie zablokowanych (w kolejce aplikacyjnej) lub serwer odrzuci je błędem <code>REFUSED_STREAM</code>. W środowiskach o dużym natężeniu ruchu (high-throughput) należy zwiększyć ten limit lub stosować małą pulę wielu połączeń HTTP/2 (np. 2-4 połączenia TCP).
+                </p>
+            </div>
+            
             <!-- HTTP/3 Mention -->
-            <div class="bg-slate-800 text-slate-300 p-4 rounded-xl text-sm flex items-center justify-between border border-slate-700 shadow-lg">
+            <div class="bg-slate-800 text-slate-300 p-4 rounded-xl text-sm flex items-center justify-between border border-slate-700 shadow-lg mt-6">
                 <div>
                     <strong class="text-white">A co z HTTP/3?</strong> Rozwiązuje problem gubienia pakietów przez TCP (HoL Blocking w warstwie L4), wykorzystując transport <strong>QUIC (UDP)</strong>, o czym uczyliśmy się w rozdziale 6.
                 </div>
@@ -329,6 +341,58 @@
                     <p class="text-[10px] text-purple-700 font-bold mt-2">Najlepsze dla Czatów i Gier Multiplayer (Two-way).</p>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- Sekcja 7.5: CDN i Cache -->
+        <section id="cdn-cache" class="mb-20 scroll-mt-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 border-b-2 border-slate-200 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-server text-blue-500"></i> 7.5. CDN (Content Delivery Networks) i Nagłówki Cache L7
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">
+                Serwery CDN (np. Cloudflare, CloudFront) to rozproszone reverse-proxies umieszczone blisko użytkowników. Ich zadaniem jest serwowanie statycznych i dynamicznych zasobów z pamięci podręcznej (Cache), odciążając serwery origin. Sterowanie tym procesem odbywa się za pomocą nagłówków HTTP L7.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 text-xs">
+                <!-- Cache-Control -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <strong class="text-slate-800 block mb-1">Cache-Control</strong>
+                    <p class="text-slate-600 leading-relaxed mb-2">
+                        Główny nagłówek sterujący cache'owaniem. Dyrektywy:
+                    </p>
+                    <ul class="list-disc list-inside text-slate-500 space-y-1">
+                        <li><code>public</code>: Buforować mogą przeglądarki i serwery pośredniczące (CDN).</li>
+                        <li><code>private</code>: Tylko dla przeglądarki użytkownika.</li>
+                        <li><code>no-store</code>: Całkowity zakaz buforowania (wrażliwe dane).</li>
+                        <li><code>max-age=3600</code>: Czas ważności bufora w sekundach.</li>
+                    </ul>
+                </div>
+
+                <!-- ETag / If-None-Match -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <strong class="text-slate-800 block mb-1">ETag & Walidacja (Conditional Requests)</strong>
+                    <p class="text-slate-600 leading-relaxed mb-2">
+                        Gdy bufor wygaśnie, serwer nie musi od nowa przesyłać całego pliku (np. obrazka 5MB).
+                    </p>
+                    <ul class="list-disc list-inside text-slate-500 space-y-1">
+                        <li>Serwer odsyła nagłówek <code>ETag: "hash123"</code>.</li>
+                        <li>Przy kolejnym zapytaniu klient wysyła nagłówek <code>If-None-Match: "hash123"</code>.</li>
+                        <li>Jeśli plik się nie zmienił, serwer odpowiada lekkim statusem <strong><code>304 Not Modified</code></strong> (bez payloadu).</li>
+                    </ul>
+                </div>
+
+                <!-- Stale-While-Revalidate -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <strong class="text-slate-800 block mb-1">Stale-While-Revalidate (SWR)</strong>
+                    <p class="text-slate-600 leading-relaxed mb-2">
+                        Wzór na ultraniskie opóźnienia przy dynamicznych danych.
+                    </p>
+                    <ul class="list-disc list-inside text-slate-500 space-y-1">
+                        <li>Dyrektywa: <code>stale-while-revalidate=60</code>.</li>
+                        <li>Jeśli użytkownik pyta o zasób po jego wygaśnięciu (ale w oknie 60s), CDN <strong>natychmiast odsyła mu stary, wygasły zasób</strong> (0ms delay).</li>
+                        <li>W tle CDN wysyła asynchroniczne zapytanie do serwera origin, pobiera świeże dane i aktualizuje swój cache dla kolejnych klientów.</li>
+                    </ul>
+                </div>
             </div>
         </section>
 

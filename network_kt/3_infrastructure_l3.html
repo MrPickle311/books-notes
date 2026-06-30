@@ -118,6 +118,51 @@
                     </div>
                 </div>
             </div>
+
+            <!-- IPv6 i TTL Differences -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <!-- IPv6 -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-sm">
+                    <h3 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-cloud-sun text-blue-500 mr-1"></i> IPv6 w systemach rozproszonych</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Przejście na IPv6 eliminuje wyczerpywanie adresów IP (oferuje 3.4 &times; 10<sup>38</sup> adresów). Główne zmiany z perspektywy DSE:
+                    </p>
+                    <ul class="list-disc list-inside text-xs text-slate-600 space-y-1">
+                        <li><strong>Koniec z NAT:</strong> Każdy kontener i zasób dostaje unikalny, globalny adres IP. Odpada narzut procesora i pamięci na tablicę Conntrack oraz problemy z NAT timeout.</li>
+                        <li><strong>Brak fragmentacji w locie:</strong> Routery pośredniczące w IPv6 nigdy nie dzielą pakietów. Jeśli pakiet jest za duży, router go odrzuca i odsyła ICMP. Sprawne <strong>PMTUD</strong> jest w IPv6 krytyczne i obowiązkowe.</li>
+                        <li><strong>Dual-Stack:</strong> Systemy operacyjne obsługują oba stosy (IPv4 i IPv6) równolegle, wymagając odpowiednich ustawień socketów (np. <code>IPV6_V6ONLY</code>).</li>
+                    </ul>
+                </div>
+
+                <!-- IP TTL vs DNS TTL -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm text-sm">
+                    <h3 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-clock text-indigo-500 mr-1"></i> IP TTL vs DNS TTL: Częsty błąd pojęciowy</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Skrót <strong>TTL (Time-To-Live)</strong> jest używany w obu warstwach, ale oznacza zupełnie inne mechanizmy:
+                    </p>
+                    <table class="w-full text-left text-[11px] border border-slate-200">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200">
+                                <th class="p-1 font-bold">Cecha</th>
+                                <th class="p-1 font-bold text-blue-600">IP TTL (Warstwa L3)</th>
+                                <th class="p-1 font-bold text-indigo-600">DNS TTL (Warstwa L7)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-100">
+                                <td class="p-1 font-semibold">Jednostka</td>
+                                <td class="p-1">Licznik skoków (Hops)</td>
+                                <td class="p-1">Sekundy (Czas)</td>
+                            </tr>
+                            <tr class="border-b border-slate-100">
+                                <td class="p-1 font-semibold">Działanie</td>
+                                <td class="p-1">Dekrementowany o 1 przez każdy router. Zapobiega krążeniu pakietu w pętli w nieskończoność.</td>
+                                <td class="p-1">Czas, przez jaki resolver DNS (np. przeglądarka) może trzymać w pamięci podręcznej wynik zapytania.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- Sekcja 3.2: SDN -->

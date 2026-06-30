@@ -22,7 +22,7 @@
 
 ---
 
-## 1. Fundamenty i Modele Sieciowe
+## 1. [Fundamenty i Modele Sieciowe](./1_foundamentals.html)
 
 *Zrozumienie, jak systemy kategoryzują ruch sieciowy i z jakimi problemami mierzą się na starcie.*
 
@@ -50,7 +50,7 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 
 ---
 
-## 2. Infrastruktura: Warstwa L2 i Segmentacja (Switching)
+## 2. [Infrastruktura: Warstwa L2 i Segmentacja (Switching)](./2_infrastructure_l2.html)
 
 *Sprzętowe fundamenty sieci lokalnej – to, co konfigurujesz logując się do switcha.*
 
@@ -79,14 +79,16 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 
 ---
 
-## 3. Infrastruktura: Zaawansowany Routing, IP i SDN (Warstwa L3)
+## 3. [Infrastruktura: Zaawansowany Routing, IP i SDN (Warstwa L3)](./3_infrastructure_l3.html)
 
 *Jak pakiety odnajdują drogę w gąszczu internetu i centrów danych.*
 
-*   **3.1. Adresacja IP i CIDR**:
+*   **3.1. Adresacja IP, CIDR oraz IPv6**:
     *   Podział na podsieci i kalkulacja masek.
     *   Adresacja publiczna vs prywatna (`RFC 1918`).
     *   Problem wyczerpywania się puli adresów IP w wielkich klastrach Kubernetes.
+    *   Przejście na **IPv6**: eliminacja NAT, wymóg PMTUD, mechanika Dual-Stack.
+    *   Różnica pojęciowa: **IP TTL** (L3 / liczba przeskoków-hops) vs **DNS TTL** (L7 / sekundy ważności cache).
 *   **3.2. SDN (Software-Defined Networking)**:
     *   Podstawa chmur obliczeniowych.
     *   Wirtualizacja sieci (np. `VPC` w AWS / GCP).
@@ -112,7 +114,7 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 
 ---
 
-## 4. Infrastruktura: Szkoła Wyższej Jazdy (Chmura, Tunele, Architektura)
+## 4. [Infrastruktura: Szkoła Wyższej Jazdy (Chmura, Tunele, Architektura)](./4_advanced_infrastructure.html)
 
 *Jak dostawcy internetu i duże chmury organizują fizycznie globalną łączność.*
 
@@ -140,7 +142,7 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 
 ---
 
-## 5. Synchronizacja Czasu i Obserwowalność (System & IP menu)
+## 5. [Synchronizacja Czasu i Obserwowalność (System & IP menu)](./5_time_and_observability.html)
 
 *Kluczowe mechanizmy pozwalające zachować spójność stanu w rozproszonych systemach.*
 
@@ -156,20 +158,21 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 
 ---
 
-## 6. Komunikacja Transportowa (L4)
+## 6. [Komunikacja Transportowa (L4)](./6_transport_l4.html)
 
 *Jak systemy operacyjne realizują transport danych.*
 
-*   **6.1. Gniazda (Sockets) i Porty**:
+*   **6.1. Gniazda (Sockets), Porty i Stany TCP**:
     *   Zjawiska Multiplexingu i Demultiplexingu.
     *   **Port Exhaustion**: Wyczerpanie puli portów efemerycznych (tymczasowych) przy tworzeniu tysięcy szybkich, krótkotrwałych połączeń.
+    *   **Stany TCP**: Wycieki połączeń w stanach `TIME_WAIT` (recykling gniazd, `SO_REUSEADDR`) vs `CLOSE_WAIT` (błędy w kodzie aplikacji nie zamykającej gniazd).
 *   **6.2. TCP (Transmission Control Protocol) - Fundamenty**:
     *   **3-way handshake**: Koszt czasowy nawiązania połączenia (`SYN` -> `SYN-ACK` -> `ACK`).
     *   **Head-of-Line (HoL) Blocking**: Zgubienie jednego pakietu wstrzymuje przetwarzanie całej kolejki odbiorcy, nawet jeśli kolejne pakiety dotarły prawidłowo.
+    *   **Operational Gotchas**: Zakleszczenie algorytmu Nagle'a i Delayed ACK (`TCP_NODELAY`), oraz różnice między **TCP Keepalive** (L4) a **HTTP Keep-Alive** (L7).
 *   **6.3. TCP - Mechanizmy Kontrolne (Wydajność)**:
-    *   **Flow Control (Kontrola przepływu)**: Ochrona odbiorcy przed zalaniem danymi (Backpressure za pomocą okna odbiorcy `rwnd`).
-    *   **Congestion Control (Kontrola zatłoczenia)**: Ochrona samej sieci przed przeciążeniem (mechanizm `TCP Slow Start` – główny powód, dla którego powinieneś stosować *Connection Pooling*).
-    *   **RTT Estimation**: Dynamiczne wyliczanie timeoutów retransmisji.
+    *   **Flow Control (Kontrola przepływu)**: Ochrona odbiorcy przed zalaniem danymi (Backpressure za pomocą oku odbiorcy `rwnd`).
+    *   **Congestion Control (Kontrola zatłoczenia)**: Ochrona samej sieci przed przeciążeniem (mechanizm `TCP Slow Start` – główny powód, dla którego powinieneś stosować *Connection Pooling*). Porównanie algorytmów **CUBIC** (oparty na stratach pakietów) oraz **BBR** (oparty na opóźnieniach i BDP).
 *   **6.4. UDP (User Datagram Protocol)**:
     *   Szybkie, bezpołączeniowe wysyłanie pakietów bez gwarancji dostarczenia.
 *   **6.5. QUIC**:
@@ -177,7 +180,7 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 
 ---
 
-## 7. Protokoły Aplikacyjne i Nazywanie (L7)
+## 7. [Protokoły Aplikacyjne i Nazywanie (L7)](./7_application_protocols_and_naming.html)
 
 *Język, w którym rozmawiają bezpośrednio nasze serwery i aplikacje.*
 
@@ -185,18 +188,21 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
     *   Czasy życia rekordów (`TTL`), specyfika cache'owania adresów (np. w maszynie wirtualnej Java JVM), techniki load balancingu przez `Round-Robin DNS`.
 *   **7.2. Ewolucja standardu HTTP**:
     *   `HTTP/1.1` (wprowadzenie `Keep-Alive`).
-    *   `HTTP/2` (multipleksowanie strumieni w ramach jednego połączenia TCP).
+    *   `HTTP/2` (multipleksowanie strumieni w ramach jednego połączenia TCP, pułapka limitu `max_concurrent_streams` i błędy `REFUSED_STREAM`).
     *   `HTTP/3` (przejście na wydajny protokół transportowy `QUIC`).
 *   **7.3. Protokoły RPC i asynchroniczne**:
-    *   Wydajna komunikacja binarna `gRPC`, dwukierunkowe `WebSockets`, jednokierunkowe subskrypcje `SSE` (Server-Sent Events).
+    *   Wydajna komunikacja binarna `gRPC` (i wyzwania load balancingu L4 vs L7), dwukierunkowe `WebSockets`, jednokierunkowe subskrypcje `SSE` (Server-Sent Events).
 *   **7.4. SMTP (Simple Mail Transfer Protocol)**:
     *   Tradycyjny protokół wysyłki poczty elektronicznej.
-*   **7.5. HTTP Streaming i DASH**:
-    *   Przesyłanie strumieniowe wideo i standard dynamicznej adaptacji strumienia (`DASH`).
+*   **7.5. CDN (Content Delivery Networks) i Nagłówki Cache L7**:
+    *   Rola serwerów brzegowych w systemach rozproszonych.
+    *   Sterowanie buforowaniem: nagłówki `Cache-Control` (`public`, `private`, `no-store`, `max-age`).
+    *   Walidacja warunkowa (Conditional Requests): nagłówki `ETag` i `If-None-Match` oraz statusy `304 Not Modified`.
+    *   Asynchroniczna aktualizacja: dyrektywa `stale-while-revalidate` (SWR) i redukcja opóźnień do 0ms.
 
 ---
 
-## 8. Równoważenie Ruchu i Architektura
+## 8. [Równoważenie Ruchu i Architektura](./8_load_balancing_and_architecture.html)
 
 *Rozpraszanie obciążenia pomiędzy maszyny.*
 
@@ -210,8 +216,11 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 | **Możliwości** | Proste przekazywanie pakietów IP | Routing na bazie ścieżek, retries, autoryzacja |
 | **Przykłady** | `IPVS`, `HAProxy` (L4 mode), AWS `NLB` | `Nginx`, `Envoy`, `HAProxy` (L7), AWS `ALB` |
 
-*   **8.2. Algorytmy balansowania**:
-    *   Prosty `Round Robin`, bardziej zaawansowany `Least Connections` oraz technika `Weighted Round Robin`.
+*   **8.1.2. Direct Server Return (DSR)**:
+    *   Unikanie wąskiego gardła wyjściowego. Modyfikacja MAC L2 / tunelowanie pakietów przy zachowaniu VIP na loopbacku backendów.
+*   **8.2. Algorytmy balansowania i Consistent Hashing**:
+    *   Prosty `Round Robin`, `Least Connections` oraz `Weighted Round Robin`.
+    *   **Consistent Hashing (np. Ketama)**: mapowanie na okręgu (*Hash Ring*), minimalizacja cache invalidations i unikanie *Cache Stampede* przy dodawaniu/usuwaniu serwerów (przenoszenie tylko 1/N połączeń).
 *   **8.3. Reverse Proxies i API Gateways**:
     *   Wykorzystanie `Nginx`, `HAProxy` oraz `Envoy`.
     *   Przekazywanie oryginalnych IP klientów przez nagłówki takie jak `X-Forwarded-For` lub protokół `Proxy Protocol`.
@@ -220,36 +229,43 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
 
 ---
 
-## 9. Wzorce Niezawodności (Resiliency Patterns)
+## 9. [Wzorce Niezawodności (Resiliency Patterns)](./9_resiliency_patterns.html)
 
 *Jak budować odporne systemy, gdy sieć zawodzi.*
 
 *   **9.1. Timeouts**:
     *   Rozróżnienie i właściwe konfigurowanie **Connection Timeout** (czas na nawiązanie uścisku L4) oraz **Read Timeout** (czas oczekiwania na odpowiedź L7).
-*   **9.2. Retries, Exponential Backoff i Jitter**:
+*   **9.2. Retries, Exponential Backoff, Jitter i Budżety**:
     *   Ponowne próby połączeń, wydłużanie czasu oczekiwania między próbami oraz dodawanie elementu losowości (*Jitter*), aby zapobiec zjawisku zalania serwera przez klientów (*Thundering Herd*).
+    *   **Burze Ponowień (Retry Storms)**: ryzyko wykładniczego wzrostu ruchu w głębokich łańcuchach mikrousług.
+    *   **Budżety Ponowień (Retry Budgets)**: ograniczanie ponowień do ułamka (np. 10%) udanych zapytań w celu ochrony przeciążonych usług.
 *   **9.3. Circuit Breakers i Bulkheads**:
-    *   Odcinanie niesprawnych usług w celu ratowania reszty architektury oraz izolacja pul wątków.
+    *   Maszyna stanów bezpiecznika (`CLOSED`, `OPEN`, `HALF-OPEN`) chroniąca przed niepotrzebnymi zapytaniami sieciowymi oraz wzorzec Grodzi (Bulkhead) izolujący pule wątków/zasobów.
 *   **9.4. Health Checks**:
     *   **Liveness Probes**: czy proces żyje.
     *   **Readiness Probes**: czy usługa jest w pełni gotowa do przyjmowania ruchu.
+    *   *Gotcha:* Unikanie podpinania zewnętrznych zależności (np. DB) pod Liveness Probe, aby zapobiec kaskadowym restartom całego klastra (*Cascading Failures*).
 
 ---
 
-## 10. Bezpieczeństwo Sieciowe (Network Security)
+## 10. [Bezpieczeństwo Sieciowe (Network Security)](./10_network_security.html)
 
 *Ochrona danych przesyłanych przez niezaufane medium.*
 
-*   **10.1. TLS i SSL Handshake**:
-    *   Matematyczny i czasowy koszt nawiązywania bezpiecznego połączenia.
+*   **10.1. TLS, SSL Handshake, SNI i ALPN**:
+    *   Matematyczny i czasowy koszt nawiązywania bezpiecznego połączenia (TLS 1.2 vs TLS 1.3).
+    *   **SNI (Server Name Indication)**: przesyłanie nazwy hosta w ClientHello w celu dopasowania właściwego certyfikatu na reverse-proxy.
+    *   **ALPN (Application-Layer Protocol Negotiation)**: negocjowanie protokołu aplikacyjnego (np. HTTP/2) w locie podczas uścisku TLS, eliminujące nadmiarowy round-trip.
 *   **10.2. mTLS (Mutual TLS)**:
     *   Standard uwierzytelniania dwukierunkowego w architekturze *Zero-Trust* wewnątrz sieci mikrousług.
-*   **10.3. CORS i zabezpieczenia przeglądarkowe**:
-    *   Polityka *Cross-Origin Resource Sharing* i jej wpływ na integrację frontendu z API.
+*   **10.3. Zapory sieciowe**:
+    *   Porównanie tradycyjnych zapor L4 (IP/porty) z inteligentnymi **WAF (Web Application Firewall)** działającymi na poziomie L7.
+*   **10.4. CORS i zabezpieczenia przeglądarkowe**:
+    *   Polityka *Cross-Origin Resource Sharing* (Same-Origin Policy), zapytania Preflight (`OPTIONS`) oraz poprawne konfigurowanie nagłówków odpowiedzi serwera.
 
 ---
 
-## 11. Linuksowy Przybornik Inżyniera Sieci (Narzędzia CLI)
+## 11. [Linuksowy Przybornik Inżyniera Sieci (Narzędzia CLI)](./11_cli_tools.html)
 
 *Narzędzia, które musisz opanować, aby skutecznie debugować problemy sieciowe.*
 
@@ -276,16 +292,20 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
     *   Wirtualny kabel sieciowy. Zawsze tworzony w parach – dane wstrzyknięte do jednego końca natychmiast pojawiają się w drugim.
 *   **12.3. Linux Bridge (docker0, br0)**:
     *   Wirtualny switch warstwy L2 działający w jądrze systemu, łączący końcówki interfejsów `veth`.
-*   **12.4. Netfilter, iptables i nftables**:
+*   **12.4. Netfilter, iptables, nftables i Conntrack**:
     *   Stos przetwarzania pakietów w jądrze, realizujący filtrowanie, manipulację pakietami oraz translację adresów NAT.
-*   **12.5. Interfejsy TUN/TAP**:
+    *   **Conntrack (Connection Tracking)**: śledzenie stanów połączeń. Ryzyko przepełnienia tablicy conntrack (`nf_conntrack_max`), diagnostyka (`dmesg`, `sysctl`) i remediacja.
+*   **12.5. Strojenie Buforów TCP Socket**:
+    *   Wydajność systemów o wysokiej przepustowości i opóźnieniach (BDP - Bandwidth-Delay Product).
+    *   Strojenie parametrów jądra: `rmem` i `wmem` (bufor zapisu/odczytu) oraz mechanizm autotuningu TCP.
+*   **12.6. Interfejsy TUN/TAP**:
     *   Wirtualne interfejsy sieciowe obsługiwane programowo z przestrzeni użytkownika (L3 `TUN` - pakiety IP, L2 `TAP` - ramki Ethernet). Podstawa działania programów typu VPN (np. `OpenVPN`).
-*   **12.6. eBPF (Extended Berkeley Packet Filter)**:
+*   **12.7. eBPF (Extended Berkeley Packet Filter)**:
     *   Uruchamianie bezpiecznego, skompilowanego kodu bezpośrednio w kontekście jądra (lub karty sieciowej - `XDP`) bez konieczności modyfikacji kodu jądra. Rewolucja w obserwowalności i wydajności sieci.
 
 ---
 
-## 13. Sieci w Świecie Kontenerów (Docker / Kubernetes)
+## 13. [Sieci w Świecie Kontenerów (Docker / Kubernetes)](./13_container_networking.html)
 
 *Jak wirtualne klocki Linuksa łączą się w wielkie klastry.*
 
@@ -295,6 +315,10 @@ Dlaczego sieć zawsze będzie rzucać kłody pod nogi:
     *   Standard wtyczek sieciowych dla Kubernetes. Wykorzystanie zaawansowanych technik enkapsulacji (m.in. `VXLAN`) oraz protokołu dynamicznego routingu `BGP` do budowy wydajnych sieci nakładkowych.
 *   **13.3. Kube-proxy i Kubernetes Services**:
     *   Jak usługi w klastrze są mapowane i dystrybuowane. Rola translacji adresów w locie za pomocą `iptables` oraz `IPVS`.
+    *   *Podatek od iptables:* Problem liniowego przeszukiwania reguł iptables w dużych klastrach i migracja do IPVS / Cilium (eBPF).
+*   **13.4. DNS w Kubernetesie (Pułapka ndots:5)**:
+    *   Jak domyślna konfiguracja `ndots:5` w `/etc/resolv.conf` powoduje drastyczny narzut na rozwiązywanie domen zewnętrznych (amplifikacja zapytań DNS).
+    *   Remediacja i konfiguracja `spec.dnsConfig` na poziomie podów.
 
 > [!IMPORTANT]
 > **Dlaczego skalowanie iptables w Kubernetesie to problem?**

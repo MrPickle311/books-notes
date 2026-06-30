@@ -156,6 +156,31 @@
                     </p>
                 </div>
             </div>
+
+            <!-- SNI i ALPN -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mt-6 text-sm">
+                <h4 class="font-bold text-slate-800 mb-3"><i class="fa-solid fa-server text-violet-600 mr-1"></i> SNI i ALPN: Kluczowe rozszerzenia TLS dla chmury</h4>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                    Gdy pakiety docierają do reverse proxy (np. Nginx w chmurze), hostuje on setki różnych domen (aplikacji) pod jednym adresem IP. Bez specjalnych rozszerzeń TLS, serwer nie wiedziałby, który certyfikat TLS odesłać klientowi. Do rozwiązania tego problemu (oraz negocjacji protokołów) służą dwa mechanizmy przesyłane w ramce <strong>ClientHello</strong>:
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- SNI -->
+                    <div class="bg-slate-50 p-4 rounded border">
+                        <strong class="text-slate-800 text-xs block mb-1">SNI (Server Name Indication)</strong>
+                        <p class="text-[11px] text-slate-600 leading-relaxed">
+                            Klient przesyła nazwę domeny docelowej (np. <code>stripe.com</code>) w postaci niezaszyfrowanego tekstu w pierwszym pakiecie handshake'u. Dzięki temu Nginx potrafi dopasować odpowiedni certyfikat SSL przed zestawieniem szyfrowania. <br>
+                            <strong>Ciekawostka:</strong> SNI ujawnia serwerom DNS i dostawcom internetu, jaką stronę odwiedzasz. Trwają prace nad wdrożeniem **ECH** (Encrypted Client Hello) w celu szyfrowania SNI.
+                        </p>
+                    </div>
+                    <!-- ALPN -->
+                    <div class="bg-purple-50 p-4 rounded border border-purple-200">
+                        <strong class="text-purple-800 text-xs block mb-1">ALPN (Application-Layer Protocol Negotiation)</strong>
+                        <p class="text-[11px] text-purple-700 leading-relaxed">
+                            Klient przesyła listę obsługiwanych protokołów aplikacyjnych (np. <code>h2, http/1.1</code>). Serwer w <i>ServerHello</i> odsyła wybrany protokół. Pozwala to na negocjację protokołu (np. HTTP/2) w tej samej podróży pakietu (RTT) co handshake TLS, bez konieczności robienia dodatkowego round-tripa po zestawieniu sesji.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Sekcja 10.2: mTLS -->
